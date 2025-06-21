@@ -1,0 +1,61 @@
+{
+  "name": "component-library",
+  "scripts": {
+    "start:storybook": "nx run-many -t storybook",
+    "build:test": "nx run-many -t lint,typecheck,build,build-storybook,test",
+    "pre:push:checks": "nx run-many -t build:test,chromatic",
+    "lint": "nx run-many -t lint",
+    "clear-cache": "nx reset"
+  },
+  "pnpm": {
+    "overrides": {
+      "@emotion/react": "^11.13.5",
+      "@emotion/styled": "^11.13.5",
+      "@mui/icons-material": "6.1.8",
+      "@mui/material": "6.1.8",
+      "@mui/utils": "^6.1.8",
+      "@mui/x-date-pickers": "7.22.2",
+      "react": "18.3.1",
+      "react-dom": "18.3.1",
+      "react-hook-form": "7.44.3"
+    }
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.15.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "@vitest/eslint-plugin": "^1.1.10",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jest-dom": "^5.5.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-mdx": "^3.1.5",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-storybook": "^9.0.4",
+    "eslint-plugin-testing-library": "^6.5.0",
+    "eslint-plugin-vitest": "^0.5.4",
+    "globals": "^15.12.0",
+    "nx": "20.1.2",
+    "prettier": "^3.3.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript-eslint": "^8.15.0",
+    "vite": "5.4.11",
+    "vite-plugin-dts": "4.3.0",
+    "vite-plugin-mdx": "^3.6.1",
+    "vite-plugin-svgr": "4.3.0",
+    "vitest": "2.1.5"
+  },
+  "engines": {
+    "node": "20",
+    "pnpm": "10"
+  }
+}
