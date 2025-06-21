@@ -1,0 +1,121 @@
+{
+  "name": "core-components",
+  "version": "1.0.0",
+  "license": "ISC",
+  "author": {
+    "name": "Ba Toan Nguyen"
+  },
+  "type": "module",
+  "types": "./dist/src/index.d.ts",
+  "main": "./dist/core-components.js",
+  "files": [
+    "src",
+    "dist",
+    "CHANGELOG.md",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "build-storybook": "storybook build --stats-json",
+    "build:watch": "nodemon --exec 'pnpm run build && yalc push'",
+    "dev": "vite",
+    "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "serve": "pnpm run build && vite preview --port 3000",
+    "storybook": "storybook dev -p 6006",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:updateSnapshot": "vitest -u",
+    "test:coverage": "vitest --silent --watchAll=false --coverage",
+    "typecheck": "tsc --noEmit",
+    "chromatic": "pnpm dlx chromatic --only-changed"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "entities": "^4.5.0",
+    "file-selector": "^0.6.0",
+    "react-use": "^17.4.0"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/icons-material": "6.1.8",
+    "@mui/material": "6.1.8",
+    "@mui/utils": "^6.1.8",
+    "@mui/x-date-pickers": "7.22.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-dropzone": "^14.2.3",
+    "react-easy-crop": "^5.0.2",
+    "react-idle-timer": "^5.7.2"
+  },
+  "peerDependenciesMeta": {
+    "@mui/x-date-pickers": {
+      "optional": true
+    },
+    "react-dropzone": {
+      "optional": true
+    },
+    "react-idle-timer": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@chrisneedham/rollup-plugin-peer-deps-external": "^2.3.1",
+    "@chromatic-com/storybook": "^4.0.0",
+    "@mdx-js/mdx": "^2.3.0",
+    "@mdx-js/react": "^1.6.22",
+    "@mdx-js/rollup": "^2.3.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@storybook/addon-a11y": "^9.0.4",
+    "@storybook/addon-docs": "^9.0.4",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-links": "^9.0.4",
+    "@storybook/builder-vite": "^9.0.4",
+    "@storybook/mdx2-csf": "^1.1.0",
+    "@storybook/react-vite": "^9.0.4",
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "15.0.7",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "14.5.2",
+    "@types/google-translate-api": "^2.3.2",
+    "@types/node": "^16.11.7",
+    "@types/testing-library__jest-dom": "^5.14.6",
+    "@vitejs/plugin-react": "^4.3.1",
+    "axios": "^1.7.9",
+    "axios-mock-adapter": "^2.1.0",
+    "babel-loader": "^8.3.0",
+    "chalk": "^5.2.0",
+    "chromatic": "12.0.0",
+    "commander": "^10.0.0",
+    "conf": "^11.0.1",
+    "dotenv": "^16.0.3",
+    "eslint-plugin-storybook": "^9.0.4",
+    "identity-obj-proxy": "^3.0.0",
+    "lint-staged": "^13.0.2",
+    "nodemon": "^2.0.22",
+    "prettier": "2.8.8",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-test-renderer": "^18.2.0",
+    "sort-package-json": "^1.57.0",
+    "storybook": "^9.0.4",
+    "storybook-addon-jsx": "^7.3.14",
+    "storybook-axios": "^2.0.0",
+    "tsc-watch": "^6.0.0",
+    "typescript": "5.0.4",
+    "xdm": "^3.4.0"
+  },
+  "engines": {
+    "node": "20",
+    "pnpm": "10"
+  },
+  "overrides": {
+    "@mdx-js/react": {
+      "react": "$react"
+    }
+  }
+}
