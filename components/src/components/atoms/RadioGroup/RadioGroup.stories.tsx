@@ -1,7 +1,7 @@
 import { Button, FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from '@mui/material';
 import React from 'react';
 
-import { FormErrorText } from '../FormErrorText/FormErrorText';
+import { FormErrorText } from '@/components';
 
 export default {
   title: 'Components/Atoms/Radio Group',
