@@ -1,9 +1,10 @@
 {
-  "name": "core-components",
+  "name": "@batoanng/core-components",
   "version": "1.0.0",
   "license": "ISC",
-  "author": {
-    "name": "Ba Toan Nguyen"
+  "author": "Ba Toan Nguyen",
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module",
   "types": "./dist/src/index.d.ts",

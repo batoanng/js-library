@@ -19,8 +19,8 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es'],
-      name: 'dcs-mui-components',
-      fileName: 'dcs-mui-components',
+      name: 'mui-components',
+      fileName: 'mui-components',
     },
     sourcemap: true,
   },

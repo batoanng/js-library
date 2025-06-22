@@ -1,5 +1,6 @@
 {
-  "name": "component-library",
+  "name": "@batoanng/component-library",
+  "author": "Ba Toan Nguyen",
   "scripts": {
     "start:storybook": "nx run-many -t storybook",
     "build:test": "nx run-many -t lint,typecheck,build,build-storybook,test",
