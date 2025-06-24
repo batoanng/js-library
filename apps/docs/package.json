@@ -1,0 +1,39 @@
+{
+  "name": "@batoanng/docs",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "analyze": "ANALYZE=true next build",
+    "start": "next start ",
+    "dev": "next dev -p 3002",
+    "lint": "TIMING=1 next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "@batoanng/core": "workspace:*",
+    "@batoanng/utils": "workspace:*",
+    "clsx": "^2.0.0",
+    "next": "^13.4.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@batoanng/jest-config": "workspace:*",
+    "@batoanng/tailwind-config": "workspace:*",
+    "@batoanng/tsconfig": "workspace:*",
+    "@types/node": "^20.5.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "autoprefixer": "^10.4.15",
+    "eslint-config-batoanng": "workspace:*",
+    "postcss": "^8.4.28",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6"
+  }
+}

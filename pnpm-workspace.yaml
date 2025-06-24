@@ -1,4 +1,3 @@
 packages:
-  - 'components'
-  - 'hook-form-adapters'
-  - 'server'
+  - 'apps/*'
+  - 'packages/*'
