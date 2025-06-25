@@ -1,5 +1,5 @@
 {
-  "name": "@batoanng/core-components",
+  "name": "@batoanng/components",
   "version": "1.0.0",
   "license": "ISC",
   "author": "Ba Toan Nguyen",
@@ -8,7 +8,7 @@
   },
   "type": "module",
   "types": "./dist/src/index.d.ts",
-  "main": "./dist/core-components.js",
+  "main": "./dist/components.js",
   "files": [
     "src",
     "dist",
@@ -63,8 +63,9 @@
     }
   },
   "devDependencies": {
+    "@batoanng/vite-config": "workspace:*",
+    "@batoanng/tsconfig": "workspace:*",
     "@babel/core": "^7.20.12",
-    "@chrisneedham/rollup-plugin-peer-deps-external": "^2.3.1",
     "@chromatic-com/storybook": "^4.0.0",
     "@mdx-js/mdx": "^2.3.0",
     "@mdx-js/react": "^1.6.22",
@@ -83,8 +84,9 @@
     "@testing-library/user-event": "14.5.2",
     "@types/google-translate-api": "^2.3.2",
     "@types/node": "^16.11.7",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
     "@types/testing-library__jest-dom": "^5.14.6",
-    "@vitejs/plugin-react": "^4.3.1",
     "axios": "^1.7.9",
     "axios-mock-adapter": "^2.1.0",
     "babel-loader": "^8.3.0",

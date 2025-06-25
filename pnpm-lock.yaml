@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@batoanng/eslint-config':
+        specifier: workspace:*
+        version: link:packages/eslint-config
       '@batoanng/prettier-config':
         specifier: workspace:*
         version: link:packages/prettier-config
@@ -44,9 +47,6 @@ importers:
       eslint:
         specifier: ^8.47.0
         version: 8.57.1
-      eslint-config-batoanng:
-        specifier: workspace:*
-        version: link:packages/eslint-config-batoanng
       husky:
         specifier: ^8.0.3
         version: 8.0.3
@@ -129,6 +129,9 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
     devDependencies:
+      '@batoanng/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
       '@batoanng/jest-config':
         specifier: workspace:*
         version: link:../../packages/jest-config
@@ -150,9 +153,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.15
         version: 10.4.21(postcss@8.5.6)
-      eslint-config-batoanng:
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-batoanng
       postcss:
         specifier: ^8.4.28
         version: 8.5.6
@@ -208,9 +208,12 @@ importers:
       '@babel/core':
         specifier: ^7.20.12
         version: 7.27.4
-      '@chrisneedham/rollup-plugin-peer-deps-external':
-        specifier: ^2.3.1
-        version: 2.3.1(rollup@4.44.0)
+      '@batoanng/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@batoanng/vite-config':
+        specifier: workspace:*
+        version: link:../vite-config
       '@chromatic-com/storybook':
         specifier: ^4.0.0
         version: 4.0.1(storybook@9.0.13(@testing-library/dom@10.4.0)(prettier@2.8.8))
@@ -265,12 +268,15 @@ importers:
       '@types/node':
         specifier: ^16.11.7
         version: 16.18.126
+      '@types/react':
+        specifier: ^18.2.20
+        version: 18.3.23
+      '@types/react-dom':
+        specifier: ^18.2.7
+        version: 18.3.7(@types/react@18.3.23)
       '@types/testing-library__jest-dom':
         specifier: ^5.14.6
         version: 5.14.9
-      '@vitejs/plugin-react':
-        specifier: ^4.3.1
-        version: 4.6.0(vite@6.3.5(@types/node@16.18.126)(jiti@1.21.7)(terser@5.43.1)(yaml@2.8.0))
       axios:
         specifier: ^1.7.9
         version: 1.10.0
@@ -346,11 +352,14 @@ importers:
 
   packages/core:
     devDependencies:
+      '@batoanng/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@batoanng/jest-config':
-        specifier: workspace:^0.0.1
+        specifier: workspace:*
         version: link:../jest-config
       '@batoanng/tailwind-config':
-        specifier: workspace:^0.0.1
+        specifier: workspace:*
         version: link:../tailwind-config
       '@batoanng/tsconfig':
         specifier: workspace:*
@@ -367,9 +376,6 @@ importers:
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
-      eslint-config-batoanng:
-        specifier: workspace:*
-        version: link:../eslint-config-batoanng
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -383,7 +389,7 @@ importers:
         specifier: ^5.1.6
         version: 5.8.3
 
-  packages/eslint-config-batoanng:
+  packages/eslint-config:
     dependencies:
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.4.0
@@ -483,6 +489,9 @@ importers:
 
   packages/utils:
     devDependencies:
+      '@batoanng/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@batoanng/jest-config':
         specifier: workspace:*
         version: link:../jest-config
@@ -495,15 +504,24 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.3.7(@types/react@18.3.23)
-      eslint-config-batoanng:
-        specifier: workspace:*
-        version: link:../eslint-config-batoanng
       react:
         specifier: ^18.2.0
         version: 18.3.1
       tsup:
         specifier: ^7.2.0
         version: 7.3.0(postcss@8.5.6)(ts-node@10.9.2(@types/node@20.19.1)(typescript@5.8.3))(typescript@5.8.3)
+
+  packages/vite-config:
+    devDependencies:
+      '@chrisneedham/rollup-plugin-peer-deps-external':
+        specifier: ^2.3.1
+        version: 2.3.1(rollup@4.44.0)
+      '@rollup/plugin-node-resolve':
+        specifier: ^15.1.0
+        version: 15.3.1(rollup@4.44.0)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.1
+        version: 4.6.0(vite@6.3.5(@types/node@20.19.1)(jiti@1.21.7)(terser@5.43.1)(yaml@2.8.0))
 
 packages:
 
@@ -10957,7 +10975,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.9.2':
     optional: true
 
-  '@vitejs/plugin-react@4.6.0(vite@6.3.5(@types/node@16.18.126)(jiti@1.21.7)(terser@5.43.1)(yaml@2.8.0))':
+  '@vitejs/plugin-react@4.6.0(vite@6.3.5(@types/node@20.19.1)(jiti@1.21.7)(terser@5.43.1)(yaml@2.8.0))':
     dependencies:
       '@babel/core': 7.27.4
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.27.4)
@@ -10965,7 +10983,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.19
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 6.3.5(@types/node@16.18.126)(jiti@1.21.7)(terser@5.43.1)(yaml@2.8.0)
+      vite: 6.3.5(@types/node@20.19.1)(jiti@1.21.7)(terser@5.43.1)(yaml@2.8.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -17361,6 +17379,21 @@ snapshots:
       tinyglobby: 0.2.14
     optionalDependencies:
       '@types/node': 16.18.126
+      fsevents: 2.3.3
+      jiti: 1.21.7
+      terser: 5.43.1
+      yaml: 2.8.0
+
+  vite@6.3.5(@types/node@20.19.1)(jiti@1.21.7)(terser@5.43.1)(yaml@2.8.0):
+    dependencies:
+      esbuild: 0.25.5
+      fdir: 6.4.6(picomatch@4.0.2)
+      picomatch: 4.0.2
+      postcss: 8.5.6
+      rollup: 4.44.0
+      tinyglobby: 0.2.14
+    optionalDependencies:
+      '@types/node': 20.19.1
       fsevents: 2.3.3
       jiti: 1.21.7
       terser: 5.43.1

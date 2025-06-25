@@ -1,5 +1,5 @@
 {
-  "name": "eslint-config-batoanng",
+  "name": "@batoanng/eslint-config",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",

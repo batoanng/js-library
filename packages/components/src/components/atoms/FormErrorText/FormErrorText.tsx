@@ -1,6 +1,5 @@
 import { Error } from '@mui/icons-material';
-import type { StackProps } from '@mui/material';
-import { Stack, Typography } from '@mui/material';
+import { Stack, StackProps, Typography } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 
 type FormErrorTextProps = StackProps &

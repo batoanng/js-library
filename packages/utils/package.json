@@ -18,11 +18,11 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
+    "@batoanng/eslint-config": "workspace:*",
     "@batoanng/jest-config": "workspace:*",
     "@batoanng/tsconfig": "workspace:*",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
-    "eslint-config-batoanng": "workspace:*",
     "react": "^18.2.0",
     "tsup": "^7.2.0"
   },

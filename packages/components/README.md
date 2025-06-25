@@ -1,1 +1,1 @@
-# component-library
+# @batoanng/components

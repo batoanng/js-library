@@ -12,7 +12,7 @@ This Turborepo includes the following:
 - `@batoanng/core`: core React components
 - `@batoanng/utils`: shared React utilities
 - `@batoanng/tsconfig`: shared `tsconfig.json`s used throughout the monorepo
-- `eslint-config-batoanng`: ESLint preset
+- `@batoanng/eslint-config`: ESLint preset
 
 Each package and app is 100% [TypeScript](https://www.typescriptlang.org/).
 

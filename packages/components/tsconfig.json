@@ -1,4 +1,5 @@
 {
+  "extends": "@batoanng/tsconfig/react-library.json",
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",

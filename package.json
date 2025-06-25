@@ -18,6 +18,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@batoanng/eslint-config": "workspace:*",
     "@batoanng/prettier-config": "workspace:*",
     "@changesets/cli": "^2.26.2",
     "@commitlint/cli": "^17.7.1",
@@ -30,7 +31,6 @@
     "esbuild": "^0.19.2",
     "esbuild-jest": "^0.5.0",
     "eslint": "^8.47.0",
-    "eslint-config-batoanng": "workspace:*",
     "husky": "^8.0.3",
     "jest": "^29.6.2",
     "jest-environment-jsdom": "^29.6.2",
