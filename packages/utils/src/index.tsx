@@ -1,3 +1,4 @@
-export { toSlug } from './toSlug'
-export { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
-export { usePrevious } from './usePrevious'
+export * from './toSlug';
+export * from './useIsomorphicLayoutEffect';
+export * from './usePrevious';
+export * from './SearchSpecBuilder';
