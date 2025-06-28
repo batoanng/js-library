@@ -1,5 +1,4 @@
 import { SearchSpecBuilder } from './SearchSpecBuilder';
-// adjust import path as needed
 import { Operator } from './SearchSpecBuilder';
 
 interface SearchCriteria {
@@ -85,8 +84,6 @@ describe('SearchSpecBuilder', () => {
     const builder = new SearchSpecBuilder().where(propertyName('name'), "O'Doherty", false, true);
     expect(builder.toString()).toBe(`[Person Name]='O''Doherty'`);
   });
-
-  // Extra tests
 
   test('ToString_NullStringExcluded_WhenNotIncludeIfNull', () => {
     const builder = new SearchSpecBuilder().where(propertyName('name'), null);
