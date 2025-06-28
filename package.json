@@ -15,7 +15,8 @@
     "changeset": "changeset",
     "version-packages": "changeset version && pnpm install --lockfile-only",
     "release": "turbo run build --filter=docs^... && changeset publish",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ci": "pnpm run lint && pnpm run test && pnpm run build"
   },
   "devDependencies": {
     "@batoanng/eslint-config": "workspace:*",
