@@ -1,5 +1,5 @@
-import { SearchSpecBuilder } from './SearchSpecBuilder';
-import { Operator } from './SearchSpecBuilder';
+import { SearchSpecBuilder } from '../SearchSpecBuilder';
+import { Operator } from '../SearchSpecBuilder';
 
 interface SearchCriteria {
   name?: string;

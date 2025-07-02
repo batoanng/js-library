@@ -1,4 +1,4 @@
-import { generateShortId } from './generateShortId';
+import { generateShortId } from '../generateShortId';
 
 describe('generateShortId', () => {
   it('should return a string of length 8', () => {
