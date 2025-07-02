@@ -1,5 +1,6 @@
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useMemo } from 'react';
+import { generateShortId } from '@batoanng/utils';
 
 export const useScreenType = () => {
   const theme = useTheme();
@@ -8,18 +9,6 @@ export const useScreenType = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   return { isDesktop, isTablet: isTablet && !isMobile, isMobile };
-};
-
-const SHORT_ID_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
-const generateShortId = () => {
-  let shortId = '';
-
-  for (let i = 0; i < 8; i++) {
-    const nextIndex = Math.floor(Math.random() * SHORT_ID_CHARS.length);
-    shortId += SHORT_ID_CHARS[nextIndex];
-  }
-
-  return shortId;
 };
 
 /**

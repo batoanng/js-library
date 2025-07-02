@@ -33,6 +33,10 @@
     "chromatic": "pnpm dlx chromatic --only-changed"
   },
   "dependencies": {
+    "@batoanng/eslint-config": "workspace:*",
+    "@batoanng/prettier-config": "workspace:*",
+    "@batoanng/tsconfig": "workspace:*",
+    "@batoanng/utils": "workspace:*",
     "date-fns": "^2.30.0",
     "entities": "^4.5.0",
     "file-selector": "^0.6.0",

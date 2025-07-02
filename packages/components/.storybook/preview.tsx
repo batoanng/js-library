@@ -1,7 +1,8 @@
-import { CssBaseline, ThemeProvider as MUIThemeProvider, createTheme } from '@mui/material';
+import React from 'react';
+import { CssBaseline, ThemeProvider as MUIThemeProvider } from '@mui/material';
 import { Preview } from '@storybook/react-vite';
 import isChromatic from 'chromatic/isChromatic';
-import React from 'react';
+import { defaultTheme } from '../src/theme/defaultTheme';
 
 const parameters = {
   options: {
@@ -34,7 +35,6 @@ const globalTypes = {
   },
 };
 
-const theme = createTheme({});
 
 const decorators = [
   (Story, context) => {
@@ -48,7 +48,7 @@ const decorators = [
               borderRight: '1px solid lightgrey',
             }}
           >
-            <MUIThemeProvider theme={theme}>
+            <MUIThemeProvider theme={defaultTheme}>
               <Story />
             </MUIThemeProvider>
           </div>
@@ -59,12 +59,12 @@ const decorators = [
               borderRight: '1px solid lightgrey',
             }}
           >
-            <MUIThemeProvider theme={theme}>
+            <MUIThemeProvider theme={defaultTheme}>
               <Story />
             </MUIThemeProvider>
           </div>
           <div style={{ flex: 1, padding: '0 1rem' }}>
-            <MUIThemeProvider theme={theme}>
+            <MUIThemeProvider theme={defaultTheme}>
               <Story />
             </MUIThemeProvider>
           </div>
@@ -88,7 +88,7 @@ const decorators = [
     };
 
     return (
-      <MUIThemeProvider theme={theme}>
+      <MUIThemeProvider theme={defaultTheme}>
         <CssBaseline />
         <Story />
       </MUIThemeProvider>
