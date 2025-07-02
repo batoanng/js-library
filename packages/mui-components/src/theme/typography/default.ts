@@ -1,7 +1,7 @@
 import type { TypographyVariantsOptions } from '@mui/material/styles';
 
 export const defaultTypography: TypographyVariantsOptions = {
-  fontFamily: "'Public Sans', Arial, sans-serif",
+  fontFamily: `'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif`,
   fontWeightMedium: 500,
   fontWeightRegular: 300,
   fontWeightBold: 700,

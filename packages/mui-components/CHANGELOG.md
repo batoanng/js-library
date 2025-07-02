@@ -1,4 +1,4 @@
-# @batoanng/components
+# @batoanng/mui-components
 
 ## 2.0.4
 
