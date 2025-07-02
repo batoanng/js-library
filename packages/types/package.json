@@ -1,6 +1,6 @@
 {
-  "name": "@batoanng/utils",
-  "version": "2.1.0",
+  "name": "@batoanng/types",
+  "version": "0.1.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -10,8 +10,8 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsup src/index.tsx --format esm,cjs --dts --external react",
-    "dev": "tsup src/index.tsx --format esm,cjs --watch --dts --external react",
+    "build": "tsup src/index.tsx --format esm,cjs --dts",
+    "dev": "tsup src/index.tsx --format esm,cjs --watch --dts",
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -22,12 +22,7 @@
   },
   "devDependencies": {
     "@batoanng/eslint-config": "workspace:*",
-    "@batoanng/jest-config": "workspace:*",
     "@batoanng/tsconfig": "workspace:*",
-    "@batoanng/types": "workspace:*",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
-    "react": "^18.2.0",
     "tsup": "^7.2.0"
   },
   "publishConfig": {

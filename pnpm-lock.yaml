@@ -492,7 +492,27 @@ importers:
 
   packages/tsconfig: {}
 
+  packages/types:
+    dependencies:
+      axios:
+        specifier: ^1.7.9
+        version: 1.10.0
+    devDependencies:
+      '@batoanng/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@batoanng/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      tsup:
+        specifier: ^7.2.0
+        version: 7.3.0(postcss@8.5.6)(ts-node@10.9.2(@types/node@20.19.1)(typescript@5.8.3))(typescript@5.8.3)
+
   packages/utils:
+    dependencies:
+      axios:
+        specifier: ^1.7.9
+        version: 1.10.0
     devDependencies:
       '@batoanng/eslint-config':
         specifier: workspace:*
@@ -503,6 +523,9 @@ importers:
       '@batoanng/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@batoanng/types':
+        specifier: workspace:*
+        version: link:../types
       '@types/react':
         specifier: ^18.2.20
         version: 18.3.23

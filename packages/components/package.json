@@ -1,12 +1,12 @@
 {
   "name": "@batoanng/components",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "license": "ISC",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
     "access": "public"
   },
-  "type": "module",
+  "type": "commonjs",
   "types": "./dist/src/index.d.ts",
   "main": "./dist/components.js",
   "files": [
