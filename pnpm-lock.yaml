@@ -276,18 +276,9 @@ importers:
 
   packages/mui-components:
     dependencies:
-      '@batoanng/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@batoanng/prettier-config':
-        specifier: workspace:*
-        version: link:../prettier-config
-      '@batoanng/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
       '@batoanng/utils':
-        specifier: workspace:*
-        version: link:../utils
+        specifier: 2.1.2
+        version: 2.1.2
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.14.0(@types/react@18.3.23)(react@18.3.1)
@@ -331,6 +322,15 @@ importers:
       '@babel/core':
         specifier: ^7.20.12
         version: 7.27.4
+      '@batoanng/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@batoanng/prettier-config':
+        specifier: workspace:*
+        version: link:../prettier-config
+      '@batoanng/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@batoanng/vite-config':
         specifier: workspace:*
         version: link:../vite-config
@@ -811,6 +811,9 @@ packages:
 
   '@base2/pretty-print-object@1.0.1':
     resolution: {integrity: sha512-4iri8i1AqYHJE2DstZYkyEprg6Pq6sKx3xn5FpySk9sNhH7qN2LLlHJCfDTZRILNwQNPD7mATWM0TBui7uC1pA==}
+
+  '@batoanng/utils@2.1.2':
+    resolution: {integrity: sha512-5294aaTJpXKDYLTIzJRzpAL66tVg6ZX6IywySljmSYITJUrQ9b1SCTnVPprNmvWxSuLku9UXHWjIxn0UO763Rg==}
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -8702,6 +8705,12 @@ snapshots:
 
   '@base2/pretty-print-object@1.0.1': {}
 
+  '@batoanng/utils@2.1.2':
+    dependencies:
+      axios: 1.10.0
+    transitivePeerDependencies:
+      - debug
+
   '@bcoe/v8-coverage@0.2.3': {}
 
   '@changesets/apply-release-plan@7.0.12':
@@ -13955,7 +13964,7 @@ snapshots:
       strip-json-comments: 3.1.1
     optionalDependencies:
       '@types/node': 20.19.1
-      ts-node: 10.9.2(@types/node@20.5.1)(typescript@5.8.3)
+      ts-node: 10.9.2(@types/node@20.19.1)(typescript@5.8.3)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color

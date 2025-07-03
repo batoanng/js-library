@@ -1,12 +1,12 @@
 {
   "name": "@batoanng/mui-components",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "ISC",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
     "access": "public"
   },
-  "type": "commonjs",
+  "type": "module",
   "types": "./dist/src/index.d.ts",
   "main": "./dist/components.js",
   "files": [
@@ -33,10 +33,7 @@
     "chromatic": "pnpm dlx chromatic --only-changed"
   },
   "dependencies": {
-    "@batoanng/eslint-config": "workspace:*",
-    "@batoanng/prettier-config": "workspace:*",
-    "@batoanng/tsconfig": "workspace:*",
-    "@batoanng/utils": "workspace:*",
+    "@batoanng/utils": "2.1.2",
     "date-fns": "^2.30.0",
     "entities": "^4.5.0",
     "file-selector": "^0.6.0",
@@ -67,6 +64,8 @@
     }
   },
   "devDependencies": {
+    "@batoanng/eslint-config": "workspace:*",
+    "@batoanng/prettier-config": "workspace:*",
     "@batoanng/vite-config": "workspace:*",
     "@batoanng/tsconfig": "workspace:*",
     "@babel/core": "^7.20.12",
