@@ -1,34 +1,39 @@
-import { PaletteOptions } from '@mui/material';
+export const lightColors = {
+  background: '#ffffff',
+  foreground: '#262626',
+  primary: '#343434',
+  primaryForeground: '#fcfcfc',
+  secondary: '#f7f7f7',
+  secondaryForeground: '#343434',
+  muted: '#f7f7f7',
+  mutedForeground: '#8c8c8c',
+  accent: '#f7f7f7',
+  accentForeground: '#343434',
+  error: '#df3826',
+  warning: '#ffcc4b',
+  success: '#88e251',
+  info: '#4fa3ff',
+  border: '#ebebeb',
+  input: '#ebebeb',
+  ring: '#b5b5b5',
+};
 
-export const colourTheme: PaletteOptions = {
-  mode: 'light',
-  primary: {
-    main: '#FF4785',
-    contrastText: '#FFFFFF',
-  },
-  secondary: {
-    main: '#1EA7FD',
-    contrastText: '#FFFFFF',
-  },
-  background: {
-    default: '#F6F9FC',
-    paper: '#FFFFFF',
-  },
-  divider: '#EBEBEB',
-  text: {
-    primary: '#333333',
-    secondary: '#666666',
-  },
-  error: {
-    main: '#B81237',
-  },
-  success: {
-    main: '#008A07',
-  },
-  warning: {
-    main: '#C95000',
-  },
-  info: {
-    main: '#2E5299',
-  },
+export const darkColors = {
+  background: '#262626',
+  foreground: '#fcfcfc',
+  primary: '#ebebeb',
+  primaryForeground: '#343434',
+  secondary: '#444444',
+  secondaryForeground: '#fcfcfc',
+  muted: '#444444',
+  mutedForeground: '#b5b5b5',
+  accent: '#444444',
+  accentForeground: '#fcfcfc',
+  error: '#e04d33',
+  warning: '#e48c32',
+  success: '#62f2cf',
+  info: '#55b2b5',
+  border: 'rgba(255, 255, 255, 0.10)',
+  input: 'rgba(255, 255, 255, 0.15)',
+  ring: '#8c8c8c',
 };

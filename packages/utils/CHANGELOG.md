@@ -1,5 +1,11 @@
 # @batoanng/utils
 
+## 2.1.2
+
+### Patch Changes
+
+- 6b6ba82: Upgrade tsup
+
 ## 2.1.1
 
 ### Patch Changes

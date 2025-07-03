@@ -1,5 +1,16 @@
 # @batoanng/mui-components
 
+## 3.0.0
+
+### Major Changes
+
+- Restructure components folder and customise MUI theme
+
+### Patch Changes
+
+- Updated dependencies [6b6ba82]
+  - @batoanng/utils@2.1.2
+
 ## 2.0.4
 
 ### Patch Changes

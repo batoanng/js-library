@@ -1,0 +1,44 @@
+import { Canvas, Meta, Source, Story } from "@storybook/addon-docs/blocks";
+import * as ModalStories from "./Modal.stories"
+
+<Meta
+  title="Components/Molecules/Modal"
+  of={ModalStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Modal
+
+<Source language="ts" code={`import { Modal } from "@batoanng/mui-components";`} />
+
+## How to use this component
+
+This component uses the MUI Modal component under the hood with our stylings and layouts on top.
+You can see the documentation here: https://mui.com/components/modal/
+
+
+## Usage
+
+### Transactional
+
+<Canvas of={ModalStories.Transactional} />
+
+### SingleCallToAction
+
+<Canvas of={ModalStories.SingleCallToAction} />
+
+### Danger
+
+<Canvas of={ModalStories.Danger} />
+
+### Dismissible
+
+<Canvas of={ModalStories.Dismissible} />
+
+### Modal no contents
+
+<Canvas of={ModalStories.ModalNoContents} />
+
+### Modal with no buttons
+
+<Canvas of={ModalStories.ModalNoButtons} />

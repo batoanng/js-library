@@ -35,7 +35,6 @@ const globalTypes = {
   },
 };
 
-
 const decorators = [
   (Story, context) => {
     if (isChromatic()) {
@@ -71,21 +70,6 @@ const decorators = [
         </div>
       );
     }
-
-    // Note - Keeping GEL theme for now until GEL3 is ready
-    // const selectedTheme = context.globals.theme === 'GEL3' ? 'gel3Theme' : 'ddsTheme';
-    const selectedTheme = (selectedTheme) => {
-      switch (selectedTheme) {
-        case 'Digital NSW':
-          return 'ddsTheme';
-          break;
-        case 'GEL3':
-          return 'gel3Theme';
-          break;
-        default:
-          return 'gelTheme';
-      }
-    };
 
     return (
       <MUIThemeProvider theme={defaultTheme}>

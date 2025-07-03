@@ -1,0 +1,18 @@
+import { Meta, Source } from "@storybook/addon-docs/blocks";
+import * as IdleTimerStories from "./IdleTimer.stories";
+
+<Meta
+  title="Components/Molecules/IdleTimer"
+  of={IdleTimerStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# IdleTimer
+
+<Source language="ts" code={`import { IdleTimer } from "@batoanng/mui-components";`} />
+
+## How to use this component
+
+This component allows you to drop in a timer that when expired will perform a certain callback, typically used to logout a user after a certain amount of time.
+
+You can pass in custom props to the component to change the default behavior, such as time until expiration, and the callback to perform when the timer expires.

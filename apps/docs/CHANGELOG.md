@@ -1,5 +1,13 @@
 # @batoanng/docs
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [6b6ba82]
+  - @batoanng/utils@2.1.2
+  - @batoanng/core@1.0.1
+
 ## 1.0.3
 
 ### Patch Changes
