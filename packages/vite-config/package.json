@@ -1,12 +1,12 @@
 {
   "name": "@batoanng/vite-config",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
+  "dependencies": {
     "@chrisneedham/rollup-plugin-peer-deps-external": "^2.3.1",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@vitejs/plugin-react": "^4.3.1"
