@@ -103,14 +103,14 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         'borderRadius': 0,
         'minWidth': 0,
         'backgroundColor': 'transparent',
-        'color': theme.palette.secondary.main,
+        'color': theme.palette.secondary.dark,
 
         '&.MuiButton-root:hover': {
           textDecoration: 'underline',
           border: 0,
           borderRadius: 0,
           backgroundColor: theme.palette.action.hover,
-          color: theme.palette.secondary.main,
+          color: theme.palette.secondary.dark,
           boxShadow: 'none',
         },
       }),

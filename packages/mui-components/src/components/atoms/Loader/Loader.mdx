@@ -1,0 +1,28 @@
+import { Loader } from '@/components';
+import { ArgTypes, Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as LoaderStories from './Loader.stories';
+
+<Meta
+  title="Components/Atoms/Loader"
+  of={LoaderStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Button
+
+<Source language="ts" code={`import { Loader } from "@batoanng/mui-components";`} />
+
+## Primary
+
+**Note**: in order to position the loader inside a host component, you must obey the rules of HTML element positioning.
+The easiest way to achieve this is by ensuring that the containing element is `position: relative`.
+
+<Canvas of={LoaderStories.Default} />
+
+## Full page
+
+<Canvas of={LoaderStories.FullPage} />
+
+## Arguments
+
+<ArgTypes of={Loader} />

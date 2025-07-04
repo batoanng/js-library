@@ -1,0 +1,47 @@
+import { Canvas, Meta, Source, Story } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta
+  title="Components/Atoms/Button"
+  of={ButtonStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Button
+
+<Source language="ts" code={`import { Button } from "@batoanng/mui-components";`} />
+
+## How to use this component
+
+This component uses the MUI Button component.
+You can see the documentation here: https://mui.com/material-ui/react-button/
+
+## Primary
+
+<Canvas of={ButtonStories.Primary} />
+
+## Secondary
+
+<Canvas of={ButtonStories.Secondary} />
+
+## Tertiary
+
+<Canvas of={ButtonStories.Tertiary} />
+
+## Link
+
+<Canvas of={ButtonStories.Link} />
+
+## Right Arrow
+
+<Canvas of={ButtonStories.RightArrow} />
+
+## Back Button
+
+<Canvas of={ButtonStories.BackButton} />
+
+## Loading
+
+The component shows the loading state when `loading` prop is true.
+
+<Canvas of={ButtonStories.Loading} />

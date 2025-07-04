@@ -1,0 +1,22 @@
+import { Canvas, Meta, Source, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './SROnly.stories';
+
+<Meta
+  title="Components/Atoms/SROnly"
+  of={Stories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Screen-reader only
+
+<Source language="ts" code={`import { SROnly } from "@batoanng/mui-components";`} />
+
+## How to use this component
+
+This is a convenience property to add content for screen-readers that will be hidden from the UI. Under the hood,
+this uses [MUI's `visuallHidden`](https://mui.com/system/screen-readers/) style inside of a `<Box />`, which renders
+a `<span />`.
+
+## Primary
+
+<Canvas of={Stories.Default} />

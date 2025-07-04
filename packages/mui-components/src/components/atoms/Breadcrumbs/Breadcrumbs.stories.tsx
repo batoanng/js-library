@@ -33,10 +33,8 @@ export const BreadcrumbProperties = () => {
   ];
 
   return (
-    <>
-      <Breadcrumbs separator={<KeyboardArrowRightRoundedIcon fontSize="small" />} aria-label="breadcrumb">
-        {breadcrumbs}
-      </Breadcrumbs>
-    </>
+    <Breadcrumbs separator={<KeyboardArrowRightRoundedIcon fontSize="small" />} aria-label="breadcrumb">
+      {breadcrumbs}
+    </Breadcrumbs>
   );
 };
