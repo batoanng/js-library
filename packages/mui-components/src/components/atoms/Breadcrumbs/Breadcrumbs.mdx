@@ -1,0 +1,25 @@
+import { Canvas, Meta, Source, Story } from "@storybook/addon-docs/blocks";
+import * as BreadcrumbsStories from "./Breadcrumbs.stories";
+
+<Meta
+  title="Components/Atoms/Breadcrumbs"
+  of={BreadcrumbsStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Breadcrumbs
+
+<Source language="ts" code={`import { Breadcrumbs } from "@batoanng/components";`} />
+
+## How to use this component
+
+This component uses the MUI Breadcrumbs component.
+You can see the documentation here: https://mui.com/material-ui/react-breadcrumbs/
+
+## Default
+
+<Canvas of={BreadcrumbsStories.Default} />
+
+## Breadcrumb Properties
+
+<Canvas of={BreadcrumbsStories.BreadcrumbProperties} />

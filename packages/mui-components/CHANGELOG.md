@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.2
+
+### Patch Changes
+
+- Add Breadcrumbs
+
 ## 3.0.0
 
 ### Major Changes

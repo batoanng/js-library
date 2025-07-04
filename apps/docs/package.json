@@ -17,6 +17,7 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@batoanng/core": "workspace:*",
+    "@batoanng/mui-components": "workspace:*",
     "@batoanng/utils": "workspace:*",
     "clsx": "^2.0.0",
     "next": "^13.4.19",

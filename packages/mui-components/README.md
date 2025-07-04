@@ -2,4 +2,4 @@
 
 ## Preview URL
 
-https://components-batoanng.vercel.app/
+https://mui-components-batoanng.vercel.app/
