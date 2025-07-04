@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/vite-config",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
@@ -9,6 +9,8 @@
   "dependencies": {
     "@chrisneedham/rollup-plugin-peer-deps-external": "^2.3.1",
     "@rollup/plugin-node-resolve": "^15.1.0",
-    "@vitejs/plugin-react": "^4.3.1"
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite-plugin-dts": "4.3.0",
+    "vite-plugin-svgr": "4.3.0"
   }
 }

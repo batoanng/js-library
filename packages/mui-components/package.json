@@ -113,6 +113,7 @@
     "storybook-axios": "^2.0.0",
     "tsc-watch": "^6.0.0",
     "typescript": "5.0.4",
+    "vite-plugin-svgr": "4.3.0",
     "xdm": "^3.4.0"
   },
   "engines": {
