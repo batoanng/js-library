@@ -1,4 +1,3 @@
-const { fileURLToPath } = require('url');
 const { defineConfig } = require('vite');
 
 const vitestConfig = defineConfig({
@@ -6,11 +5,6 @@ const vitestConfig = defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './vitest.setup.ts',
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
   },
 });
 

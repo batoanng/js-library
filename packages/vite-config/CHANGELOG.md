@@ -1,5 +1,11 @@
 # batoanng/vite-config
 
+## 1.0.1
+
+### Patch Changes
+
+- Update config
+
 ## 1.0.0
 
 ### Major Changes
