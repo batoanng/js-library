@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.4
+
+### Patch Changes
+
+- Add TextField, FormTextField, SlideInModal
+
 ## 3.0.3
 
 ### Patch Changes

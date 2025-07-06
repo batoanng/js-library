@@ -1,0 +1,46 @@
+import { FormTextField } from './FormTextField';
+import { Meta, Story, Canvas, ArgTypes, Source } from '@storybook/addon-docs/blocks';
+import * as FormTextFieldStories from './FormTextField.stories';
+
+<Meta
+  title="Forms/Text field"
+  of={FormTextFieldStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Text Field
+
+<Source language="ts" code={`import { FormTextField } from '@batoanng/mui-components';`} />
+
+The `FormTextField` provides a hook-form integration for the resizable text field.
+
+## Simple use case
+
+<Canvas of={FormTextFieldStories.Default} />
+
+## With validation rules
+
+Any violation of `rules` will show in a standard error message under the component.
+
+<Canvas of={FormTextFieldStories.Rules} />
+
+## Phone number field
+
+<Canvas of={FormTextFieldStories.PhoneNumberField} />
+
+## Support Custom Object
+
+You can pass transformation functions into the `transform` prop for the input and output values. `transform` takes `TransformProps`.
+
+```ts
+type TransformProps<T> = {
+  input?: (value: T) => string;
+  output?: (value: string) => T;
+};
+```
+
+<Canvas of={FormTextFieldStories.SupportCustomObject} />
+
+## Arguments
+
+<ArgTypes of={FormTextField} />

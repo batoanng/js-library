@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/mui-components",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "license": "ISC",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -37,6 +37,7 @@
     "date-fns": "^2.30.0",
     "entities": "^4.5.0",
     "file-selector": "^0.6.0",
+    "react-hook-form": "7.44.3",
     "react-use": "^17.4.0"
   },
   "peerDependencies": {

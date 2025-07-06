@@ -1,6 +1,8 @@
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useMemo } from 'react';
 import { generateShortId } from '@batoanng/utils';
+import { useFormContext } from 'react-hook-form';
+import { ErrorMode } from '@/types';
 
 export const useScreenType = () => {
   const theme = useTheme();
@@ -28,3 +30,17 @@ export const useHtmlId = (fieldType: string, suppliedId: string | null = null, s
     return suppliedName ? `${suppliedName}-${generatedId}` : `${fieldType}-${generatedId}`;
   }, [fieldType, suppliedId, suppliedName]);
 };
+
+export const useFieldErrorMessage = (fieldName: string, errorMode?: ErrorMode) => {
+  const { getFieldState, formState } = useFormContext();
+
+  const fieldState = getFieldState(fieldName, formState);
+  if (!fieldState.error) return undefined;
+
+  const showError =
+    formState.submitCount > 0 || (errorMode === 'immediate' && (fieldState.isTouched || fieldState.isDirty));
+
+  return showError ? fieldState.error.message : undefined;
+};
+
+type FieldErrorMessages = Record<string, string | undefined>;

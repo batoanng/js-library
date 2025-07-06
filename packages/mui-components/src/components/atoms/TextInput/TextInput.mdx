@@ -1,0 +1,33 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as TextInputStories from './TextInput.stories';
+
+<Meta of={TextInputStories} />
+
+# Text Field
+
+<Source language="ts" code={`import { TextInput } from "@batoanng/mui-components";`} />
+
+## How to use this component
+
+This component uses the MUI TextField component.
+You can see the documentation here: https://mui.com/material-ui/react-text-field/
+
+## Default
+
+<Canvas of={TextInputStories.Default} />
+
+## Disabled
+
+<Canvas of={TextInputStories.Disabled} />
+
+## Text Input Error
+
+<Canvas of={TextInputStories.TextInputError} />
+
+## Text Input End Adornment
+
+<Canvas of={TextInputStories.TextInputAdornments} />
+
+## Text Input Width
+
+<Canvas of={TextInputStories.TextInputWidth} />

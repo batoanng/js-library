@@ -1,0 +1,37 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as SlideInModalStories from './SlideInModal.stories';
+
+<Meta
+  title="Components/Molecules/Slide In Modal"
+  of={SlideInModalStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Slide In Modal
+
+<Source
+  language="ts"
+  code={`
+import { SlideInModal } from '@batoanng/mui-components';
+import { Button, Divider, Typography } from "@mui/material";
+import InfoRoundedIcon from "@mui/icons-material/InfoRounded"`}
+/>
+
+## How to use this component
+
+This component uses the MUI Drawer component.
+You can see the documentation here: https://mui.com/material-ui/react-drawer/
+
+## Default
+
+<Canvas of={SlideInModalStories.Default} />
+
+## Info/Help Icon
+
+By default, the component displays the info icon. If you'd like to use the help icon, please pass `iconType='help'` prop.
+
+<Canvas of={SlideInModalStories.Icon} />
+
+## Hyper Link
+
+<Canvas of={SlideInModalStories.HyperLink} />
