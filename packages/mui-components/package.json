@@ -6,7 +6,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "type": "commonjs",
+  "type": "module",
   "types": "./dist/src/index.d.ts",
   "main": "./dist/components.js",
   "files": [

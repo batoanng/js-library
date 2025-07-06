@@ -11,10 +11,9 @@ export default mergeConfig(viteConfig, {
     },
   },
   build: {
-    target: 'es2022',
+    target: 'esnext',
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      formats: ['es'],
       name: 'components',
       fileName: 'components',
     },
