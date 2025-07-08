@@ -1,5 +1,11 @@
 # @batoanng/utils
 
+## 2.1.3
+
+### Patch Changes
+
+- Update docs
+
 ## 2.1.2
 
 ### Patch Changes
