@@ -23,4 +23,4 @@ A shareable Tailwind CSS configuration with custom theming, design tokens, font 
 ## 📦 Installation
 
 ```bash
-pnpm add -D tailwindcss @batoanng/tailwind-config
+npm install -D tailwindcss @batoanng/tailwind-config

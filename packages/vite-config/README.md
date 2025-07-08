@@ -20,7 +20,7 @@ Shared Vite configuration to standardize frontend builds across projects using R
 ## 📦 Installation
 
 ```bash
-pnpm add -D @batoanng/vite-config
+npm install -D @batoanng/vite-config
 ```
 
 ---

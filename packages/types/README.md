@@ -20,7 +20,7 @@ A shared type definitions package to centralize domain models and common typings
 ## 📦 Installation
 
 ```bash
-pnpm add @batoanng/types
+npm install -D @batoanng/types
 ```
 
 ---

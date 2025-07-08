@@ -24,7 +24,7 @@ A set of shareable TypeScript configuration presets designed for consistency acr
 ## 📦 Installation
 
 ```bash
-pnpm add -D @batoanng/tsconfig typescript
+npm install -D @batoanng/tsconfig typescript
 ```
 
 ---

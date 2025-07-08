@@ -20,7 +20,7 @@ A collection of general-purpose utility functions and React hooks used across mu
 ## 📦 Installation
 
 ```bash
-pnpm add @batoanng/utils
+npm install @batoanng/utils
 ```
 
 ---

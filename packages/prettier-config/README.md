@@ -20,4 +20,4 @@ A shareable Prettier configuration to ensure consistent code style across JavaSc
 ## 📦 Installation
 
 ```bash
-pnpm add -D prettier @batoanng/prettier-config
+npm install -D prettier @batoanng/prettier-config

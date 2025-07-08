@@ -23,13 +23,13 @@ A fully typed, themeable, and accessible component library built with **React**,
 ## 📦 Installation
 
 ```bash
-pnpm add @batoanng/mui-components
+npm install @batoanng/mui-components
 ```
 
 You must also install peer dependencies if not already present:
 
 ```bash
-pnpm add @mui/material @mui/icons-material @emotion/react @emotion/styled
+npm install @mui/material @mui/icons-material @emotion/react @emotion/styled
 ```
 
 ---
