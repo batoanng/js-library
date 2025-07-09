@@ -10,7 +10,7 @@ export const MuiPagination: Components<Theme>['MuiPagination'] = {
       },
 
       '& .MuiPaginationItem-root': {
-        'color': theme.palette.secondary.main,
+        'color': theme.palette.secondary.dark,
         'fontWeight': 700,
         'textDecoration': 'underline',
         'minWidth': '0',

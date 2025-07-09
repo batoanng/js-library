@@ -4,7 +4,7 @@ export const MuiLink: Components<Theme>['MuiLink'] = {
   styleOverrides: {
     root: ({ theme }) => ({
       'textDecorationColor': theme.palette.secondary.main,
-      'color': theme.palette.secondary.main,
+      'color': theme.palette.secondary.dark,
       'fontWeight': 700,
 
       '&.MuiLink-root:hover': {
@@ -23,7 +23,7 @@ export const MuiLink: Components<Theme>['MuiLink'] = {
         'marginLeft': '0.25rem',
 
         '& path': {
-          fill: theme.palette.secondary.main,
+          fill: theme.palette.secondary.dark,
         },
       },
 

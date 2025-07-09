@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.6
+
+### Patch Changes
+
+- Add more atom components
+
 ## 3.0.5
 
 ### Patch Changes

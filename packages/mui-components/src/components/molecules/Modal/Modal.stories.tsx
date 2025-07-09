@@ -53,11 +53,7 @@ export const SingleCallToAction = () => {
           variant: 'contained',
           color: 'secondary',
         }}
-        text={
-          'A service is any activity that helps someone complete a task. With that in mind, all public servants – whether they work in digital, communications, policy or operations – are involved in designing services.\n' +
-          'Services are groups of transactions, activities or information that work together. They might take place online or offline.\n' +
-          'Government services often require people to go through the service in the way that government designs it, and often this design is not simple or easy to follow.'
-        }
+        text={'This is a sample text'}
         onClose={() => setIsOpen(false)}
       />
     </>

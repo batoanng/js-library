@@ -19,3 +19,5 @@ export const TextFieldTypes = {
   TEL: 'tel',
   URL: 'url',
 };
+
+export type StatusVariant = 'error' | 'success' | 'warning' | 'info';

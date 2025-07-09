@@ -1,0 +1,55 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as LinkStories from './Link.stories';
+
+<Meta
+  title="Components/Atoms/Link"
+  of={LinkStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Link
+
+<Source
+  language="ts"
+  code={`
+  // This gives you a basic link
+  import { Link } from "@mui/material";
+  import { ExternalLinkIcon } from '@batoanng/mui-components'
+  // or
+  // This gives you an external link with an optional icon and with screen reader text for accessibility
+  import { ExternalLink } from "@batoanng/mui-components";`}
+/>
+
+## How to use this component
+
+This component uses the MUI Link component.
+You can see the documentation here: https://mui.com/material-ui/react-link/
+
+## Default
+
+<Canvas of={LinkStories.Default} />
+
+## Unified external link
+Using the `ExternalLink` component will render the correct icon based on DDS or Gel themes automatically.
+
+<Canvas of={LinkStories.UnifiedExternalLink} />
+
+## External Link In New Tab - with custom colour and icon
+
+<Canvas of={LinkStories.ExternalLinkInNewTabCustomColour} />
+
+## External Link In New Tab - with default colour and icon
+
+<Canvas of={LinkStories.ExternalLinkInNewTabDefaultColour} />
+
+## Custom screen reader text
+
+By default, you get the text "opens in a new tab" but you can override this with the prop `screenReaderText`
+This text is only shown to a screen reader, but by default you don't have to worry about this as the component handles the screen reader side of things.
+
+<Canvas of={LinkStories.CustomScreenReaderText} />
+
+## External Link In New Tab - with no icon
+
+<Canvas of={LinkStories.ExternalLinkWithoutIcon} />
+

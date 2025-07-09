@@ -1,0 +1,21 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as TimePickerStories from './TimePicker.stories';
+
+<Meta of={TimePickerStories} />
+
+# Time Picker
+
+<Source language="ts" code={`import { TimePicker } from "@batoanng/mui-components";`} />
+
+## How to use this component
+
+This component uses the MUI-x TimePicker component.
+You can see the documentation here: [MUI Time Picker](https://mui.com/x/react-date-pickers/time-picker/)
+
+## Default
+
+<Canvas of={TimePickerStories.Default} />
+
+## Input Error
+
+<Canvas of={TimePickerStories.Error} />

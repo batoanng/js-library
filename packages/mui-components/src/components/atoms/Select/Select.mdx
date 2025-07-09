@@ -1,0 +1,33 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
+import * as SelectStories from './Select.stories';
+
+<Meta of={SelectStories} />
+
+# Select
+
+<Source
+  language="ts"
+  code={`import { FormControl, FormHelperText, FormLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";`}
+/>
+
+## How to use this component
+
+This component uses the MUI Select component.
+You can see the documentation here: https://mui.com/material-ui/react-select/
+
+## Default
+
+<Canvas of={SelectStories.Default} />
+
+## Disabled
+
+<Canvas of={SelectStories.Disabled} />
+
+## Error Message
+
+<Canvas of={SelectStories.ErrorMessage} />
+
+## Native Select Input
+
+<Canvas of={SelectStories.NativeSelectInput} />

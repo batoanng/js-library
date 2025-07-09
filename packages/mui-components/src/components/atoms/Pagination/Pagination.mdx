@@ -1,0 +1,21 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
+import * as PaginationStories from './Pagination.stories';
+
+<Meta of={PaginationStories} />
+
+# Pagination
+
+<Source language="ts" code={`import { Pagination } from "@mui/material";`} />
+
+## How to use this component
+
+This component uses the MUI Pagination component.
+You can see the documentation here: https://mui.com/material-ui/react-pagination/
+
+## Default
+
+<Canvas of={PaginationStories.Default} />
+
+## Certain Page
+
+<Canvas of={PaginationStories.CertainPage} />

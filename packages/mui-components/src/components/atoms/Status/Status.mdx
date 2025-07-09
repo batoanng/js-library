@@ -1,0 +1,43 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
+import * as StatusStories from './Status.stories';
+
+<Meta of={StatusStories} />
+
+# Status Label
+
+<Source language="ts" code={`import { Chip } from "@mui/material";`} />
+
+## How to use this component
+
+This component uses the MUI Chip component.
+You can see the documentation here: https://mui.com/material-ui/react-chip/
+
+## Neutral Label
+
+Use this label for statuses like inactive, not available, or not provided.
+
+<Canvas of={StatusStories.neutralLabel} />
+
+## Error Label
+
+Use this label to highlight a problem. Common issues include expired, cancelled, suspended, errors, failed, declined, deleted.
+
+<Canvas of={StatusStories.errorLabel} />
+
+## Warning Label
+
+Use this label when something requires the user’s attention such as missing information, expiring soon, action required.
+
+<Canvas of={StatusStories.warningLabel} />
+
+## Success Label
+
+Use this label for successful statuses like available, completed, approved, resolved, active, submitted.
+
+<Canvas of={StatusStories.successLabel} />
+
+## Info Label
+
+Use this label when there is otherwise no indication of success or failure or where it can be useful as extra information to the user. Such as a new service, services which have not started yet, coming soon, or a used voucher.
+
+<Canvas of={StatusStories.infoLabel} />

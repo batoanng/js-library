@@ -1,0 +1,39 @@
+import { Checkbox } from "@mui/material";
+import { Canvas, Meta, Source, Story } from "@storybook/addon-docs/blocks";
+import * as CheckboxListStories from './CheckboxList.stories';
+
+<Meta of={CheckboxListStories} />
+
+# Checkbox List
+
+<Source
+  language="ts"
+  code={`import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel } from "@mui/material";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";`}
+/>
+
+## How to use this component
+
+This component uses the MUI Checkbox component.
+You can see the documentation here: https://mui.com/material-ui/react-checkbox/
+
+## Default
+
+<Canvas of={CheckboxListStories.Default} />
+
+## Helper Message
+
+<Canvas of={CheckboxListStories.HelperMessage} />
+
+## Disabled
+
+<Canvas of={CheckboxListStories.Disabled} />
+
+## Error Message
+
+<Canvas of={CheckboxListStories.ErrorMessage} />
+
+## Clarifying Message
+
+<Canvas of={CheckboxListStories.ClarifyingMessage} />
+

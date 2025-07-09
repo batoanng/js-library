@@ -1,0 +1,50 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as TextAreaStories from './TextArea.stories';
+
+<Meta of={TextAreaStories} />
+
+# Text Area
+
+<Source language="ts" code={`import { TextArea } from "@batoanng/mui-components";`} />
+
+## How to use this component
+
+This component uses the MUI Textarea Autosize component.
+You can see the documentation here: https://mui.com/base/react-textarea-autosize/
+
+## Default
+
+<Canvas of={TextAreaStories.Default} />
+
+## Max Character Count
+
+<Canvas of={TextAreaStories.MaxCharacterCount} />
+
+## Hidden Character Count
+
+As long as `maxLength` is greater than zero, the `TextArea` will display a "current/max" style character counter underneath it. This can be disabled using the `hideCharacterCounter` property.
+
+<Canvas of={TextAreaStories.HiddenCharacterCount} />
+
+## Unlimited Length
+
+The default `maxLength` for text areas is 4,000 characters. If you need to allow an unlimited character length, set this to `null`. Note that this will also disable the character counter from being displayed.
+
+<Canvas of={TextAreaStories.UnlimitedLength} />
+
+## Max Rows
+
+<Canvas of={TextAreaStories.MaxRows} />
+
+## Min Rows
+
+<Canvas of={TextAreaStories.MinRows} />
+
+## Disabled
+
+<Canvas of={TextAreaStories.Disabled} />
+
+## Error
+
+<Canvas of={TextAreaStories.Error} />
+

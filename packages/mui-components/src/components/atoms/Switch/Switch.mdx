@@ -1,0 +1,23 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
+import * as SwitchStories from './Switch.stories';
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+<Source
+  language="ts"
+  code={`
+    import { Switch, FormControlLabel } from "@mui/material";
+  `}
+/>
+
+## How to use this component
+
+This component uses the MUI Switch component.
+You can see the documentation here: https://mui.com/material-ui/react-switch/
+
+## Default
+
+<Canvas of={SwitchStories.Default} />
+

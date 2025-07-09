@@ -1,0 +1,34 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
+import * as DatePickerStories from './DatePicker.stories';
+
+<Meta of={DatePickerStories} />
+
+# Date Picker
+
+<Source
+  language="ts"
+  code={`import { FormHelperText, FormLabel } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";`}
+/>
+
+## How to use this component
+
+This component uses the MUI Date Picker component.
+You can see the documentation here: https://mui.com/x/react-date-pickers/date-picker/
+
+## Default
+
+<Canvas of={DatePickerStories.Default} />
+
+## Open
+
+<Canvas of={DatePickerStories.Open} />
+
+## Error
+
+<Canvas of={DatePickerStories.Error} />
+
+## Min Max Date Range
+
+<Canvas of={DatePickerStories.MinMaxDateRange} />

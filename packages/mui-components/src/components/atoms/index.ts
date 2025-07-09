@@ -4,3 +4,6 @@ export * from './SROnly';
 export * from './Loader';
 export * from './TextInput';
 export * from './HelpMessage';
+export * from './Link';
+export * from './TextArea';
+export * from './TimePicker';
