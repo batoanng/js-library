@@ -1,0 +1,46 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
+import * as AutocompleteStories from "./Autocomplete.stories";
+
+<Meta
+  title="Components/Molecules/Autocomplete"
+  of={AutocompleteStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Autocomplete
+
+<Source language="ts" code={`import { Autocomplete } from "@mui/material";`} />
+
+## How to use this component
+
+This component uses the MUI Autocomplete component.
+You can see the documentation here: https://mui.com/material-ui/react-autocomplete/
+
+## Usage
+
+### Basic usage
+
+<Canvas of={AutocompleteStories.Basic} />
+
+### Error state
+
+<Canvas of={AutocompleteStories.Errors} />
+
+### Using an API
+
+To use the API, you need to implement the `searchForSuggestions` method and set the options property with the `useSearchResults` hook. Pass in the `api` and `inputValue` arguments, and optionally specify the value of `debounceTime` (default: 1000) and `minLength` (default: 3).
+
+By default, the suggestions will appear when the user types at least 3 characters, but you can change this behavior by overriding the `minLength` value in the `useSearchResults` hook.
+
+<Source
+  language="ts"
+  code={`
+    options={useSearchResults(api, inputValue, 1500, 1) || []}
+  `}
+/>
+
+<Canvas of={AutocompleteStories.ApiLookup} />
+
+### Digital NSW Predictive List Basic
+
+<Canvas of={AutocompleteStories.PredictiveList} />
