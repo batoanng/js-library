@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.7
+
+### Patch Changes
+
+- Add doc
+
 ## 3.0.6
 
 ### Patch Changes
