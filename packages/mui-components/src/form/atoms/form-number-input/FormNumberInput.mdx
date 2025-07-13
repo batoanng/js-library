@@ -1,0 +1,29 @@
+import { FormNumberInput } from './FormNumberInput';
+import { Meta, Story, Canvas, ArgTypes, Source } from '@storybook/addon-docs/blocks';
+import * as FormNumberInputStories from './FormNumberInput.stories';
+
+<Meta
+  title="Forms/Atoms/Number input"
+  of={FormNumberInputStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Number Input
+
+<Source language="ts" code={`import { FormNumberInput } from '@batoanng/mui-components';`} />
+
+The `FormNumberInput` provides a hook-form integration for the text field with input with `type="number"`.
+
+## Simple use case
+
+`step` and `min` values are set to `1` and `max` is set to `20` by default if not specified.
+
+<Canvas of={FormNumberInputStories.Default} />
+
+## With validation rules
+
+<Canvas of={FormNumberInputStories.Rules} />
+
+## Arguments
+
+<ArgTypes of={FormNumberInput} />

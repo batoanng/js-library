@@ -195,7 +195,7 @@ export const FileUpload = ({
             }}
           >
             {isLoading && (
-              <Stack data-testid="gel-loader" sx={{ position: 'relative', minHeight: minHeight, width: '100%' }}>
+              <Stack data-testid="loader" sx={{ position: 'relative', minHeight: minHeight, width: '100%' }}>
                 {<CircularLoader label="Loading..." />}
               </Stack>
             )}

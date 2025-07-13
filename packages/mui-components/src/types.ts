@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ControllerProps, FieldPath, FieldValues, PathValue } from 'react-hook-form';
+import type { ControllerProps, FieldPath, FieldValues, PathValue, RegisterOptions } from 'react-hook-form';
 import { IconModalProps } from './components';
 
 /** Should the field show errors as soon as the field has been touched, or wait until the form has been submitted? */
@@ -77,3 +77,8 @@ export type ArrayPathValue<TFieldValues extends FieldValues, TName extends Field
 > extends Array<infer TValue>
   ? TValue
   : never;
+
+export type FormFieldRules<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> = Omit<RegisterOptions<TFieldValues, TFieldName>, 'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'>;

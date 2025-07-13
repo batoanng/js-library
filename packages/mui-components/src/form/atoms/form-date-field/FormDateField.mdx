@@ -1,0 +1,49 @@
+import { FormDateField } from './FormDateField';
+import { ArgTypes, Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as FormDateFieldStories from './FormDateField.stories';
+
+<Meta
+  title="Forms/Atoms/Date field"
+  of={FormDateFieldStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Date Field
+
+<Source language="ts" code={`import { FormDateField } from '@batoanng/mui-components';`} />
+
+The `FormDateField` provides a hook-form integration for the Date field.
+
+## Simple use case
+
+Even if `required` props is not passed but value is entered, it runs the basic date validation by default.
+
+<Canvas of={FormDateFieldStories.Default} />
+
+## With validation rules
+
+By passing `required` props, it handles required default message and validation.
+
+Any violation of `rules` will show in a standard error message under the component.
+
+<Canvas of={FormDateFieldStories.Rules} />
+
+## Min Max validation
+
+Ensure to pass date value to `minDate` or `maxDate` with the date format of your field. The default error message shows up if you don't specify the error message for min/max validation.
+
+<Canvas of={FormDateFieldStories.MinMaxValidation} />
+
+## Month and 4 Digit Year
+
+<Canvas of={FormDateFieldStories.MonthAnd4DigitYear} />
+
+## Custom validation rules
+
+You can supply custom validation rules using the `validate` property of the `rules` on the component.
+
+<Canvas of={FormDateFieldStories.CustomValidation} />
+
+## Arguments
+
+<ArgTypes of={FormDateField} />

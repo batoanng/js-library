@@ -1,0 +1,48 @@
+import { FormTimePicker } from './FormTimePicker';
+import { ArgTypes, Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as Stories from './FormTimePicker.stories';
+
+<Meta
+  title="Forms/Atoms/Time picker"
+  of={Stories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Time Picker
+
+<Source language="ts" code={`import { FormTimePicker } from '@batoanng/mui-components';`} />
+
+The `FormTimePicker` provides a hook-form integration for the time picker component. It allows the time to be passed
+as an 24 hour, ISO formatted string (e.g. '22:15'), a number that represents the time of the day in milliseconds,
+or as a full `Date`.
+
+## Simple use cases
+
+### String backing field
+<Canvas of={Stories.StringValue} />
+
+### Number backing field - millis since midnight
+
+<Canvas of={Stories.NumberValue} />
+
+### Number backing field - epoch date
+
+<Canvas of={Stories.NumberDateValue} />
+
+### Date backing field
+
+_(Note: On submission, the form values are serialised as JSON so the date will show as an ISO formatted string.)_
+
+<Canvas of={Stories.DateValue} />
+
+## Changing the input width
+
+<Canvas of={Stories.InputWidth} />
+
+## Validation rules
+
+<Canvas of={Stories.Rules} />
+
+## Arguments
+
+<ArgTypes of={FormTimePicker} />

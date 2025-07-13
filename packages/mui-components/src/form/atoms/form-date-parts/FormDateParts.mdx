@@ -1,0 +1,80 @@
+import { Canvas, Meta, Source, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './FormDateParts.stories';
+
+<Meta
+  title="Forms/Atoms/Date parts"
+  of={Stories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Date Parts
+
+<Source language="ts" code={`import { FormDateParts } from '@batoanng/mui-components';`} />
+
+The `FormDateParts` provides hook-form integration for Date expressed in its day, month, and year parts.
+
+## Simple use case
+
+The date will always be stored in the form in mostly-compliant ISO8601 format (`YYYY-MM-DD`). Users can move between
+fields by either pressing `[Tab]` or typing a date separator (`-` or `/`).
+
+<Canvas of={Stories.Default} />
+
+With a default value:
+
+<Canvas of={Stories.DefaultValue} />
+
+## Partial dates - month and year
+
+By setting `dateParts={{ day: 'optional', month: 'optional' }}`, the component will allow partial dates of year only, or month and year.
+If no day is provided, the date stored on the form will be in the format:
+
+- `YYYY-MM` if no day is provided.
+- `YYYY` if no day or month is provided.
+
+The component will error if an invalid date format (eg. `DD-YYYY`) is entered.
+
+Both the day and month parts can be explicitly hidden by setting e.g. `dateParts={{ day: 'hidden' }}`. This is useful where only a partial date is required,
+for example in the case of a Medicare care expiry.
+
+<Canvas of={Stories.PartialDateParts} />
+
+## Auto Advance
+
+Setting `autoAdvance={true}` will automatically advance the cursor from Day to Month, or Month to Year, once two
+digits have been entered in the field.
+
+<Canvas of={Stories.AutoAdvance} />
+
+This also works for partial dates.
+
+<Canvas of={Stories.AutoAdvancePartial} />
+
+## Month names
+
+You can optionally show the names for each month instead of using a numeric month. The date stored against the form will still be numeric.
+
+<Canvas of={Stories.MonthNames} />
+
+With a default value:
+
+<Canvas of={Stories.MonthNamesDefaultValues} />
+
+## Validation rules
+
+The component supports all validation rules.
+
+<Canvas of={Stories.Rules} />
+
+## Input props
+
+Where necessary, props for each individual part can be provided via `inputProps`. These properties are applied _after_ the defaults, meaning that where there
+is a double-up, the user-provided properties will take precedent.
+
+<Canvas of={Stories.InputProps} />
+
+## Disable autocomplete
+
+The component can have its auto complete from the browser disabled passing the prop `autoComplete="no-autofill"` which is how MUI does it.
+
+<Canvas of={Stories.DisableAutoComplete} />

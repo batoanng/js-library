@@ -1,0 +1,40 @@
+import { FormDatePicker } from './FormDatePicker';
+import { ArgTypes, Canvas, Meta, Source, Story } from '@storybook/addon-docs/blocks';
+import * as FormDatePickerStories from './FormDatePicker.stories';
+
+<Meta
+  title="Forms/Atoms/Date picker"
+  of={FormDatePickerStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Date Picker
+
+<Source language="ts" code={`import { FormDatePicker } from '@batoanng/mui-components';`} />
+
+The `FormDatePicker` provides a hook-form integration for the date picker field.
+
+## Simple use case
+
+<Canvas of={FormDatePickerStories.Default} />
+
+## With validation rules
+
+By passing `required` props, it handles required default message and validation by default.
+
+<Canvas of={FormDatePickerStories.Rules} />
+
+## Min/Max validation with custom validation rules
+
+Ensure to pass date value to `minDate` or `maxDate`. Error messages are defaulted if not supplied (eg. the 'min'
+error in this example), or use the values supplied where possible.
+
+<Canvas of={FormDatePickerStories.MinMaxValidation} />
+
+## Custom placeholder
+
+<Canvas of={FormDatePickerStories.CustomPlaceholder} />
+
+## Arguments
+
+<ArgTypes of={FormDatePicker} />
