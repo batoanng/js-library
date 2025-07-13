@@ -1,0 +1,41 @@
+import { FormChecklist } from './FormChecklist';
+import { Meta, Story, Canvas, ArgTypes, Source } from '@storybook/addon-docs/blocks';
+import * as FormChecklistStories from './FormChecklist.stories';
+
+<Meta
+  title="Forms/Atoms/Checklist"
+  of={FormChecklistStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Checklist
+
+<Source language="ts" code={`import { FormChecklist } from '@batoanng/mui-components';`} />
+
+The `FormChecklist` provides a hook-form integration for the switch field.
+
+## Simple use case
+
+<Canvas of={FormChecklistStories.Default} />
+
+## With validation rules
+
+Any violation of `rules` will show in a standard error message under the component.
+
+<Canvas of={FormChecklistStories.Rules} />
+
+## Adding help text to options
+
+<Canvas of={FormChecklistStories.OptionsHelpMessages} />
+
+## Primitive values
+
+<Canvas of={FormChecklistStories.Primitive} />
+
+## Custom object
+
+<Canvas of={FormChecklistStories.ObjectValue} />
+
+## Arguments
+
+<ArgTypes of={FormChecklist} />

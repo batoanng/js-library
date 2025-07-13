@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.9
+
+### Patch Changes
+
+- Add more form components
+
 ## 3.0.8
 
 ### Patch Changes

@@ -2,7 +2,7 @@ import { StoryForm } from '@/form/stories';
 import { FormTextArea } from './FormTextArea';
 
 export default {
-  title: 'Forms/Text area',
+  title: 'Forms/Atoms/Text area',
   decorators: [],
 };
 

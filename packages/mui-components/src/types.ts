@@ -61,3 +61,19 @@ export type FormOptionsControlProps<
     options: TOption[];
     infoTooltipProps?: IconModalProps;
   };
+
+/**
+ * Type assertion for returning only the FieldPaths that have Array values.
+ * This is used by form fields that require array values.
+ */
+export type ArrayFieldPath<TFieldValues extends FieldValues> = {
+  [TName in FieldPath<TFieldValues>]: NonNullable<PathValue<TFieldValues, TName>> extends Array<unknown>
+    ? TName
+    : never;
+}[FieldPath<TFieldValues>];
+
+export type ArrayPathValue<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>> = NonNullable<
+  PathValue<TFieldValues, TName>
+> extends Array<infer TValue>
+  ? TValue
+  : never;

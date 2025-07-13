@@ -1,0 +1,57 @@
+import { FormMultiSelect } from './FormMultiSelect';
+import { ArgTypes, Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as FormMultiSelectStories from './FormMultiSelect.stories';
+
+<Meta
+  title="Forms/Atoms/MultiSelect"
+  of={FormMultiSelectStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form MultiSelect
+
+<Source language="ts" code={`import { FormMultiSelect } from '@batoanng/mui-components';`} />
+
+The `FormMultiSelect` provides a `Select` style dropdown that allows you to select multiple options.
+
+## Simple use case
+
+<Canvas of={FormMultiSelectStories.Default} />
+
+## Long list of options
+
+A long list will cut off at 300px as per designs
+
+<Canvas of={FormMultiSelectStories.LongList} />
+
+## Complex values
+
+The value for each option can be a complex type which will be stored on the form on changes.
+
+<Canvas of={FormMultiSelectStories.FormOptionComplexValues} />
+
+You can use whatever type you like for `TOption`, but if this is not compatible with `FormOption` the you need to provide the relevant mapping methods.
+
+<Canvas of={FormMultiSelectStories.NonFormObjectValues} />
+
+## Option Help Messages
+
+You can add a custom help message to each FormOption.
+
+<Canvas of={FormMultiSelectStories.HelpMessage} />
+
+## Disable Certain Options
+
+Disabling certain options is as simple as adding a disabled property to the FormOption
+
+<Canvas of={FormMultiSelectStories.DisableOptions} />
+
+## Custom Width
+
+Customise the max width of the input
+
+<Canvas of={FormMultiSelectStories.CustomWidth} />
+
+## Arguments
+
+<ArgTypes of={FormMultiSelect} />
