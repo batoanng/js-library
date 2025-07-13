@@ -1,0 +1,33 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as FormFileUploadStories from './FormFileUpload.stories';
+
+<Meta
+  title="Forms/Molecules/File upload"
+  of={FormFileUploadStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form File Upload
+
+<Source language="ts" code={`import { FormFileUpload } from '@batoanng/mui-components';`} />
+
+## Simple use case
+
+Allows for file uploads as part of a bigger form.
+
+## Default
+
+<Canvas of={FormFileUploadStories.Default} />
+
+## Default values
+
+<Canvas of={FormFileUploadStories.DefaultValues} />
+
+
+## Max number of files
+
+<Canvas of={FormFileUploadStories.MaxNumberOfFiles} />
+
+## Required
+
+<Canvas of={FormFileUploadStories.Required} />

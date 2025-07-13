@@ -5,3 +5,5 @@ export * from './Modal';
 export * from './SlideInModal';
 export * from './IconModal';
 export * from './Autocomplete';
+export * from './FileUpload';
+export * from './CircularLoader';

@@ -4,7 +4,6 @@ export const MuiCssBaseline: Components<Theme>['MuiCssBaseline'] = {
   styleOverrides: (theme: Theme) => ({
     '.form-error-text': {
       'color': theme.palette.text.primary,
-      'backgroundColor': theme.palette.error.light,
       'padding': '0.5rem',
 
       '& > .MuiTypography-root': {

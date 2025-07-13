@@ -1,0 +1,33 @@
+import { FormTextArea } from './FormTextArea';
+import { Meta, Story, Canvas, ArgTypes, Source } from '@storybook/addon-docs/blocks';
+import * as FormTextAreaStories from './FormTextArea.stories';
+
+<Meta
+  title="Forms/Atoms/Text area"
+  of={FormTextAreaStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Text Area
+
+<Source language="ts" code={`import { FormTextArea } from '@batoanng/mui-components';`} />
+
+The `FormTextArea` provides a hook-form integration for the  resizable text area field.
+
+## Simple use case
+
+By providing the `minRows` and `maxLength` properties, the component will display as a text area and show a
+character counter.
+
+<Canvas of={FormTextAreaStories.Default} />
+
+## With validation rules
+
+Any violation of `rules` will show in a standard error message under the component.
+
+<Canvas of={FormTextAreaStories.Rules} />
+
+
+## Arguments
+
+<ArgTypes of={FormTextArea} />

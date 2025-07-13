@@ -1,12 +1,12 @@
 import { StoryForm } from '@/form/stories';
 
 import { FormTextField } from './FormTextField';
-  
+
 export default {
-  title: 'Forms/Text field',
+  title: 'Forms/Atoms/Text field',
   decorators: [],
 };
- 
+
 interface TestFormValues {
   textField: string;
 }

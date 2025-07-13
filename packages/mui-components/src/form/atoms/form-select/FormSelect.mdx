@@ -1,0 +1,93 @@
+import { ArgTypes, Canvas, Meta, Source, Story } from "@storybook/addon-docs/blocks";
+import * as FormSelectStories from "./FormSelect.stories";
+import { FormSelect } from "./FormSelect";
+
+<Meta
+  title="Forms/Atoms/Select"
+  of={FormSelectStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Select / Form Native Select
+
+<Source language="ts" code={`import { FormSelect } from '@batoanng/mui-components';`} />
+
+The `FormSelect` component provides a hook-form integration for both the MUI `Select` and `NativeSelect` fields.
+
+The choice between components comes down to expected usage. Generally, the non-native `Select` should be favoured over the native one as it provides a better visual experience. Consider using `FormNativeSelect` if:
+
+* You expect your application to primarily be used on mobile devices, and
+* Your select list has large number of elements (more than would reasonably be expected to fit in on a single screen on a mobile device).
+
+Native mode can be enabled using the `native` property. The following table explains the rendering mode for the `FormSelect` component on various screen types, based on the value of the `native` property:
+
+| `native` property value    | Mobile | Tablet | Desktop |
+|----------------------------| ------ | ------ | ------- |
+| `mobile` (default)         | Native | MUI    | MUI     |
+| `tablet`                   | Native | Native | MUI     |
+| `true`                     | Native | Native | Native  |
+| `false`                    | MUI    | MUI    | MUI     |
+| `undefined`                | MUI    | MUI    | MUI     |
+
+## Simple use case
+
+<Canvas of={FormSelectStories.Default} />
+
+## Toggle based on screen size
+
+The following example will render a `native` select on mobile, or a `MUI` select on tablet/desktop.
+
+<Canvas of={FormSelectStories.NativeMobile} />
+
+## With validation rules
+
+Any violation of `rules` will show in a standard error message under the component. Try submitting the form without selecting a value.
+
+<Canvas of={FormSelectStories.Rules} />
+
+## Customisation
+
+Customisation can be done by the properties on the control. The example below shows:
+
+* Having the "empty" value always visible (via `alwaysShowEmptyValue`)
+* A customised label for the empty value (via `emptyValueLabel`)
+* A custom icon instead of the standard down-arrow (via `IconComponent`)
+
+<Canvas of={FormSelectStories.Customisable} />
+
+## Complex Select
+
+Complex values can be passed to the select, as long as they have been mapped to a `FormOption<TValue, TLabel>`. In the example below, each selectable option is a mythical `Course` object:
+
+<Source language="ts" code={`
+interface Course {
+  id: number;
+  description: string;
+}
+`} />
+
+<Canvas of={FormSelectStories.ComplexSelect} />
+
+## Help Messages
+
+HelpMessages will be visible to non NativeSelect elements.
+
+<Canvas of={FormSelectStories.HelpMessages} />
+
+## Disabled Options
+
+If you wish to disable an option, simple append `disabled` to the `FormOption`
+
+<Canvas of={FormSelectStories.DisabledOptions} />
+
+## Hiding the empty option
+
+When a selection is required for a fixed list of options (e.g. selecting a state/territory), showing the "empty" option may not be desired. You can hide the "empty" option by setting the `emptyValueLabel` to `null`, or an empty string.
+
+Note that this is not possible for the native select as it does not have the ability to show a value that does not correspond to an option.
+
+<Canvas of={FormSelectStories.NoEmptyOption} />
+
+## Arguments
+
+<ArgTypes of={FormSelect} />

@@ -1,0 +1,40 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
+import * as CircularLoaderStories from "./CircularLoader.stories";
+
+<Meta
+  title="Components/Molecules/Circular Loader"
+  of={CircularLoaderStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# CircularLoader
+
+<Source
+  language="ts"
+  code={`import { CircularLoader } from "@batoanng/mui-components";`}
+/>
+
+## How to use this component
+
+This component is a drop in Loader component, used as either a component level spinner or a full page spinner.
+
+You can optionally provide a label and optionally make it fullscreen. By default it fills the parent it is inside.
+
+If you want to use this loader in a fullscreen simply place it anywhere at pass the `fullScreen` prop.
+
+If you want to keep this loader contained to a component you must place it inside of a container with position relative.
+
+## Usage
+
+### Default
+
+<Canvas of={CircularLoaderStories.Default} />
+
+### Custom Label
+
+<Canvas of={CircularLoaderStories.CustomLabel} />
+
+### One Component Is Loading
+
+<Canvas of={CircularLoaderStories.OneComponentIsLoading} />
+

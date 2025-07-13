@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/oidc",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -30,7 +30,7 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@batoanng/mui-components": "3.0.7",
+    "@batoanng/mui-components": "3.0.8",
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
     "@mui/icons-material": "6.1.8",

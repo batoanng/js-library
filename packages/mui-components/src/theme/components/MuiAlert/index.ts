@@ -6,7 +6,7 @@ export const MuiAlert: Components<Theme>['MuiAlert'] = {
       'color': theme.palette.text.primary,
       'borderLeft': '4px solid',
       'borderColor': theme.palette.primary.main,
-      'backgroundColor': theme.palette.info.light,
+      'backgroundColor': 'unset',
       'padding': '1.5rem 1.5rem 1.5rem 1rem',
       'borderRadius': 0,
 
@@ -39,7 +39,7 @@ export const MuiAlert: Components<Theme>['MuiAlert'] = {
       props: { severity: 'error' },
       style: ({ theme }) => ({
         'borderColor': theme.palette.error.main,
-        'backgroundColor': theme.palette.error.light,
+        'backgroundColor': 'unset',
         '& .MuiAlert-icon': {
           color: theme.palette.error.main,
         },
@@ -49,7 +49,7 @@ export const MuiAlert: Components<Theme>['MuiAlert'] = {
       props: { severity: 'warning' },
       style: ({ theme }) => ({
         'borderColor': theme.palette.warning.main,
-        'backgroundColor': theme.palette.warning.light,
+        'backgroundColor': 'unset',
         '& .MuiAlert-icon': {
           color: theme.palette.warning.main,
         },
@@ -59,7 +59,7 @@ export const MuiAlert: Components<Theme>['MuiAlert'] = {
       props: { severity: 'success' },
       style: ({ theme }) => ({
         'borderColor': theme.palette.success.main,
-        'backgroundColor': theme.palette.success.light,
+        'backgroundColor': 'unset',
         '& .MuiAlert-icon': {
           color: theme.palette.success.main,
         },
@@ -68,13 +68,13 @@ export const MuiAlert: Components<Theme>['MuiAlert'] = {
     {
       props: { severity: 'info', icon: true },
       style: ({ theme }) => ({
-        backgroundColor: theme.palette.info.light,
+        backgroundColor: 'unset',
       }),
     },
     {
       props: { severity: 'info', icon: false },
       style: ({ theme }) => ({
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: 'unset',
       }),
     },
   ],

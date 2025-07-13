@@ -1,0 +1,32 @@
+import { FormErrorSummary } from './FormErrorSummary';
+import { ArgTypes, Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import * as FormErrorSummaryStories from './FormErrorSummary.stories';
+
+<Meta
+  title="Forms/Molecules/Error summary"
+  of={FormErrorSummaryStories}
+  parameters={{ viewMode: 'docs'}}
+/>
+
+# Form Error Summary
+
+<Source language="ts" code={`import { FormErrorSummary } from '@onegov/mui-hook-form-adapters';`} />
+
+The `ErrorSummary` provides a "top-of-the-form" summary box showing navigable links to all the fields within the
+form that have an error.
+
+## Simple use case
+
+The error summary will be shown after the user first submits the form.
+
+<Canvas of={FormErrorSummaryStories.Default} />
+
+## Custom error messages
+
+You can also customise the error messages shown based on the field and failed validation type.
+
+<Canvas of={FormErrorSummaryStories.CustomErrorMessages} />
+
+## Arguments
+
+<ArgTypes of={FormErrorSummary} />

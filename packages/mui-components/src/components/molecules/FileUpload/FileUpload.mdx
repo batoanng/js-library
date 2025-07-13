@@ -1,0 +1,67 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs';
+import * as FileUploadStories from './FileUpload.stories';
+
+<Meta
+  title="Components/Molecules/File Upload"
+  of={FileUploadStories}
+  parameters={{
+    viewMode: 'docs',
+    knobs: { disable: true },
+    notes: { disable: true },
+  }}
+/>
+
+# File Upload
+
+<Source language="ts" code={`import { FileUpload } from "@batoanng/mui-components";`} />
+
+## How to use this component
+
+This component gives the consumer a way to upload and send files to a server.
+The sending to the server is entirely up to the consumer, this component simply acts on the functions that are passed in.
+
+You can embed this component in a form but if you want to use it that way you should be using the HookForm version of this component.
+Which can be found in the `hook-form-adapters` package under `FormFileUpload`. Under the hood it uses this component with the flag `inForm`.
+
+## Usage
+
+### Default
+
+<Canvas of={FileUploadStories.Default} />
+
+### Accepted File Types
+
+<Canvas of={FileUploadStories.AcceptedFileTypes} />
+
+### Multiple Files
+
+<Canvas of={FileUploadStories.MultipleFiles} />
+
+### Custom Legend
+
+<Canvas of={FileUploadStories.CustomLegend} />
+
+### Maximum File Size
+
+<Canvas of={FileUploadStories.MaximumFileSize} />
+
+### Initial File
+
+<Canvas of={FileUploadStories.InitialFile} />
+
+### Error Message
+
+<Canvas of={FileUploadStories.ErrorMessage} />
+
+### Calling API
+
+File upload and deletion via API calls could be set on `onFileDelete` and  `onFileUpload` if required.
+
+<Canvas of={FileUploadStories.CallingApi} />
+
+### Compact file upload
+
+Some designs might require a compact version of the file upload, but not require the form aspects. This creates a much more compact version.
+
+<Canvas of={FileUploadStories.CompactVariant} />
+
