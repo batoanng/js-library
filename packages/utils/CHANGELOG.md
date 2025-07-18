@@ -1,5 +1,11 @@
 # @batoanng/utils
 
+## 2.1.4
+
+### Patch Changes
+
+- Add event bus util
+
 ## 2.1.3
 
 ### Patch Changes
@@ -10,7 +16,7 @@
 
 ### Patch Changes
 
-- 6b6ba82: Upgrade tsup
+- Upgrade tsup
 
 ## 2.1.1
 

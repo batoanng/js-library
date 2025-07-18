@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/mui-components",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "license": "MIT",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -33,7 +33,7 @@
     "chromatic": "pnpm dlx chromatic --only-changed"
   },
   "dependencies": {
-    "@batoanng/utils": "2.1.3",
+    "@batoanng/utils": "2.1.4",
     "date-fns": "^2.30.0",
     "entities": "^4.5.0",
     "file-selector": "^0.6.0",
