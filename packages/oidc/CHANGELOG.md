@@ -1,5 +1,13 @@
 # @batoanng/oidc
 
+## 0.0.9
+
+### Patch Changes
+
+- Update tsconfig
+- Updated dependencies
+  - @batoanng/mui-components@3.0.12
+
 ## 0.0.8
 
 ### Patch Changes

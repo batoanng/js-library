@@ -4,19 +4,20 @@
   "extends": "./base.json",
   "compilerOptions": {
     "allowJs": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "module": "esnext",
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "declaration": false,
     "declarationMap": false,
-    "incremental": true,
-    "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
     "noEmit": true,
-    "plugins": [{ "name": "next" }],
-    "resolveJsonModule": true,
-    "rootDir": ".",
+    "incremental": true,
     "strict": true,
-    "target": "es5"
+    "plugins": [{ "name": "next" }],
+    "rootDir": "."
   },
-  "include": ["src", "next-env.d.ts", ".next", ".turbo"],
+  "include": ["next-env.d.ts", "src", "pages", "components", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

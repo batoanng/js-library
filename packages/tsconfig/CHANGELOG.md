@@ -1,5 +1,11 @@
 # @batoanng/tsconfig
 
+## 1.2.2
+
+### Patch Changes
+
+- Update tsconfig
+
 ## 1.2.1
 
 ### Patch Changes

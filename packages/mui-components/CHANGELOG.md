@@ -1,5 +1,13 @@
 # @batoanng/mui-components
 
+## 3.0.12
+
+### Patch Changes
+
+- Update tsconfig
+- Updated dependencies
+  - @batoanng/utils@2.1.5
+
 ## 3.0.11
 
 ### Patch Changes

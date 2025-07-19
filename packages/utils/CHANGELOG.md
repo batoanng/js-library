@@ -1,5 +1,11 @@
 # @batoanng/utils
 
+## 2.1.5
+
+### Patch Changes
+
+- Update tsconfig
+
 ## 2.1.4
 
 ### Patch Changes

@@ -1,7 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Default",
+  "display": "Base Config",
   "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020"],
     "composite": false,
     "declaration": true,
     "declarationMap": true,
@@ -14,7 +17,9 @@
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true,
+    "tsBuildInfoFile": "./.tsbuildinfo"
   },
   "exclude": ["node_modules"]
 }
