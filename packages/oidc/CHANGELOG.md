@@ -1,5 +1,13 @@
 # @batoanng/oidc
 
+## 0.0.10
+
+### Patch Changes
+
+- Update background color
+- Updated dependencies
+  - @batoanng/mui-components@3.0.13
+
 ## 0.0.9
 
 ### Patch Changes

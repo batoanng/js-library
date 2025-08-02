@@ -12,7 +12,7 @@ const OidcAuthCallbackBox = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: theme.palette.info.light,
+  backgroundColor: theme.palette.background.default,
   zIndex: theme.zIndex.modal,
 }));
 

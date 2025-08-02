@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.13
+
+### Patch Changes
+
+- Update background color
+
 ## 3.0.12
 
 ### Patch Changes
