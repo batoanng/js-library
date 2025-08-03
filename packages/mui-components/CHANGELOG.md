@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.15
+
+### Patch Changes
+
+- Increase fontweight
+
 ## 3.0.14
 
 ### Patch Changes

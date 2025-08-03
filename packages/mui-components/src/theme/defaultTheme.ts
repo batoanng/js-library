@@ -129,4 +129,4 @@ export const createDefaultTheme = ({ darkTheme = false }: { darkTheme?: boolean 
   });
 };
 
-export const defaultTheme = createDefaultTheme({ darkTheme: true });
+export const defaultTheme = createDefaultTheme({ darkTheme: false });

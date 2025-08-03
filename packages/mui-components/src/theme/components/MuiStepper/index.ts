@@ -16,7 +16,7 @@ export const MuiStepper: Components<Theme>['MuiStepper'] = {
           color: theme.palette.text.primary,
         },
         '& .MuiStepLabel-alternativeLabel': {
-          'fontWeight': '300',
+          'fontWeight': '400',
           'fontSize': '1rem',
           '@media (max-width: 48rem)': {
             display: 'none',

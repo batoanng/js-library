@@ -15,7 +15,7 @@ export const MuiFormGroup: Components<Theme>['MuiFormGroup'] = {
         'borderColor': theme.palette.text.primary,
         'marginTop': '0.25rem',
         'fontSize': '16px',
-        'fontWeight': 300,
+        'fontWeight': 400,
         'lineHeight': '24px',
         'letterSpacing': '0px',
         'textAlign': 'left',

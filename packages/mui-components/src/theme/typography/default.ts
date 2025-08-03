@@ -2,9 +2,9 @@ import type { TypographyVariantsOptions } from '@mui/material/styles';
 
 export const defaultTypography: TypographyVariantsOptions = {
   fontFamily: `'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif`,
-  fontWeightMedium: 500,
-  fontWeightRegular: 300,
-  fontWeightBold: 700,
+  fontWeightMedium: 600,
+  fontWeightRegular: 400,
+  fontWeightBold: 800,
   fontSize: 14,
   button: {
     textTransform: 'none',
@@ -12,7 +12,7 @@ export const defaultTypography: TypographyVariantsOptions = {
   },
   h1: {
     'fontSize': '2.25rem',
-    'fontWeight': 700,
+    'fontWeight': 800,
     'lineHeight': 1.4,
     'letterSpacing': '0px',
     'textAlign': 'left',
@@ -23,7 +23,7 @@ export const defaultTypography: TypographyVariantsOptions = {
   },
   h2: {
     'fontSize': '1.75rem',
-    'fontWeight': 700,
+    'fontWeight': 800,
     'lineHeight': 1.4,
     'letterSpacing': '0px',
     'textAlign': 'left',
@@ -45,7 +45,7 @@ export const defaultTypography: TypographyVariantsOptions = {
   },
   h4: {
     fontSize: '1.125rem',
-    fontWeight: 700,
+    fontWeight: 800,
     lineHeight: 1.4,
     letterSpacing: '0px',
     textAlign: 'left',
@@ -59,14 +59,14 @@ export const defaultTypography: TypographyVariantsOptions = {
   },
   h6: {
     fontSize: '1rem',
-    fontWeight: 700,
+    fontWeight: 800,
     lineHeight: 1.5,
     letterSpacing: '0px',
     textAlign: 'left',
   },
   body1: {
     fontSize: '1rem',
-    fontWeight: 300,
+    fontWeight: 400,
     lineHeight: 1.5,
     letterSpacing: '0px',
     textAlign: 'left',
