@@ -1,0 +1,40 @@
+import { IconButton } from "@mui/material";
+import { Canvas, Meta, Source, Story } from "@storybook/addon-docs/blocks";
+import * as IconButtonStories from './IconButton.stories';
+
+<Meta of={IconButtonStories} />
+
+# Icon Button
+
+<Source
+  language="tsx"
+  code={`import { IconButton, Tooltip } from "@mui/material";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";`}
+/>
+
+## How to use this component
+
+This component uses the MUI IconButton component.
+You can see the official documentation here: https://mui.com/material-ui/react-icon-button/
+
+## Default
+
+<Canvas of={IconButtonStories.Default} />
+
+## With Tooltip
+
+<Canvas of={IconButtonStories.WithTooltip} />
+
+## Disabled
+
+<Canvas of={IconButtonStories.Disabled} />
+
+## Toggle State
+
+<Canvas of={IconButtonStories.ToggleState} />
+
+## Clarifying Message
+
+<Canvas of={IconButtonStories.ClarifyingMessage} />

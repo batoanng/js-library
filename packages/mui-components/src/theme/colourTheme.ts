@@ -1,5 +1,6 @@
 export const lightColors = {
   background: '#ffffff',
+  backgroundLight: '#ffffff',
   foreground: '#262626',
   primary: '#343434',
   primaryForeground: '#fcfcfc',
@@ -16,10 +17,13 @@ export const lightColors = {
   border: '#ebebeb',
   input: '#ebebeb',
   ring: '#b5b5b5',
+  contrastText: '#fcfcfc',
+  contrastTextLight: '#343434',
 };
 
 export const darkColors = {
   background: '#000',
+  backgroundLight: '#111111e6',
   foreground: '#fcfcfc',
   primary: '#ebebeb',
   primaryForeground: '#343434',
@@ -36,4 +40,6 @@ export const darkColors = {
   border: 'rgba(255, 255, 255, 0.10)',
   input: 'rgba(255, 255, 255, 0.15)',
   ring: '#8c8c8c',
+  contrastText: '#7e7e7e',
+  contrastTextLight: '#fcfcfc',
 };

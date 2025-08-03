@@ -103,14 +103,14 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         'borderRadius': 0,
         'minWidth': 0,
         'backgroundColor': 'transparent',
-        'color': theme.palette.secondary.dark,
+        'color': theme.palette.text.secondary,
 
         '&.MuiButton-root:hover': {
           textDecoration: 'underline',
           border: 0,
           borderRadius: 0,
           backgroundColor: theme.palette.action.hover,
-          color: theme.palette.secondary.dark,
+          color: theme.palette.text.primary,
           boxShadow: 'none',
         },
       }),
@@ -128,18 +128,18 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         'fontWeight': 700,
         'border': `2px solid ${theme.palette.error.main}`,
         'backgroundColor': theme.palette.error.main,
-        'color': theme.palette.common.white,
+        'color': theme.palette.text.primary,
 
         '&.MuiButtonBase-root:hover': {
           backgroundColor: theme.palette.error.dark ?? theme.palette.error.main,
-          color: theme.palette.common.white,
+          color: theme.palette.text.primary,
           border: `2px solid transparent`,
           boxShadow: 'none',
         },
         '&.Mui-disabled': {
           border: `2px solid ${theme.palette.error.main}`,
           backgroundColor: theme.palette.error.main,
-          color: theme.palette.common.white,
+          color: theme.palette.text.primary,
         },
       }),
     },

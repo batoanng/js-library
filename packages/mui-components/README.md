@@ -94,8 +94,8 @@ Usage:
 ```tsx
 import { defaultTheme, createDefaultTheme } from '@batoanng/mui-components';
 
-const lightTheme = createDefaultTheme(); // Light theme is default
-const darkTheme = createDefaultTheme(true);
+const lightTheme = createDefaultTheme({}); // Light theme is default
+const darkTheme = createDefaultTheme({ darkTheme: true });
 
 <ThemeProvider theme={lightTheme}>...</ThemeProvider>
 <ThemeProvider theme={darkTheme}>...</ThemeProvider>

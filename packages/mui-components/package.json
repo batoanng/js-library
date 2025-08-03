@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/mui-components",
-  "version": "3.0.13",
+  "version": "3.0.14",
   "license": "MIT",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -23,7 +23,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "serve": "pnpm run build && vite preview --port 3000",
-    "dev": "storybook dev -p 3001",
+    "dev": "storybook dev -p 3000",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",

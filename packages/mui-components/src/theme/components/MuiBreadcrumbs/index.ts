@@ -5,7 +5,7 @@ export const MuiBreadcrumbs: Components<Theme>['MuiBreadcrumbs'] = {
     root: ({ theme }) => ({
       fontSize: '0.875rem',
       lineHeight: 1.4,
-      color: theme.palette.secondary.dark,
+      color: theme.palette.text.secondary,
     }),
 
     separator: {

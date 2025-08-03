@@ -39,19 +39,21 @@ import { MuiList } from './components/MuiList';
 import { MuiStack } from './components/MuiStack';
 import { MuiLink } from './components/MuiLink';
 import { MuiTable } from './components/MuiTable';
+import { MuiIconButton } from './components/MuiIconButton';
+import { MuiListItem, MuiListItemIcon } from './components/MuiListItem';
 
-export const createDefaultTheme = (isDark = false) => {
-  const colors = isDark ? darkColors : lightColors;
+export const createDefaultTheme = ({ darkTheme = false }: { darkTheme?: boolean }) => {
+  const colors = darkTheme ? darkColors : lightColors;
 
   return createTheme({
     breakpoints: {
       values: breakpoints,
     },
     palette: {
-      mode: isDark ? 'dark' : 'light',
+      mode: darkTheme ? 'dark' : 'light',
       background: {
         default: colors.background,
-        paper: colors.background,
+        paper: colors.backgroundLight,
       },
       text: {
         primary: colors.foreground,
@@ -59,11 +61,11 @@ export const createDefaultTheme = (isDark = false) => {
       },
       primary: {
         main: colors.primary,
-        contrastText: colors.primaryForeground,
+        contrastText: colors.contrastText,
       },
       secondary: {
         main: colors.secondary,
-        contrastText: colors.secondaryForeground,
+        contrastText: colors.contrastTextLight,
       },
       error: {
         main: colors.error,
@@ -101,6 +103,7 @@ export const createDefaultTheme = (isDark = false) => {
       MuiInputLabel,
       MuiInputBase,
       MuiOutlinedInput,
+      MuiIconButton,
       MuiFormHelperText,
       MuiFormControl,
       MuiFormControlLabel,
@@ -120,8 +123,10 @@ export const createDefaultTheme = (isDark = false) => {
       MuiStack,
       MuiLink,
       MuiTable,
+      MuiListItem,
+      MuiListItemIcon,
     },
   });
 };
 
-export const defaultTheme = createDefaultTheme();
+export const defaultTheme = createDefaultTheme({ darkTheme: true });

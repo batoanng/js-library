@@ -30,7 +30,6 @@ export const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
           width: '1.375rem',
           display: 'inline-block',
           color: theme.palette.common.white,
-          backgroundColor: theme.palette.primary.main,
         },
 
         '&:hover': {

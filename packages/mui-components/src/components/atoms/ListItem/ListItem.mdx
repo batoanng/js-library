@@ -1,0 +1,76 @@
+import { ListItem } from "@mui/material";
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
+import * as ListItemStories from './ListItem.stories';
+
+<Meta of={ListItemStories} />
+
+# List Item
+
+<Source
+  language="tsx"
+  code={`import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  ListItemButton,
+} from "@mui/material";
+import InboxRoundedIcon from "@mui/icons-material/InboxRounded";`}
+/>
+
+## How to use this component
+
+This component uses the MUI `ListItem` component.  
+You can refer to the official docs here: https://mui.com/material-ui/react-list/
+
+## Default
+
+<Canvas of={ListItemStories.Default} />
+
+## With Actions
+
+<Canvas of={ListItemStories.WithActions} />
+
+## Disabled
+
+<Canvas of={ListItemStories.Disabled} />
+
+## Selected
+
+<Canvas of={ListItemStories.Selected} />
+
+## Clickable
+
+<Canvas of={ListItemStories.Clickable} />
+
+## Custom Style
+
+<Canvas of={ListItemStories.CustomStyle} />
+
+You can customize the ListItem component using the `sx` prop or theme overrides.
+Here’s an example override:
+
+```ts
+export const MuiListItem: Components<Theme>['MuiListItem'] = {
+  styleOverrides: {
+    root: ({ theme }) => ({
+      borderRadius: '8px',
+      padding: theme.spacing(1, 2),
+      '&:hover': {
+        backgroundColor: theme.palette.action.hover,
+      },
+      '&.Mui-selected': {
+        backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.contrastText,
+        '&:hover': {
+          backgroundColor: theme.palette.primary.main,
+        },
+      },
+      '&.Mui-disabled': {
+        opacity: 0.5,
+        color: theme.palette.action.disabled,
+      },
+    }),
+  },
+};
