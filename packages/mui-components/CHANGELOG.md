@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.16
+
+### Patch Changes
+
+- Remove outline
+
 ## 3.0.15
 
 ### Patch Changes

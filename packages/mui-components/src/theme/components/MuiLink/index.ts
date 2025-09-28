@@ -10,11 +10,9 @@ export const MuiLink: Components<Theme>['MuiLink'] = {
       '&.MuiLink-root:hover': {
         cursor: 'pointer',
         backgroundColor: theme.palette.action.hover,
-        outline: `2px solid ${theme.palette.action.hover}`,
       },
 
       '&.MuiLink-root:focus': {
-        outline: `3px solid ${theme.palette.primary.main}`,
         outlineOffset: '0.1875rem',
       },
 

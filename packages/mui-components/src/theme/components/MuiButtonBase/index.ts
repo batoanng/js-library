@@ -8,20 +8,10 @@ export const MuiButtonBase: Components<Theme>['MuiButtonBase'] = {
       '&.MuiButton-root': {
         'boxShadow': 'none',
 
-        '&:focus': {
-          outline: `${theme.palette.primary.main} solid 3px`,
-          outlineOffset: '3px',
-        },
-
         '&.Mui-disabled': {
           opacity: 0.4,
           cursor: 'not-allowed',
         },
-      },
-
-      '&.Mui-focusVisible': {
-        outline: `${theme.palette.primary.main} solid 3px`,
-        outlineOffset: '3px',
       },
 
       // For icon buttons like help/info icons

@@ -1,5 +1,12 @@
 # @batoanng/oidc
 
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @batoanng/mui-components@3.0.16
+
 ## 0.0.12
 
 ### Patch Changes

@@ -7,11 +7,6 @@ export const MuiInputBase: Components<Theme>['MuiInputBase'] = {
       'padding': '0rem 1rem',
       'borderRadius': '4px',
 
-      '&.Mui-focused': {
-        outline: `${theme.palette.primary.main} solid 3px`,
-        outlineOffset: '3px',
-      },
-
       '& .MuiOutlinedInput-notchedOutline': {
         border: 'none',
       },

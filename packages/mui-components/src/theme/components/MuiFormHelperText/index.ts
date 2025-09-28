@@ -18,7 +18,6 @@ export const MuiFormHelperText: Components<Theme>['MuiFormHelperText'] = {
 
         '&:hover': {
           backgroundColor: theme.palette.action.hover,
-          outline: `2px solid ${theme.palette.action.hover}`,
         },
       },
 

@@ -48,8 +48,6 @@ export const MuiAccordion: Components<Theme>['MuiAccordion'] = {
 
         '&.Mui-focusVisible': {
           backgroundColor: theme.palette.background.default,
-          outline: `${theme.palette.primary.main} solid 3px`,
-          outlineOffset: '3px',
         },
 
         '& svg': {

@@ -49,11 +49,6 @@ export const MuiRadio: Components<Theme>['MuiRadio'] = {
         backgroundColor: 'transparent',
       },
 
-      '& input:focus + span': {
-        outline: `${theme.palette.info.main} solid 3px`,
-        outlineOffset: '3px',
-      },
-
       '&.Mui-disabled': {
         'color': theme.palette.grey[400],
         'backgroundColor': theme.palette.grey[100],

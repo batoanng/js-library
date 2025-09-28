@@ -19,11 +19,6 @@ const Button = styled('button')(({ theme }) => ({
     width: '1.5rem',
     height: '1.5rem',
   },
-
-  '&:focus': {
-    outline: `${theme.palette.grey[700]} solid 3px`,
-    outlineOffset: '3px',
-  },
 }));
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement>;

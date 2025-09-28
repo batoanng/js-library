@@ -49,11 +49,6 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
           maxWidth: '100%',
         },
 
-        '&.Mui-focused textarea': {
-          outline: `${theme.palette.primary.main} solid 3px`,
-          outlineOffset: '3px',
-        },
-
         '&.Mui-error textarea': {
           borderColor: theme.palette.error.main,
           borderWidth: '2px',
