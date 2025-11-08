@@ -12,12 +12,10 @@ export const MuiIconButton: Components<Theme>['MuiIconButton'] = {
       'color': theme.palette.text.primary,
 
       '&:hover': {
-        backgroundColor: theme.palette.action.hover,
-        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.grey[100],
       },
 
       '&.Mui-disabled': {
-        backgroundColor: 'transparent',
         color: theme.palette.action.disabled,
       },
     }),
@@ -25,8 +23,7 @@ export const MuiIconButton: Components<Theme>['MuiIconButton'] = {
       'color': theme.palette.primary.main,
 
       '&:hover': {
-        backgroundColor: theme.palette.primary.light,
-        color: theme.palette.primary.contrastText,
+        backgroundColor: theme.palette.grey[100],
       },
 
       '&.Mui-disabled': {
@@ -36,10 +33,6 @@ export const MuiIconButton: Components<Theme>['MuiIconButton'] = {
     colorSecondary: ({ theme }) => ({
       'color': theme.palette.secondary.main,
 
-      '&:hover': {
-        color: theme.palette.secondary.contrastText,
-      },
-
       '&.Mui-disabled': {
         color: theme.palette.action.disabled,
       },
@@ -48,8 +41,7 @@ export const MuiIconButton: Components<Theme>['MuiIconButton'] = {
       'color': theme.palette.error.main,
 
       '&:hover': {
-        backgroundColor: theme.palette.error.light,
-        color: theme.palette.error.contrastText,
+        backgroundColor: theme.palette.grey[100],
       },
 
       '&.Mui-disabled': {
