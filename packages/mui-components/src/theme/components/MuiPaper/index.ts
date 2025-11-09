@@ -16,7 +16,7 @@ export const MuiPaper: Components<Theme>['MuiPaper'] = {
       },
 
       '& .MuiIconButton-root': {
-        backgroundColor: theme.palette.grey[100],
+        backgroundColor: 'unset',
       },
 
       '& .MuiTypography-caption': {

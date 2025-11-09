@@ -27,7 +27,7 @@ export const MuiButtonBase: Components<Theme>['MuiButtonBase'] = {
 
       // For DatePicker arrows
       '&.MuiIconButton-root.MuiPickersArrowSwitcher-button:hover': {
-        backgroundColor: theme.palette.grey[100],
+        backgroundColor: 'unset',
       },
     }),
   },

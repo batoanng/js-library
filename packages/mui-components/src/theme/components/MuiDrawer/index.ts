@@ -8,6 +8,10 @@ export const MuiDrawer: Components['MuiDrawer'] = {
         width: '50%',
         overflow: 'visible',
       },
+
+      '& .MuiButtonBase-root': {
+        backgroundColor: 'unset',
+      },
     },
   },
 };
