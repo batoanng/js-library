@@ -8,10 +8,10 @@ import { useLatest } from 'react-use';
 import { CircularLoader, FileUploadVariant, FormErrorText } from '@/components';
 import { useHtmlId, useScreenType } from '@/hooks';
 
-import FileUploadIcon from '../../assets/FileUpload.svg';
 import { FileUploaded, RejectedFiles } from './FileUploaded';
 import { getBorderColour, getErrorMessage, getMimeTypes, getLegendText, validateFile } from './helperFunctions';
 import type { FileUploadProps } from './types';
+import { IconFileImport } from '@tabler/icons-react';
 
 const BYTES_IN_MEGABYTES = 1048576;
 const COMPACT_MIN_HEIGHT = '0px';
@@ -49,7 +49,6 @@ const generateAlignments = (variant: FileUploadVariant) => {
         textAlignment: { xs: 'left', md: 'center' } as { xs: CanvasTextAlign; md: CanvasTextAlign }, // had to type this, mui got confused
         dropzoneContainer: {
           padding: { xs: 0, md: 5 },
-          mt: { xs: 0, md: 2 },
           mb: { xs: 2, md: 0 },
         },
       };
@@ -158,12 +157,14 @@ export const FileUpload = ({
 
   return (
     <Box id={id}>
-      <Box sx={{ mb: variantStyles.headingMargin }}>
-        {heading && <Typography variant="h2">{heading}</Typography>}
-        {subHeading && <Typography variant="h3">{subHeading}</Typography>}
-        {subText}
-        {linkSlot}
-      </Box>
+      {Boolean(heading || subHeading || subText || linkSlot) && (
+        <Box sx={{ mb: variantStyles.headingMargin }}>
+          {heading && <Typography variant="h2">{heading}</Typography>}
+          {subHeading && <Typography variant="h3">{subHeading}</Typography>}
+          {subText}
+          {linkSlot}
+        </Box>
+      )}
       {promptText && (
         <Typography variant="body2" sx={{ mb: { md: 2, xs: 0 } }}>
           {promptText}
@@ -226,7 +227,7 @@ export const FileUpload = ({
                     maxWidth: { xs: WIDTH, md: 'unset' },
                   }}
                 >
-                  {showFileUploadIcon && <StyledImage alt="file-upload" src={FileUploadIcon} />}
+                  {showFileUploadIcon && <IconFileImport size={48} />}
                   {themeLegendText?.length && (
                     <Stack sx={{ my: 3 }}>
                       {themeLegendText.map((text, index) => (

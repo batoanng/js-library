@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.17
+
+### Patch Changes
+
+- Fix UI for IconButton and FileUpload
+
 ## 3.0.16
 
 ### Patch Changes

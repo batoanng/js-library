@@ -290,6 +290,9 @@ importers:
       '@mui/x-date-pickers':
         specifier: 7.22.2
         version: 7.22.2(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@types/react@18.3.23)(react@18.3.1))(@mui/material@6.1.8(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@types/react@18.3.23)(react@18.3.1))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@6.4.12(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@types/react@18.3.23)(react@18.3.1))(@types/react@18.3.23)(react@18.3.1))(@types/react@18.3.23)(date-fns@2.30.0)(dayjs@1.11.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tabler/icons-react':
+        specifier: ^3.34.1
+        version: 3.35.0(react@18.3.1)
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -472,8 +475,8 @@ importers:
   packages/oidc:
     dependencies:
       '@batoanng/mui-components':
-        specifier: 3.0.15
-        version: 3.0.15(d8d96ee17cff9a6843eb58a99a594d78)
+        specifier: 3.0.16
+        version: 3.0.16(d8d96ee17cff9a6843eb58a99a594d78)
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.14.0(@types/react@18.3.23)(react@18.3.1)
@@ -953,8 +956,8 @@ packages:
   '@base2/pretty-print-object@1.0.1':
     resolution: {integrity: sha512-4iri8i1AqYHJE2DstZYkyEprg6Pq6sKx3xn5FpySk9sNhH7qN2LLlHJCfDTZRILNwQNPD7mATWM0TBui7uC1pA==}
 
-  '@batoanng/mui-components@3.0.15':
-    resolution: {integrity: sha512-2IokgN0hWI4K5SH+aBZ7cMNf5zrBSAFxOSEjiImK2FiFe+9jXEr7gR5WXg4ViX+aG78v/I5flcgwBdY0fUBd9g==}
+  '@batoanng/mui-components@3.0.16':
+    resolution: {integrity: sha512-hi+pLJ4dCX8rdlqWF6RtEk5z2B5KW/oH49u3hLKj3eDsXyOYBrdf0D92STApqex4JyA1JMxKsXkCbkEJ99qyiA==}
     engines: {node: '20', pnpm: '10'}
     peerDependencies:
       '@emotion/react': ^11.13.5
@@ -2517,6 +2520,14 @@ packages:
 
   '@swc/helpers@0.5.2':
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
+
+  '@tabler/icons-react@3.35.0':
+    resolution: {integrity: sha512-XG7t2DYf3DyHT5jxFNp5xyLVbL4hMJYJhiSdHADzAjLRYfL7AnjlRfiHDHeXxkb2N103rEIvTsBRazxXtAUz2g==}
+    peerDependencies:
+      react: '>= 16'
+
+  '@tabler/icons@3.35.0':
+    resolution: {integrity: sha512-yYXe+gJ56xlZFiXwV9zVoe3FWCGuZ/D7/G4ZIlDtGxSx5CGQK110wrnT29gUj52kEZoxqF7oURTk97GQxELOFQ==}
 
   '@tailwindcss/forms@0.5.10':
     resolution: {integrity: sha512-utI1ONF6uf/pPNO68kmN1b8rEwNXv3czukalo8VtJH8ksIkZXr3Q3VYudZLkCsDd4Wku120uF02hYK25XGPorw==}
@@ -8795,7 +8806,7 @@ snapshots:
 
   '@base2/pretty-print-object@1.0.1': {}
 
-  '@batoanng/mui-components@3.0.15(d8d96ee17cff9a6843eb58a99a594d78)':
+  '@batoanng/mui-components@3.0.16(d8d96ee17cff9a6843eb58a99a594d78)':
     dependencies:
       '@batoanng/utils': 2.1.5
       '@emotion/react': 11.14.0(@types/react@18.3.23)(react@18.3.1)
@@ -10588,6 +10599,13 @@ snapshots:
   '@swc/helpers@0.5.2':
     dependencies:
       tslib: 2.8.1
+
+  '@tabler/icons-react@3.35.0(react@18.3.1)':
+    dependencies:
+      '@tabler/icons': 3.35.0
+      react: 18.3.1
+
+  '@tabler/icons@3.35.0': {}
 
   '@tailwindcss/forms@0.5.10(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.19.1)(typescript@5.8.3)))':
     dependencies:
