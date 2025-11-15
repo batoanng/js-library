@@ -1,10 +1,9 @@
 import { Container, type StackProps } from '@mui/material';
 
-import { SROnly } from '@/components';
+import { SROnly, Spinner } from '@/components';
 
-import { IconContainer, LabelContainer } from './Containers';
+import { LabelContainer } from './Containers';
 import { Dimmer } from './Dimmer';
-import LoaderSvg from './Loader.svg?react';
 import type { LoaderProps } from './types';
 
 export const Loader = ({ label = 'Loading...', fullPage, inactive, ...stackProps }: LoaderProps & StackProps) => {
@@ -20,9 +19,7 @@ export const Loader = ({ label = 'Loading...', fullPage, inactive, ...stackProps
           position: 'relative',
         }}
       >
-        <IconContainer>
-          <LoaderSvg />
-        </IconContainer>
+        <Spinner />
         <LabelContainer fullPage={fullPage}>{label}</LabelContainer>
       </Container>
     </Dimmer>

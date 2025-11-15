@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.20
+
+### Patch Changes
+
+- Add Spinner component
+
 ## 3.0.19
 
 ### Patch Changes
