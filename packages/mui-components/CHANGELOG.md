@@ -1,5 +1,17 @@
 # @batoanng/mui-components
 
+## 3.0.22
+
+### Patch Changes
+
+- Fix loader
+
+## 3.0.21
+
+### Patch Changes
+
+- Fix spinner component
+
 ## 3.0.20
 
 ### Patch Changes

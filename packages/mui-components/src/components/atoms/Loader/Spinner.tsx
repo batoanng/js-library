@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import './Spinner.css'; // see CSS below
+import './Spinner.css';
 import { Box, SxProps } from '@mui/material';
 
 export const Spinner: React.FC = ({ sx }: { sx?: SxProps }) => {

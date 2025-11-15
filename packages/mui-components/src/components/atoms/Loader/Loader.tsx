@@ -1,12 +1,18 @@
 import { Container, type StackProps } from '@mui/material';
 
-import { SROnly, Spinner } from '@/components';
+import { SROnly } from '@/components';
 
-import { LabelContainer } from './Containers';
+import { IconContainer, LabelContainer } from './Containers';
 import { Dimmer } from './Dimmer';
 import type { LoaderProps } from './types';
+import LoaderSvg from './Loader.svg?react';
+import { ReactNode } from 'react';
 
-export const Loader = ({ label = 'Loading...', fullPage, inactive, ...stackProps }: LoaderProps & StackProps) => {
+interface Props {
+  loadingIcon?: ReactNode;
+}
+
+export const Loader = ({ label, loadingIcon, fullPage, inactive, ...stackProps }: LoaderProps & StackProps & Props) => {
   if (inactive) return null;
 
   return (
@@ -19,8 +25,14 @@ export const Loader = ({ label = 'Loading...', fullPage, inactive, ...stackProps
           position: 'relative',
         }}
       >
-        <Spinner />
-        <LabelContainer fullPage={fullPage}>{label}</LabelContainer>
+        {Boolean(loadingIcon) ? (
+          loadingIcon
+        ) : (
+          <IconContainer>
+            <LoaderSvg />
+          </IconContainer>
+        )}
+        {label && <LabelContainer fullPage={fullPage}>{label}</LabelContainer>}
       </Container>
     </Dimmer>
   );
