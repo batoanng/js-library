@@ -20,6 +20,7 @@ export const lightColors = {
   ring: '#b5b5b5',
   contrastText: '#fcfcfc',
   contrastTextLight: '#343434',
+  textPrimary: '#000',
 };
 
 export const darkColors = {
@@ -44,4 +45,5 @@ export const darkColors = {
   ring: '#8c8c8c',
   contrastText: '#7e7e7e',
   contrastTextLight: '#fcfcfc',
+  textPrimary: '#fff',
 };

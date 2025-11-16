@@ -56,7 +56,7 @@ export const createDefaultTheme = ({ darkTheme = false }: { darkTheme?: boolean 
         paper: colors.backgroundLight,
       },
       text: {
-        primary: colors.foreground,
+        primary: colors.textPrimary,
         secondary: colors.mutedForeground,
       },
       primary: {
