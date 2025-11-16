@@ -475,8 +475,8 @@ importers:
   packages/oidc:
     dependencies:
       '@batoanng/mui-components':
-        specifier: 3.0.21
-        version: 3.0.21(d8d96ee17cff9a6843eb58a99a594d78)
+        specifier: 3.0.23
+        version: 3.0.23(d8d96ee17cff9a6843eb58a99a594d78)
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.14.0(@types/react@18.3.23)(react@18.3.1)
@@ -956,8 +956,8 @@ packages:
   '@base2/pretty-print-object@1.0.1':
     resolution: {integrity: sha512-4iri8i1AqYHJE2DstZYkyEprg6Pq6sKx3xn5FpySk9sNhH7qN2LLlHJCfDTZRILNwQNPD7mATWM0TBui7uC1pA==}
 
-  '@batoanng/mui-components@3.0.21':
-    resolution: {integrity: sha512-yXIugDsR1MxprCeVgeLZbaJswWCQunfMVQ6wXi2GM+EoCxltekSGhFpRDbXD5ZBx3JWV1gKvwnn1ga21MGyd5A==}
+  '@batoanng/mui-components@3.0.23':
+    resolution: {integrity: sha512-QZUfa3GaCNkWGuRXU3Pe94uxg2t0eNstK/kyjXAUScVlZ6K1L5dU6nL6oSIkWAr7jsfmnKSqtSWoNgtfkc+3dA==}
     engines: {node: '20', pnpm: '10'}
     peerDependencies:
       '@emotion/react': ^11.13.5
@@ -8806,7 +8806,7 @@ snapshots:
 
   '@base2/pretty-print-object@1.0.1': {}
 
-  '@batoanng/mui-components@3.0.21(d8d96ee17cff9a6843eb58a99a594d78)':
+  '@batoanng/mui-components@3.0.23(d8d96ee17cff9a6843eb58a99a594d78)':
     dependencies:
       '@batoanng/utils': 2.1.5
       '@emotion/react': 11.14.0(@types/react@18.3.23)(react@18.3.1)
