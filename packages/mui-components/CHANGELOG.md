@@ -1,5 +1,17 @@
 # @batoanng/mui-components
 
+## 3.0.25
+
+### Patch Changes
+
+- Update FileUpload UI
+
+## 3.0.24
+
+### Patch Changes
+
+- Update UI FileUpload
+
 ## 3.0.23
 
 ### Patch Changes

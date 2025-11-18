@@ -1,4 +1,4 @@
-import { Box, Button, Stack, styled, Typography, useTheme } from '@mui/material';
+import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
 import { fromEvent } from 'file-selector';
 import { useEffect, useMemo, useState } from 'react';
 import type { DropEvent, FileRejection } from 'react-dropzone';
@@ -7,23 +7,21 @@ import { useLatest } from 'react-use';
 
 import { CircularLoader, FileUploadVariant, FormErrorText } from '@/components';
 import { useHtmlId, useScreenType } from '@/hooks';
-
 import { FileUploaded, RejectedFiles } from './FileUploaded';
 import { getBorderColour, getErrorMessage, getMimeTypes, getLegendText, validateFile } from './helperFunctions';
 import type { FileUploadProps } from './types';
 import { IconFileImport } from '@tabler/icons-react';
+import { motion } from 'framer-motion';
 
 const BYTES_IN_MEGABYTES = 1048576;
 const COMPACT_MIN_HEIGHT = '0px';
 const MIN_HEIGHT = '228px';
 const WIDTH = '368px';
 
-const StyledImage = styled('img')(({ theme }) => ({
-  maxWidth: theme.spacing(4),
-  maxHeight: theme.spacing(4),
-}));
-
 const DEFAULT_NUMBER_OF_FILES_ALLOWED = 1;
+
+const MotionBox = motion(Box);
+const MotionButton = motion(Button as any);
 
 const generateAlignments = (variant: FileUploadVariant) => {
   switch (variant) {
@@ -31,9 +29,9 @@ const generateAlignments = (variant: FileUploadVariant) => {
       return {
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        uploadWidth: 'auto',
+        uploadWidth: '100%',
         headingMargin: 0,
-        textAlignment: 'left' as CanvasTextAlign, // had to type this, mui got confused
+        textAlignment: 'left' as CanvasTextAlign,
         dropzoneContainer: {
           padding: 0,
           mt: { xs: 0, md: 1 },
@@ -41,14 +39,18 @@ const generateAlignments = (variant: FileUploadVariant) => {
         },
       };
     case 'default':
+    default:
       return {
         justifyContent: { xs: 'flex-start', md: 'center' },
         alignItems: { xs: 'flex-start', md: 'center' },
         uploadWidth: '100%',
         headingMargin: 3,
-        textAlignment: { xs: 'left', md: 'center' } as { xs: CanvasTextAlign; md: CanvasTextAlign }, // had to type this, mui got confused
+        textAlignment: {
+          xs: 'left',
+          md: 'center',
+        } as { xs: CanvasTextAlign; md: CanvasTextAlign },
         dropzoneContainer: {
-          padding: { xs: 0, md: 5 },
+          padding: { xs: 0, md: 0 },
           mb: { xs: 2, md: 0 },
         },
       };
@@ -59,11 +61,7 @@ export const FileUpload = ({
   id: suppliedId,
   name,
   heading,
-  legendText,
-  /** The number of files that a user is allowed to upload at once or a total number of files a use can upload.
-      We only accept one file by default. */
   maxFiles = DEFAULT_NUMBER_OF_FILES_ALLOWED,
-  /** Max file size in MB */
   maxFileSize = 4,
   maxTotalMBSize,
   acceptedFormats = [],
@@ -81,12 +79,11 @@ export const FileUpload = ({
   variant = 'default',
 }: FileUploadProps) => {
   const id = useHtmlId('file-upload', suppliedId, name);
+  const { isMobile } = useScreenType();
+  const theme = useTheme();
 
   const maxSizeInBytes = maxFileSize * BYTES_IN_MEGABYTES;
   let hasExceededMaxFiles = false;
-
-  const { isMobile } = useScreenType();
-  const theme = useTheme();
 
   const [rejectedFiles, setRejectedFiles] = useState<FileRejection[]>([]);
 
@@ -107,9 +104,8 @@ export const FileUpload = ({
 
   const onDrop = async (accepted: File[], rejected: FileRejection[]) => {
     if (rejected.length > 0) {
-      // Overriding the drop zone's default error message with ours
-      rejected.forEach((rejected) => {
-        rejected.errors.forEach(
+      rejected.forEach((rej) => {
+        rej.errors.forEach(
           (error) => (error.message = getErrorMessage(error.code, maxFiles, maxFileSize, acceptedFormatsText))
         );
       });
@@ -117,11 +113,13 @@ export const FileUpload = ({
       setRejectedFiles((prev) => [...prev, ...rejected]);
     }
 
-    await onFileUpload(accepted);
+    if (accepted.length > 0) {
+      await onFileUpload(accepted);
+    }
   };
 
   const getFilesFromEvent = async (event: DropEvent) => {
-    const fileObjectArr = await fromEvent(event); // convert event to File obj for the dropzone
+    const fileObjectArr = await fromEvent(event);
     hasExceededMaxFiles = fileObjectArr.length + files.length > maxFiles;
     return fileObjectArr;
   };
@@ -152,107 +150,204 @@ export const FileUpload = ({
   const themeLegendText = getLegendText(isMobile, maxFileSize, acceptedFormatsText);
 
   const variantStyles = useMemo(() => generateAlignments(variant), [variant]);
-
   const minHeight = variant === 'compact' ? COMPACT_MIN_HEIGHT : MIN_HEIGHT;
 
+  const hasDropError = Boolean(errorMessage || rejectedFiles.length);
+
   return (
-    <Box id={id}>
+    <Box id={id} sx={{ width: '100%' }}>
       {Boolean(heading || subHeading || subText || linkSlot) && (
         <Box sx={{ mb: variantStyles.headingMargin }}>
-          {heading && <Typography variant="h2">{heading}</Typography>}
-          {subHeading && <Typography variant="h3">{subHeading}</Typography>}
+          {heading && (
+            <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
+              {heading}
+            </Typography>
+          )}
+          {subHeading && (
+            <Typography variant="h6" sx={{ mb: 0.5 }}>
+              {subHeading}
+            </Typography>
+          )}
           {subText}
           {linkSlot}
         </Box>
       )}
+
       {promptText && (
         <Typography variant="body2" sx={{ mb: { md: 2, xs: 0 } }}>
           {promptText}
         </Typography>
       )}
+
       {maxFiles > files.length && (
-        <Stack
+        <Box
           sx={{
-            justifyContent: variantStyles.justifyContent,
-            alignItems: variantStyles.alignItems,
-            borderRadius: 0.8,
-            border: { xs: 'none', md: '2px dashed' },
-            borderColor: (theme) => ({
-              md: getBorderColour(theme, Boolean(errorMessage || rejectedFiles.length)),
-            }),
             ...variantStyles.dropzoneContainer,
+            position: 'relative',
+            width: '100%',
           }}
         >
-          <Stack
-            {...getRootProps()}
+          <MotionBox
+            aria-hidden
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 0.7, scale: 1 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
             sx={{
-              justifyContent: variantStyles.justifyContent,
-              alignItems: variantStyles.alignItems,
+              position: 'absolute',
+              inset: -8,
+              borderRadius: 3,
+              background: `radial-gradient(circle at top, ${theme.palette.primary.main}33, transparent 60%)`,
+              filter: 'blur(20px)',
+              zIndex: 0,
+              pointerEvents: 'none',
+            }}
+          />
+
+          <MotionBox
+            {...(getRootProps() as any)}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{
+              translateY: -2,
+              boxShadow: theme.palette.mode === 'dark' ? '0 18px 40px rgba(0,0,0,0.9)' : '0 18px 40px rgba(0,0,0,0.18)',
+            }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            sx={{
+              position: 'relative',
+              zIndex: 1,
+              borderRadius: 3,
+              p: { xs: 3, md: 4 },
+              bgcolor: theme.palette.background.paper,
+              border: `1px solid ${hasDropError ? theme.palette.error.main : getBorderColour(theme, hasDropError)}`,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
               minHeight: { xs: '100%', md: minHeight },
-              width: variantStyles.uploadWidth,
-              border: 'none',
-              padding: 0,
-              mt: 0,
+              cursor: isLoading ? 'default' : 'pointer',
+              overflow: 'hidden',
             }}
           >
+            {/* This is the hidden input that react-dropzone uses */}
+            <input {...getInputProps()} name={name} />
+
             {isLoading && (
-              <Stack data-testid="loader" sx={{ position: 'relative', minHeight: minHeight, width: '100%' }}>
-                {<CircularLoader label="Loading..." />}
-              </Stack>
-            )}
-            {isDragActive && !isLoading && (
               <Stack
+                data-testid="loader"
                 sx={{
-                  alignItems: variantStyles.alignItems,
-                  gap: 1,
-                  margin: { xs: 0, md: '0 auto' },
-                  maxWidth: WIDTH,
+                  position: 'relative',
+                  minHeight: minHeight,
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                <Typography
-                  variant="h3"
-                  sx={{
-                    fontSize: 40,
-                  }}
-                >
-                  Drop files here
-                </Typography>
+                <CircularLoader label="Uploading…" />
               </Stack>
             )}
-            {!isDragActive && !isLoading && (
+
+            {!isLoading && (
               <>
-                <Stack
-                  sx={{
-                    alignItems: variantStyles.alignItems,
-                    maxWidth: { xs: WIDTH, md: 'unset' },
-                  }}
-                >
-                  {showFileUploadIcon && <IconFileImport size={48} />}
-                  {themeLegendText?.length && (
-                    <Stack sx={{ my: 3 }}>
-                      {themeLegendText.map((text, index) => (
-                        <Typography
-                          key={index}
-                          sx={{
-                            color: 'text.disabled',
-                            textAlign: variantStyles.textAlignment,
-                          }}
-                        >
-                          {text}
-                        </Typography>
-                      ))}
-                    </Stack>
-                  )}
-                </Stack>
-                <Button variant="outlined" color="secondary">
-                  <input {...getInputProps()} name={name}></input>
-                  Select File
-                </Button>
+                {showFileUploadIcon && (
+                  <MotionBox
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.4 }}
+                    sx={{
+                      width: 64,
+                      height: 64,
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      color: theme.palette.getContrastText(theme.palette.primary.main),
+                      boxShadow:
+                        theme.palette.mode === 'dark' ? '0 8px 24px rgba(0,0,0,0.8)' : '0 8px 24px rgba(0,0,0,0.25)',
+                      mb: 2,
+                    }}
+                  >
+                    <IconFileImport size={32} />
+                  </MotionBox>
+                )}
+
+                {isDragActive ? (
+                  <Stack
+                    sx={{
+                      alignItems: 'center',
+                      gap: 1,
+                      margin: { xs: 0, md: '0 auto' },
+                      maxWidth: WIDTH,
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        fontSize: 32,
+                        fontWeight: 700,
+                        textAlign: 'center',
+                      }}
+                    >
+                      Drop files here
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                      We&apos;ll take care of the rest.
+                    </Typography>
+                  </Stack>
+                ) : (
+                  <Stack
+                    sx={{
+                      alignItems: 'center',
+                      maxWidth: { xs: WIDTH, md: '100%' },
+                      textAlign: 'center',
+                    }}
+                    spacing={2}
+                  >
+                    {themeLegendText?.length > 0 && (
+                      <Stack>
+                        {themeLegendText.map((text, index) => (
+                          <Typography
+                            key={index}
+                            sx={{
+                              color: 'text.secondary',
+                              textAlign: variantStyles.textAlignment,
+                            }}
+                          >
+                            {text}
+                          </Typography>
+                        ))}
+                      </Stack>
+                    )}
+
+                    <Typography variant="body2" color="text.disabled">
+                      Drag &amp; drop a file here, or
+                    </Typography>
+
+                    <MotionButton
+                      variant="contained"
+                      color="primary"
+                      type="button"
+                      whileHover={{
+                        scale: 1.02,
+                        boxShadow: '0 10px 24px rgba(0,0,0,0.18)',
+                      }}
+                      whileTap={{ scale: 0.97 }}
+                      sx={{
+                        borderRadius: 999,
+                        px: 3.5,
+                        height: 42,
+                      }}
+                    >
+                      Select File
+                    </MotionButton>
+                  </Stack>
+                )}
               </>
             )}
-          </Stack>
-        </Stack>
+          </MotionBox>
+        </Box>
       )}
+
       <RejectedFiles files={rejectedFiles} onClear={handleClearRejectedFiles} />
       <FileUploaded files={files} maxFiles={maxFiles} isLoading={isLoading} onRemove={handleRemoveAcceptedFile} />
       {Boolean(errorMessage) && <FormErrorText sx={{ my: 2 }}>{errorMessage}</FormErrorText>}

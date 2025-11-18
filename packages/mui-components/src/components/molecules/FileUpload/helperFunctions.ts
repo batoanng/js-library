@@ -61,7 +61,7 @@ export const getLegendText = (isMobile: boolean, maxFileSize: number, acceptedFo
 };
 
 export const getBorderColour = (theme: Theme, hasError: boolean) => {
-  return hasError ? theme.palette.error.main : theme.palette.text.primary;
+  return hasError ? theme.palette.error.main : theme.palette.divider;
 };
 
 export type ValidateFileArgs = {
