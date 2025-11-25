@@ -187,11 +187,8 @@ export const FileUpload = ({
             width: '100%',
           }}
         >
-          <MotionBox
+          <Box
             aria-hidden
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 0.7, scale: 1 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
             sx={{
               position: 'absolute',
               inset: -8,

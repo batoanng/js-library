@@ -1,5 +1,17 @@
 # @batoanng/mui-components
 
+## 3.0.27
+
+### Patch Changes
+
+- update hook form to peer dev
+
+## 3.0.26
+
+### Patch Changes
+
+- Minor UI fix
+
 ## 3.0.25
 
 ### Patch Changes
