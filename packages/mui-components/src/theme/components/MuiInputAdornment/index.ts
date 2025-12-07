@@ -4,7 +4,7 @@ export const MuiInputAdornment: Components<Theme>['MuiInputAdornment'] = {
   styleOverrides: {
     filled: ({ theme }) => ({
       'backgroundColor': theme.palette.grey[200],
-      'color': theme.palette.text.primary,
+      'color': theme.palette.primary.main,
       'height': 'calc(3rem - 2px)',
       'padding': '0 0.625rem',
       'maxHeight': 'none',

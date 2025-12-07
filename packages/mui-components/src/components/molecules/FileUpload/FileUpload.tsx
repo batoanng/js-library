@@ -8,7 +8,7 @@ import { useLatest } from 'react-use';
 import { CircularLoader, FileUploadVariant, FormErrorText } from '@/components';
 import { useHtmlId, useScreenType } from '@/hooks';
 import { FileUploaded, RejectedFiles } from './FileUploaded';
-import { getBorderColour, getErrorMessage, getMimeTypes, getLegendText, validateFile } from './helperFunctions';
+import { getErrorMessage, getMimeTypes, getLegendText, validateFile } from './helperFunctions';
 import type { FileUploadProps } from './types';
 import { IconFileImport } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
@@ -191,10 +191,10 @@ export const FileUpload = ({
             aria-hidden
             sx={{
               position: 'absolute',
-              inset: -8,
+              inset: -4,
               borderRadius: 3,
               background: `radial-gradient(circle at top, ${theme.palette.primary.main}33, transparent 60%)`,
-              filter: 'blur(20px)',
+              filter: 'blur(18px)',
               zIndex: 0,
               pointerEvents: 'none',
             }}
@@ -202,11 +202,9 @@ export const FileUpload = ({
 
           <MotionBox
             {...(getRootProps() as any)}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
             whileHover={{
               translateY: -2,
-              boxShadow: theme.palette.mode === 'dark' ? '0 18px 40px rgba(0,0,0,0.9)' : '0 18px 40px rgba(0,0,0,0.18)',
+              boxShadow: '0 18px 50px rgba(15,23,42,0.95), 0 0 0 1px rgba(148,163,184,0.25)',
             }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
             sx={{
@@ -214,8 +212,7 @@ export const FileUpload = ({
               zIndex: 1,
               borderRadius: 3,
               p: { xs: 3, md: 4 },
-              bgcolor: theme.palette.background.paper,
-              border: `1px solid ${hasDropError ? theme.palette.error.main : getBorderColour(theme, hasDropError)}`,
+              border: `1px solid ${hasDropError ? theme.palette.error.main : 'rgba(51,65,85,0.8)'}`,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

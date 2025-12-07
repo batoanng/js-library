@@ -1,30 +1,20 @@
 import type { Components, Theme } from '@mui/material';
 
 export const MuiButton: Components<Theme>['MuiButton'] = {
-  defaultProps: {
-    disableRipple: true,
-  },
   variants: [
     {
       props: { color: 'primary' },
       style: ({ theme }) => ({
         'fontSize': '1rem',
-        'lineHeight': 1.5,
-        'padding': '0.625rem 1.375rem',
         'borderRadius': '4px',
         'textTransform': 'none',
-        'minWidth': '12.5rem',
-        'height': 'fit-content',
         'fontWeight': 700,
-        'border': `2px solid ${theme.palette.primary.main}`,
-        'backgroundColor': theme.palette.primary.main,
-        'color': theme.palette.primary.contrastText,
+        'border': `1px solid ${theme.palette.divider}`,
+        'backgroundColor': theme.palette.primary.light,
+        'color': theme.palette.primary.main,
 
         '&.MuiButtonBase-root:hover': {
-          backgroundColor: theme.palette.primary.dark ?? theme.palette.primary.main,
-          color: theme.palette.primary.contrastText,
-          border: `2px solid transparent`,
-          backgroundImage: 'none',
+          backgroundColor: '#ebebeb3d',
           boxShadow: 'none',
         },
         '&.Mui-disabled': {
@@ -38,21 +28,17 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       props: { color: 'secondary', variant: 'outlined' },
       style: ({ theme }) => ({
         'fontSize': '1rem',
-        'lineHeight': 1.5,
-        'padding': '0.625rem 1.375rem',
         'borderRadius': '4px',
         'textTransform': 'none',
-        'minWidth': '12.5rem',
-        'height': 'fit-content',
         'fontWeight': 700,
-        'border': `2px solid ${theme.palette.secondary.main}`,
+        'border': `1px solid ${theme.palette.secondary.main}`,
         'backgroundColor': theme.palette.background.paper,
         'color': theme.palette.primary.main,
 
         '&.MuiButtonBase-root:hover': {
           backgroundColor: theme.palette.secondary.main,
           color: theme.palette.primary.main,
-          border: '2px solid transparent',
+          border: '1px solid transparent',
           backgroundImage: 'none',
           boxShadow: 'none',
         },
@@ -67,14 +53,10 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       props: { color: 'secondary', variant: 'contained' },
       style: ({ theme }) => ({
         'fontSize': '1rem',
-        'lineHeight': 1.5,
-        'padding': '0.625rem 1.375rem',
         'borderRadius': '4px',
         'textTransform': 'none',
-        'minWidth': '12.5rem',
-        'height': 'fit-content',
         'fontWeight': 700,
-        'border': '2px solid transparent',
+        'border': '1px solid transparent',
         'backgroundColor': theme.palette.secondary.main,
         'color': theme.palette.secondary.contrastText,
 
@@ -94,14 +76,10 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       style: ({ theme }) => ({
         'fontSize': '1rem',
         'fontWeight': 700,
-        'lineHeight': 1.5,
         'textTransform': 'none',
         'border': 'none',
         'textDecoration': 'underline',
-        'padding': 0,
-        'margin': 0,
         'borderRadius': 0,
-        'minWidth': 0,
         'backgroundColor': 'transparent',
         'color': theme.palette.text.secondary,
 
@@ -119,25 +97,21 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       props: { color: 'error' },
       style: ({ theme }) => ({
         'fontSize': '1rem',
-        'lineHeight': 1.5,
-        'padding': '0.625rem 1.375rem',
         'borderRadius': '4px',
         'textTransform': 'none',
-        'minWidth': '12.5rem',
-        'height': 'fit-content',
         'fontWeight': 700,
-        'border': `2px solid ${theme.palette.error.main}`,
+        'border': `1px solid ${theme.palette.error.main}`,
         'backgroundColor': theme.palette.error.main,
         'color': theme.palette.text.primary,
 
         '&.MuiButtonBase-root:hover': {
           backgroundColor: theme.palette.error.dark ?? theme.palette.error.main,
           color: theme.palette.text.primary,
-          border: `2px solid transparent`,
+          border: `1px solid transparent`,
           boxShadow: 'none',
         },
         '&.Mui-disabled': {
-          border: `2px solid ${theme.palette.error.main}`,
+          border: `1px solid ${theme.palette.error.main}`,
           backgroundColor: theme.palette.error.main,
           color: theme.palette.text.primary,
         },

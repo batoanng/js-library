@@ -61,6 +61,7 @@ export const createDefaultTheme = ({ darkTheme = false }: { darkTheme?: boolean 
       },
       primary: {
         main: colors.primary,
+        light: colors.primaryLight,
         contrastText: colors.contrastText,
       },
       secondary: {
@@ -132,4 +133,4 @@ export const createDefaultTheme = ({ darkTheme = false }: { darkTheme?: boolean 
   });
 };
 
-export const defaultTheme = createDefaultTheme({ darkTheme: false });
+export const defaultTheme = createDefaultTheme({ darkTheme: true });

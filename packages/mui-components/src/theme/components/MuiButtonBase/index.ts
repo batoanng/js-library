@@ -20,14 +20,33 @@ export const MuiButtonBase: Components<Theme>['MuiButtonBase'] = {
       },
 
       // For DatePicker (MUI X) calendar day — today but not selected
-      '&.MuiPickersDay-root:not(.Mui-selected).MuiPickersDay-today': {
-        border: `1px solid ${theme.palette.primary.main}`,
-        backgroundColor: theme.palette.grey[200],
+      '&.MuiPickersDay-root': {
+        '&:not(.Mui-selected).MuiPickersDay-today': {
+          border: `1px solid ${theme.palette.primary.main}`,
+          backgroundColor: theme.palette.primary.light,
+        },
+
+        '&.Mui-selected': {
+          color: `${theme.palette.text.primary}!important`,
+          backgroundColor: `${theme.palette.primary.light}!important`,
+        },
+
+        '&:hover': {
+          color: `${theme.palette.text.primary}!important`,
+          backgroundColor: '#ebebeb3d!important',
+        },
       },
 
-      // For DatePicker arrows
-      '&.MuiIconButton-root.MuiPickersArrowSwitcher-button:hover': {
-        backgroundColor: 'unset',
+      '&.MuiPaginationItem-root': {
+        '&.Mui-selected': {
+          color: `${theme.palette.text.primary}!important`,
+          backgroundColor: `${theme.palette.primary.light}!important`,
+        },
+
+        '&:hover': {
+          color: `${theme.palette.text.primary}!important`,
+          backgroundColor: '#ebebeb3d!important',
+        },
       },
     }),
   },

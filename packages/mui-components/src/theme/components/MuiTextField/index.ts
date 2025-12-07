@@ -36,12 +36,8 @@ export const MuiTextField: Components<Theme>['MuiTextField'] = {
           borderColor: theme.palette.primary.dark,
         },
 
-        '&.Mui-focused fieldset': {
-          border: `2px solid ${theme.palette.primary.main}`,
-        },
-
         '&.Mui-error fieldset': {
-          border: `2px solid ${theme.palette.error.main}`,
+          border: `1px solid ${theme.palette.error.main}`,
         },
 
         '&.Mui-disabled': {
