@@ -10,11 +10,11 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         'textTransform': 'none',
         'fontWeight': 700,
         'border': `1px solid ${theme.palette.divider}`,
-        'backgroundColor': theme.palette.primary.light,
+        'backgroundColor': 'rgba(255, 255, 255, 0.1)',
         'color': theme.palette.primary.main,
 
         '&.MuiButtonBase-root:hover': {
-          backgroundColor: '#ebebeb3d',
+          backgroundColor: 'rgba(255, 255, 255, 0.15)',
           boxShadow: 'none',
         },
         '&.Mui-disabled': {

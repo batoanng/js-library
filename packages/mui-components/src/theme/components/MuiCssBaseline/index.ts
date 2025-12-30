@@ -5,11 +5,12 @@ export const MuiCssBaseline: Components<Theme>['MuiCssBaseline'] = {
     '.form-error-text': {
       'color': theme.palette.text.primary,
       'padding': '0.5rem',
+      'paddingTop': '0rem',
 
       '& > .MuiTypography-root': {
         color: theme.palette.text.primary,
         fontWeight: 700,
-        fontSize: '1rem',
+        fontSize: '0.75rem',
       },
     },
   }),

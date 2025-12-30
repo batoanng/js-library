@@ -33,7 +33,7 @@ export const MuiButtonBase: Components<Theme>['MuiButtonBase'] = {
 
         '&:hover': {
           color: `${theme.palette.text.primary}!important`,
-          backgroundColor: '#ebebeb3d!important',
+          backgroundColor: 'rgba(255, 255, 255, 0.15)!important',
         },
       },
 
@@ -45,7 +45,7 @@ export const MuiButtonBase: Components<Theme>['MuiButtonBase'] = {
 
         '&:hover': {
           color: `${theme.palette.text.primary}!important`,
-          backgroundColor: '#ebebeb3d!important',
+          backgroundColor: 'rgba(255, 255, 255, 0.15)!important',
         },
       },
     }),

@@ -1,5 +1,17 @@
 # @batoanng/mui-components
 
+## 3.0.30
+
+### Patch Changes
+
+- Style component
+
+## 3.0.29
+
+### Patch Changes
+
+- Style file upload component
+
 ## 3.0.28
 
 ### Patch Changes

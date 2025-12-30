@@ -76,6 +76,7 @@ export const FileUpload = ({
   isLoading,
   acceptedFormatsText,
   promptText,
+  themeLegendText: defaultLegendText,
   variant = 'default',
 }: FileUploadProps) => {
   const id = useHtmlId('file-upload', suppliedId, name);
@@ -147,7 +148,7 @@ export const FileUpload = ({
   });
 
   const showFileUploadIcon = !isMobile;
-  const themeLegendText = getLegendText(isMobile, maxFileSize, acceptedFormatsText);
+  const themeLegendText = defaultLegendText || getLegendText(isMobile, maxFileSize, acceptedFormatsText);
 
   const variantStyles = useMemo(() => generateAlignments(variant), [variant]);
   const minHeight = variant === 'compact' ? COMPACT_MIN_HEIGHT : MIN_HEIGHT;
@@ -195,6 +196,7 @@ export const FileUpload = ({
               borderRadius: 3,
               background: `radial-gradient(circle at top, ${theme.palette.primary.main}33, transparent 60%)`,
               filter: 'blur(18px)',
+              opacity: 0.7,
               zIndex: 0,
               pointerEvents: 'none',
             }}
@@ -204,7 +206,7 @@ export const FileUpload = ({
             {...(getRootProps() as any)}
             whileHover={{
               translateY: -2,
-              boxShadow: '0 18px 50px rgba(15,23,42,0.95), 0 0 0 1px rgba(148,163,184,0.25)',
+              boxShadow: '0 18px 50px rgba(255,255,255,0.1), 0 0 0 1px rgba(148,163,184,0.25)',
             }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
             sx={{
@@ -212,7 +214,7 @@ export const FileUpload = ({
               zIndex: 1,
               borderRadius: 3,
               p: { xs: 3, md: 4 },
-              border: `1px solid ${hasDropError ? theme.palette.error.main : 'rgba(51,65,85,0.8)'}`,
+              border: `1px solid #ffffff1a`,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

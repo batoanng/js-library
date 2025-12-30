@@ -22,6 +22,7 @@ export interface FileUploadProps {
   acceptedFormats?: string[];
   acceptedFormatsText?: string;
   variant?: FileUploadVariant;
+  themeLegendText?: string[];
 }
 
 export type FileUploadVariant = 'compact' | 'default';
