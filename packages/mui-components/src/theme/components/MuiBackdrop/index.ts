@@ -2,8 +2,8 @@ import type { Components, Theme } from '@mui/material';
 
 export const MuiBackdrop: Components<Theme>['MuiBackdrop'] = {
   styleOverrides: {
-    root: () => ({
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    root: ({ theme }) => ({
+      backgroundColor: theme.designTokens.stateLayers.backdrop,
       backdropFilter: 'blur(2px)',
     }),
   },

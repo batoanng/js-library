@@ -1,19 +1,33 @@
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, type Theme } from '@mui/material';
 import type { RenderOptions, RenderResult } from '@testing-library/react';
-import { render } from '@testing-library/react';
+import { render as rtlRender } from '@testing-library/react';
 import type { ReactElement } from 'react';
 import React from 'react';
 
-const theme = createTheme({});
+import { createDefaultTheme } from '@/theme';
 
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-};
+type ThemeMode = 'dark' | 'light';
 
-const customRender: (ui: ReactElement, options?: Omit<RenderOptions, 'queries'>) => RenderResult = (
+interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
+  theme?: Theme;
+  mode?: ThemeMode;
+}
+
+export const createTestTheme = (mode: ThemeMode = 'dark') => createDefaultTheme({ darkTheme: mode === 'dark' });
+
+const customRender: (ui: ReactElement, options?: CustomRenderOptions) => RenderResult = (
   ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
-) => render(ui, { wrapper: AllTheProviders, ...options });
+  options: CustomRenderOptions = {}
+) => {
+  const { theme, mode = 'dark', ...renderOptions } = options;
+  const resolvedTheme = theme ?? createTestTheme(mode);
+
+  const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
+    return <ThemeProvider theme={resolvedTheme}>{children}</ThemeProvider>;
+  };
+
+  return rtlRender(ui, { wrapper: AllTheProviders, ...renderOptions });
+};
 
 export * from '@testing-library/react';
 export { customRender as render };

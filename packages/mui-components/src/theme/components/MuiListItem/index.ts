@@ -9,12 +9,12 @@ export const MuiListItem: Components<Theme>['MuiListItem'] = {
   styleOverrides: {
     root: ({ theme }) => ({
       'transition': 'background-color 0.2s ease',
-      'color': theme.palette.primary.contrastText,
-      'gap': '0.375rem',
+      'color': theme.palette.text.primary,
+      'gap': theme.spacing(0.75),
 
       'svg': {
         transition: 'background-color 0.2s ease',
-        fill: theme.palette.primary.contrastText,
+        fill: 'currentColor',
       },
 
       '&:hover': {

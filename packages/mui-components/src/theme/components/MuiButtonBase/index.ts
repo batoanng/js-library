@@ -28,24 +28,24 @@ export const MuiButtonBase: Components<Theme>['MuiButtonBase'] = {
 
         '&.Mui-selected': {
           color: `${theme.palette.text.primary}!important`,
-          backgroundColor: `${theme.palette.primary.light}!important`,
+          backgroundColor: `${theme.designTokens.stateLayers.interactiveSelected}!important`,
         },
 
         '&:hover': {
           color: `${theme.palette.text.primary}!important`,
-          backgroundColor: 'rgba(255, 255, 255, 0.15)!important',
+          backgroundColor: `${theme.designTokens.stateLayers.interactiveHover}!important`,
         },
       },
 
       '&.MuiPaginationItem-root': {
         '&.Mui-selected': {
           color: `${theme.palette.text.primary}!important`,
-          backgroundColor: `${theme.palette.primary.light}!important`,
+          backgroundColor: `${theme.designTokens.stateLayers.interactiveSelected}!important`,
         },
 
         '&:hover': {
           color: `${theme.palette.text.primary}!important`,
-          backgroundColor: 'rgba(255, 255, 255, 0.15)!important',
+          backgroundColor: `${theme.designTokens.stateLayers.interactiveHover}!important`,
         },
       },
     }),

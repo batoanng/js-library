@@ -17,7 +17,7 @@ export const MuiRadio: Components<Theme>['MuiRadio'] = {
         width: '2rem',
         height: '2rem',
         border: '1px solid',
-        borderRadius: '100rem',
+        borderRadius: 0,
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
@@ -41,7 +41,7 @@ export const MuiRadio: Components<Theme>['MuiRadio'] = {
           width: '1.375rem',
           height: '1.375rem',
           backgroundColor: theme.palette.primary.main,
-          borderRadius: '100rem',
+          borderRadius: 0,
         },
       },
 

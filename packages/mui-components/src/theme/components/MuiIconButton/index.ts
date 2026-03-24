@@ -7,7 +7,7 @@ export const MuiIconButton: Components<Theme>['MuiIconButton'] = {
   styleOverrides: {
     root: ({ theme }) => ({
       'padding': '0.5rem',
-      'borderRadius': '4px',
+      'borderRadius': 0,
       'transition': 'background-color 0.3s ease',
       'color': theme.palette.text.primary,
 

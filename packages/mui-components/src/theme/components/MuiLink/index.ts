@@ -21,12 +21,12 @@ export const MuiLink: Components<Theme>['MuiLink'] = {
         'marginLeft': '0.25rem',
 
         '& path': {
-          fill: theme.palette.secondary.dark,
+          fill: 'currentColor',
         },
       },
 
-      '&.footer-link svg path': {
-        fill: theme.palette.secondary.contrastText,
+      '&.footer-link': {
+        color: theme.palette.secondary.contrastText,
       },
     }),
   },

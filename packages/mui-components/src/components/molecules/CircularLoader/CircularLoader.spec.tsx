@@ -16,4 +16,11 @@ describe('CircularLoader', () => {
 
     expect(circularLoader).toHaveStyle('font-size: 1.75rem');
   });
+
+  it('should inherit loader icon color from the theme', () => {
+    render(<CircularLoader />);
+
+    const loaderIcon = screen.getByTestId('circular-loader-icon');
+    expect(loaderIcon.querySelector('circle')).toHaveAttribute('fill', 'currentColor');
+  });
 });

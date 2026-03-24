@@ -4,14 +4,11 @@ export const MuiPaper: Components<Theme>['MuiPaper'] = {
   styleOverrides: {
     root: ({ theme }) => ({
       'backgroundColor': theme.palette.background.default,
-      'borderRadius': '4px',
-
       '&.MuiPaper-root.MuiAccordion-root.Mui-expanded': {
-        margin: '0.5rem 0',
+        margin: theme.spacing(1, 0),
       },
 
       '&.MuiTableContainer-root': {
-        borderRadius: '0px',
         boxShadow: 'unset',
       },
 
@@ -27,12 +24,12 @@ export const MuiPaper: Components<Theme>['MuiPaper'] = {
         'backgroundColor': theme.palette.background.default,
 
         '&:hover': {
-          backgroundColor: theme.palette.info.light,
+          backgroundColor: theme.designTokens.stateLayers.brandSurface,
           color: theme.palette.text.primary,
         },
 
         '&:focus': {
-          'backgroundColor': theme.palette.info.light,
+          'backgroundColor': theme.designTokens.stateLayers.brandSurface,
           'color': theme.palette.text.primary,
 
           '&.Mui-selected': {
@@ -44,7 +41,7 @@ export const MuiPaper: Components<Theme>['MuiPaper'] = {
           'backgroundColor': theme.palette.primary.main,
 
           '&:hover': {
-            backgroundColor: theme.palette.info.light,
+            backgroundColor: theme.designTokens.stateLayers.brandSurface,
             color: theme.palette.text.primary,
           },
         },
@@ -55,12 +52,12 @@ export const MuiPaper: Components<Theme>['MuiPaper'] = {
         'backgroundColor': theme.palette.background.default,
 
         '&:hover': {
-          backgroundColor: theme.palette.grey[300],
+          backgroundColor: theme.designTokens.stateLayers.interactiveHover,
           color: theme.palette.text.primary,
         },
 
         '&:focus': {
-          'backgroundColor': theme.palette.info.light,
+          'backgroundColor': theme.designTokens.stateLayers.brandSurface,
           'color': theme.palette.text.primary,
 
           '&.Mui-selected': {
@@ -74,7 +71,7 @@ export const MuiPaper: Components<Theme>['MuiPaper'] = {
           'color': theme.palette.primary.contrastText,
 
           '&:hover': {
-            backgroundColor: theme.palette.info.light,
+            backgroundColor: theme.designTokens.stateLayers.brandSurface,
             color: theme.palette.text.primary,
           },
         },
@@ -93,10 +90,10 @@ export const MuiPaper: Components<Theme>['MuiPaper'] = {
 
       '&.MuiAutocomplete-paper': {
         width: '100%',
-        borderRadius: '4px',
-        borderTopLeftRadius: '0',
-        borderTopRightRadius: '0',
-        boxShadow: `0 4px 12px 0 rgba(0, 0, 0, 0.15)`,
+        borderRadius: theme.designTokens.dimensions.floatingRadius,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        boxShadow: theme.designTokens.elevation.popover,
       },
     }),
   },

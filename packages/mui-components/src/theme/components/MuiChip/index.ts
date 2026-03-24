@@ -3,9 +3,9 @@ import type { Components, Theme } from '@mui/material';
 export const MuiChip: Components<Theme>['MuiChip'] = {
   styleOverrides: {
     root: ({ theme }) => ({
-      'height': '1.5rem',
-      'padding': '0.25rem 1rem',
-      'color': theme.palette.primary.contrastText,
+      'height': theme.spacing(3),
+      'padding': theme.spacing(0.5, 2),
+      'color': theme.palette.text.primary,
       'whiteSpace': 'nowrap',
       'fontWeight': 700,
       'fontSize': '0.875rem',

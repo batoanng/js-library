@@ -1,4 +1,30 @@
-export const lightColors = {
+export interface ThemeColors {
+  background: string;
+  backgroundLight: string;
+  foreground: string;
+  primary: string;
+  primaryLight: string;
+  primaryForeground: string;
+  secondary: string;
+  secondaryForeground: string;
+  muted: string;
+  mutedForeground: string;
+  accent: string;
+  accentForeground: string;
+  error: string;
+  warning: string;
+  success: string;
+  info: string;
+  border: string;
+  input: string;
+  hover: string;
+  ring: string;
+  contrastText: string;
+  contrastTextLight: string;
+  textPrimary: string;
+}
+
+export const lightColors: ThemeColors = {
   background: '#ffffff',
   backgroundLight: '#ffffff',
   foreground: '#262626',
@@ -21,10 +47,10 @@ export const lightColors = {
   ring: '#b5b5b5',
   contrastText: '#fcfcfc',
   contrastTextLight: '#343434',
-  textPrimary: '#000',
+  textPrimary: '#262626',
 };
 
-export const darkColors = {
+export const darkColors: ThemeColors = {
   background: '#000',
   backgroundLight: '#111111e6',
   foreground: '#fcfcfc',
@@ -45,7 +71,7 @@ export const darkColors = {
   input: 'rgba(255, 255, 255, 0.15)',
   hover: 'rgba(255, 255, 255, 0.15)',
   ring: '#8c8c8c',
-  contrastText: '#7e7e7e',
+  contrastText: '#111111',
   contrastTextLight: '#fcfcfc',
-  textPrimary: '#fff',
+  textPrimary: '#fcfcfc',
 };

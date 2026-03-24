@@ -1,19 +1,17 @@
 import type { SxProps, Theme } from '@mui/material';
 import { styled, Typography } from '@mui/material';
 
-import Spinner from '../../assets/Spinner.svg';
+import Spinner from '../../assets/Spinner.svg?react';
 import { TransientOptions } from './types';
 
-const SvgContainer = styled(
-  'img',
-  TransientOptions
-)<{ $fullScreen: boolean }>(({ theme, $fullScreen }) => ({
-  'height': theme.spacing(4.375),
-  'width': theme.spacing(4.375),
+const SvgContainer = styled(Spinner, TransientOptions)<{ $fullScreen: boolean }>(({ theme, $fullScreen }) => ({
+  'height': theme.designTokens.dimensions.loaderSize,
+  'width': theme.designTokens.dimensions.loaderSize,
   'animation': 'rotate 1s, fade 1s',
   'animationIterationCount': 'infinite',
   'animationTimingFunction': 'linear',
   'transform': $fullScreen ? 'scale(3)' : 'scale(1)',
+  'color': theme.palette.text.secondary,
 
   '@keyframes rotate': {
     '0%': {
@@ -78,7 +76,7 @@ export const CircularLoader = (props: CircularLoaderProps) => {
 
   return (
     <CircularLoaderContainer $fullScreen={fullScreen} sx={sxOverrides.container}>
-      <SvgContainer $fullScreen={fullScreen} src={Spinner} alt="loader" />
+      <SvgContainer $fullScreen={fullScreen} data-testid="circular-loader-icon" aria-hidden />
       <LoadingText $fullScreen={fullScreen} variant={fullScreen ? 'h2' : 'body1'} sx={sxOverrides.text}>
         {label}
       </LoadingText>

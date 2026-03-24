@@ -1,19 +1,18 @@
-import { alpha, type Components, type Theme } from '@mui/material';
+import type { Components, Theme } from '@mui/material';
 
 export const MuiInputBase: Components<Theme>['MuiInputBase'] = {
   styleOverrides: {
     root: ({ theme }) => ({
       'border': `1px solid ${theme.palette.divider}`,
       'padding': '0rem 1rem',
-      'borderRadius': '4px',
       'transition': '0.3s ease-out',
 
       '&:hover': {
-        background: 'rgba(255, 255, 255, 0.1)',
+        background: theme.designTokens.stateLayers.interactiveSurface,
       },
 
       '&:focus-within': {
-        background: 'rgba(255, 255, 255, 0.1)',
+        background: theme.designTokens.stateLayers.interactiveSurface,
       },
 
       '& .MuiOutlinedInput-notchedOutline': {

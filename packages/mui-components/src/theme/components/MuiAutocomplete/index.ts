@@ -16,9 +16,9 @@ export const MuiAutocomplete: Components<Theme>['MuiAutocomplete'] = {
       },
     },
 
-    popper: {
-      boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.15)',
-    },
+    popper: ({ theme }) => ({
+      boxShadow: theme.designTokens.elevation.popover,
+    }),
 
     option: ({ theme }) => ({
       'padding': '0.75rem 1rem',

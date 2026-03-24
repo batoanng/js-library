@@ -14,10 +14,6 @@ import { IconFileImport } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 
 const BYTES_IN_MEGABYTES = 1048576;
-const COMPACT_MIN_HEIGHT = '0px';
-const MIN_HEIGHT = '228px';
-const WIDTH = '368px';
-
 const DEFAULT_NUMBER_OF_FILES_ALLOWED = 1;
 
 const MotionBox = motion(Box);
@@ -61,6 +57,7 @@ export const FileUpload = ({
   id: suppliedId,
   name,
   heading,
+  legendText,
   maxFiles = DEFAULT_NUMBER_OF_FILES_ALLOWED,
   maxFileSize = 4,
   maxTotalMBSize,
@@ -82,6 +79,7 @@ export const FileUpload = ({
   const id = useHtmlId('file-upload', suppliedId, name);
   const { isMobile } = useScreenType();
   const theme = useTheme();
+  const { borders, dimensions, elevation, stateLayers } = theme.designTokens;
 
   const maxSizeInBytes = maxFileSize * BYTES_IN_MEGABYTES;
   let hasExceededMaxFiles = false;
@@ -148,10 +146,10 @@ export const FileUpload = ({
   });
 
   const showFileUploadIcon = !isMobile;
-  const themeLegendText = defaultLegendText || getLegendText(isMobile, maxFileSize, acceptedFormatsText);
+  const themeLegendText = defaultLegendText || (legendText ? [legendText] : getLegendText(isMobile, maxFileSize, acceptedFormatsText));
 
   const variantStyles = useMemo(() => generateAlignments(variant), [variant]);
-  const minHeight = variant === 'compact' ? COMPACT_MIN_HEIGHT : MIN_HEIGHT;
+  const minHeight = variant === 'compact' ? 0 : dimensions.fileUploadMinHeight;
 
   const hasDropError = Boolean(errorMessage || rejectedFiles.length);
 
@@ -192,9 +190,8 @@ export const FileUpload = ({
             aria-hidden
             sx={{
               position: 'absolute',
-              inset: -4,
-              borderRadius: 3,
-              background: `radial-gradient(circle at top, ${theme.palette.primary.main}33, transparent 60%)`,
+              inset: dimensions.fileUploadGlowInset,
+              background: `radial-gradient(circle at top, ${stateLayers.fileUploadGlow}, transparent 60%)`,
               filter: 'blur(18px)',
               opacity: 0.7,
               zIndex: 0,
@@ -206,15 +203,16 @@ export const FileUpload = ({
             {...(getRootProps() as any)}
             whileHover={{
               translateY: -2,
-              boxShadow: '0 18px 50px rgba(255,255,255,0.1), 0 0 0 1px rgba(148,163,184,0.25)',
+              boxShadow: elevation.fileUploadHover,
             }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
             sx={{
+              borderColor: hasDropError ? theme.palette.error.main : borders.strong,
               position: 'relative',
               zIndex: 1,
-              borderRadius: 3,
+              borderRadius: 0,
               p: { xs: 3, md: 4 },
-              border: `1px solid #ffffff1a`,
+              border: '1px solid',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -223,6 +221,7 @@ export const FileUpload = ({
               cursor: isLoading ? 'default' : 'pointer',
               overflow: 'hidden',
             }}
+            data-testid={`${id}-dropzone`}
           >
             {/* This is the hidden input that react-dropzone uses */}
             <input {...getInputProps()} name={name} />
@@ -250,18 +249,17 @@ export const FileUpload = ({
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.4 }}
                     sx={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: '50%',
+                      width: dimensions.fileUploadIconSize,
+                      height: dimensions.fileUploadIconSize,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                       color: theme.palette.getContrastText(theme.palette.primary.main),
-                      boxShadow:
-                        theme.palette.mode === 'dark' ? '0 8px 24px rgba(0,0,0,0.8)' : '0 8px 24px rgba(0,0,0,0.25)',
+                      boxShadow: elevation.fileUploadBadge,
                       mb: 2,
                     }}
+                    data-testid={`${id}-icon-badge`}
                   >
                     <IconFileImport size={32} />
                   </MotionBox>
@@ -273,13 +271,13 @@ export const FileUpload = ({
                       alignItems: 'center',
                       gap: 1,
                       margin: { xs: 0, md: '0 auto' },
-                      maxWidth: WIDTH,
+                      maxWidth: dimensions.fileUploadWidth,
                     }}
                   >
                     <Typography
                       variant="h5"
                       sx={{
-                        fontSize: 32,
+                        fontSize: dimensions.fileUploadHeadingSize,
                         fontWeight: 700,
                         textAlign: 'center',
                       }}
@@ -294,7 +292,7 @@ export const FileUpload = ({
                   <Stack
                     sx={{
                       alignItems: 'center',
-                      maxWidth: { xs: WIDTH, md: '100%' },
+                      maxWidth: { xs: dimensions.fileUploadWidth, md: '100%' },
                       textAlign: 'center',
                     }}
                     spacing={2}
@@ -325,13 +323,12 @@ export const FileUpload = ({
                       type="button"
                       whileHover={{
                         scale: 1.02,
-                        boxShadow: '0 10px 24px rgba(0,0,0,0.18)',
+                        boxShadow: elevation.fileUploadButton,
                       }}
                       whileTap={{ scale: 0.97 }}
                       sx={{
-                        borderRadius: 999,
-                        px: 3.5,
-                        height: 42,
+                        px: dimensions.fileUploadButtonPaddingX,
+                        height: dimensions.fileUploadButtonHeight,
                       }}
                     >
                       Select File

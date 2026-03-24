@@ -11,7 +11,7 @@ export const MuiFormGroup: Components<Theme>['MuiFormGroup'] = {
 
       '& textarea': {
         'border': '1px solid',
-        'borderRadius': '4px',
+        'borderRadius': 0,
         'borderColor': theme.palette.text.primary,
         'marginTop': '0.25rem',
         'fontSize': '16px',

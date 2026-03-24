@@ -12,15 +12,16 @@ export const IconContainer = ({ children }: PropsWithChildren) => {
         'textIndent': '100%',
         'overflow': 'hidden',
         'width': '100%',
-        'height': theme.typography.pxToRem(70),
+        'height': theme.designTokens.dimensions.loaderSize,
+        'color': theme.palette.text.secondary,
 
         '& svg': {
           position: 'absolute',
           top: 0,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: theme.typography.pxToRem(70),
-          height: theme.typography.pxToRem(70),
+          width: theme.designTokens.dimensions.loaderSize,
+          height: theme.designTokens.dimensions.loaderSize,
         },
       }}
     >

@@ -9,12 +9,12 @@ export const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
       'color': theme.palette.text.primary,
       'padding': 0,
       'border': '1px solid',
-      'borderRadius': '0.25rem',
-      'width': '2rem',
-      'minWidth': '2rem',
+      'borderRadius': 0,
+      'width': theme.designTokens.dimensions.checkboxSize,
+      'minWidth': theme.designTokens.dimensions.checkboxSize,
       'alignSelf': 'flex-start',
-      'height': '2rem',
-      'marginRight': '1rem',
+      'height': theme.designTokens.dimensions.checkboxSize,
+      'marginRight': theme.designTokens.dimensions.checkboxGap,
       'backgroundColor': theme.palette.background.paper,
 
       '& svg': {
@@ -26,10 +26,9 @@ export const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
         'color': theme.palette.text.primary,
 
         '& svg': {
-          height: '1.375rem',
-          width: '1.375rem',
+          height: theme.designTokens.dimensions.checkboxIconSize,
+          width: theme.designTokens.dimensions.checkboxIconSize,
           display: 'inline-block',
-          color: theme.palette.common.white,
         },
 
         '&:hover': {

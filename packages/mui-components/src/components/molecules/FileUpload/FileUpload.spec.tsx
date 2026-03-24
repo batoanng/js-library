@@ -1,24 +1,34 @@
 import { Download } from '@mui/icons-material';
-import { Link, ThemeProvider } from '@mui/material';
+import { Link } from '@mui/material';
 
-import { render, screen } from '@/test-utils';
-import { defaultTheme } from '@/theme';
+import { createTestTheme, render, screen } from '@/test-utils';
 
 import { FileUpload } from './FileUpload';
+
+const { mockUseScreenType } = vi.hoisted(() => ({
+  mockUseScreenType: vi.fn(() => ({
+    isMobile: true,
+  })),
+}));
 
 vi.mock('@/hooks', async () => {
   const actual: Record<string, unknown> = await vi.importActual('@/hooks');
 
   return {
     ...actual,
-    useScreenType: vi.fn(() => ({
-      isMobile: true,
-    })),
+    useScreenType: mockUseScreenType,
   };
 });
 
 describe('FileUpload', () => {
-  const mockFunction = vi.fn();
+  const mockFunction = vi.fn(async () => undefined);
+
+  beforeEach(() => {
+    mockUseScreenType.mockReturnValue({
+      isMobile: true,
+    });
+  });
+
   it('should render correctly', () => {
     render(
       <FileUpload
@@ -80,7 +90,7 @@ describe('FileUpload', () => {
 
     expect(screen.getByText('File upload')).toBeInTheDocument();
     expect(screen.getByText('test-file.html', { exact: false })).toBeInTheDocument();
-    expect(screen.getByText('Remove file')).toBeInTheDocument();
+    expect(screen.getByTestId('CancelIcon')).toBeInTheDocument();
   });
 
   it('should render with custom error message', () => {
@@ -126,19 +136,41 @@ describe('FileUpload', () => {
 
   it('should render loading spinner when set to loading', () => {
     render(
-      <ThemeProvider theme={defaultTheme}>
-        <FileUpload
-          id="file-upload"
-          heading="File upload"
-          legendText="legend text"
-          files={[]}
-          isLoading={true}
-          onFileDelete={mockFunction}
-          onFileUpload={mockFunction}
-        />
-      </ThemeProvider>
+      <FileUpload
+        id="file-upload"
+        heading="File upload"
+        legendText="legend text"
+        files={[]}
+        isLoading={true}
+        onFileDelete={mockFunction}
+        onFileUpload={mockFunction}
+      />
     );
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByText('Uploading…')).toBeInTheDocument();
+  });
+
+  it('should use theme-safe borders in light mode', () => {
+    mockUseScreenType.mockReturnValue({
+      isMobile: false,
+    });
+
+    const lightTheme = createTestTheme('light');
+
+    render(
+      <FileUpload
+        id="file-upload"
+        heading="File upload"
+        legendText="legend text"
+        files={[]}
+        isLoading={false}
+        onFileDelete={mockFunction}
+        onFileUpload={mockFunction}
+      />,
+      { theme: lightTheme }
+    );
+
+    expect(screen.getByTestId('file-upload-dropzone')).toBeInTheDocument();
+    expect(screen.getByTestId('file-upload-icon-badge')).toBeInTheDocument();
   });
 });

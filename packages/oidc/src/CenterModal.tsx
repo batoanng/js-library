@@ -19,7 +19,7 @@ export const CenterErrorModal = styled(Stack)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: '48px 32px 48px 32px',
-  borderRadius: theme.spacing(1),
+  borderRadius: 0,
 
   [theme.breakpoints.down('xs')]: {
     maxWidth: '100%',

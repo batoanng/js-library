@@ -26,7 +26,7 @@ export const MuiTextField: Components<Theme>['MuiTextField'] = {
 
       '& .MuiOutlinedInput-root': {
         'backgroundColor': theme.palette.background.default,
-        'borderRadius': '4px',
+        'borderRadius': 0,
 
         '& fieldset': {
           border: `1px solid ${theme.palette.grey[400]}`,

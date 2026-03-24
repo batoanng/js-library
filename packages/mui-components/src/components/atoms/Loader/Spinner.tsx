@@ -130,7 +130,7 @@ export const Spinner: React.FC = ({ sx }: { sx?: SxProps }) => {
   }, []);
 
   return (
-    <Box className="gooey-spinner-container" sx={sx}>
+    <Box className="gooey-spinner-container" sx={[{ color: 'text.secondary' }, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}>
       <svg viewBox="0 0 200 200" className="gooey-spinner-svg">
         <defs>
           <filter id="goo">

@@ -20,7 +20,7 @@ import { FormErrorText } from '@/components';
 const calendarIconStyling = (theme: Theme): SxProps<Theme> => {
   return {
     'backgroundColor': theme.palette.background.paper,
-    'borderRadius': '0 4px 4px 0',
+    'borderRadius': 0,
     'height': '100%',
     'width': '3rem',
     'marginRight': '-14px', // Readjusting the spacing added from the base InputBase

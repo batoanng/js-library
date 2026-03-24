@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.0.31
+
+### Patch Changes
+
+- Remove border radius
+
 ## 3.0.30
 
 ### Patch Changes

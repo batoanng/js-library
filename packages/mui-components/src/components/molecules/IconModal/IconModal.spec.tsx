@@ -12,13 +12,13 @@ describe('ConfirmationPageButtons', () => {
   it('should render the info icon', () => {
     render(<IconModal title="Tooltip tile" />);
 
-    expect(screen.getByTestId('InfoRoundedIcon')).toBeInTheDocument();
+    expect(screen.getByTestId('InfoOutlinedIcon')).toBeInTheDocument();
   });
 
   it('should render the help icon', () => {
     render(<IconModal title="Tooltip tile" iconType="help" />);
 
-    expect(screen.getByTestId('HelpIcon')).toBeInTheDocument();
+    expect(screen.getByTestId('HelpOutlineIcon')).toBeInTheDocument();
   });
 
   it('should open the slide modal upon clicking the tooltip button', async () => {

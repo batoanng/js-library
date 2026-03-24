@@ -15,13 +15,13 @@ export const MuiCardActionArea: Components<Theme>['MuiCardActionArea'] = {
         bottom: 0,
         zIndex: 1,
         border: '2px solid transparent',
-        borderRadius: '6px',
+        borderRadius: 0,
       },
 
       '&:hover': {
         '&:before': {
           border: `2px solid ${theme.palette.secondary.main}`,
-          borderRadius: '6px',
+          borderRadius: 0,
         },
 
         '& [class*="MuiTypography-h"]': {

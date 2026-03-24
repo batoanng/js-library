@@ -17,7 +17,7 @@ export const MuiPagination: Components<Theme>['MuiPagination'] = {
         'width': '2.5rem',
         'height': '2.5rem',
         'padding': '0',
-        'borderRadius': '50%',
+        'borderRadius': 0,
         'display': 'flex',
         'margin': '0 0.25rem',
 

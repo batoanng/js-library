@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material';
 import { breakpoints } from './breakpoints';
 import { defaultTypography } from './typography/default';
 import { darkColors, lightColors } from './colourTheme';
+import { createDesignTokens } from './designTokens';
 import { MuiBackdrop } from './components/MuiBackdrop';
 import { MuiModal } from './components/MuiModal';
 import { MuiAccordion } from './components/MuiAccordion';
@@ -44,8 +45,7 @@ import { MuiListItem, MuiListItemIcon } from './components/MuiListItem';
 
 export const createDefaultTheme = ({ darkTheme = false }: { darkTheme?: boolean }) => {
   const colors = darkTheme ? darkColors : lightColors;
-
-  return createTheme({
+  const baseTheme = createTheme({
     breakpoints: {
       values: breakpoints,
     },
@@ -86,9 +86,17 @@ export const createDefaultTheme = ({ darkTheme = false }: { darkTheme?: boolean 
       },
     },
     shape: {
-      borderRadius: 10,
+      borderRadius: 0,
     },
     typography: defaultTypography,
+  });
+
+  return createTheme(baseTheme, {
+    designTokens: createDesignTokens({
+      colors,
+      palette: baseTheme.palette,
+      darkTheme,
+    }),
     components: {
       MuiAccordion,
       MuiAlert,

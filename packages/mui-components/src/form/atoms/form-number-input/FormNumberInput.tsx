@@ -14,12 +14,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
   '&.numberButton': {
     'padding': theme.spacing(0, 2),
-    'borderRadius': '4px',
+    'borderRadius': 0,
     'fontSize': '1.5rem',
     'fontWeight': theme.typography.fontWeightRegular,
 
     '&.MuiButtonBase-root:hover': {
-      borderRadius: '4px',
+      borderRadius: 0,
     },
 
     '&.decrementButton': {

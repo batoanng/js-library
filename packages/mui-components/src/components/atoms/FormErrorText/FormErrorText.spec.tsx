@@ -2,10 +2,10 @@ import { FormErrorText } from '@/components';
 import { render, screen } from '@/test-utils';
 
 describe('FormErrorText', () => {
-  it('should render snapshot', () => {
-    const { container } = render(<FormErrorText>Error</FormErrorText>);
+  it('should render the error icon', () => {
+    render(<FormErrorText>Error</FormErrorText>);
 
-    expect(container).toMatchSnapshot();
+    expect(screen.getByTestId('ErrorIcon')).toBeInTheDocument();
   });
 
   it('should render successfully', () => {

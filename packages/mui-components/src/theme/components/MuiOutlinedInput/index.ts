@@ -12,7 +12,7 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
     root: ({ theme }) => ({
       'marginTop': '0.25rem',
       'marginBottom': '0.25rem',
-      'borderRadius': '4px',
+      'borderRadius': 0,
       'height': '3rem',
       'backgroundColor': theme.palette.background.default,
 
@@ -43,7 +43,7 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
 
         '& textarea': {
           border: `1px solid ${theme.palette.divider}`,
-          borderRadius: '4px',
+          borderRadius: 0,
           resize: 'both',
           padding: '0.75rem 1rem',
           maxWidth: '100%',
