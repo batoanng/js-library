@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.1.0
+
+### Minor Changes
+
+- Fix theme color and spacing
+
 ## 3.0.31
 
 ### Patch Changes
