@@ -4,11 +4,18 @@ import {
   BriefcaseIcon,
   CursorArrowRaysIcon,
   FunnelIcon,
+  type HeroIcon,
   ServerStackIcon,
 } from '@heroicons/react/24/outline'
-import { Card, CardProps } from '@batoanng/core'
 
-const features: CardProps[] = [
+type Feature = {
+  description: string
+  href: string
+  Icon: HeroIcon
+  name: string
+}
+
+const features: Feature[] = [
   {
     name: 'Turborepo',
     description:
@@ -51,6 +58,23 @@ const features: CardProps[] = [
   },
 ]
 
+function FeatureCard({ description, href, Icon, name }: Feature) {
+  return (
+    <a
+      className="group rounded-3xl border border-slate-200 bg-white p-6 text-left shadow-sm transition hover:-translate-y-1 hover:border-pink-300 hover:shadow-lg"
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+    >
+      <div className="flex size-12 items-center justify-center rounded-2xl bg-pink-50 text-pink-600 transition group-hover:bg-pink-100">
+        <Icon aria-hidden className="size-6" />
+      </div>
+      <h2 className="mt-6 text-lg font-semibold text-slate-900">{name}</h2>
+      <p className="mt-3 text-sm leading-6 text-slate-600">{description}</p>
+    </a>
+  )
+}
+
 export default function Example() {
   return (
     <main className="bg-brand/50">
@@ -65,7 +89,7 @@ export default function Example() {
           </p>
           <section className="grid grid-cols-1 gap-8 pt-12  sm:grid-cols-2 md:gap-12 lg:grid-cols-3">
             {features.map((feature) => (
-              <Card
+              <FeatureCard
                 key={feature.name}
                 Icon={feature.Icon}
                 name={feature.name}

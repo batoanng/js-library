@@ -7,7 +7,7 @@
     "analyze": "ANALYZE=true next build",
     "start": "next start ",
     "dev": "next dev -p 3002",
-    "lint": "TIMING=1 next lint",
+    "lint": "TIMING=1 eslint .",
     "test": "jest",
     "test:watch": "jest --watch",
     "type-check": "tsc --noEmit",
@@ -16,7 +16,6 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
-    "@batoanng/core": "workspace:*",
     "@batoanng/mui-components": "workspace:*",
     "@batoanng/utils": "workspace:*",
     "clsx": "^2.0.0",

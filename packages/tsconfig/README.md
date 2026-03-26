@@ -15,7 +15,7 @@ A set of shareable TypeScript configuration presets designed for consistency acr
   - Node.js (v14 and v20)
   - React library development
   - Next.js projects
-  - ESLint integration
+  - Optional tooling support for legacy ESLint TypeScript parser setups
 - Built-in `base.json` to centralize core rules
 - Easy to extend across packages and apps
 
@@ -57,13 +57,15 @@ In your `tsconfig.json`, extend the desired preset:
 }
 ```
 
-### For ESLint
+### For legacy ESLint parser projects only
 
 ```json
 {
   "extends": "@batoanng/tsconfig/eslint.json"
 }
 ```
+
+> The shared [`@batoanng/eslint-config`](../eslint-config/README.md) package now uses ESLint flat config with `projectService`, so it no longer depends on this preset.
 
 ---
 
@@ -72,7 +74,7 @@ In your `tsconfig.json`, extend the desired preset:
 | File                | Purpose                                 |
 |---------------------|-----------------------------------------|
 | `base.json`         | Core rules shared across all configs    |
-| `eslint.json`       | Used by ESLint TypeScript parser        |
+| `eslint.json`       | Optional TS parser preset for legacy ESLint setups |
 | `nextjs.json`       | For Next.js frontend apps               |
 | `node14.json`       | For Node.js services using v14          |
 | `node20.json`       | For modern Node.js apps (v20+)          |

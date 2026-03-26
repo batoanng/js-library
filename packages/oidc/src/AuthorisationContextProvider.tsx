@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
+import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import {
   Authorisation,
   AuthorisationHandler,

@@ -76,3 +76,13 @@ function handleError(error: NormalisableError): NormalisedError {
 - `@batoanng/eslint-config`: for enforcing typing best practices
 
 ---
+
+## 🧹 Linting
+
+This package uses the shared flat ESLint base config via [`eslint.config.mjs`](./eslint.config.mjs):
+
+```js
+import base from '@batoanng/eslint-config/base';
+
+export default [...base];
+```

@@ -49,3 +49,16 @@ src/
 ├── useIsomorphicLayoutEffect.tsx  # SSR-safe useLayoutEffect
 ├── usePrevious.tsx                # React hook to get previous value
 ```
+
+---
+
+## 🧹 Linting
+
+This package uses the shared flat ESLint setup via [`eslint.config.mjs`](./eslint.config.mjs):
+
+```js
+import base from '@batoanng/eslint-config/base';
+import test from '@batoanng/eslint-config/test';
+
+export default [...base, ...test];
+```

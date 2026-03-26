@@ -88,3 +88,13 @@ src/
 
 - [`@batoanng/utils`](https://www.npmjs.com/package/@batoanng/utils) – for utilities like `useMount`
 - [`@batoanng/mui-components`](https://www.npmjs.com/package/@batoanng/mui-components) – for modals, loaders, and UI elements
+
+---
+
+## 🧹 Linting
+
+This package uses the shared flat ESLint setup via [`eslint.config.mjs`](./eslint.config.mjs), combining:
+
+- `@batoanng/eslint-config`
+- `@batoanng/eslint-config/typed`
+- `@batoanng/eslint-config/test`

@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error shared vite config is published without local type metadata
 import { viteConfig } from '@batoanng/vite-config';
 import path from 'path';
 import { fileURLToPath } from 'url';

@@ -115,6 +115,12 @@ pnpm format          # Format with Prettier
 pnpm build           # Build library output
 ```
 
+Linting is configured through the local flat config entrypoint at [`eslint.config.mjs`](./eslint.config.mjs), which composes:
+
+- `@batoanng/eslint-config`
+- `@batoanng/eslint-config/typed`
+- `@batoanng/eslint-config/test`
+
 ---
 
 ## 📖 Storybook

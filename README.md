@@ -10,7 +10,7 @@ Located under the `packages/` directory, each folder is a self-contained npm pac
 
 | Package | Description | Install Size |
 |--------|-------------|--------------|
-| [`eslint-config`](./packages/eslint-config) | Shared ESLint configuration for consistent linting across the codebase. | ![install size](https://packagephobia.com/badge?p=%40batoanng%2Feslint-config) |
+| [`eslint-config`](./packages/eslint-config) | Shared flat ESLint configuration with composable exports for base, React, typed, Next.js, Tailwind, and test linting. | ![install size](https://packagephobia.com/badge?p=%40batoanng%2Feslint-config) |
 | [`jest-config`](./packages/jest-config) | Reusable Jest testing configuration for unit and integration tests. | ![install size](https://packagephobia.com/badge?p=%40batoanng%2Fjest-config) |
 | [`oidc`](./packages/oidc) | React-based OIDC provider with built-in login/logout callbacks, integrated with `@batoanng/utils` and `@batoanng/mui-components`. | ![install size](https://packagephobia.com/badge?p=%40batoanng%2Foidc) |
 | [`mui-components`](./packages/mui-components) | UI components built on top of Material UI (MUI), ready to be used in React projects. | ![install size](https://packagephobia.com/badge?p=%40batoanng%2Fmui-components) |
@@ -33,3 +33,11 @@ Located under the `packages/` directory, each folder is a self-contained npm pac
 - **Testing:** Jest
 - **CI/CD:** GitHub Actions (via `.github/`)
 - **Release Management:** Changesets
+
+## Linting Setup
+
+The workspace now uses ESLint flat config entrypoints instead of legacy `.eslintrc*` files.
+
+- Shared presets live in [`packages/eslint-config`](./packages/eslint-config)
+- Package-level configs live in local `eslint.config.mjs` files
+- Apps and packages compose only the presets they need, such as `base`, `typed`, `next`, `tailwind`, and `test`

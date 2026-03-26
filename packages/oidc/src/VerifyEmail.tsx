@@ -1,8 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
-import { FormTextField } from '@batoanng/mui-components';
+import { Button, FormTextField } from '@batoanng/mui-components';
 import { CenterErrorModal, CenterPage } from './CenterModal';
-import { Button } from '@batoanng/mui-components';
 
 type ResetPasswordForm = {
   email: string;
