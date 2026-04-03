@@ -24,13 +24,31 @@ const config: StorybookConfig = {
 
   async viteFinal(config) {
     const workingDir = path.relative(config.root ?? '', path.resolve(__dirname, '../src'));
+    const aliases = Array.isArray(config.resolve?.alias)
+      ? [
+          ...config.resolve.alias,
+          { find: '@batoanng/types', replacement: path.resolve(__dirname, '../../types/src/index.tsx') },
+          { find: '@batoanng/utils', replacement: path.resolve(__dirname, '../../utils/src/index.tsx') },
+        ]
+      : {
+          ...(config.resolve?.alias ?? {}),
+          '@batoanng/types': path.resolve(__dirname, '../../types/src/index.tsx'),
+          '@batoanng/utils': path.resolve(__dirname, '../../utils/src/index.tsx'),
+        };
+    const filteredPlugins =
+      config.plugins?.filter((plugin: any) => !['peer-deps-external', 'vite:dts'].includes(plugin.name)) ?? [];
+
     return {
       ...config,
       define: {
         ...config.define,
         'process.env.GOOGLE_API_KEY': JSON.stringify(process.env.GOOGLE_API_KEY),
       },
-      plugins: [...(config.plugins?.filter((p: any) => p.name !== 'peer-deps-external') ?? [])],
+      resolve: {
+        ...config.resolve,
+        alias: aliases,
+      },
+      plugins: filteredPlugins,
       build: {
         ...config.build,
         sourcemap: false,
