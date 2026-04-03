@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/t-generator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Yeoman generators for bootstrapping React apps, NestJS servers, and Node.js servers.",
   "publishConfig": {
     "access": "public"

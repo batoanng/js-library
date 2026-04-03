@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.5.0
+
+### Minor Changes
+
+- 0e15643: Restructure and synchronize types for all packages
+
+### Patch Changes
+
+- 9377ea2: Align the monorepo packages around the shared tooling stack, Node 24, and the refreshed release and CI workflows.
+
 ## 2.4.0
 
 ### Minor Changes

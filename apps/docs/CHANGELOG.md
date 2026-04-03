@@ -1,5 +1,18 @@
 # @batoanng/docs
 
+## 1.1.0
+
+### Minor Changes
+
+- 0e15643: Restructure and synchronize types for all packages
+
+### Patch Changes
+
+- Updated dependencies [9377ea2]
+- Updated dependencies [0e15643]
+  - @batoanng/mui-components@3.2.0
+  - @batoanng/utils@2.1.5
+
 ## 1.0.34
 
 ### Patch Changes
