@@ -566,6 +566,8 @@ npm run test:dist
 
 Create a changeset for release-worthy changes:
 
+These commands proxy to the monorepo root, where the shared `.changeset` folder lives.
+
 ```bash
 npm run changeset
 ```

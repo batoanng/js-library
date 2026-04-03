@@ -1,5 +1,15 @@
 # @batoanng/tsconfig
 
+## 1.3.0
+
+### Minor Changes
+
+- 0e15643: Restructure and synchronize types for all packages
+
+### Patch Changes
+
+- 9377ea2: Align the monorepo packages around the shared tooling stack, Node 24, and the refreshed release and CI workflows.
+
 ## 1.2.2
 
 ### Patch Changes

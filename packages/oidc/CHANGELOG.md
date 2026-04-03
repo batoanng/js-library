@@ -1,5 +1,18 @@
 # @batoanng/oidc
 
+## 2.0.0
+
+### Minor Changes
+
+- 0e15643: Restructure and synchronize types for all packages
+
+### Patch Changes
+
+- 9377ea2: Align the monorepo packages around the shared tooling stack, Node 24, and the refreshed release and CI workflows.
+- Updated dependencies [9377ea2]
+- Updated dependencies [0e15643]
+  - @batoanng/mui-components@3.2.0
+
 ## 1.0.0
 
 ### Patch Changes

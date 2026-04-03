@@ -1,5 +1,11 @@
 # @batoanng/jest-config
 
+## 1.2.0
+
+### Minor Changes
+
+- 0e15643: Restructure and synchronize types for all packages
+
 ## 1.1.2
 
 ### Patch Changes

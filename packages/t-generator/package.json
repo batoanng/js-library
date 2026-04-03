@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/t-generator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Yeoman generators for bootstrapping React apps, NestJS servers, and Node.js servers.",
   "publishConfig": {
     "access": "public"
@@ -29,7 +29,6 @@
     "pnpm": "10"
   },
   "scripts": {
-    "changeset": "changeset",
     "type-check": "tsc --noEmit",
     "typecheck": "pnpm run type-check",
     "lint": "eslint generators test scripts eslint.config.mjs --max-warnings 0",
@@ -38,7 +37,6 @@
     "clean": "pnpm run clean:build",
     "build": "pnpm run clean:build && tsc -p tsconfig.build.json",
     "test:dist": "pnpm run build && DIST_SMOKE=1 TEST_TARGET=build node --import tsx --test test/dist-package.test.ts",
-    "version-packages": "changeset version",
     "prepack": "pnpm run build",
     "postpack": "pnpm run clean:build",
     "release": "npm publish"
