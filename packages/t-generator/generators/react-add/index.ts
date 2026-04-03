@@ -98,7 +98,7 @@ function getFeatureLabel(featureName: string): string {
   return FEATURE_BY_NAME.get(featureName)?.label || `Feature "${featureName}"`;
 }
 
-export = class AddGenerator extends GeneratorBase {
+class AddGenerator extends GeneratorBase {
   declare options: GeneratorBase['options'] & AddGeneratorOptions;
 
   featureName!: string;
@@ -385,4 +385,6 @@ export = class AddGenerator extends GeneratorBase {
     this.log('');
     this.featureDefinition.end(this);
   }
-};
+}
+
+export = AddGenerator;

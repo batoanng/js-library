@@ -49,16 +49,16 @@ function* getErrorText(error: Error): IterableIterator<string> {
 
       case 422:
         yield 'Login failed - account error';
-        yield 'An unexpected error occurred . Contact an administrator for assistance.';
+        yield 'An unexpected error occurred. Contact an administrator for assistance.';
         return;
 
       case 500:
         yield 'Login failed';
-        yield 'An unexpected error occurred. Try again later or contact an administrator if the problem persist.';
+        yield 'An unexpected error occurred. Try again later or contact an administrator if the problem persists.';
         return;
 
       case 504:
-        yield 'Login failed - connection time out';
+        yield 'Login failed - connection timeout';
         yield 'Check your internet connection and try again.';
         return;
     }

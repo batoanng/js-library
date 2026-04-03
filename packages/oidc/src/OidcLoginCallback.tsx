@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { OidcAuthenticationStatusPage } from './OidcAuthenticationPage';
+import { OidcAuthenticationStatusPage } from './OidcAuthenticationStatusPage';
+import { OIDC_EXPIRED_PASSWORD, OIDC_EXPIRED_ROUTE } from './constants';
 import { UserLoginState } from './types';
-
-const EXPIRED_PASSWORD = 'expired';
 
 /**
  * Callback component invoked after the OIDC login has completed
@@ -19,13 +18,16 @@ export const OidcLoginCallback = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const errorDescription = queryParams.get('error_description');
-  const isExpired = Boolean(errorDescription && errorDescription.search(EXPIRED_PASSWORD) >= 0);
+  const isExpired = Boolean(errorDescription?.toLowerCase().includes(OIDC_EXPIRED_PASSWORD));
 
   useEffect(() => {
     if (isLoading) return;
+
     if (isExpired) {
-      navigate('/expired');
+      navigate(OIDC_EXPIRED_ROUTE, { replace: true, state: {} });
+      return;
     }
+
     if (!error) {
       navigate(postLoginUrl || '/', { replace: true, state: {} });
     }

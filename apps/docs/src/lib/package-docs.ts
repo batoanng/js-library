@@ -121,10 +121,10 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
     category: 'Authentication',
     tagline: 'React-first OIDC flows with route callbacks, shared auth context, and ready-made status screens.',
     summary:
-      'Wrap your SPA with an authorisation provider that injects login, logout, callback, and route-level auth behaviour around `react-oidc-context`.',
+      'Wrap routed React apps with OIDC callbacks, shared authorisation state, post-login profile enrichment, and optional axios token wiring around `react-oidc-context`.',
     quickStart: {
       title: 'Wrap the routed app tree',
-      description: 'Provide the OIDC settings once and let the package manage the callback routes for you.',
+      description: 'Provide the OIDC settings once, then use the callback helpers to complete profile and privilege loading after login.',
       language: 'tsx',
       code: `import { OidcAuthorisationProvider } from '@batoanng/oidc';\n\n<OidcAuthorisationProvider\n  userManagerSettings={{\n    authority: 'https://your-idp.example.com',\n    client_id: 'web-app',\n    redirect_uri: 'http://localhost:3000/oidc/callback',\n    post_logout_redirect_uri: 'http://localhost:3000/oidc/logout',\n  }}\n>\n  <App />\n</OidcAuthorisationProvider>;`,
     },

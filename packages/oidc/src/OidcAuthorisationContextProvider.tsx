@@ -4,8 +4,9 @@ import { useLocation } from 'react-router-dom';
 import { useLatest } from 'react-use';
 import { LoginOptions, OidcSchemeData, UserLoginState } from './types';
 import { OidcResetPasswordPage } from './OidcResetPasswordPage';
-import { OidcAuthenticationStatusPage } from './OidcAuthenticationPage';
 import { AuthorisationContextProvider } from './AuthorisationContextProvider';
+import { OidcAuthenticationStatusPage } from './OidcAuthenticationStatusPage';
+import { OIDC_EXPIRED_ROUTE } from './constants';
 import { OidcErrorPage } from './OidcErrorPage';
 
 export type OidcAuthorisationContextProviderProps = {
@@ -90,6 +91,8 @@ export const OidcAuthorisationContextProvider = ({
   onPasswordReset,
   children,
 }: PropsWithChildren<OidcAuthorisationContextProviderProps>) => {
+  const { pathname } = useLocation();
+
   // https://authts.github.io/oidc-client-ts/classes/UserManager.html
   const { isLoading, isAuthenticated, user: oidcUser, error, clearStaleState, removeUser, signinSilent } = useAuth();
 
@@ -136,8 +139,7 @@ export const OidcAuthorisationContextProvider = ({
   // expires_at comes back in seconds, so we need to convert to millis
   const tokenExpiry = oidcUser?.expires_at ? oidcUser!.expires_at! * 1000 : undefined;
 
-  // when the oidc response is expired, a user is redirect to /expired
-  const isExpired = Boolean(window.location.href.includes('expired'));
+  const isExpired = pathname === OIDC_EXPIRED_ROUTE;
 
   return (
     <>

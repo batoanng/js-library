@@ -1,4 +1,4 @@
-import { OidcAuthenticationStatusPage } from './OidcAuthenticationPage';
+import { OidcAuthenticationStatusPage } from './OidcAuthenticationStatusPage';
 
 interface Props {
   error: Error;

@@ -17,7 +17,7 @@ export const SendPasswordResetEmail = ({ toggleEmailField, onPasswordReset, emai
   return (
     <CenterPage>
       <CenterErrorModal>
-        <img alt="nsw logo" src={logo} />
+        {logo ? <img alt="Authentication logo" src={logo} /> : null}
         <Typography component="h1" variant="h2">
           Check your email
         </Typography>
@@ -28,7 +28,7 @@ export const SendPasswordResetEmail = ({ toggleEmailField, onPasswordReset, emai
           }}
         >
           <Typography>
-            If the email is connected to your account, your password reset link will been sent to:
+            If the email is connected to your account, your password reset link will be sent to:
           </Typography>
           <Typography variant="body2">{email}</Typography>
           <Button variant="text" color="primary" onClick={toggleEmailField}>

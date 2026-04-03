@@ -1,13 +1,6 @@
 import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
-import {
-  Authorisation,
-  AuthorisationHandler,
-  defaultPrivileges,
-  LogReadPermission,
-  AuthorisationContext,
-  ChallengeResult,
-  useAuthorisationContext,
-} from '.';
+import { AuthorisationContext, useAuthorisationContext } from './hooks';
+import { Authorisation, AuthorisationHandler, ChallengeResult, defaultPrivileges, LogReadPermission } from './types';
 
 type SchemeData<TSchemeData extends object = object> = {
   schemeData?: TSchemeData;

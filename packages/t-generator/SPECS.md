@@ -2,14 +2,15 @@
 
 ## 1. Overview
 
-`t-generator` is a Yeoman-based code generator for bootstrapping and evolving React repositories and lean NestJS servers.
+`t-generator` is a Yeoman-based code generator for bootstrapping and evolving React repositories, lean NestJS servers, and Express-based Node.js servers.
 
-Its purpose is to help developers create a production-ready React + TypeScript application or a lean NestJS server quickly, then progressively add common features through dedicated commands.
+Its purpose is to help developers create a production-ready React + TypeScript application, a lean NestJS server, or a Node.js + Express server quickly, then progressively add common features through dedicated commands.
 
 The generator should support:
 
 - creating a base React + TypeScript app
 - creating a base NestJS server
+- creating a base Node.js server
 - adding optional features incrementally
 - adding testing setup for the base app and for each added feature
 - keeping generated code modular, predictable, and easy to maintain
@@ -24,8 +25,11 @@ The initial version should focus on a strong base application and a small set of
 
 - Provide a single command to generate a base React + TypeScript application
 - Provide a single command to generate a base NestJS server
+- Provide a single command to generate a base Node.js server
 - Provide separate commands to add common React features on demand
 - Provide separate commands to add common NestJS server features on demand
+- Provide separate commands to add common Node.js server features on demand
+- Provide an interactive root command that routes to React, NestJS, or Node.js generation
 - Provide commands to add tests for the base app and each installed feature
 - Ensure generated code follows a clean, scalable project structure
 - Minimize manual setup after generation
@@ -54,6 +58,7 @@ Notes:
 
 - A lightweight BFF/proxy server is in scope as an optional feature.
 - A lean NestJS application scaffold plus infrastructure-oriented add-on features is in scope.
+- A Node.js + Express + Prisma scaffold plus infrastructure-oriented add-on features is in scope.
 - A full domain-specific backend application is not in scope.
 
 ---
@@ -62,6 +67,7 @@ Notes:
 
 - Frontend developers starting a new React project
 - Teams wanting a consistent React project template
+- Backend developers starting a NestJS or Node.js service
 - Developers who want to progressively add features instead of installing everything upfront
 
 ---
@@ -119,6 +125,8 @@ Version 1 should focus on two layers:
 - a small set of add-on React `features`
 - a lean `base server`
 - a small set of add-on NestJS server `features`
+- a lean `base Node.js server`
+- a small set of add-on Node.js server `features`
 
 The generator should not attempt to cover every possible project concern up front.
 
@@ -139,9 +147,26 @@ The generator should align with the current FSD documentation from [feature-slic
 
 ## 7. Command model
 
-The generator should expose one base command and multiple feature commands.
+The generator should expose one interactive root command plus explicit base and feature commands.
 
-### 7.1 Base command
+### 7.1 Interactive root command
+
+This command routes the user to the right stack and action.
+
+Example:
+
+```bash
+yo t-generator
+```
+
+Responsibilities:
+
+- prompt for the target stack: `react`, `nestjs`, or `nodejs`
+- prompt for the action: create a base project or add a feature
+- delegate to the same explicit subgenerators used by direct commands
+- preserve the explicit commands as stable interfaces
+
+### 7.2 React base command
 
 This command creates the initial React + TypeScript project.
 
@@ -162,7 +187,7 @@ Responsibilities:
 - add a basic routing setup
 - add a basic test setup
 
-### 7.2 Feature command
+### 7.3 React feature command
 
 This command adds one feature into an existing generated project.
 
@@ -196,7 +221,7 @@ Prompt order for the current implementation:
 6. `apollo`
 7. `pwa`
 
-### 7.3 NestJS base command
+### 7.4 NestJS base command
 
 This command creates the initial NestJS server project.
 
@@ -214,7 +239,7 @@ Responsibilities:
 - create the initial `src/modules` structure
 - add a basic Vitest + Fastify injection test
 
-### 7.4 NestJS server feature command
+### 7.5 NestJS server feature command
 
 This command adds one server feature into an existing generated NestJS project.
 
@@ -242,7 +267,54 @@ Prompt order for the current implementation:
 3. `cache`
 4. `llm`
 
-### 7.5 Test command
+### 7.6 Node.js base command
+
+This command creates the initial Node.js server project.
+
+Example:
+
+```bash
+yo t-generator:nodejs-app my-node-server
+```
+
+Responsibilities:
+
+- scaffold an Express + Prisma + MySQL server
+- prompt for architecture: `clean` or `mvp`
+- configure typed env handling with `zod`
+- configure logging, security middleware, and graceful shutdown wiring
+- create a sample `GET /health` API
+- add a basic Jest + Supertest health test
+
+### 7.7 Node.js server feature command
+
+This command adds one server feature into an existing generated Node.js project.
+
+Example:
+
+```bash
+yo t-generator:nodejs-add graphql
+yo t-generator:nodejs-add queue
+yo t-generator:nodejs-add cache
+yo t-generator:nodejs-add llm
+```
+
+Responsibilities:
+
+- install required dependencies
+- create or update required files under the selected Node.js architecture shape
+- wire the feature into existing server config, env handling, and app bootstrap setup
+- validate that the target project is a generated Node.js server project before writing feature-managed files
+- avoid duplicating existing setup where possible
+
+Prompt order for the current implementation:
+
+1. `graphql`
+2. `queue`
+3. `cache`
+4. `llm`
+
+### 7.8 Test command
 
 This command adds or updates tests for the base app or for a specific feature.
 

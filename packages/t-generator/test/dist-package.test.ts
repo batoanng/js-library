@@ -9,6 +9,8 @@ import {
   createYeomanTestHelpers,
   nestjsAddGeneratorPath,
   nestjsAppGeneratorPath,
+  nodejsAddGeneratorPath,
+  nodejsAppGeneratorPath,
   reactAddGeneratorPath,
   reactAppGeneratorPath,
   readJson,
@@ -33,6 +35,9 @@ packageSmokeTest(
       path.join(packageRoot, 'generators/react-add/templates/auth/_env.example.ejs'),
       path.join(packageRoot, 'generators/nestjs-app/index.js'),
       path.join(packageRoot, 'generators/nestjs-add/index.js'),
+      path.join(packageRoot, 'generators/nodejs-app/index.js'),
+      path.join(packageRoot, 'generators/nodejs-add/index.js'),
+      path.join(packageRoot, 'generators/nodejs-app/templates/README.md.ejs'),
       path.join(
         packageRoot,
         'generators/react-add/templates/apollo/src/shared/apollo/ApolloWithAuthProvider.tsx.ejs',
@@ -145,6 +150,35 @@ packageSmokeTest(
     yoAssert.file([
       path.join(nestTmpDir, 'dist-nest/src/modules/queue/queue.module.ts'),
       path.join(nestTmpDir, 'dist-nest/src/modules/queue/queue.service.ts'),
+    ]);
+
+    let nodeTmpDir = '';
+    const nodeRunResult = await helpers
+      .run(nodejsAppGeneratorPath)
+      .inTmpDir((directory) => {
+        nodeTmpDir = directory;
+      })
+      .withArguments(['dist-node'])
+      .withPrompts({ architecture: 'clean' });
+
+    yoAssert.file([
+      path.join(nodeTmpDir, 'dist-node/package.json'),
+      path.join(nodeTmpDir, 'dist-node/src/app.ts'),
+      path.join(nodeTmpDir, 'dist-node/prisma/schema.prisma'),
+    ]);
+
+    await nodeRunResult
+      .create(
+        nodejsAddGeneratorPath,
+        { cwd: path.join(nodeTmpDir, 'dist-node'), tmpdir: false },
+        undefined,
+      )
+      .withArguments(['queue'])
+      .run();
+
+    yoAssert.file([
+      path.join(nodeTmpDir, 'dist-node/src/infrastructure/queue/demo-queue.ts'),
+      path.join(nodeTmpDir, 'dist-node/src/interfaces/routes/queue.route.ts'),
     ]);
   },
 );

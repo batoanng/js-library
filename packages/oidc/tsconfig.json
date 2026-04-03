@@ -15,6 +15,6 @@
   "mdx": {
     "plugins": [["remark-frontmatter", ["toml", "yaml"]], "remark-gfm"]
   },
-  "include": ["tooling", "src", "vite.config.ts"],
+  "include": ["tooling", "src", "test", "vite.config.ts", "vitest.setup.ts"],
   "exclude": ["node_modules", "dist"]
 }

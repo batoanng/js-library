@@ -7,5 +7,5 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["tooling", "src", "vite.config.ts"]
+  "include": ["tooling", "src", "test", "vite.config.ts", "vitest.setup.ts"]
 }

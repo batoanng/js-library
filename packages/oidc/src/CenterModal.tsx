@@ -12,6 +12,7 @@ export const CenterPage = styled(Stack)(({ theme }) => ({
 })) as typeof Stack;
 
 export const CenterErrorModal = styled(Stack)(({ theme }) => ({
+  width: '100%',
   maxWidth: '420px',
   minHeight: '630px',
   gap: theme.spacing(3),
@@ -21,7 +22,8 @@ export const CenterErrorModal = styled(Stack)(({ theme }) => ({
   padding: '48px 32px 48px 32px',
   borderRadius: 0,
 
-  [theme.breakpoints.down('xs')]: {
+  [theme.breakpoints.down('sm')]: {
     maxWidth: '100%',
+    minHeight: '100vh',
   },
 })) as typeof Stack;

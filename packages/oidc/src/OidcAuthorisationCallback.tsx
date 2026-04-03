@@ -1,8 +1,7 @@
-import { UserPrivileges, UserInformation } from './types';
-import { AxiosError, AxiosInstance } from 'axios';
-import { PropsWithChildren, useEffect, useLayoutEffect } from 'react';
+import { ApiClient, UserInformation, UserPrivileges } from './types';
+import { AxiosError, AxiosHeaders, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
+import { PropsWithChildren, useEffect } from 'react';
 import { AuthContextProps, useAuth } from 'react-oidc-context';
-import { useMount } from 'react-use';
 import { OidcAuthenticationStatusPage } from './OidcAuthenticationStatusPage';
 import { OidcLoginError } from './OidcLoginError';
 import { useOidcAuthorisationContext } from './hooks';
@@ -35,17 +34,32 @@ interface Props extends PropsWithChildren {
   authScheme?: string;
 }
 
+interface RetryableRequestConfig extends InternalAxiosRequestConfig {
+  __oidcRetryAttempted?: boolean;
+}
+
 const handleUnauthorizedRequest =
-  (refreshAccessToken: AuthContextProps['signinSilent'], shouldRefresh: boolean) =>
+  (refreshAccessToken: AuthContextProps['signinSilent'], authScheme: string) =>
   async (apiClient: AxiosInstance, error: AxiosError) => {
-    if (shouldRefresh) {
-      const refreshedUser = await refreshAccessToken();
-      if (refreshedUser) {
-        return await apiClient(error.config!);
-      }
+    const requestConfig = error.config as RetryableRequestConfig | undefined;
+    if (error.response?.status !== 401 || !requestConfig || requestConfig.__oidcRetryAttempted) {
+      throw error;
     }
 
-    return error;
+    requestConfig.__oidcRetryAttempted = true;
+
+    const refreshedUser = await refreshAccessToken();
+    if (!refreshedUser?.access_token) {
+      throw error;
+    }
+
+    setBearerToken(apiClient, [authScheme, refreshedUser.access_token]);
+
+    const requestHeaders = AxiosHeaders.from(requestConfig.headers ?? {});
+    requestHeaders.set('Authorization', `${authScheme} ${refreshedUser.access_token}`);
+    requestConfig.headers = requestHeaders;
+
+    return apiClient(requestConfig);
   };
 
 /**
@@ -62,25 +76,41 @@ export const OidcAuthorisationCallback = ({
   // Set the bearer token against the API.
   const { isAuthenticated, user, clearStaleState, signinSilent } = useAuth();
   const bearerToken = user?.access_token;
-  const shouldRefreshToken = Boolean(user?.expired) && Boolean(user?.refresh_token);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!apiClient) return;
 
     setBearerToken(apiClient, bearerToken ? [authScheme, bearerToken] : null);
-    setUnauthorizedRequestHandler(apiClient, handleUnauthorizedRequest(signinSilent, shouldRefreshToken));
-  }, [apiClient, bearerToken, shouldRefreshToken, signinSilent, authScheme]);
+    setUnauthorizedRequestHandler(apiClient, handleUnauthorizedRequest(signinSilent, authScheme));
+
+    const interceptorId = apiClient.interceptors.response.use(
+      (response) => response,
+      (axiosError) => {
+        const unauthorizedRequestHandler = (apiClient as ApiClient).onUnauthorizedRequest;
+        if (!unauthorizedRequestHandler) {
+          return Promise.reject(axiosError);
+        }
+
+        return unauthorizedRequestHandler(apiClient, axiosError as AxiosError);
+      }
+    );
+
+    return () => {
+      apiClient.interceptors.response.eject(interceptorId);
+      setUnauthorizedRequestHandler(apiClient, undefined);
+    };
+  }, [apiClient, bearerToken, signinSilent, authScheme]);
 
   const { updateUserInformation, updatePrivileges, onLogout } = useOidcAuthorisationContext();
 
-  useMount(async () => {
-    await clearStaleState();
-  });
+  useEffect(() => {
+    void clearStaleState();
+  }, [clearStaleState]);
 
   // Redirect to the provided URL if the user information comes back as a string.
   useEffect(() => {
     if (typeof userInformation === 'string') {
-      window.location.href = userInformation;
+      window.location.assign(userInformation);
     } else if (userInformation != null) {
       updateUserInformation(userInformation as UserInformation);
     }
@@ -110,5 +140,5 @@ export const OidcAuthorisationCallback = ({
     return <OidcAuthenticationStatusPage status="Verifying your account, please wait..." />;
   }
 
-  return children;
+  return <>{children}</>;
 };

@@ -1,6 +1,6 @@
 # t-generator
 
-`t-generator` is a Yeoman generator package for bootstrapping React repositories and lean NestJS servers with clean, scalable starting points.
+`t-generator` is a Yeoman generator package for bootstrapping React repositories, lean NestJS servers, and Express-based Node.js servers with clean, scalable starting points.
 
 The current implementation covers:
 
@@ -8,8 +8,21 @@ The current implementation covers:
 - seven React add-on features: `bff`, `ui-library`, `auth`, `redux`, `react-query`, `apollo`, and `pwa`
 - a lean NestJS + Fastify + Prisma server base scaffold
 - four NestJS server add-on features: `graphql`, `queue`, `cache`, and `llm`
+- a Node.js + Express + Prisma + MySQL server base scaffold with a choice of `clean` or `mvp` architecture
+- four Node.js server add-on features: `graphql`, `queue`, `cache`, and `llm`
 
 The long-term direction is described in [SPECS.md](./SPECS.md).
+
+Primary interactive command:
+
+```bash
+yo t-generator
+```
+
+It prompts for:
+
+- stack: `react`, `nestjs`, or `nodejs`
+- action: create a base project or add a feature
 
 Primary React base command:
 
@@ -46,14 +59,32 @@ yo t-generator:nestjs-add cache
 yo t-generator:nestjs-add llm
 ```
 
+Node.js base command:
+
+```bash
+yo t-generator:nodejs-app [appName]
+```
+
+Primary Node.js feature commands:
+
+```bash
+yo t-generator:nodejs-add
+yo t-generator:nodejs-add graphql
+yo t-generator:nodejs-add queue
+yo t-generator:nodejs-add cache
+yo t-generator:nodejs-add llm
+```
+
 ## Using the published npm package
 
 Global install:
 
 ```bash
 npm install -g yo @batoanng/t-generator
+yo t-generator
 yo t-generator:react-app my-app
 yo t-generator:nestjs-app my-server
+yo t-generator:nodejs-app my-node-server
 ```
 
 Add features after `cd` into the generated project:
@@ -61,13 +92,16 @@ Add features after `cd` into the generated project:
 ```bash
 yo t-generator:react-add auth
 yo t-generator:nestjs-add graphql
+yo t-generator:nodejs-add queue
 ```
 
 Without a global install:
 
 ```bash
+npx -p yo -p @batoanng/t-generator yo t-generator
 npx -p yo -p @batoanng/t-generator yo t-generator:react-app my-app
 npx -p yo -p @batoanng/t-generator yo t-generator:nestjs-app my-server
+npx -p yo -p @batoanng/t-generator yo t-generator:nodejs-app my-node-server
 ```
 
 The npm package page README is published directly from this file.
@@ -120,6 +154,26 @@ The implemented NestJS server add-ons are:
 - `queue`, which adds generic BullMQ infrastructure, shared Redis env, one demo queue registration, queue constants, and a producer/controller example without workers or Prisma-backed job creation
 - `cache`, which adds generic Redis-backed Nest cache infrastructure, shared Redis env, a cache demo controller/service, and cache-manager wiring without depending on Prisma or GraphQL
 - `llm`, which adds an OpenAI client plus a minimal prompt-chain demo endpoint driven by `OPENAI_API_KEY` and `OPENAI_MODEL`
+
+### Node.js base
+
+The Node.js base generator creates an Express + Prisma server with:
+
+- a prompt to choose `Clean Architecture` or `MVP`
+- Prisma configured for MySQL
+- a generated `GET /health` endpoint
+- shared env parsing with `zod`
+- logging, security middleware, and graceful shutdown wiring
+- Jest + Supertest starter coverage
+
+The base intentionally excludes GraphQL, BullMQ, Redis-backed caching, and LLM tooling until you add them with `yo t-generator:nodejs-add`.
+
+The implemented Node.js server add-ons are:
+
+- `graphql`, which adds a GraphQL endpoint at `/api/graphql` alongside the REST server
+- `queue`, which adds BullMQ plus Redis-backed demo queue infrastructure
+- `cache`, which adds Redis-backed demo cache endpoints
+- `llm`, which adds an OpenAI client and a demo REST endpoint
 
 ## UI direction
 
@@ -286,11 +340,13 @@ Behavior of the current command:
 - It fails if the target directory already exists and is not empty.
 - It writes files only. It does not automatically install dependencies or initialize Git.
 
-Show the available explicit generators:
+Run the interactive router:
 
 ```bash
 yo t-generator
 ```
+
+If you prefer explicit commands, the subgenerators remain available.
 
 After generation, move into the new app and start it:
 
@@ -340,6 +396,15 @@ npm install
 npm run dev
 ```
 
+Generate a Node.js server:
+
+```bash
+yo t-generator:nodejs-app my-node-server
+cd my-node-server
+npm install
+npm run dev
+```
+
 Add a NestJS server feature from the generated server root:
 
 ```bash
@@ -361,6 +426,29 @@ yo t-generator:nestjs-add graphql
 yo t-generator:nestjs-add queue
 yo t-generator:nestjs-add cache
 yo t-generator:nestjs-add llm
+```
+
+Add a Node.js server feature from the generated server root:
+
+```bash
+cd my-node-server
+yo t-generator:nodejs-add
+```
+
+The interactive Node.js feature prompt currently lets you choose between, in order:
+
+- `graphql`
+- `queue`
+- `cache`
+- `llm`
+
+If you prefer the explicit form, these work:
+
+```bash
+yo t-generator:nodejs-add graphql
+yo t-generator:nodejs-add queue
+yo t-generator:nodejs-add cache
+yo t-generator:nodejs-add llm
 ```
 
 After the BFF files are generated:
@@ -437,7 +525,21 @@ Then use one of these demo entry points:
 - `cache`: `POST /api/v1/cache/demo`
 - `llm`: `POST /api/v1/llm/demo`
 
-All add-on commands validate that the current directory already contains the generated base scaffold before they write anything. `bff` fails clearly if a `server/` folder already exists. `ui-library`, `auth`, `redux`, `react-query`, `apollo`, and `pwa` validate managed frontend scaffold files before they rewrite providers, routes, env helpers, entrypoint wiring, home-page content, or Vite setup. `graphql`, `queue`, `cache`, and `llm` do the same for the managed NestJS server scaffold before they rewrite `src/server.ts`, env/config files, or `src/modules/app.module.ts`.
+After the Node.js server feature files are generated:
+
+```bash
+npm install
+npm run dev
+```
+
+Then use one of these demo entry points:
+
+- `graphql`: query `graphqlDemo` at `/api/graphql`
+- `queue`: `POST /api/queue/demo`
+- `cache`: `POST /api/cache/demo`
+- `llm`: `POST /api/llm/demo`
+
+All add-on commands validate that the current directory already contains the generated base scaffold before they write anything. `bff` fails clearly if a `server/` folder already exists. `ui-library`, `auth`, `redux`, `react-query`, `apollo`, and `pwa` validate managed frontend scaffold files before they rewrite providers, routes, env helpers, entrypoint wiring, home-page content, or Vite setup. `graphql`, `queue`, `cache`, and `llm` do the same for the managed NestJS and Node.js server scaffolds before they rewrite shared app/bootstrap files or architecture-managed exports.
 
 ## Local development
 

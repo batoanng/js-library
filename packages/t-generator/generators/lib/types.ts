@@ -11,6 +11,10 @@ export interface PackageJson {
   scripts?: Record<string, string>;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
+  tGenerator?: {
+    stack?: 'react' | 'nestjs' | 'nodejs';
+    architecture?: string;
+  };
 }
 
 export interface TemplateContext {

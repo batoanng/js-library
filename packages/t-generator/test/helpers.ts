@@ -37,6 +37,16 @@ export const nestjsAddGeneratorPath = path.join(
   'nestjs-add',
   `index${generatorExtension}`,
 );
+export const nodejsAppGeneratorPath = path.join(
+  generatorRoot,
+  'nodejs-app',
+  `index${generatorExtension}`,
+);
+export const nodejsAddGeneratorPath = path.join(
+  generatorRoot,
+  'nodejs-add',
+  `index${generatorExtension}`,
+);
 
 export function readJson<T = PackageJson>(filePath: string): T {
   return JSON.parse(fs.readFileSync(filePath, 'utf8')) as T;
@@ -114,4 +124,26 @@ export async function scaffoldReactApp(appName: string) {
 
 export async function scaffoldNestApp(appName: string) {
   return scaffoldAppWithGenerator(nestjsAppGeneratorPath, appName);
+}
+
+export async function scaffoldNodeApp(
+  appName: string,
+  architecture: 'clean' | 'mvp' = 'clean',
+) {
+  let tmpDir = '';
+  const helpers = await createYeomanTestHelpers();
+
+  const runResult = await helpers
+    .run(nodejsAppGeneratorPath)
+    .inTmpDir((directory) => {
+      tmpDir = directory;
+    })
+    .withArguments([appName])
+    .withPrompts({ architecture });
+
+  return {
+    runResult,
+    projectRoot: path.join(tmpDir, appName),
+    tmpDir,
+  };
 }

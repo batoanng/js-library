@@ -68,7 +68,7 @@ function getFeatureLabel(featureName: string): string {
   return FEATURE_BY_NAME.get(featureName)?.label || `Feature "${featureName}"`;
 }
 
-export = class NestAddGenerator
+class NestAddGenerator
   extends GeneratorBase
   implements ServerAddGeneratorContext
 {
@@ -273,4 +273,6 @@ export = class NestAddGenerator
     this.log('');
     this.featureDefinition.end(this);
   }
-};
+}
+
+export = NestAddGenerator;

@@ -11,6 +11,7 @@ import {
   readJson,
   reactAppGeneratorPath,
   rootGeneratorPath,
+  scaffoldNestApp,
 } from './helpers';
 
 const blockedDependencies = [
@@ -240,31 +241,68 @@ test('fails when the React target directory already exists and is not empty', as
   );
 });
 
-test('root generator shows explicit command help without scaffolding files', async () => {
+test('root generator can route to the React base generator', async () => {
   let tmpDir = '';
   const helpers = await createYeomanTestHelpers();
-  const logMessages: string[] = [];
 
   await helpers
     .run(rootGeneratorPath)
     .inTmpDir((directory) => {
       tmpDir = directory;
     })
-    .onGenerator((generator) => {
-      const originalLog = generator.log.bind(generator);
-
-      generator.log = ((...args: unknown[]) => {
-        logMessages.push(args.map(String).join(' '));
-        return originalLog(...args);
-      }) as typeof generator.log;
+    .withPrompts({
+      stack: 'react',
+      action: 'create-base',
+      appName: 'root-react-app',
     });
 
-  assert.deepEqual(fs.readdirSync(tmpDir), []);
+  yoAssert.file([
+    path.join(tmpDir, 'root-react-app/package.json'),
+    path.join(tmpDir, 'root-react-app/src/main.tsx'),
+  ]);
+});
 
-  const combinedOutput = logMessages.join('\n');
+test('root generator can route to NestJS feature generation', async () => {
+  const { projectRoot, runResult } = await scaffoldNestApp('root-nest');
 
-  assert.match(combinedOutput, /yo t-generator:react-app/);
-  assert.match(combinedOutput, /yo t-generator:react-add/);
-  assert.match(combinedOutput, /yo t-generator:nestjs-app/);
-  assert.match(combinedOutput, /yo t-generator:nestjs-add/);
+  await runResult
+    .create(
+      rootGeneratorPath,
+      { cwd: projectRoot, tmpdir: false },
+      undefined,
+    )
+    .withPrompts({
+      stack: 'nestjs',
+      action: 'add-feature',
+      featureName: 'cache',
+    })
+    .run();
+
+  yoAssert.file([
+    path.join(projectRoot, 'src/modules/cache/cache.module.ts'),
+    path.join(projectRoot, 'src/modules/cache/cache.service.ts'),
+  ]);
+});
+
+test('root generator can route to the Node.js base generator', async () => {
+  let tmpDir = '';
+  const helpers = await createYeomanTestHelpers();
+
+  await helpers
+    .run(rootGeneratorPath)
+    .inTmpDir((directory) => {
+      tmpDir = directory;
+    })
+    .withPrompts({
+      stack: 'nodejs',
+      action: 'create-base',
+      appName: 'root-node-server',
+      architecture: 'clean',
+    });
+
+  yoAssert.file([
+    path.join(tmpDir, 'root-node-server/package.json'),
+    path.join(tmpDir, 'root-node-server/src/app.ts'),
+    path.join(tmpDir, 'root-node-server/src/interfaces/routes/health.route.ts'),
+  ]);
 });

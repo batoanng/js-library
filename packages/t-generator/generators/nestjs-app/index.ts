@@ -42,7 +42,7 @@ function toDisplayName(input: unknown, fallback: string): string {
     .join(' ');
 }
 
-export = class NestAppGenerator extends GeneratorBase {
+class NestAppGenerator extends GeneratorBase {
   declare options: GeneratorBase['options'] & NestAppGeneratorOptions;
 
   private rawAppName?: string;
@@ -184,4 +184,6 @@ export = class NestAppGenerator extends GeneratorBase {
     this.log('  npm install');
     this.log('  npm run dev');
   }
-};
+}
+
+export = NestAppGenerator;

@@ -3,98 +3,172 @@
 [![npm version](https://img.shields.io/npm/v/@batoanng/oidc)](https://www.npmjs.com/package/@batoanng/oidc)
 [![install size](https://packagephobia.com/badge?p=@batoanng/oidc)](https://packagephobia.com/result?p=@batoanng/oidc)
 
-A React-based OIDC (OpenID Connect) wrapper built on top of [`oidc-client-ts`](https://github.com/authts/oidc-client-ts) and `react-oidc-context`, designed to streamline authentication flows in frontend applications.
+`@batoanng/oidc` wraps [`react-oidc-context`](https://github.com/authts/react-oidc-context) with router-aware callback routes, a shared authorisation context, post-login enrichment helpers, and ready-made authentication status screens for React single-page applications.
 
-It integrates with `react-router-dom`, uses shared utilities from [`@batoanng/utils`](https://www.npmjs.com/package/@batoanng/utils), and UI feedback from [`@batoanng/mui-components`](https://www.npmjs.com/package/@batoanng/mui-components).
+## Features
 
----
+- Wraps `react-oidc-context` with login, logout, and expired-password routing.
+- Exposes a shared authorisation context through `useOidcAuthorisationContext`, `useChallenge`, and `useChallengeResult`.
+- Provides `OidcAuthorisationCallback` for post-login profile and privilege loading.
+- Can wire an axios client with `Authorization` headers and a single silent-refresh retry on `401`.
+- Ships reset-password, error, and status screens built on [`@batoanng/mui-components`](https://www.npmjs.com/package/@batoanng/mui-components).
 
-## ✨ Features
+## Installation
 
-- Plug-and-play OIDC integration for SPA
-- Login + logout + context + callback flows
-- Built with [`react-oidc-context`](https://github.com/authts/react-oidc-context)
-- Uses `react-router-dom`'s `<Routes>` and `<Route>`
-- Uses custom modals and loaders from `@batoanng/mui-components`
-- Exposes a shared authorisation context
-- Includes default login/logout callback URLs
+```bash
+pnpm add @batoanng/oidc
+```
 
----
+Peer dependencies include `react`, `react-router-dom`, `react-oidc-context`, `axios`, MUI, and `@batoanng/mui-components`.
 
-## 🚪 Main Entry Point
+## Usage
+
+Wrap the routed part of your app with `OidcAuthorisationProvider`. The provider must live inside a React Router `<Router>` because it injects callback routes with `<Routes>`.
 
 ```tsx
 import { OidcAuthorisationProvider } from '@batoanng/oidc';
-```
 
-This component wraps your app's authentication logic and injects routes for login/logout handling.
-
-```tsx
-<OidcAuthorisationProvider
-  userManagerSettings={{
-    authority: 'https://your-idp.com',
-    client_id: 'your-client-id',
-    redirect_uri: 'http://localhost:3000/oidc/callback',
-    post_logout_redirect_uri: 'http://localhost:3000/oidc/logout',
-  }}
->
-  <App />
-</OidcAuthorisationProvider>
-```
-
----
-
-## ⚙️ Props
-
-```ts
-interface OidcAuthorisationProviderProps {
-  userManagerSettings: UserManagerSettings;
-  loginCallbackRelativeUrl?: string; // default: '/oidc/callback'
-  logoutCallbackRelativeUrl?: string; // default: '/oidc/logout'
+export function AppShell() {
+  return (
+    <OidcAuthorisationProvider
+      userManagerSettings={{
+        authority: 'https://your-idp.example.com',
+        client_id: 'web-app',
+        redirect_uri: 'http://localhost:3000/oidc/callback',
+        post_logout_redirect_uri: 'http://localhost:3000/oidc/logout',
+      }}
+    >
+      <AppRoutes />
+    </OidcAuthorisationProvider>
+  );
 }
 ```
 
-> All other props are passed to `OidcAuthorisationContextProvider`.
+After the login callback completes, load the user profile and privileges, then hand them to `OidcAuthorisationCallback` so the shared authorisation context is populated before your protected UI renders.
 
----
+```tsx
+import axios from 'axios';
+import {
+  OidcAuthorisationCallback,
+  useOidcAuthorisationContext,
+  useEnsureOidcLoginToken,
+} from '@batoanng/oidc';
 
-## 🌐 Default Routes
+const apiClient = axios.create({
+  baseURL: '/api',
+});
+
+export function PostLoginGate() {
+  const userInformation = {
+    shortName: 'T. User',
+    fullName: 'Test User',
+    email: 'test@example.com',
+  };
+
+  const privileges = {
+    'activityLog.read': true,
+  };
+
+  return (
+    <OidcAuthorisationCallback apiClient={apiClient} userInformation={userInformation} privileges={privileges}>
+      <ProtectedApp />
+    </OidcAuthorisationCallback>
+  );
+}
+
+export function ProtectedPage() {
+  useEnsureOidcLoginToken();
+  const { isAuthenticated, onLogout, token } = useOidcAuthorisationContext();
+
+  return (
+    <section>
+      <div>{isAuthenticated ? 'Signed in' : 'Signed out'}</div>
+      <div>{token}</div>
+      <button onClick={() => void onLogout()}>Logout</button>
+    </section>
+  );
+}
+```
+
+## Auth Flow
+
+```mermaid
+flowchart TD
+  A["App Router"] --> B["OidcAuthorisationProvider"]
+  B --> C["react-oidc-context AuthProvider"]
+  B --> D["/oidc/callback -> OidcLoginCallback"]
+  B --> E["/oidc/logout -> OidcLogoutCallback"]
+  B --> F["* -> OidcAuthorisationContextProvider"]
+  D --> G{"Expired password response?"}
+  G -- "Yes" --> H["/expired -> OidcResetPasswordPage"]
+  G -- "No" --> I["Navigate to postLoginUrl or /"]
+  F --> J["AuthorisationContext"]
+  J --> K["useOidcAuthorisationContext / useChallenge"]
+  I --> L["Load user profile and privileges"]
+  L --> M["OidcAuthorisationCallback"]
+  M --> N["Update user information and privilege state"]
+  M --> O["Optional axios header + 401 retry wiring"]
+  N --> P["Protected application UI"]
+  O --> P
+```
+
+## Props
+
+### `OidcAuthorisationProvider`
+
+| Prop | Type | Notes |
+| --- | --- | --- |
+| `userManagerSettings` | `UserManagerSettings` | Passed through to `react-oidc-context`'s `AuthProvider`. |
+| `loginCallbackRelativeUrl` | `string` | Optional override for the login callback route. Defaults to the pathname from `redirect_uri`, or `/oidc/callback`. |
+| `logoutCallbackRelativeUrl` | `string` | Optional override for the logout callback route. Defaults to the pathname from `post_logout_redirect_uri`, or `/oidc/logout`. |
+| `onLoggingIn` | `(options?: LoginOptions) => void \| boolean \| Promise<void \| boolean>` | Return `false` to cancel a login attempt. |
+| `onLoggingOut` | `() => void \| boolean \| Promise<void \| boolean>` | Return `false` to cancel a logout attempt. |
+| `onPasswordReset` | `(email: string) => void \| boolean \| Promise<void \| boolean>` | Called when the expired-password flow submits or resends a reset email. |
+
+### `OidcAuthorisationCallback`
+
+| Prop | Type | Notes |
+| --- | --- | --- |
+| `apiClient` | `AxiosInstance` | Optional axios instance that receives `Authorization` header updates and a single silent-refresh retry on `401`. |
+| `userInformation` | `UserInformation \| string` | Provide the loaded user profile, or a redirect URL string to navigate away after login. |
+| `privileges` | `UserPrivileges` | The resolved privilege map for the current user. |
+| `error` | `Error \| null` | Renders the built-in login error state and lets the user log out. |
+| `authScheme` | `string` | Authorization scheme used when populating the `Authorization` header. Defaults to `Bearer`. |
+
+## Integration Notes
+
+### Default routes
 
 | Route | Purpose |
-|-------|---------|
-| `/oidc/callback` | Handles login redirect callback |
-| `/oidc/logout`   | Handles logout redirect callback |
+| --- | --- |
+| `/oidc/callback` | Handles the OIDC login redirect. |
+| `/oidc/logout` | Handles the OIDC logout redirect. |
+| `/expired` | Shows the password reset flow when the IdP reports an expired-password response. |
 
-These routes are automatically injected into your router when using `OidcAuthorisationProvider`.
+### Axios behavior
 
----
+- `setBearerToken` stores the current access token on the axios instance and keeps `defaults.headers.common.Authorization` in sync.
+- `OidcAuthorisationCallback` installs one response interceptor for the provided `apiClient`.
+- A `401` triggers one `signinSilent()` attempt. If a new token is returned, the failed request is retried once with a refreshed `Authorization` header.
 
-## 🧩 Internals
+### Related packages
 
+- [`@batoanng/mui-components`](https://www.npmjs.com/package/@batoanng/mui-components) supplies the status, notification, and form primitives used by the built-in screens.
+- [`@batoanng/utils`](https://www.npmjs.com/package/@batoanng/utils) is a related workspace utility package, but `@batoanng/oidc` now uses `react-use` directly for its local hook helpers.
+
+## Development
+
+```bash
+pnpm --dir packages/oidc lint
+pnpm --dir packages/oidc type-check
+pnpm --dir packages/oidc test
+pnpm --dir packages/oidc build
 ```
-src/
-├── OidcAuthorisationProvider.tsx         # Main entry point
-├── OidcAuthorisationContextProvider.tsx  # Context provider
-├── OidcLoginCallback.tsx                 # Handles redirect on login
-├── OidcLogoutCallback.tsx                # Handles redirect on logout
-├── OidcAuthenticationPage.tsx           # Optional login screen
-├── OidcErrorPage.tsx                     # Optional error fallback
-├── utils.ts / hooks.ts / types.ts        # Supporting logic
-```
 
----
+Key files:
 
-## 📦 Related Packages
-
-- [`@batoanng/utils`](https://www.npmjs.com/package/@batoanng/utils) – for utilities like `useMount`
-- [`@batoanng/mui-components`](https://www.npmjs.com/package/@batoanng/mui-components) – for modals, loaders, and UI elements
-
----
-
-## 🧹 Linting
-
-This package uses the shared flat ESLint setup via [`eslint.config.mjs`](./eslint.config.mjs), combining:
-
-- `@batoanng/eslint-config`
-- `@batoanng/eslint-config/typed`
-- `@batoanng/eslint-config/test`
+- `src/OidcAuthorisationProvider.tsx`
+- `src/OidcAuthorisationContextProvider.tsx`
+- `src/OidcAuthorisationCallback.tsx`
+- `src/hooks.ts`
+- `src/types.ts`

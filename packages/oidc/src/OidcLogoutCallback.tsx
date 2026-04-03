@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { useNavigate } from 'react-router-dom';
-import { OidcAuthenticationStatusPage } from './OidcAuthenticationPage';
+import { OidcAuthenticationStatusPage } from './OidcAuthenticationStatusPage';
 
 /**
  * Callback component invoked after the OIDC logout has completed
@@ -16,9 +16,10 @@ export const OidcLogoutCallback: FC = () => {
 
     if (user) {
       console.warn('The user was not removed from the OIDC store after logout');
+      return;
     }
 
-    navigate('/');
+    navigate('/', { replace: true, state: {} });
   }, [isLoading, user, navigate]);
 
   // If logout failed for some reason, closing the browser window should be sufficient, since the user's token

@@ -39,7 +39,7 @@ function toDisplayName(input: unknown, fallback: string): string {
     .join(' ');
 }
 
-export = class AppGenerator extends GeneratorBase {
+class AppGenerator extends GeneratorBase {
   declare options: GeneratorBase['options'] & AppGeneratorOptions;
 
   private rawAppName?: string;
@@ -172,4 +172,6 @@ export = class AppGenerator extends GeneratorBase {
     this.log('  npm install');
     this.log('  npm run dev');
   }
-};
+}
+
+export = AppGenerator;

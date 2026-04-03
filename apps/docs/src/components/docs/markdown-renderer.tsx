@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm'
 import { isValidElement, type ComponentProps } from 'react'
 
 import { slugifyValue } from '@/lib/slugs'
+import { MermaidBlock } from './mermaid-block'
 
 type MarkdownRendererProps = {
   className?: string
@@ -23,6 +24,22 @@ function extractText(node: unknown): string {
 
   if (isValidElement(node)) {
     return extractText((node.props as { children?: unknown }).children)
+  }
+
+  return ''
+}
+
+function extractCodeText(node: unknown): string {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return `${node}`
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(extractCodeText).join('')
+  }
+
+  if (isValidElement(node)) {
+    return extractCodeText((node.props as { children?: unknown }).children)
   }
 
   return ''
@@ -92,8 +109,13 @@ function markdownComponents(headingPrefix: string): Components {
     },
     code({ children, className, ...props }: ComponentProps<'code'> & ExtraProps) {
       const isBlock = Boolean(className)
+      const codeText = extractCodeText(children).replace(/\n$/, '')
 
       if (isBlock) {
+        if (className?.includes('language-mermaid')) {
+          return <MermaidBlock chart={codeText} />
+        }
+
         return (
           <code className={clsx('docs-code-block', className)} {...props}>
             {children}

@@ -27,7 +27,7 @@ export const VerifyEmail = ({ logo, onPasswordReset, toggleEmailField }: Props) 
     <FormProvider {...form}>
       <CenterPage onSubmit={form.handleSubmit(handleSubmit)} component="form">
         <CenterErrorModal>
-          <img alt="nsw logo" src={logo} />
+          {logo ? <img alt="Authentication logo" src={logo} /> : null}
           <Typography component="h1" variant="h2">
             Password expired
           </Typography>
