@@ -1,5 +1,11 @@
 # @batoanng/utils
 
+## 2.2.0
+
+### Minor Changes
+
+- Restructure and synchronize types for all packages
+
 ## 2.1.5
 
 ### Patch Changes

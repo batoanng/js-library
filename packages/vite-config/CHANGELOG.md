@@ -1,5 +1,11 @@
 # batoanng/vite-config
 
+## 1.1.0
+
+### Minor Changes
+
+- Restructure and synchronize types for all packages
+
 ## 1.0.5
 
 ### Patch Changes
