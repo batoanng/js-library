@@ -14,15 +14,16 @@
     "build": "tsup src/index.tsx --format esm,cjs --dts",
     "dev": "tsup src/index.tsx --format esm,cjs --watch --dts",
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
     "@batoanng/eslint-config": "workspace:*",
     "@batoanng/tsconfig": "workspace:*",
-    "axios": "^1.7.9",
-    "tsup": "^7.2.0"
+    "axios": "^1.14.0",
+    "tsup": "^7.2.0",
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

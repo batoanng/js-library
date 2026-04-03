@@ -15,52 +15,52 @@ import {
   readText,
 } from './helpers';
 
-const distSmokeTest = process.env.DIST_SMOKE === '1' ? test : test.skip;
+const packageSmokeTest = process.env.DIST_SMOKE === '1' ? test : test.skip;
 
-distSmokeTest(
-  'staged dist package keeps the expected Yeoman layout',
+packageSmokeTest(
+  'built root package keeps the expected Yeoman layout',
   async () => {
-    const distRoot =
-      process.env.TEST_TARGET === 'dist'
-        ? path.join(__dirname, '..', 'dist')
-        : path.join(__dirname, '..');
-    const distPackageJson = readJson<PackageJson>(
-      path.join(distRoot, 'package.json'),
-    );
+    const packageRoot = path.join(__dirname, '..');
+    const packageJson = readJson<PackageJson>(path.join(packageRoot, 'package.json'));
 
     yoAssert.file([
-      path.join(distRoot, 'README.md'),
-      path.join(distRoot, 'package.json'),
-      path.join(distRoot, 'generators/index.js'),
-      path.join(distRoot, 'generators/react-app/index.js'),
-      path.join(distRoot, 'generators/react-app/templates/package.json.ejs'),
-      path.join(distRoot, 'generators/react-add/index.js'),
-      path.join(distRoot, 'generators/react-add/templates/auth/_env.example.ejs'),
-      path.join(distRoot, 'generators/nestjs-app/index.js'),
-      path.join(distRoot, 'generators/nestjs-add/index.js'),
+      path.join(packageRoot, 'README.md'),
+      path.join(packageRoot, 'package.json'),
+      path.join(packageRoot, 'generators/index.js'),
+      path.join(packageRoot, 'generators/react-app/index.js'),
+      path.join(packageRoot, 'generators/react-app/templates/package.json.ejs'),
+      path.join(packageRoot, 'generators/react-add/index.js'),
+      path.join(packageRoot, 'generators/react-add/templates/auth/_env.example.ejs'),
+      path.join(packageRoot, 'generators/nestjs-app/index.js'),
+      path.join(packageRoot, 'generators/nestjs-add/index.js'),
       path.join(
-        distRoot,
+        packageRoot,
         'generators/react-add/templates/apollo/src/shared/apollo/ApolloWithAuthProvider.tsx.ejs',
       ),
       path.join(
-        distRoot,
+        packageRoot,
         'generators/react-add/templates/bff/server/server.js.ejs',
       ),
-      path.join(distRoot, 'generators/react-add/templates/pwa/vite.config.ts.ejs'),
+      path.join(packageRoot, 'generators/react-add/templates/pwa/vite.config.ts.ejs'),
       path.join(
-        distRoot,
+        packageRoot,
         'generators/react-add/templates/redux/src/app/store/index.ts.ejs',
       ),
       path.join(
-        distRoot,
+        packageRoot,
         'generators/react-add/templates/react-query/src/shared/api/useApiQuery.ts.ejs',
       ),
     ]);
 
-    assert.equal(distPackageJson.main, 'generators/index.js');
-    assert.deepEqual(distPackageJson.files, ['generators', 'README.md']);
+    assert.equal(packageJson.main, 'generators/index.js');
+    assert.deepEqual(packageJson.files, [
+      'generators/**/*.js',
+      'generators/**/templates/**',
+      'README.md',
+      'CHANGELOG.md',
+    ]);
     assert.match(
-      readText(path.join(distRoot, 'README.md')),
+      readText(path.join(packageRoot, 'README.md')),
       /## Using the published npm package/,
     );
 

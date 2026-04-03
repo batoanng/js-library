@@ -30,6 +30,12 @@ export const testFiles = [
   '**/*.{spec,test}.{js,mjs,cjs,jsx,ts,mts,cts,tsx}',
 ];
 
+export const reactTestFiles = [
+  '**/test/**/*.{jsx,tsx}',
+  '**/tests/**/*.{jsx,tsx}',
+  '**/*.{spec,test}.{jsx,tsx}',
+];
+
 export const toolingFiles = [
   '**/.storybook/**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}',
   '**/eslint.config.{js,mjs,cjs,ts,mts,cts}',

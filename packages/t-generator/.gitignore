@@ -1,7 +1,7 @@
 node_modules
 coverage
 .DS_Store
-dist
-
-# Doc and test
-example
+generators/**/*.js
+generators/**/*.js.map
+generators/**/*.d.ts
+generators/**/*.d.ts.map

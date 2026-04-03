@@ -32,7 +32,7 @@ export const loadIndexHtml = (
     indexHtml = insertHeadScripts(indexHtml);
 
     return indexHtml;
-  } catch (err) {
+  } catch (_error) {
     console.error('Could not read config file using path: ' + indexFileName);
     return '<html lang="en"><body>Unable to load the page you requested</body></html>';
   }

@@ -1,6 +1,7 @@
 import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
 import { fromEvent } from 'file-selector';
 import { useEffect, useMemo, useState } from 'react';
+import type { InputHTMLAttributes } from 'react';
 import type { DropEvent, FileRejection } from 'react-dropzone';
 import { useDropzone } from 'react-dropzone';
 import { useLatest } from 'react-use';
@@ -144,6 +145,8 @@ export const FileUpload = ({
     multiple: maxFiles > 1,
     getFilesFromEvent,
   });
+  const inputProps =
+    getInputProps() as unknown as InputHTMLAttributes<HTMLInputElement>;
 
   const showFileUploadIcon = !isMobile;
   const themeLegendText = defaultLegendText || (legendText ? [legendText] : getLegendText(isMobile, maxFileSize, acceptedFormatsText));
@@ -224,7 +227,7 @@ export const FileUpload = ({
             data-testid={`${id}-dropzone`}
           >
             {/* This is the hidden input that react-dropzone uses */}
-            <input {...getInputProps()} name={name} />
+            <input {...inputProps} name={name} />
 
             {isLoading && (
               <Stack

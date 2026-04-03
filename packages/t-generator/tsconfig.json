@@ -1,15 +1,10 @@
 {
+  "extends": "@batoanng/tsconfig/node24.json",
   "compilerOptions": {
-    "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
     "resolveJsonModule": true,
-    "types": ["node"],
-    "noEmit": true
+    "types": ["node"]
   },
   "include": [
     "generators/**/*.ts",
@@ -17,5 +12,5 @@
     "scripts/**/*.ts",
     "types/**/*.d.ts"
   ],
-  "exclude": ["dist", "node_modules", "test-app"]
+  "exclude": ["node_modules", "test-app"]
 }

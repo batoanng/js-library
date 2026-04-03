@@ -1,30 +1,27 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import peerDepsExternal from '@chrisneedham/rollup-plugin-peer-deps-external';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { resolve } from 'path';
-import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
-import { fileURLToPath } from 'url';
+// @ts-expect-error shared vite config is published without local type metadata
+import { viteConfig } from '@batoanng/vite-config';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { mergeConfig } from 'vite';
 
-export default defineConfig({
-  plugins: [peerDepsExternal(), nodeResolve(), dts({ insertTypesEntry: true })],
-  build: {
-    target: 'esnext',
-    lib: {
-      entry: resolve(__dirname, './index.ts'),
-      name: 'frontend-server',
-      fileName: 'frontend-server',
-    },
-    rollupOptions: {
-      external: ['fs', 'fs/promises', 'path', 'crypto', 'url'],
-    },
-    sourcemap: true,
-    minify: true,
-  },
+export default mergeConfig(viteConfig, {
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+  },
+  build: {
+    target: 'esnext',
+    lib: {
+      entry: path.resolve(__dirname, 'index.ts'),
+      name: 'frontend-server',
+      formats: ['es', 'cjs'],
+      fileName: (format: 'es' | 'cjs') => `frontend-server.${format === 'es' ? 'js' : 'cjs'}`,
+    },
+    rollupOptions: {
+      external: ['node:crypto', 'node:fs', 'node:fs/promises', 'node:path', 'node:url', 'crypto', 'fs', 'fs/promises', 'path', 'url'],
+    },
+    sourcemap: true,
+    minify: true,
   },
 });

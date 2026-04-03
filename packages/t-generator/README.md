@@ -70,7 +70,7 @@ npx -p yo -p @batoanng/t-generator yo t-generator:react-app my-app
 npx -p yo -p @batoanng/t-generator yo t-generator:nestjs-app my-server
 ```
 
-The npm package page README is sourced from this file and copied into the staged publish directory during `npm run build` and `npm run release`.
+The npm package page README is published directly from this file.
 
 ## What the generators create today
 
@@ -450,14 +450,15 @@ npm install
 Run the local checks against TypeScript source:
 
 ```bash
-npm run typecheck
+npm run type-check
 npm run lint
 npm test
 ```
 
-Build and verify the staged publishable package:
+Build the publishable package and run the package smoke test:
 
 ```bash
+npm run build
 npm run test:dist
 ```
 
@@ -479,11 +480,11 @@ Publish the package after versioning:
 npm run release
 ```
 
-Manual `yo` validation should use the staged package:
+Manual `yo` validation should use a packed tarball from the package root:
 
 ```bash
-npm run build
-npm link ./dist
+PACKAGE_TGZ="$(npm pack)"
+npm install -g yo "./$PACKAGE_TGZ"
 ```
 
 ## Release automation

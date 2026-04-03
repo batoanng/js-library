@@ -3,7 +3,8 @@
     "node": ">=24"
   },
   "scripts": {
-    "build": "turbo run build",
+    "build": "pnpm -r build",
+    "build:release": "pnpm -r --filter './packages/*' build",
     "dev": "turbo run dev --no-cache --parallel --continue",
     "lint": "turbo run lint",
     "test": "turbo run test",
@@ -13,20 +14,22 @@
     "format": "prettier --write --list-different .",
     "changeset": "changeset",
     "version-packages": "changeset version && pnpm install --lockfile-only",
-    "release": "turbo run build --filter=docs^... && changeset publish",
+    "release": "pnpm run build:release && changeset publish",
     "prepare": "husky install",
     "ci": "pnpm run lint && pnpm run test && pnpm run build"
   },
   "devDependencies": {
     "@batoanng/eslint-config": "workspace:*",
     "@batoanng/prettier-config": "workspace:*",
+    "@types/node": "^24.9.0",
     "@changesets/cli": "^2.26.2",
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@next/bundle-analyzer": "^13.4.19",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.3",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
     "@types/testing-library__jest-dom": "^5.14.9",
     "esbuild": "^0.19.2",
     "esbuild-jest": "^0.5.0",
@@ -46,6 +49,13 @@
     "typescript": "^5.1.6",
     "vite": "5.4.11",
     "vitest": "2.1.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^18.3.28",
+      "@types/react-dom": "^18.3.7",
+      "csstype": "^3.2.3"
+    }
   },
   "packageManager": "pnpm@10.12.3"
 }

@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@batoanng/tsconfig)](https://www.npmjs.com/package/@batoanng/tsconfig)
 [![install size](https://packagephobia.com/badge?p=@batoanng/tsconfig)](https://packagephobia.com/result?p=@batoanng/tsconfig)
 
-A set of shareable TypeScript configuration presets designed for consistency across Node.js, React, Next.js, libraries, and tooling within a monorepo.
+A set of shareable TypeScript configuration presets designed for consistency across Node.js, React, Next.js, and tooling within a monorepo.
 
 ---
 
@@ -12,8 +12,8 @@ A set of shareable TypeScript configuration presets designed for consistency acr
 - Strict type-checking across all environments
 - Modern module and target settings
 - Multiple environment presets:
-  - Node.js (v14 and v20)
-  - React library development
+  - Node.js (v24+)
+  - React apps and libraries
   - Next.js projects
   - Optional tooling support for legacy ESLint TypeScript parser setups
 - Built-in `base.json` to centralize core rules
@@ -33,11 +33,11 @@ npm install -D @batoanng/tsconfig typescript
 
 In your `tsconfig.json`, extend the desired preset:
 
-### For a React component library
+### For a React app or component library
 
 ```json
 {
-  "extends": "@batoanng/tsconfig/react-library.json"
+  "extends": "@batoanng/tsconfig/reactjs.json"
 }
 ```
 
@@ -49,11 +49,11 @@ In your `tsconfig.json`, extend the desired preset:
 }
 ```
 
-### For Node.js (v20)
+### For Node.js (v24+)
 
 ```json
 {
-  "extends": "@batoanng/tsconfig/node20.json"
+  "extends": "@batoanng/tsconfig/node24.json"
 }
 ```
 
@@ -71,14 +71,13 @@ In your `tsconfig.json`, extend the desired preset:
 
 ## 🧱 Available Configs
 
-| File                | Purpose                                 |
-|---------------------|-----------------------------------------|
-| `base.json`         | Core rules shared across all configs    |
-| `eslint.json`       | Optional TS parser preset for legacy ESLint setups |
-| `nextjs.json`       | For Next.js frontend apps               |
-| `node14.json`       | For Node.js services using v14          |
-| `node20.json`       | For modern Node.js apps (v20+)          |
-| `react-library.json`| For React-based npm libraries           |
+| File           | Purpose                                    |
+|----------------|--------------------------------------------|
+| `base.json`    | Core rules shared across all configs       |
+| `eslint.json`  | Optional TS parser preset for legacy ESLint setups |
+| `nextjs.json`  | For Next.js frontend apps                  |
+| `node24.json`  | For modern Node.js apps and libraries      |
+| `reactjs.json` | For React-based apps and libraries         |
 
 ---
 
@@ -86,7 +85,7 @@ In your `tsconfig.json`, extend the desired preset:
 
 ```json
 {
-  "extends": "@batoanng/tsconfig/react-library.json",
+  "extends": "@batoanng/tsconfig/reactjs.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"

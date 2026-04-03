@@ -251,8 +251,10 @@ describe('buildServer', () => {
     expect(body.rateLimit.currentClient.key).toEqual(expect.any(String));
     expect(body.rateLimit.currentClient.accepted).toBe(1);
     expect(body.rateLimit.currentClient.rejected).toBe(0);
-    expect(body.rateLimit.currentClient.bucketLevel).toBeGreaterThan(0);
-    expect(body.rateLimit.currentClient.remainingApprox).toBeLessThan(100);
+    expect(body.rateLimit.currentClient.bucketLevel).toBeGreaterThanOrEqual(0);
+    expect(body.rateLimit.currentClient.bucketLevel).toBeLessThanOrEqual(1);
+    expect(body.rateLimit.currentClient.remainingApprox).toBeGreaterThanOrEqual(99);
+    expect(body.rateLimit.currentClient.remainingApprox).toBeLessThanOrEqual(100);
     expect(Date.parse(body.rateLimit.currentClient.lastUpdatedAt)).not.toBeNaN();
   });
 

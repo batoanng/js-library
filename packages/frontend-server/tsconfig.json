@@ -1,29 +1,18 @@
 {
+  "extends": "@batoanng/tsconfig/node24.json",
   "compilerOptions": {
-    "target": "ESNext",
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": false,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
     "moduleResolution": "Node",
     "outDir": "./dist",
     "noEmit": false,
-    "incremental": false,
-    "declaration": true,
     "sourceMap": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "esModuleInterop": true,
     "baseUrl": ".",
-    "types": ["vite/client", "node"],
+    "types": ["vite/client", "node", "vitest/globals"],
     "paths": {
       "@/*": ["src/*"]
-    },
+    }
   },
-  "include": ["index.ts", "src"],
-  "exclude": ["node_modules"]
+  "include": ["index.ts", "src", "vite.config.ts", "vitest.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }
-

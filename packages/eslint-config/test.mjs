@@ -2,7 +2,7 @@ import globals from 'globals';
 import jestPlugin from 'eslint-plugin-jest';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
 
-import { testFiles } from './shared.mjs';
+import { reactTestFiles, testFiles } from './shared.mjs';
 
 export default [
   {
@@ -30,7 +30,7 @@ export default [
   {
     ...testingLibraryPlugin.configs['flat/react'],
     name: '@batoanng/eslint-config/test/testing-library',
-    files: testFiles,
+    files: reactTestFiles,
     rules: {
       ...testingLibraryPlugin.configs['flat/react'].rules,
       'testing-library/prefer-screen-queries': 'off',

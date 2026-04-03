@@ -320,7 +320,8 @@ export const buildServer = (params: BuildServerParams): BuildServerReturn => {
   }
 
   function handleProxyRes(proxyRes: IncomingMessage, req: ProxyRequest, res: ProxyResponse) {
-    delete proxyRes.headers['access-control-allow-origin'];
+    const proxyHeaders = proxyRes.headers;
+    delete proxyHeaders['access-control-allow-origin'];
     setApiCsp(res);
 
     proxyOptions?.onProxyRes?.(proxyRes, req, res);
