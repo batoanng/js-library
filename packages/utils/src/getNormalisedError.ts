@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import {
   NormalisableError,
   NormalisedError,
@@ -13,7 +13,7 @@ export const getNormalisedError = (...errors: (NormalisableError | unknown)[]): 
   for (const error of errors) {
     if (!error) continue;
 
-    if (error instanceof AxiosError) {
+    if (isAxiosError(error)) {
       const { config, status, message, code, response } = error;
 
       return {
@@ -74,6 +74,15 @@ function isApiError(error: unknown): error is ApiError {
   const payload = (error as ApiError).payload;
 
   return Boolean(payload && (payload.type || payload.status || payload.correlationId));
+}
+
+function isAxiosError(error: unknown): error is AxiosError {
+  return Boolean(
+    error &&
+      typeof error === 'object' &&
+      'isAxiosError' in error &&
+      (error as { isAxiosError?: unknown }).isAxiosError === true
+  );
 }
 
 function isValidationError(error: unknown): error is ValidationError {

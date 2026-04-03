@@ -114,7 +114,7 @@
     "storybook-addon-jsx": "^7.3.14",
     "storybook-axios": "^2.2.1",
     "tsc-watch": "^6.3.1",
-    "typescript": "5.0.4",
+    "typescript": "^5.8.3",
     "vite-plugin-svgr": "4.3.0",
     "xdm": "^3.4.0"
   },
