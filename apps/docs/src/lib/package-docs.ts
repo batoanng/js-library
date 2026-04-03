@@ -1,7 +1,4 @@
-import 'server-only'
-
-import { existsSync } from 'fs'
-import { promises as fs } from 'fs'
+import { existsSync, promises as fs } from 'fs'
 import path from 'path'
 
 import { CATEGORY_META, CATEGORY_ORDER, type GuideSection, type PackageCategory, type PackageDoc } from './docs-catalog'

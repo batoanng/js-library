@@ -1,5 +1,5 @@
 import type { AxiosError } from 'axios';
-import {
+import type {
   NormalisableError,
   NormalisedError,
   ErrorWithMessage,

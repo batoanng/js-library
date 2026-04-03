@@ -28,6 +28,8 @@ describe('MarkdownRenderer', () => {
   afterEach(() => {
     delete (window as typeof window & { __docsMermaidLoader?: Promise<unknown>; mermaid?: unknown }).__docsMermaidLoader
     delete (window as typeof window & { __docsMermaidLoader?: Promise<unknown>; mermaid?: unknown }).mermaid
+    // Testing Library has no helper for cleaning up scripts injected into <head>.
+    // eslint-disable-next-line testing-library/no-node-access
     document.querySelectorAll('script[data-mermaid-loader="true"]').forEach((element) => element.remove())
     jest.restoreAllMocks()
   })
@@ -37,7 +39,7 @@ describe('MarkdownRenderer', () => {
 
     expect(screen.getByTestId('mermaid-diagram')).toBeInTheDocument()
     expect(screen.getByText(/flowchart TD/)).toBeInTheDocument()
-    expect(document.querySelector('script[data-mermaid-loader="true"]')).toBeInTheDocument()
+    expect(window.__docsMermaidLoader).toBeDefined()
   })
 
   it('renders a Mermaid diagram when the browser renderer is present', async () => {
@@ -52,6 +54,6 @@ describe('MarkdownRenderer', () => {
 
     const renderedDiagram = await screen.findByTestId('mermaid-diagram')
     expect(renderedDiagram).toBeInTheDocument()
-    await waitFor(() => expect(renderedDiagram.innerHTML).toContain('Rendered diagram'))
+    await waitFor(() => expect(renderedDiagram).toHaveTextContent('Rendered diagram'))
   })
 })
