@@ -1,0 +1,42 @@
+import {
+  type UseQueryOptions,
+  type UseQueryResult,
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { z } from 'zod';
+import { apiClient, useApiQuery } from '@/shared/api';
+import { decryptData } from '@/shared/lib';
+import {
+  CacheKeys,
+  chatMessageSchema,
+  type ChatMessage,
+} from '../model';
+
+const encryptedMessagesSchema = z.string().array();
+
+export const useGetChatMessages = (
+  sessionId: string,
+  options?: Omit<UseQueryOptions<ChatMessage[], AxiosError>, 'queryKey' | 'queryFn'>,
+): UseQueryResult<ChatMessage[], AxiosError> => {
+  const isEnabled = options?.enabled ?? true;
+
+  return useApiQuery<ChatMessage[], AxiosError>({
+    queryKey: [CacheKeys.getChatMessages, sessionId],
+    queryFn: async () => {
+      const { data } = await apiClient.get<unknown>(`/chat/message/${sessionId}`);
+      const encryptedMessages = encryptedMessagesSchema.parse(data);
+      const messages: ChatMessage[] = [];
+
+      for (const token of encryptedMessages) {
+        messages.push(await decryptData(token, chatMessageSchema));
+      }
+
+      return messages;
+    },
+    options: {
+      ...options,
+      enabled: Boolean(sessionId) && isEnabled,
+      placeholderData: (previousData) => previousData,
+    },
+  });
+};

@@ -1,0 +1,75 @@
+{
+  "name": "@batoanng/frontend-server",
+  "author": "Ba Toan Nguyen",
+  "version": "2.4.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "types": "./dist/src/index.d.ts",
+  "main": "./dist/frontend-server.js",
+  "files": [
+    "src",
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "ci": "pnpm run lint && pnpm run test && pnpm run build",
+    "test": "vitest --run",
+    "tag:create": "node scripts/create-tag.js",
+    "tag:patch": "npm run tag:create patch",
+    "tag:minor": "npm run tag:create minor",
+    "tag:major": "npm run tag:create major",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "release": "npm run build && changeset publish"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "4.21.2",
+    "http-proxy-middleware": "^2.0.9",
+    "mime-types": "^2.1.35"
+  },
+  "peerDependenciesMeta": {
+    "http-proxy-middleware": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@batoanng/prettier-config": "1.3.0",
+    "@changesets/cli": "^2.26.2",
+    "@chrisneedham/rollup-plugin-peer-deps-external": "^2.3.1",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@types/cors": "^2.8.14",
+    "@types/express": "4.17.21",
+    "@types/http-proxy": "^1.17.12",
+    "@types/mime-types": "^2.1.1",
+    "@types/node": "20.11.19",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/parser": "^5.59.8",
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.1",
+    "prettier": "^2.8.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
+    "typescript-eslint": "^8.34.1",
+    "vite": "6.2.2",
+    "vite-plugin-dts": "4.5.3",
+    "vite-plugin-static-copy": "2.3.0",
+    "vitest": "3.0.9"
+  },
+  "engines": {
+    "node": "20",
+    "pnpm": "10"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "@batoanng/t-generator",
+  "version": "0.2.0",
+  "description": "Yeoman generators for bootstrapping React apps and lean NestJS servers.",
+  "type": "commonjs",
+  "main": "generators/index.ts",
+  "files": [
+    "generators",
+    "README.md"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "yeoman",
+    "react",
+    "nestjs",
+    "vite",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "changeset": "changeset",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"generators/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
+    "test": "tsx --test test/*.test.ts",
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.build.json && tsx scripts/stage-dist.ts",
+    "test:dist": "npm run build && DIST_SMOKE=1 TEST_TARGET=dist tsx --test \"test/dist-package.test.ts\"",
+    "version-packages": "changeset version",
+    "release": "npm run test:dist && npm publish ./dist"
+  },
+  "dependencies": {
+    "yeoman-generator": "^5.10.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.30.0",
+    "@eslint/js": "^9.39.1",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/node": "^24.9.0",
+    "eslint": "^9.39.1",
+    "prettier": "^3.8.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-test": "^7.1.0"
+  }
+}

@@ -1,0 +1,89 @@
+import 'reflect-metadata';
+
+import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { ApplicationModule } from './modules/app.module';
+import { CommonModule, LogInterceptor } from './modules/common';
+import { config } from './types/config';
+
+const SWAGGER_PREFIX = '/docs';
+const SWAGGER_TITLE = '<%= appDisplayName %> API';
+const SWAGGER_DESCRIPTION =
+  'REST API scaffold for <%= appDisplayName %>. Swagger documents the generated NestJS base endpoints.';
+
+function createSwagger(app: INestApplication): void {
+  const apiVersion = String(config.API_VERSION);
+  const apiBasePath = `/api/v${apiVersion}`;
+  const options = new DocumentBuilder()
+    .setTitle(SWAGGER_TITLE)
+    .setDescription(SWAGGER_DESCRIPTION)
+    .setVersion(apiVersion)
+    .setOpenAPIVersion('3.0.0')
+    .addServer(apiBasePath, 'Versioned REST API base path')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'token',
+        description: 'Health check bearer token.',
+      },
+      'health-token',
+    )
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup(SWAGGER_PREFIX, app, document);
+}
+
+async function bootstrap(): Promise<void> {
+  const adapter = new FastifyAdapter();
+  const app = await NestFactory.create<NestFastifyApplication>(
+    ApplicationModule,
+    adapter,
+  );
+
+  app.enableCors({
+    origin:
+      config.CORS_ORIGIN && config.CORS_ORIGIN.length > 0
+        ? config.CORS_ORIGIN
+        : true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
+  app.setGlobalPrefix(`api/v${config.API_VERSION}`);
+
+  if (config.SWAGGER_ENABLE) {
+    createSwagger(app);
+  }
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
+
+  const logInterceptor = app.select(CommonModule).get(LogInterceptor);
+  app.useGlobalInterceptors(logInterceptor);
+
+  const port = config.API_PORT;
+  await app.listen(port, '0.0.0.0');
+
+  console.info(`Server is running on port ${port}`);
+}
+
+bootstrap().catch((error: unknown) => {
+  console.error(error);
+  process.exit(1);
+});

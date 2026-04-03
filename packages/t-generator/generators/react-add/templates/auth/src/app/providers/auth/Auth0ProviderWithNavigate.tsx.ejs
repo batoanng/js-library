@@ -1,0 +1,44 @@
+import type { PropsWithChildren } from 'react';
+import { Auth0Provider } from '@auth0/auth0-react';
+import { z } from 'zod';
+import { env } from '@/shared/config';
+
+const authRedirectStateSchema = z
+  .object({
+    returnTo: z.string().optional(),
+  })
+  .passthrough();
+
+type AuthRedirectState = z.infer<typeof authRedirectStateSchema>;
+
+function getAuthorizationParams() {
+  return {
+    redirect_uri: window.location.origin,
+    ...(env.auth0.audience ? { audience: env.auth0.audience } : {}),
+  };
+}
+
+export function Auth0ProviderWithNavigate({
+  children,
+}: PropsWithChildren) {
+  if (!env.auth0.isConfigured) {
+    return <>{children}</>;
+  }
+
+  return (
+    <Auth0Provider
+      domain={env.auth0.domain}
+      clientId={env.auth0.clientId}
+      authorizationParams={getAuthorizationParams()}
+      onRedirectCallback={(appState?: AuthRedirectState) => {
+        const redirectState = authRedirectStateSchema.parse(appState ?? {});
+        const returnTo = redirectState.returnTo || '/auth';
+        const redirectUrl = new URL(returnTo, window.location.origin);
+
+        window.location.replace(redirectUrl.toString());
+      }}
+    >
+      {children}
+    </Auth0Provider>
+  );
+}
