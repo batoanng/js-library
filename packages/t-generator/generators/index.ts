@@ -72,8 +72,9 @@ class RootGenerator extends GeneratorBase {
     const namespace = this.action === 'create-base'
       ? `${this.stack}-app`
       : `${this.stack}-add`;
+    const generatorExtension = path.extname(__filename) === '.ts' ? '.ts' : '.js';
 
-    this.composeWith(path.join(__dirname, namespace));
+    this.composeWith(path.join(__dirname, namespace, `index${generatorExtension}`));
   }
 }
 

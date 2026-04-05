@@ -16,6 +16,9 @@ importers:
       dist:
         specifier: link:packages/t-generator/dist
         version: link:packages/t-generator/dist
+      generator-t-generator:
+        specifier: link:packages/t-generator/dist
+        version: link:packages/t-generator/dist
     devDependencies:
       '@batoanng/eslint-config':
         specifier: workspace:*

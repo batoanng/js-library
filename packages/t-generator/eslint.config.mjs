@@ -13,11 +13,11 @@ export default [
   ...base,
   ...test,
   {
-    name: '@batoanng/t-generator/ignores',
+    name: 'generator-t-generator/ignores',
     ignores: ['generators/**/*.js', 'test-app/**', '**/*.ejs'],
   },
   {
-    name: '@batoanng/t-generator/commonjs',
+    name: 'generator-t-generator/commonjs',
     files: ['generators/**/*.ts', 'test/**/*.ts', 'scripts/**/*.ts'],
     languageOptions: {
       globals: commonJsGlobals,
@@ -45,7 +45,7 @@ export default [
     },
   },
   {
-    name: '@batoanng/t-generator/build-scripts',
+    name: 'generator-t-generator/build-scripts',
     files: ['scripts/**/*.cjs'],
     languageOptions: {
       globals: commonJsGlobals,

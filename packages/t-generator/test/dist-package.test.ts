@@ -66,6 +66,7 @@ packageSmokeTest(
       ),
     ]);
 
+    assert.equal(packageJson.name, 'generator-t-generator');
     assert.equal(packageJson.main, 'generators/index.js');
     assert.deepEqual(packageJson.files, [
       'generators/**/*.js',

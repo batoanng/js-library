@@ -102,7 +102,7 @@ yo t-generator:nodejs-add llm
 Global install:
 
 ```bash
-npm install -g yo @batoanng/t-generator
+npm install -g yo generator-t-generator
 yo t-generator
 yo t-generator:react-app my-app
 yo t-generator:nextjs-app my-next-app
@@ -122,11 +122,11 @@ yo t-generator:nodejs-add queue
 Without a global install:
 
 ```bash
-npx -p yo -p @batoanng/t-generator yo t-generator
-npx -p yo -p @batoanng/t-generator yo t-generator:react-app my-app
-npx -p yo -p @batoanng/t-generator yo t-generator:nextjs-app my-next-app
-npx -p yo -p @batoanng/t-generator yo t-generator:nestjs-app my-server
-npx -p yo -p @batoanng/t-generator yo t-generator:nodejs-app my-node-server
+npx -p yo -p generator-t-generator yo t-generator
+npx -p yo -p generator-t-generator yo t-generator:react-app my-app
+npx -p yo -p generator-t-generator yo t-generator:nextjs-app my-next-app
+npx -p yo -p generator-t-generator yo t-generator:nestjs-app my-server
+npx -p yo -p generator-t-generator yo t-generator:nodejs-app my-node-server
 ```
 
 The npm package page README is published directly from this file.
@@ -425,7 +425,7 @@ npm install -g yo
 If you already linked an older build, refresh the link after rebuilding:
 
 ```bash
-npm unlink -g @batoanng/t-generator
+npm unlink -g generator-t-generator
 pnpm run link:dev
 ```
 
