@@ -1,0 +1,156 @@
+@theme {
+  --font-sans: 'Jost', var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+  --font-arsenal: 'Arsenal', var(--font-arsenal), serif;
+  --font-jost: 'Jost', var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary-100: #E3C7F9;
+  --color-primary-300: #9A59E0;
+  --color-primary-500: #3D0099;
+  --color-primary-700: #22006E;
+  --color-primary-900: #110049;
+
+  --color-secondary-100: #FFE6DC;
+  --color-secondary-300: #FFA197;
+  --color-secondary-500: #FF5362;
+  --color-secondary-700: #B7294F;
+  --color-secondary-900: #7A0F3F;
+
+  --color-success-100: #E9FBD1;
+  --color-success-300: #A7EB72;
+  --color-success-500: #4CBF1C;
+  --color-success-700: #23880E;
+  --color-success-900: #075B05;
+
+  --color-info-100: #DEFCFE;
+  --color-info-300: #9DE6F5;
+  --color-info-500: #59B6DF;
+  --color-info-700: #2B6D9F;
+  --color-info-900: #11366A;
+
+  --color-warn-100: #FCF5C9;
+  --color-warn-300: #F1D45F;
+  --color-warn-500: #D19C00;
+  --color-warn-700: #956900;
+  --color-warn-900: #634000;
+
+  --color-error-100: #FCDBC9;
+  --color-error-300: #EE785F;
+  --color-error-500: #C70000;
+  --color-error-700: #8F0018;
+  --color-error-900: #5F0021;
+
+  --color-grey-100: #F9FAFB;
+  --color-grey-200: #F6F6F6;
+  --color-grey-300: #F1F1F1;
+  --color-grey-400: #D6D6D6;
+  --color-grey-500: #BBBBBB;
+  --color-grey-600: #B0B0B0;
+  --color-grey-700: #515151;
+  --color-grey-800: #393939;
+  --color-grey-900: #1B1B1B;
+
+  --color-brand-50: var(--brand-50, #eff6ff);
+  --color-brand-100: var(--brand-100, #dbeafe);
+  --color-brand-200: var(--brand-200, #bfdbfe);
+  --color-brand-300: var(--brand-300, #93c5fd);
+  --color-brand-400: var(--brand-400, #60a5fa);
+  --color-brand-500: var(--brand-500, #3b82f6);
+  --color-brand-600: var(--brand-600, #2563eb);
+  --color-brand-700: var(--brand-700, #1d4ed8);
+  --color-brand-800: var(--brand-800, #1e40af);
+  --color-brand-900: var(--brand-900, #1e3a8a);
+
+  --color-informational-100: #CBF6FD;
+  --color-informational-800: #0289DD;
+  --color-informational-900: #00286A;
+
+  --spacing-18: 4.5rem;
+  --spacing-21: 5.25rem;
+
+  --shadow-light-card: 0px 0px 2px 0px rgba(145, 158, 171, 0.2),
+    0px 12px 24px -4px rgba(145, 158, 171, 0.12);
+  --shadow-top: 0px 1px 10px 0px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.12),
+    0px 2px 4px 0px rgba(0, 0, 0, 0.14);
+}
+
+@utility text-dh1 {
+  font-size: 1.625rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+@utility text-dh2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+@utility text-dh3 {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+}
+
+@utility text-dh4 {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+@utility text-mh1 {
+  font-size: 1.5rem;
+  line-height: 1.875rem;
+  font-weight: 700;
+}
+
+@utility text-mh2 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+@utility text-mh3 {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+@utility text-mh4 {
+  font-size: 1.0625rem;
+  line-height: 1.5rem;
+}
+
+@utility text-p {
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+@utility text-sp {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@utility text-c {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+@utility bg-background-gradient {
+  background-image: linear-gradient(116.48deg, white, var(--color-brand-100));
+}
+
+@utility bg-carousel-gradient {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 52.97%, rgba(0, 0, 0, 0.99) 78.35%);
+}
+
+@utility bg-upper-mask {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 27.08%);
+}
+
+@utility bg-lower-mask {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 55.61%, rgba(0, 0, 0, 0.65) 84.37%);
+}
+
+@utility bg-athens-grey {
+  background-color: #F4F6F8;
+}
+
+@utility duration-600 {
+  transition-duration: 600ms;
+}

@@ -1,15 +1,16 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable global-require */
-const { fontFamily } = require('tailwindcss/defaultTheme');
-
-/** @type {import('tailwindcss').Config} */
+/**
+ * Compatibility surface for consumers that still import the package from
+ * JavaScript config files. New projects should prefer:
+ *
+ * @import "tailwindcss";
+ * @import "@batoanng/tailwind-config/styles.css";
+ */
 module.exports = {
-  content: ['./src/**/*.{ts,tsx}'],
   theme: {
     fontFamily: {
-      sans: ['Jost', 'var(--font-jost)', ...fontFamily.sans],
-      arsenal: ['Arsenal', 'var(--font-arsenal)'],
-      jost: ['Jost', 'var(--font-jost)'],
+      sans: ['Jost', 'var(--font-jost)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      arsenal: ['Arsenal', 'var(--font-arsenal)', 'serif'],
+      jost: ['Jost', 'var(--font-jost)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
     },
     fontWeight: {
       normal: 400,
@@ -133,5 +134,4 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms'), require('tailwindcss-animate')],
 };

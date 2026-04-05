@@ -16,6 +16,7 @@ Every add-on command validates that this directory still contains the
 The interactive flow currently offers, in order:
 
 - `bff`
+- `tailwind`
 - `ui-library`
 - `auth`
 - `redux`
@@ -27,6 +28,7 @@ You can also call a feature directly when needed:
 
 ```bash
 yo t-generator:react-add bff
+yo t-generator:react-add tailwind
 yo t-generator:react-add ui-library
 yo t-generator:react-add auth
 yo t-generator:react-add redux
@@ -40,6 +42,12 @@ yo t-generator:react-add pwa
 The preferred UI stack for this generator is based on Material UI and
 `@batoanng/mui-components`. The base app stays feature-neutral until you add the
 `ui-library` feature, which also owns the generated theme wiring.
+
+## Tailwind
+
+The `tailwind` feature adds Tailwind CSS v4 through Vite plus the shared
+`@batoanng/tailwind-config/styles.css` stylesheet. It keeps utility styling
+optional and composes with `ui-library` and the data/auth features.
 
 ## Auth
 

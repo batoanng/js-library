@@ -26,6 +26,7 @@ type PackageJson = {
 
 type PackageDocOverride = {
   category: PackageCategory
+  highlights?: string[]
   installMode?: 'dev' | 'global' | 'prod'
   quickStart: PackageDoc['quickStart']
   relatedSlugs?: string[]
@@ -143,27 +144,33 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
   't-generator': {
     category: 'Scaffolding',
     installMode: 'global',
-    tagline: 'Yeoman generators for new React apps, NestJS services, and composable feature add-ons.',
+    tagline: 'Yeoman generators for React, Next.js, NestJS, and Node.js projects with composable add-ons.',
     summary:
-      'Bootstrap opinionated project structures quickly, then layer in specific features like auth, GraphQL, queues, or PWA support as needed.',
+      'Bootstrap opinionated project structures quickly, then layer in stack-specific features like Tailwind, auth, GraphQL, queues, or PWA support as needed.',
+    highlights: [
+      'React + Vite base generator with add-ons for bff, tailwind, ui-library, auth, redux, react-query, apollo, and pwa.',
+      'Next.js App Router base generator with add-ons for tailwind, ui-library, auth, redux, react-query, apollo, and pwa.',
+      'NestJS server generator with infrastructure-focused graphql, queue, cache, and llm add-ons.',
+      'Node.js + Express server generator with clean or mvp architecture plus graphql, queue, cache, and llm add-ons.',
+    ],
     quickStart: {
-      title: 'Generate a new React app',
-      description: 'The generator ships both app-level scaffolds and targeted feature add-ons for follow-up work.',
+      title: 'Generate a stack starter',
+      description: 'Pick the stack directly or use the interactive root generator to route into the same base and add-on commands.',
       language: 'bash',
-      code: `npm install -g yo @batoanng/t-generator\nyo t-generator:react-app my-app\nyo t-generator:react-add auth`,
+      code: `npm install -g yo @batoanng/t-generator\nyo t-generator\nyo t-generator:react-app my-react-app\nyo t-generator:nextjs-app my-next-app\nyo t-generator:nodejs-app my-node-api`,
     },
   },
   'tailwind-config': {
     category: 'Config',
     installMode: 'dev',
-    tagline: 'Shared Tailwind tokens, typography scales, fonts, and utility plugins for front-end apps.',
+    tagline: 'Shared Tailwind CSS v4 theme tokens and utility extensions exposed through a CSS-first stylesheet.',
     summary:
-      'Pull in a base Tailwind config with brand colors, type scales, motion utilities, and the common plugins already attached.',
+      'Import one shared stylesheet to pick up fonts, colors, spacing, shadows, and utility extensions without maintaining a local Tailwind config file.',
     quickStart: {
-      title: 'Extend the shared Tailwind config',
-      description: 'Spread the exported config into your app-level setup, then add your own content globs or local theme extensions.',
-      language: 'js',
-      code: `const shared = require('@batoanng/tailwind-config');\n\nmodule.exports = {\n  ...shared,\n  content: ['./src/**/*.{ts,tsx}'],\n};`,
+      title: 'Import the shared Tailwind v4 stylesheet',
+      description: 'Add the shared stylesheet next to your app-level Tailwind import and keep project-specific tokens in regular CSS.',
+      language: 'css',
+      code: `@import "tailwindcss";\n@import "@batoanng/tailwind-config/styles.css";`,
     },
   },
   tsconfig: {
@@ -739,7 +746,9 @@ async function loadAllPackageDocs(): Promise<PackageDoc[]> {
     const exports = flattenExportEntries(rawPackage.packageJson.exports)
     const extractedHighlights = extractHighlights(rawPackage.readme)
     const highlights =
-      extractedHighlights.length > 0
+      override?.highlights && override.highlights.length > 0
+        ? override.highlights
+        : extractedHighlights.length > 0
         ? extractedHighlights
         : fallbackHighlights({
             description: rawPackage.description || rawPackage.summary,

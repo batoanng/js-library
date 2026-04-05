@@ -1,12 +1,7 @@
 import fs from 'node:fs';
 
-import { addManagedFile, appManagedFile, hasPackageDependency } from '../lib/helpers';
+import { addManagedFile, hasPackageDependency } from '../lib/helpers';
 import type { FeatureDefinition } from '../lib/types';
-
-const UI_LIBRARY_GLOBAL_STYLE_FILE = appManagedFile(
-  'src/app/styles/global.css',
-  'src/app/styles/global.css.ejs',
-);
 
 const UI_LIBRARY_NEW_FILES = [
   addManagedFile(
@@ -72,11 +67,6 @@ const uiLibraryFeature: FeatureDefinition = {
     }
 
     generator._validateSharedScaffold('UI library', generator.installedFeatures);
-    generator._validateManagedFiles(
-      'UI library',
-      [UI_LIBRARY_GLOBAL_STYLE_FILE],
-      'base styles',
-    );
   },
   write(generator) {
     generator._writeDependencies(UI_LIBRARY_DEPENDENCIES);

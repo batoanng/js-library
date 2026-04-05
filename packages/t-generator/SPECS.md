@@ -2,13 +2,14 @@
 
 ## 1. Overview
 
-`t-generator` is a Yeoman-based code generator for bootstrapping and evolving React repositories, lean NestJS servers, and Express-based Node.js servers.
+`t-generator` is a Yeoman-based code generator for bootstrapping and evolving React repositories, Next.js applications, lean NestJS servers, and Express-based Node.js servers.
 
-Its purpose is to help developers create a production-ready React + TypeScript application, a lean NestJS server, or a Node.js + Express server quickly, then progressively add common features through dedicated commands.
+Its purpose is to help developers create a production-ready React + TypeScript application, a production-ready Next.js App Router application, a lean NestJS server, or a Node.js + Express server quickly, then progressively add common features through dedicated commands.
 
 The generator should support:
 
 - creating a base React + TypeScript app
+- creating a base Next.js app
 - creating a base NestJS server
 - creating a base Node.js server
 - adding optional features incrementally
@@ -24,9 +25,11 @@ The initial version should focus on a strong base application and a small set of
 ### Primary goals
 
 - Provide a single command to generate a base React + TypeScript application
+- Provide a single command to generate a base Next.js App Router application
 - Provide a single command to generate a base NestJS server
 - Provide a single command to generate a base Node.js server
 - Provide separate commands to add common React features on demand
+- Provide separate commands to add common Next.js features on demand
 - Provide separate commands to add common NestJS server features on demand
 - Provide separate commands to add common Node.js server features on demand
 - Provide an interactive root command that routes to React, NestJS, or Node.js generation
@@ -48,7 +51,6 @@ The initial version should focus on a strong base application and a small set of
 The first version does not need to:
 
 - support every React framework
-- support SSR frameworks like Next.js
 - support multiple package managers in depth
 - generate custom backend business logic or database layers
 - generate deployment infrastructure
@@ -76,9 +78,8 @@ Notes:
 
 ### Base application
 
-- React
-- TypeScript
-- Vite
+- React + TypeScript + Vite for the React stack
+- Next.js App Router + TypeScript for the Next.js stack
 
 ### Generator framework
 
@@ -123,6 +124,8 @@ Version 1 should focus on two layers:
 
 - a strong `base app`
 - a small set of add-on React `features`
+- a strong `base Next.js app`
+- a small set of add-on Next.js `features`
 - a lean `base server`
 - a small set of add-on NestJS server `features`
 - a lean `base Node.js server`
@@ -161,7 +164,7 @@ yo t-generator
 
 Responsibilities:
 
-- prompt for the target stack: `react`, `nestjs`, or `nodejs`
+- prompt for the target stack: `react`, `nextjs`, `nestjs`, or `nodejs`
 - prompt for the action: create a base project or add a feature
 - delegate to the same explicit subgenerators used by direct commands
 - preserve the explicit commands as stable interfaces
@@ -214,6 +217,61 @@ Responsibilities:
 Prompt order for the current implementation:
 
 1. `bff`
+2. `tailwind`
+3. `ui-library`
+4. `auth`
+5. `redux`
+6. `react-query`
+7. `apollo`
+8. `pwa`
+
+### 7.4 Next.js base command
+
+This command creates the initial Next.js App Router project.
+
+Example:
+
+```bash
+yo t-generator:nextjs-app my-next-app
+```
+
+Responsibilities:
+
+- scaffold a Next.js App Router + TypeScript app
+- configure linting and formatting
+- configure path aliases
+- add environment file support
+- create the initial project structure
+- add a root layout and provider composition entry point
+- add a basic test setup
+
+### 7.5 Next.js feature command
+
+This command adds one feature into an existing generated Next.js project.
+
+Example:
+
+```bash
+yo t-generator:nextjs-add tailwind
+yo t-generator:nextjs-add ui-library
+yo t-generator:nextjs-add auth
+yo t-generator:nextjs-add redux
+yo t-generator:nextjs-add react-query
+yo t-generator:nextjs-add apollo
+yo t-generator:nextjs-add pwa
+```
+
+Responsibilities:
+
+- install required dependencies
+- create or update required files
+- wire the feature into existing providers, routes, config, and generated pages
+- validate that the target project already contains the generated base app before writing feature-managed files
+- avoid duplicating existing setup where possible
+
+Prompt order for the current implementation:
+
+1. `tailwind`
 2. `ui-library`
 3. `auth`
 4. `redux`
@@ -221,7 +279,9 @@ Prompt order for the current implementation:
 6. `apollo`
 7. `pwa`
 
-### 7.4 NestJS base command
+`bff` is intentionally not supported for Next.js.
+
+### 7.6 NestJS base command
 
 This command creates the initial NestJS server project.
 
@@ -239,7 +299,7 @@ Responsibilities:
 - create the initial `src/modules` structure
 - add a basic Vitest + Fastify injection test
 
-### 7.5 NestJS server feature command
+### 7.7 NestJS server feature command
 
 This command adds one server feature into an existing generated NestJS project.
 
@@ -267,7 +327,7 @@ Prompt order for the current implementation:
 3. `cache`
 4. `llm`
 
-### 7.6 Node.js base command
+### 7.8 Node.js base command
 
 This command creates the initial Node.js server project.
 
@@ -286,7 +346,7 @@ Responsibilities:
 - create a sample `GET /health` API
 - add a basic Jest + Supertest health test
 
-### 7.7 Node.js server feature command
+### 7.9 Node.js server feature command
 
 This command adds one server feature into an existing generated Node.js project.
 
@@ -314,7 +374,7 @@ Prompt order for the current implementation:
 3. `cache`
 4. `llm`
 
-### 7.8 Test command
+### 7.10 Test command
 
 This command adds or updates tests for the base app or for a specific feature.
 
@@ -339,17 +399,15 @@ The base app is the foundation every generated project should start from.
 
 ### 8.1 Base app must include
 
-- React + TypeScript via Vite
 - ESLint configuration
 - Prettier configuration
 - TypeScript path aliases
 - `.env` support
 - `src` folder structure suitable for growth
-- an application entry point
 - a provider composition entry point
-- React Router setup
 - a placeholder home page
-- Vitest setup
+- React base: React + TypeScript via Vite, a single application entry point, React Router setup, and Vitest setup
+- Next.js base: Next.js App Router, a root layout, route entrypoints under `src/app`, and Jest + Testing Library setup
 
 ### 8.2 Base folder structure
 
@@ -408,7 +466,7 @@ The generator should:
 
 ### 8.5 Base folder structure example
 
-An example starting structure for the base app is:
+An example starting structure for the frontend base app is:
 
 ```text
 src/
@@ -431,17 +489,14 @@ src/
     config/
 ```
 
-The generator should keep the structure simple, avoid over-abstraction, and leave room for later feature generators to plug into it.
+The generator should keep the structure simple, avoid over-abstraction, and leave room for later feature generators to plug into it. The Next.js stack should adapt the `app` layer to App Router conventions, but the FSD slice layout under `pages`, `widgets`, `features`, `entities`, and `shared` should stay aligned with the React stack.
 
 ### 8.6 Base scripts
 
 At minimum:
 
-- `dev`
-- `build`
-- `preview`
-- `lint`
-- `test`
+- React base: `dev`, `build`, `preview`, `lint`, `test`
+- Next.js base: `dev`, `build`, `start`, `analyze`, `lint`, `test`, `type-check`
 
 Optional scripts may be added when relevant to enabled features.
 
@@ -451,7 +506,33 @@ Optional scripts may be added when relevant to enabled features.
 
 Version 1 should support the following feature generators.
 
-### 9.1 `ui-library`
+### Frontend feature surface
+
+- React supports: `bff`, `tailwind`, `ui-library`, `auth`, `redux`, `react-query`, `apollo`, `pwa`
+- Next.js supports: `tailwind`, `ui-library`, `auth`, `redux`, `react-query`, `apollo`, `pwa`
+- `bff` is React-only and must not be exposed for Next.js
+
+### 9.1 `tailwind`
+
+Purpose:
+
+- add Tailwind CSS v4 as an opt-in styling layer for generated frontend apps
+
+Responsibilities:
+
+- install the Tailwind v4 integration package for the selected stack
+- import `@batoanng/tailwind-config/styles.css`
+- rewrite the generated global styles to the CSS-first flow
+- keep Tailwind out of the base app so it remains an optional add-on
+- validate existing managed scaffold files before writing Tailwind changes
+
+Notes:
+
+- React should use `@tailwindcss/vite`
+- Next.js should use `@tailwindcss/postcss`
+- the generator should stop relying on `tailwind.config.js` for new scaffolds
+
+### 9.2 `ui-library`
 
 Purpose:
 
@@ -468,8 +549,9 @@ Notes:
 
 - `theme` is not a standalone v1 feature. Theme setup is owned by `ui-library`.
 - The first implementation should align with the preferred MUI-based stack.
+- The feature should compose with `tailwind` in either order for both React and Next.js.
 
-### 9.2 `bff`
+### 9.3 `bff`
 
 Purpose:
 
@@ -497,30 +579,30 @@ Notes:
 - This feature exists to support frontend delivery concerns such as CORS avoidance, proxying, and static asset serving.
 - The example project's `server/` folder is the reference shape for this feature.
 - The generator must fail clearly if the base app markers are missing or if existing BFF wiring would be overwritten.
+- This feature is React-only and must not be available for Next.js.
 
-### 9.3 `auth`
+### 9.4 `auth`
 
 Purpose:
 
-- add Auth0-based authentication scaffolding for the generated SPA
+- add Auth0-based authentication scaffolding for the generated frontend app
 
 Responsibilities:
 
-- install `@auth0/auth0-react`
-- create an Auth0-aware provider wrapper
+- install the Auth0 package that matches the selected stack
 - add environment variables required for Auth0
 - add a generated `/auth` example page
 - add a main-page link to open the auth example
-- provide a basic authenticated and unauthenticated flow
 - validate existing managed files before writing auth changes
 
 Notes:
 
-- The first implementation targets the Auth0 React SDK.
+- React should use `@auth0/auth0-react` and add an Auth0-aware provider wrapper.
+- Next.js should use `@auth0/nextjs-auth0` and add route-handler and middleware scaffolding instead of a client provider wrapper.
 - The `/auth` page should show setup guidance until required Auth0 values are configured.
 - The feature should work on the base app and also compose with `ui-library` in either order.
 
-### 9.4 `react-query`
+### 9.5 `react-query`
 
 Purpose:
 
@@ -545,7 +627,7 @@ Notes:
 - The feature should work on the base app and also compose with `auth`, `redux`, and `ui-library` in either order.
 - The generated Axios client should default to `VITE_API_BASE_URL=/api`.
 
-### 9.5 `apollo`
+### 9.6 `apollo`
 
 Purpose:
 
@@ -571,7 +653,7 @@ Notes:
 - The generated GraphQL URL should default to `VITE_GRAPHQL_URL=/graphql`.
 - The generated example route should explain the setup and also execute the demo query by default.
 
-### 9.6 `redux`
+### 9.7 `redux`
 
 Purpose:
 
@@ -593,7 +675,7 @@ Notes:
 - The generated store should persist example state by default.
 - The feature should work on the base app and also compose with `auth` and `ui-library` in either order.
 
-### 9.7 `notifications`
+### 9.8 `notifications`
 
 Purpose:
 
@@ -605,7 +687,7 @@ Responsibilities:
 - create a provider wrapper
 - expose basic success/error notification helpers
 
-### 9.8 `pwa`
+### 9.9 `pwa`
 
 Purpose:
 
@@ -613,26 +695,24 @@ Purpose:
 
 Responsibilities:
 
-- install `vite-plugin-pwa`
-- rewrite `vite.config.ts` to use `VitePWA` with `strategies: 'generateSW'`
-- use prompt-based service worker updates through `registerType: 'prompt'`
-- enable development-mode service worker support for local testing
-- generate manifest defaults from the app display name
-- generate PWA assets from a single `public/pwa-icon.svg` source through the plugin
-- rewrite `src/app/entrypoint/App.tsx` to mount app-shell PWA status UI
-- generate `src/features/pwa` with a React wrapper around `virtual:pwa-register/react`
-- support install prompts, update prompts, and online/offline state
+- add stack-appropriate PWA wiring
+- React: install `vite-plugin-pwa` and rewrite `vite.config.ts` to use `VitePWA` with `strategies: 'generateSW'`
+- React: use prompt-based service worker updates through `registerType: 'prompt'`
+- React: enable development-mode service worker support for local testing
+- React: generate PWA assets from a single `public/pwa-icon.svg` source through the plugin
+- Next.js: generate `app/manifest.ts`, `public/sw.js`, and a client-side registration component
 - add a generated `/pwa` guide page
 - add a main-page link to open the PWA example
 - validate existing managed files before writing PWA changes
 
 Notes:
 
-- The first implementation should stay on the plugin-managed `generateSW` path and should not generate a custom `src/sw.ts`.
+- The React implementation should stay on the plugin-managed `generateSW` path and should not generate a custom `src/sw.ts`.
+- The Next.js implementation should stay conservative and not add custom runtime caching rules by default.
 - The feature should work on the base app and also compose with `auth`, `redux`, `react-query`, `apollo`, and `ui-library` in either order.
 - The first version should keep runtime caching conservative and avoid schema-specific or API-specific runtime caching rules.
 
-### 9.9 `graphql`
+### 9.10 `graphql`
 
 Purpose:
 
@@ -653,7 +733,7 @@ Non-responsibilities:
 - no Neo4j indexes or providers
 - no `atomsByArtifact` resolver
 
-### 9.10 `queue`
+### 9.11 `queue`
 
 Purpose:
 
@@ -734,6 +814,8 @@ Feature generators should compose cleanly.
 ### Example interactions
 
 - `auth` may integrate with `apollo`
+- `tailwind` must compose cleanly with `ui-library`
+- `tailwind` must compose cleanly with `pwa` on the React stack
 - `ui-library` and `auth` must compose without a required order
 - `redux` must compose cleanly with both `auth` and `ui-library`
 - `react-query` must compose cleanly with `auth`, `redux`, and `ui-library`
@@ -754,9 +836,8 @@ Testing is part of the generator contract, not an afterthought.
 
 The base app should include:
 
-- Vitest configuration
-- a test setup file
-- one example test for generated base UI
+- React base: Vitest configuration, a test setup file, and one example test for generated base UI
+- Next.js base: Jest configuration and one example test for generated base UI
 
 ### Feature testing
 
@@ -764,6 +845,7 @@ Each feature should define its own minimal testing expectations.
 
 Examples:
 
+- `tailwind`: stack-specific Tailwind integration wiring and global style smoke test
 - `ui-library`: render with provider
 - `auth`: provider and `/auth` page smoke test
 - `react-query`: query client and `/react-query` page smoke test
@@ -822,17 +904,19 @@ Requirements:
 
 The first implementation pass should prioritize:
 
-1. base app
-2. bff
-3. ui-library
-4. auth
-5. redux
-6. react-query
-7. apollo
-8. pwa
-9. graphql
-10. queue
-11. cache
-12. llm
+1. base React app
+2. base Next.js app
+3. bff
+4. tailwind
+5. ui-library
+6. auth
+7. redux
+8. react-query
+9. apollo
+10. pwa
+11. graphql
+12. queue
+13. cache
+14. llm
 
 The remaining features can follow after the core generation flow is stable.

@@ -1,0 +1,20 @@
+import { render, screen } from '@testing-library/react';
+import { PwaPage } from './PwaPage';
+
+describe('PwaPage', () => {
+  it('renders the generated PWA guide content', () => {
+    render(<PwaPage />);
+
+    expect(
+      screen.getByRole('heading', {
+        name: /Offline-ready app shell and install prompts are wired in/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /View manifest/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /Return to the home page/i }),
+    ).toHaveAttribute('href', '/');
+  });
+});

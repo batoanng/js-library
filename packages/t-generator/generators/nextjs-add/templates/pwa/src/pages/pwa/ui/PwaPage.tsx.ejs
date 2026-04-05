@@ -1,0 +1,122 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
+const generatedFiles = [
+  'src/app/manifest.ts',
+  'public/sw.js',
+  'src/features/pwa/PwaClient.tsx',
+  'src/pages/pwa/ui/PwaPage.tsx',
+  'public/pwa-icon.svg',
+];
+
+export function PwaPage() {
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
+
+  useEffect(() => {
+    setIsOnline(window.navigator.onLine);
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .getRegistration('/sw.js')
+        .then((registration) => {
+          setIsRegistered(Boolean(registration));
+        })
+        .catch(() => {
+          setIsRegistered(false);
+        });
+    }
+  }, []);
+
+  return (
+    <main className="pwa-page">
+      <section className="pwa-page__card">
+        <div>
+          <p className="eyebrow">PWA example</p>
+          <h1>Offline-ready app shell and install prompts are wired in</h1>
+          <p>
+            This route documents the generated Next-native PWA setup. The app
+            shell registers a service worker from <code>/sw.js</code> and exposes
+            a static manifest from <code>app/manifest.ts</code>.
+          </p>
+          <p>
+            The first version keeps runtime caching conservative and leaves room
+            for product-specific offline rules once the shell is in place.
+          </p>
+        </div>
+
+        <div className="pwa-page__grid">
+          <section className="pwa-page__panel">
+            <h2>Live state</h2>
+            <ul className="pwa-page__status-list">
+              <li>
+                Browser connectivity:{' '}
+                <span className="pwa-page__status-value">
+                  {isOnline ? 'online' : 'offline'}
+                </span>
+              </li>
+              <li>
+                Service worker registration:{' '}
+                <span className="pwa-page__status-value">
+                  {isRegistered ? 'ready' : 'waiting'}
+                </span>
+              </li>
+            </ul>
+          </section>
+
+          <section className="pwa-page__panel">
+            <h2>Actions</h2>
+            <p>
+              Replace the generated service worker body with product-specific
+              caching and update strategies once you know which assets and API
+              responses should be available offline.
+            </p>
+            <div className="pwa-page__actions">
+              <a className="pwa-button pwa-button--primary" href="/manifest.webmanifest">
+                View manifest
+              </a>
+              <a className="pwa-button" href="/sw.js">
+                View service worker
+              </a>
+            </div>
+          </section>
+        </div>
+
+        <section className="pwa-page__panel">
+          <h2>Generated build setup</h2>
+          <code className="pwa-page__code">
+            {`app/manifest.ts
+public/sw.js
+src/features/pwa/PwaClient.tsx`}
+          </code>
+          <p>
+            Runtime caching stays conservative in v1. The generated service
+            worker focuses on the app shell and static assets, but it does not
+            add custom API or GraphQL caching rules.
+          </p>
+        </section>
+
+        <section className="pwa-page__panel">
+          <h2>Files owned by this feature</h2>
+          <ul className="pwa-page__meta">
+            {generatedFiles.map((filePath) => (
+              <li key={filePath}>
+                <code>{filePath}</code>
+              </li>
+            ))}
+          </ul>
+          <p>
+            Replace the generated icon source, manifest copy, and prompt copy
+            with product-specific branding once the base workflow is in place.
+          </p>
+        </section>
+
+        <p className="pwa-page__footer">
+          <Link href="/">Return to the home page</Link>
+        </p>
+      </section>
+    </main>
+  );
+}

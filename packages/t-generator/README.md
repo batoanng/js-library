@@ -1,11 +1,13 @@
 # t-generator
 
-`t-generator` is a Yeoman generator package for bootstrapping React repositories, lean NestJS servers, and Express-based Node.js servers with clean, scalable starting points.
+`t-generator` is a Yeoman generator package for bootstrapping React repositories, Next.js applications, lean NestJS servers, and Express-based Node.js servers with clean, scalable starting points.
 
 The current implementation covers:
 
 - a base React + TypeScript + Vite scaffold
-- seven React add-on features: `bff`, `ui-library`, `auth`, `redux`, `react-query`, `apollo`, and `pwa`
+- eight React add-on features: `bff`, `tailwind`, `ui-library`, `auth`, `redux`, `react-query`, `apollo`, and `pwa`
+- a base Next.js App Router scaffold
+- seven Next.js add-on features: `tailwind`, `ui-library`, `auth`, `redux`, `react-query`, `apollo`, and `pwa`
 - a lean NestJS + Fastify + Prisma server base scaffold
 - four NestJS server add-on features: `graphql`, `queue`, `cache`, and `llm`
 - a Node.js + Express + Prisma + MySQL server base scaffold with a choice of `clean` or `mvp` architecture
@@ -21,7 +23,7 @@ yo t-generator
 
 It prompts for:
 
-- stack: `react`, `nestjs`, or `nodejs`
+- stack: `react`, `nextjs`, `nestjs`, or `nodejs`
 - action: create a base project or add a feature
 
 Primary React base command:
@@ -35,12 +37,32 @@ Primary React feature commands:
 ```bash
 yo t-generator:react-add
 yo t-generator:react-add bff
+yo t-generator:react-add tailwind
 yo t-generator:react-add ui-library
 yo t-generator:react-add auth
 yo t-generator:react-add redux
 yo t-generator:react-add react-query
 yo t-generator:react-add apollo
 yo t-generator:react-add pwa
+```
+
+Primary Next.js base command:
+
+```bash
+yo t-generator:nextjs-app [appName]
+```
+
+Primary Next.js feature commands:
+
+```bash
+yo t-generator:nextjs-add
+yo t-generator:nextjs-add tailwind
+yo t-generator:nextjs-add ui-library
+yo t-generator:nextjs-add auth
+yo t-generator:nextjs-add redux
+yo t-generator:nextjs-add react-query
+yo t-generator:nextjs-add apollo
+yo t-generator:nextjs-add pwa
 ```
 
 NestJS base command:
@@ -83,6 +105,7 @@ Global install:
 npm install -g yo @batoanng/t-generator
 yo t-generator
 yo t-generator:react-app my-app
+yo t-generator:nextjs-app my-next-app
 yo t-generator:nestjs-app my-server
 yo t-generator:nodejs-app my-node-server
 ```
@@ -91,6 +114,7 @@ Add features after `cd` into the generated project:
 
 ```bash
 yo t-generator:react-add auth
+yo t-generator:nextjs-add tailwind
 yo t-generator:nestjs-add graphql
 yo t-generator:nodejs-add queue
 ```
@@ -100,6 +124,7 @@ Without a global install:
 ```bash
 npx -p yo -p @batoanng/t-generator yo t-generator
 npx -p yo -p @batoanng/t-generator yo t-generator:react-app my-app
+npx -p yo -p @batoanng/t-generator yo t-generator:nextjs-app my-next-app
 npx -p yo -p @batoanng/t-generator yo t-generator:nestjs-app my-server
 npx -p yo -p @batoanng/t-generator yo t-generator:nodejs-app my-node-server
 ```
@@ -126,12 +151,39 @@ The React base command currently includes:
 The React base command does not install add-on features automatically. The implemented React add-ons are:
 
 - `bff`, which creates a top-level `server/` package for API proxying and production frontend serving
+- `tailwind`, which adds Tailwind CSS v4 through `@tailwindcss/vite`, imports `@batoanng/tailwind-config/styles.css`, and rewrites the generated app styles to use the CSS-first flow
 - `ui-library`, which owns the generated MUI theme wiring, integrates `@batoanng/mui-components`, and adds a showcase section to the home page
 - `auth`, which wires the Auth0 React SDK into the app shell, adds an `/auth` example page, and links to it from the home page
 - `redux`, which wires a persisted Redux Toolkit store into the app shell, adds a `/redux` example page, and links to it from the home page
 - `react-query`, which wires a shared QueryClient and Axios-based data helpers into the app shell, adds a `/react-query` example page, and links to it from the home page
 - `apollo`, which wires a shared Apollo client into the routed app tree, adds a generated GraphQL demo hook, and links to an `/apollo` example page from the home page
 - `pwa`, which wires `vite-plugin-pwa` into the build, adds install and update status UI to the app shell, and links to a `/pwa` guide page from the home page
+
+### Next.js base
+
+The Next.js base command currently includes:
+
+- Next.js App Router
+- TypeScript via `@batoanng/tsconfig/nextjs.json`
+- ESLint and Prettier configuration
+- Jest + Testing Library setup
+- `@` path alias mapped to `src`
+- `.env` example file plus a small env helper
+- a provider composition entry point
+- a placeholder home page backed by `src/pages/home`
+- a Feature-Sliced Design directory structure
+
+The Next.js base command keeps Tailwind and other add-ons optional. The implemented Next.js add-ons are:
+
+- `tailwind`, which adds Tailwind CSS v4 through `@tailwindcss/postcss`, imports `@batoanng/tailwind-config/styles.css`, and rewrites the generated global styles to the CSS-first flow
+- `ui-library`, which wires MUI into the App Router shell, integrates `@batoanng/mui-components`, and adds a showcase section to the home page
+- `auth`, which adds Auth0 route-handler scaffolding, middleware, env wiring, and an `/auth` example page
+- `redux`, which wires a persisted Redux Toolkit store into the client provider shell, adds a `/redux` example page, and links to it from the home page
+- `react-query`, which wires a shared QueryClient and Axios-based data helpers into the client provider shell, adds a `/react-query` example page, and links to it from the home page
+- `apollo`, which wires a shared Apollo client into the app shell, adds a generated GraphQL demo hook, and links to an `/apollo` example page from the home page
+- `pwa`, which adds a generated manifest route, a service worker registration client component, and a `/pwa` guide page
+
+`bff` is intentionally not available for Next.js because App Router, route handlers, and server rendering already provide the server-side integration layer that the React `bff` feature is meant to supply.
 
 ### NestJS base
 
@@ -186,7 +238,20 @@ The `ui-library` feature keeps that setup optional instead of forcing it into ev
 
 `theme` is no longer a separate feature. Theme setup is part of `ui-library`.
 
-## Auth flow
+## Tailwind flow
+
+The `tailwind` feature uses Tailwind CSS v4.
+
+When you add it, the generator:
+
+- installs the Tailwind v4 integration package for the selected stack
+- imports `@batoanng/tailwind-config/styles.css`
+- rewrites the generated app shell styles to the CSS-first Tailwind flow
+- keeps Tailwind opt-in so the base scaffold stays styling-framework neutral
+
+For React, the feature uses `@tailwindcss/vite`. For Next.js, it uses `@tailwindcss/postcss`.
+
+## React auth flow
 
 The `auth` feature uses `@auth0/auth0-react`.
 
@@ -198,6 +263,17 @@ When you add it, the generator:
 - adds a main-page link to open the auth example
 
 `auth` works as a standalone feature and also composes with `ui-library` in either order.
+
+## Next.js auth flow
+
+The Next.js `auth` feature uses `@auth0/nextjs-auth0`.
+
+When you add it, the generator:
+
+- extends `.env.example` with the Auth0 server and public client settings
+- adds `src/lib/auth0.ts` plus `src/middleware.ts`
+- creates a public `/auth` page that documents the generated route-handler setup
+- adds a main-page link to open the auth example
 
 ## Redux flow
 
@@ -242,7 +318,7 @@ When you add it, the generator:
 
 `apollo` works as a standalone feature and also composes with `auth`, `redux`, `react-query`, and `ui-library` in either order. When `auth` is present, the generated Apollo provider attempts to attach an Auth0 access token and falls back to unauthenticated requests until Auth0 is configured.
 
-## PWA flow
+## React PWA flow
 
 The `pwa` feature uses `vite-plugin-pwa`.
 
@@ -256,6 +332,17 @@ When you add it, the generator:
 - adds a main-page link to open the PWA example
 
 `pwa` works as a standalone feature and also composes with `auth`, `redux`, `react-query`, `apollo`, and `ui-library` in either order. The first version keeps runtime caching conservative and does not add custom REST or GraphQL caching rules.
+
+## Next.js PWA flow
+
+The Next.js `pwa` feature uses a Next-native setup instead of `vite-plugin-pwa`.
+
+When you add it, the generator:
+
+- adds `app/manifest.ts`
+- adds a generated service worker at `public/sw.js`
+- mounts a small `PwaClient` registration component in `AppProviders`
+- creates a public `/pwa` page that documents the generated setup and links to the manifest and service worker
 
 ## Base app architecture
 

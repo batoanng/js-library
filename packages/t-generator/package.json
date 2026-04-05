@@ -1,7 +1,7 @@
 {
   "name": "@batoanng/t-generator",
   "version": "0.3.0",
-  "description": "Yeoman generators for bootstrapping React apps, NestJS servers, and Node.js servers.",
+  "description": "Yeoman generators for bootstrapping React apps, Next.js apps, NestJS servers, and Node.js servers.",
   "publishConfig": {
     "access": "public"
   },
@@ -17,10 +17,12 @@
     "yeoman-generator",
     "yeoman",
     "react",
+    "nextjs",
     "nestjs",
     "nodejs",
     "express",
     "prisma",
+    "tailwindcss",
     "vite",
     "typescript"
   ],

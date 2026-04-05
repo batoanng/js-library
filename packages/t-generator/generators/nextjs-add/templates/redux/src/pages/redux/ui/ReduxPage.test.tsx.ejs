@@ -1,0 +1,50 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import {
+  PERSIST_STORAGE_KEY,
+  persistor,
+  resetGlobalState,
+  store,
+} from '@/app/store';
+import { ReduxPage } from './ReduxPage';
+
+const persistedStorageKey = `persist:${PERSIST_STORAGE_KEY}`;
+
+describe('ReduxPage', () => {
+  beforeEach(async () => {
+    localStorage.clear();
+    store.dispatch(resetGlobalState());
+    await persistor.flush();
+  });
+
+  afterEach(async () => {
+    store.dispatch(resetGlobalState());
+    await persistor.flush();
+    localStorage.clear();
+  });
+
+  it('dispatches Redux updates and persists them', async () => {
+    render(
+      <Provider store={store}>
+        <ReduxPage />
+      </Provider>,
+    );
+
+    fireEvent.change(screen.getByLabelText(/Sample value/i), {
+      target: { value: 'Updated through the Redux example' },
+    });
+
+    expect(
+      screen.getByDisplayValue('Updated through the Redux example'),
+    ).toBeInTheDocument();
+
+    await persistor.flush();
+
+    await waitFor(() => {
+      const persistedState = localStorage.getItem(persistedStorageKey);
+
+      expect(persistedState).toBeTruthy();
+      expect(persistedState).toContain('Updated through the Redux example');
+    });
+  });
+});

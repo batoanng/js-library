@@ -10,6 +10,7 @@ import bffFeature from './features/bff';
 import pwaFeature from './features/pwa';
 import reactQueryFeature from './features/react-query';
 import reduxFeature from './features/redux';
+import tailwindFeature from './features/tailwind';
 import uiLibraryFeature from './features/ui-library';
 import { REQUIRED_BASE_FILES, REQUIRED_BASE_SCRIPTS } from './lib/constants';
 import {
@@ -40,6 +41,7 @@ interface FeaturePromptAnswers extends GeneratorBase.Answers {
 
 const FEATURES = [
   bffFeature,
+  tailwindFeature,
   uiLibraryFeature,
   authFeature,
   reduxFeature,
@@ -61,6 +63,11 @@ const FEATURE_PROMPT_CHOICES = [
     name: 'Backend for Frontend (BFF)',
     value: 'bff',
     hint: 'Adds an Express-based server/ proxy layer for local API integration.',
+  },
+  {
+    name: 'Tailwind CSS v4',
+    value: 'tailwind',
+    hint: 'Adds Tailwind CSS v4 and the shared CSS-first token package.',
   },
   {
     name: 'UI library and theme wiring',
@@ -232,6 +239,7 @@ class AddGenerator extends GeneratorBase {
 
   _detectInstalledFeatures(): InstalledFeatures {
     return {
+      tailwind: tailwindFeature.isInstalled?.(this) ?? false,
       auth: authFeature.isInstalled?.(this) ?? false,
       uiLibrary: uiLibraryFeature.isInstalled?.(this) ?? false,
       redux: reduxFeature.isInstalled?.(this) ?? false,

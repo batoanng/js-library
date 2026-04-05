@@ -1,0 +1,30 @@
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { resetGlobalState } from './actions';
+
+export interface GlobalState {
+  sampleValue: string;
+}
+
+const INITIAL_STATE: GlobalState = {
+  sampleValue: 'Redux store is connected.',
+};
+
+const slice = createSlice({
+  name: 'global',
+  initialState: INITIAL_STATE,
+  reducers: {
+    setSampleValue: (state, { payload }: PayloadAction<string>) => {
+      state.sampleValue = payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(resetGlobalState, () => INITIAL_STATE);
+  },
+});
+
+export const { reducer } = slice;
+export const { setSampleValue } = slice.actions;
+
+export function selectGlobalSampleValue(state: GlobalState): string {
+  return state.sampleValue;
+}

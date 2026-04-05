@@ -5,14 +5,18 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@tailwindcss/forms": "^0.5.11",
-    "@tailwindcss/typography": "^0.5.19",
-    "postcss": "^8.5.8",
-    "tailwindcss": "^3.4.19",
-    "tailwindcss-animate": "^1.0.7"
+  "exports": {
+    ".": "./index.js",
+    "./styles.css": "./styles.css"
   },
+  "files": [
+    "index.js",
+    "styles.css",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "peerDependencies": {
-    "tailwindcss": "^3.2.1"
+    "tailwindcss": "^4.1.13"
   }
 }

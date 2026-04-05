@@ -26,6 +26,16 @@ export const reactAddGeneratorPath = path.join(
   'react-add',
   `index${generatorExtension}`,
 );
+export const nextjsAppGeneratorPath = path.join(
+  generatorRoot,
+  'nextjs-app',
+  `index${generatorExtension}`,
+);
+export const nextjsAddGeneratorPath = path.join(
+  generatorRoot,
+  'nextjs-add',
+  `index${generatorExtension}`,
+);
 export const addGeneratorPath = reactAddGeneratorPath;
 export const nestjsAppGeneratorPath = path.join(
   generatorRoot,
@@ -124,6 +134,10 @@ export async function scaffoldReactApp(appName: string) {
 
 export async function scaffoldNestApp(appName: string) {
   return scaffoldAppWithGenerator(nestjsAppGeneratorPath, appName);
+}
+
+export async function scaffoldNextjsApp(appName: string) {
+  return scaffoldAppWithGenerator(nextjsAppGeneratorPath, appName);
 }
 
 export async function scaffoldNodeApp(

@@ -307,6 +307,6 @@ test('fails clearly for unknown feature names', async () => {
       .create(addGeneratorPath, { cwd: projectRoot, tmpdir: false }, undefined)
       .withArguments(['theme'])
       .run(),
-    /Supported features: bff, ui-library, auth, redux, react-query, apollo/,
+    /Supported features: bff, tailwind, ui-library, auth, redux, react-query, apollo, pwa/,
   );
 });

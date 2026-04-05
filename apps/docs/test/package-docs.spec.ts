@@ -53,4 +53,21 @@ Import the entrypoint.`)
       'npm install -D @batoanng/prettier-config'
     )
   })
+
+  it('uses explicit generator highlights so Next.js and Node.js stay visible on the package page', async () => {
+    const packageDoc = await getPackageDocBySlug('t-generator')
+
+    expect(packageDoc).toBeDefined()
+    expect(packageDoc?.highlights.join(' ')).toContain('Next.js App Router')
+    expect(packageDoc?.highlights.join(' ')).toContain('Node.js + Express')
+  })
+
+  it('documents tailwind-config with the Tailwind v4 CSS-first quick start', async () => {
+    const packageDoc = await getPackageDocBySlug('tailwind-config')
+
+    expect(packageDoc).toBeDefined()
+    expect(packageDoc?.quickStart.language).toBe('css')
+    expect(packageDoc?.quickStart.code).toContain('@import "tailwindcss";')
+    expect(packageDoc?.quickStart.code).toContain('@import "@batoanng/tailwind-config/styles.css";')
+  })
 })

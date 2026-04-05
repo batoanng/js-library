@@ -3,7 +3,7 @@ import path from 'node:path';
 import GeneratorBase from 'yeoman-generator';
 
 interface RootPromptAnswers extends GeneratorBase.Answers {
-  stack: 'react' | 'nestjs' | 'nodejs';
+  stack: 'react' | 'nextjs' | 'nestjs' | 'nodejs';
   action: 'create-base' | 'add-feature';
 }
 
@@ -12,6 +12,11 @@ const STACK_CHOICES = [
     name: 'React',
     value: 'react',
     hint: 'Generate or extend a React + Vite application.',
+  },
+  {
+    name: 'Next.js',
+    value: 'nextjs',
+    hint: 'Generate or extend a Next.js App Router application.',
   },
   {
     name: 'NestJS',

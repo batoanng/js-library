@@ -1,0 +1,18 @@
+import { render, screen } from '@testing-library/react';
+import { AppProviders } from '@/app/providers';
+import { AuthPage } from './AuthPage';
+
+describe('AuthPage', () => {
+  it('shows setup guidance until Auth0 env values are configured', () => {
+    render(
+      <AppProviders>
+        <AuthPage />
+      </AppProviders>,
+    );
+
+    expect(
+      screen.getByRole('heading', { name: /Connect Auth0|Auth0 route handling is ready/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/AUTH0_CLIENT_SECRET/i)).toBeInTheDocument();
+  });
+});

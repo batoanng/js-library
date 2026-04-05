@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "@batoanng/tailwind-config/styles.css";
 
 @layer base {
   :root {

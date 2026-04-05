@@ -9,6 +9,8 @@ import {
   createYeomanTestHelpers,
   nestjsAddGeneratorPath,
   nestjsAppGeneratorPath,
+  nextjsAddGeneratorPath,
+  nextjsAppGeneratorPath,
   nodejsAddGeneratorPath,
   nodejsAppGeneratorPath,
   reactAddGeneratorPath,
@@ -33,6 +35,10 @@ packageSmokeTest(
       path.join(packageRoot, 'generators/react-app/templates/package.json.ejs'),
       path.join(packageRoot, 'generators/react-add/index.js'),
       path.join(packageRoot, 'generators/react-add/templates/auth/_env.example.ejs'),
+      path.join(packageRoot, 'generators/nextjs-app/index.js'),
+      path.join(packageRoot, 'generators/nextjs-app/templates/package.json.ejs'),
+      path.join(packageRoot, 'generators/nextjs-add/index.js'),
+      path.join(packageRoot, 'generators/nextjs-add/templates/auth/src/lib/auth0.ts.ejs'),
       path.join(packageRoot, 'generators/nestjs-app/index.js'),
       path.join(packageRoot, 'generators/nestjs-add/index.js'),
       path.join(packageRoot, 'generators/nodejs-app/index.js'),
@@ -122,6 +128,34 @@ packageSmokeTest(
         explicitReactRoot,
         'src/app/providers/auth/Auth0ProviderWithNavigate.tsx',
       ),
+    ]);
+
+    let nextTmpDir = '';
+    const nextRunResult = await helpers
+      .run(nextjsAppGeneratorPath)
+      .inTmpDir((directory) => {
+        nextTmpDir = directory;
+      })
+      .withArguments(['dist-next']);
+
+    yoAssert.file([
+      path.join(nextTmpDir, 'dist-next/package.json'),
+      path.join(nextTmpDir, 'dist-next/src/app/layout.tsx'),
+      path.join(nextTmpDir, 'dist-next/src/pages/home/ui/HomePage.tsx'),
+    ]);
+
+    await nextRunResult
+      .create(
+        nextjsAddGeneratorPath,
+        { cwd: path.join(nextTmpDir, 'dist-next'), tmpdir: false },
+        undefined,
+      )
+      .withArguments(['tailwind'])
+      .run();
+
+    yoAssert.file([
+      path.join(nextTmpDir, 'dist-next/postcss.config.js'),
+      path.join(nextTmpDir, 'dist-next/src/app/globals.css'),
     ]);
 
     let nestTmpDir = '';

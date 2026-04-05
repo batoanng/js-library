@@ -1,0 +1,24 @@
+'use client';
+
+import type { PropsWithChildren } from 'react';
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
+import { useMemo } from 'react';
+import { env } from '@/shared/config';
+
+export function ApolloAppProvider({ children }: PropsWithChildren) {
+  const client = useMemo(
+    () =>
+      new ApolloClient({
+        cache: new InMemoryCache(),
+        link: new HttpLink({
+          uri: env.graphqlUrl,
+          fetchOptions: {
+            cache: 'no-store',
+          },
+        }),
+      }),
+    [],
+  );
+
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+}

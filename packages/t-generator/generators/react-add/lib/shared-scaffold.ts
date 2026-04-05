@@ -3,10 +3,12 @@ import type { InstalledFeatures } from './types';
 
 const SHARED_SCAFFOLD_PATHS = [
   '.env.example',
+  'vite.config.ts',
   'src/vite-env.d.ts',
   'src/shared/config/env.ts',
   'src/app/providers/AppProviders.tsx',
   'src/app/routes/AppRouter.tsx',
+  'src/app/styles/global.css',
   'src/pages/home/ui/HomePage.tsx',
   'src/pages/home/ui/HomePage.test.tsx',
 ] as const;
@@ -85,6 +87,65 @@ function renderViteEnv(features: InstalledFeatures): string {
   return `${lines.join('\n')}\n`;
 }
 
+function renderViteConfig(
+  context: TemplateContext,
+  features: InstalledFeatures,
+): string {
+  const imports = [
+    "import { fileURLToPath, URL } from 'node:url';",
+    "import { defineConfig } from 'vite';",
+    "import react from '@vitejs/plugin-react';",
+  ];
+  const plugins = ['react()'];
+
+  if (features.tailwind) {
+    imports.push("import tailwindcss from '@tailwindcss/vite';");
+    plugins.push('tailwindcss()');
+  }
+
+  if (features.pwa) {
+    imports.push("import { VitePWA } from 'vite-plugin-pwa';");
+    plugins.push(`VitePWA({
+      strategies: 'generateSW',
+      registerType: 'prompt',
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
+      pwaAssets: {
+        preset: 'minimal-2023',
+        image: 'public/pwa-icon.svg',
+        includeHtmlHeadLinks: true,
+        overrideManifestIcons: true,
+        injectThemeColor: true,
+        htmlPreset: '2023',
+      },
+      manifest: {
+        name: ${JSON.stringify(context.appDisplayName)},
+        short_name: ${JSON.stringify(context.appDisplayName)},
+        description: ${JSON.stringify(
+          `${context.appDisplayName} progressive web application with offline-ready app shell support.`,
+        )},
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        scope: '/',
+        start_url: '/',
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+      },
+    })`);
+  }
+
+  return `${imports.join('\n')}\n\nexport default defineConfig({\n  plugins: [\n${indent(
+    plugins.join(',\n'),
+    4,
+  )}\n  ],\n  resolve: {\n    alias: {\n      '@': fileURLToPath(new URL('./src', import.meta.url)),\n    },\n  },\n});\n`;
+}
+
 function renderEnvConfig(
   context: TemplateContext,
   features: InstalledFeatures,
@@ -149,7 +210,7 @@ function renderEnvConfig(
     envLines.push(
       '  isConfigured: Boolean(auth0Domain && auth0ClientId),',
     );
-    envLines.push('}),');
+    envLines.push('},');
   }
 
   lines.push('');
@@ -196,6 +257,9 @@ function renderAppProviders(features: InstalledFeatures): string {
 
   if (features.uiLibrary) {
     imports.push("import { CssBaseline, ThemeProvider } from '@mui/material';");
+    if (features.tailwind) {
+      imports.push("import { StyledEngineProvider } from '@mui/material/styles';");
+    }
     imports.push(
       "import { createDefaultTheme } from '@batoanng/mui-components';",
     );
@@ -225,11 +289,19 @@ function renderAppProviders(features: InstalledFeatures): string {
       );
     }
 
-    bodyLines = wrapWithProvider(
+    const themeProviderLines = wrapWithProvider(
       '<ThemeProvider theme={appTheme}>',
       '</ThemeProvider>',
       themedLines,
     );
+
+    bodyLines = features.tailwind
+      ? wrapWithProvider(
+          '<StyledEngineProvider injectFirst>',
+          '</StyledEngineProvider>',
+          themeProviderLines,
+        )
+      : themeProviderLines;
   }
 
   if (features.redux) {
@@ -343,6 +415,34 @@ function renderAppRouter(features: InstalledFeatures): string {
   )}\n  );\n}\n`;
 }
 
+function renderBaseGlobals(): string {
+  return `:root {\n  color: #111827;\n  background: #f4f7fb;\n  font-family:\n    Inter,\n    ui-sans-serif,\n    system-ui,\n    -apple-system,\n    BlinkMacSystemFont,\n    'Segoe UI',\n    sans-serif;\n  line-height: 1.5;\n  font-weight: 400;\n  font-synthesis: none;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n* {\n  box-sizing: border-box;\n}\n\nhtml,\nbody,\n#root {\n  min-height: 100%;\n  margin: 0;\n}\n\nbody {\n  min-height: 100vh;\n  background:\n    radial-gradient(circle at top, rgba(59, 130, 246, 0.12), transparent 40%),\n    linear-gradient(180deg, #f8fbff 0%, #eef2ff 100%);\n}\n\n.page {\n  min-height: 100vh;\n  display: grid;\n  place-items: center;\n  padding: 24px;\n}\n\n.hero {\n  max-width: 720px;\n  padding: 40px;\n  border: 1px solid rgba(148, 163, 184, 0.24);\n  border-radius: 24px;\n  background: rgba(255, 255, 255, 0.9);\n  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);\n}\n\n.eyebrow {\n  margin: 0 0 12px;\n  color: #2563eb;\n  font-size: 0.875rem;\n  font-weight: 600;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n}\n\n.hero h1 {\n  margin: 0 0 16px;\n  font-size: clamp(2.5rem, 5vw, 4rem);\n  line-height: 0.95;\n}\n\n.hero p {\n  margin: 0;\n  color: #475569;\n  font-size: 1.05rem;\n}\n`;
+}
+
+function renderUiLibraryGlobals(): string {
+  return `:root {\n  font-synthesis: none;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n* {\n  box-sizing: border-box;\n}\n\nhtml,\nbody,\n#root {\n  min-height: 100%;\n  margin: 0;\n}\n\nbody {\n  min-height: 100vh;\n  background:\n    radial-gradient(circle at top, rgba(14, 165, 233, 0.16), transparent 35%),\n    linear-gradient(180deg, #f8fbff 0%, #eef3fb 100%);\n}\n\n.page {\n  min-height: 100vh;\n}\n\n.page__content {\n  padding-top: 64px;\n  padding-bottom: 64px;\n}\n`;
+}
+
+function renderTailwindGlobals(features: InstalledFeatures): string {
+  const componentLayer = features.uiLibrary
+    ? `  .page {\n    @apply min-h-screen;\n  }\n\n  .page__content {\n    @apply py-16;\n  }\n`
+    : `  .page {\n    @apply grid min-h-screen place-items-center px-6 py-10;\n  }\n\n  .hero {\n    @apply max-w-3xl rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-xl shadow-slate-900/5;\n  }\n\n  .eyebrow {\n    @apply mb-3 text-sm font-semibold uppercase tracking-[0.08em] text-sky-700;\n  }\n\n  .hero h1 {\n    @apply mb-4 text-4xl font-semibold tracking-tight text-slate-950 sm:text-6xl;\n  }\n\n  .hero p {\n    @apply text-lg leading-8 text-slate-600;\n  }\n`;
+
+  return `@import "tailwindcss";\n@import "@batoanng/tailwind-config/styles.css";\n\n@layer base {\n  :root {\n    color-scheme: light;\n  }\n\n  html,\n  body,\n  #root {\n    min-height: 100%;\n    margin: 0;\n  }\n\n  body {\n    @apply min-h-screen bg-slate-50 text-slate-900 antialiased;\n    background:\n      radial-gradient(circle at top, rgba(59, 130, 246, 0.12), transparent 40%),\n      linear-gradient(180deg, #f8fbff 0%, #eef2ff 100%);\n  }\n\n  a {\n    @apply text-sky-700 transition hover:text-sky-900;\n  }\n}\n\n@layer components {\n${componentLayer}}\n`;
+}
+
+function renderGlobals(features: InstalledFeatures): string {
+  if (features.tailwind) {
+    return renderTailwindGlobals(features);
+  }
+
+  if (features.uiLibrary) {
+    return renderUiLibraryGlobals();
+  }
+
+  return renderBaseGlobals();
+}
+
 function renderBaseHomePageParagraphs(features: InstalledFeatures): string[] {
   const paragraphs = [
     `        <p>
@@ -350,6 +450,16 @@ function renderBaseHomePageParagraphs(features: InstalledFeatures): string[] {
           Feature-Sliced Design foundation.
         </p>`,
   ];
+
+  if (features.tailwind) {
+    paragraphs.push(
+      `        <p>
+          Tailwind CSS v4 is enabled through an opt-in add-on, so utility styling
+          layers onto the generated app shell without forcing it into every base
+          project.
+        </p>`,
+    );
+  }
 
   if (features.auth) {
     paragraphs.push(
@@ -484,6 +594,15 @@ function renderUiLibraryDescriptionParagraphs(
               generated shell from the start.
             </Typography>`,
   ];
+
+  if (features.tailwind) {
+    paragraphs.push(
+      `            <Typography color="text.secondary" maxWidth={720}>
+              Tailwind CSS v4 can sit alongside the generated MUI setup when you
+              want utility classes for layout or feature-level polish.
+            </Typography>`,
+    );
+  }
 
   if (features.auth) {
     paragraphs.push(
@@ -700,6 +819,8 @@ function renderSharedScaffoldFile(
   switch (filePath) {
     case '.env.example':
       return renderEnvExample(context, features);
+    case 'vite.config.ts':
+      return renderViteConfig(context, features);
     case 'src/vite-env.d.ts':
       return renderViteEnv(features);
     case 'src/shared/config/env.ts':
@@ -708,6 +829,8 @@ function renderSharedScaffoldFile(
       return renderAppProviders(features);
     case 'src/app/routes/AppRouter.tsx':
       return renderAppRouter(features);
+    case 'src/app/styles/global.css':
+      return renderGlobals(features);
     case 'src/pages/home/ui/HomePage.tsx':
       return renderHomePage(context, features);
     case 'src/pages/home/ui/HomePage.test.tsx':

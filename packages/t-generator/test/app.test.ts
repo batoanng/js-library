@@ -22,6 +22,7 @@ const blockedDependencies = [
   '@auth0/auth0-react',
   '@types/redux-immutable-state-invariant',
   '@types/redux-logger',
+  '@tailwindcss/vite',
   '@mui/material',
   '@mui/icons-material',
   '@reduxjs/toolkit',
@@ -34,6 +35,7 @@ const blockedDependencies = [
   'redux-persist',
   'axios',
   'graphql',
+  'tailwindcss',
   'vite-plugin-pwa',
   'notistack',
 ];
@@ -163,6 +165,10 @@ test('generates the React base app with the expected project structure', async (
   yoAssert.fileContent(
     path.join(projectRoot, 'README.md'),
     'yo t-generator:react-add',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'README.md'),
+    'yo t-generator:react-add tailwind',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'README.md'),

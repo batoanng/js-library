@@ -2,7 +2,6 @@ import { addManagedFile, appManagedFile } from './helpers';
 
 export function buildPwaManagedFiles() {
   return [
-    addManagedFile('vite.config.ts', 'pwa/vite.config.ts.ejs'),
     addManagedFile(
       'src/app/entrypoint/App.tsx',
       'pwa/src/app/entrypoint/App.tsx.ejs',
@@ -38,7 +37,6 @@ export function buildPwaManagedFiles() {
 }
 
 export const PWA_BASE_MANAGED_FILES = [
-  appManagedFile('vite.config.ts', 'vite.config.ts.ejs'),
   appManagedFile('src/app/entrypoint/App.tsx', 'src/app/entrypoint/App.tsx.ejs'),
 ];
 

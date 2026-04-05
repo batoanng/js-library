@@ -12,7 +12,7 @@ export interface PackageJson {
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
   tGenerator?: {
-    stack?: 'react' | 'nestjs' | 'nodejs';
+    stack?: 'react' | 'nextjs' | 'nestjs' | 'nodejs';
     architecture?: string;
   };
 }

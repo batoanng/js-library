@@ -1,0 +1,70 @@
+'use client';
+
+import type { ChangeEvent } from 'react';
+import Link from 'next/link';
+import {
+  PERSIST_STORAGE_KEY,
+  resetGlobalState,
+  selectGlobalSampleValue,
+  setSampleValue,
+  useAppDispatch,
+  useAppSelector,
+} from '@/app/store';
+import { env } from '@/shared/config';
+
+export function ReduxPage() {
+  const dispatch = useAppDispatch();
+  const sampleValue = useAppSelector((state) =>
+    selectGlobalSampleValue(state.global),
+  );
+  const persistedStorageKey = `persist:${PERSIST_STORAGE_KEY}`;
+
+  const handleSampleValueChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch(setSampleValue(event.target.value));
+  };
+
+  return (
+    <main className="page">
+      <section className="hero">
+        <p className="eyebrow">Redux example</p>
+        <h1>Centralized state, ready to persist</h1>
+        <p>
+          The Redux feature adds a persisted store for {env.appName}, typed hooks,
+          and a dedicated route that follows the example app structure.
+        </p>
+        <p>
+          Development logging is{' '}
+          {env.enableReduxLogging ? 'enabled' : 'disabled'} by
+          {' '}<code>NEXT_PUBLIC_ENABLE_REDUX_LOGGING</code>.
+        </p>
+        <p>
+          Persisted storage key: <code>{persistedStorageKey}</code>
+        </p>
+        <p>
+          The generated slice keeps one sample value so you can replace it with
+          real state once your feature requirements are clear.
+        </p>
+        <p>
+          <label htmlFor="redux-sample-value">Sample value</label>
+        </p>
+        <p>
+          <textarea
+            id="redux-sample-value"
+            value={sampleValue}
+            onChange={handleSampleValueChange}
+            rows={4}
+            style={{ width: '100%' }}
+          />
+        </p>
+        <p>
+          <button type="button" onClick={() => dispatch(resetGlobalState())}>
+            Reset sample state
+          </button>
+        </p>
+        <p>
+          <Link href="/">Return to the home page</Link>
+        </p>
+      </section>
+    </main>
+  );
+}

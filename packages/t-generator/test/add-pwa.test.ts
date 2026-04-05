@@ -66,7 +66,7 @@ test('adds the pwa feature to an existing generated base app', async () => {
   yoAssert.fileContent(viteConfigPath, "strategies: 'generateSW'");
   yoAssert.fileContent(viteConfigPath, "registerType: 'prompt'");
   yoAssert.fileContent(viteConfigPath, "image: 'public/pwa-icon.svg'");
-  yoAssert.fileContent(viteConfigPath, "name: 'starter-pwa'");
+  yoAssert.fileContent(viteConfigPath, 'name: "starter-pwa"');
   yoAssert.fileContent(viteConfigPath, "start_url: '/'");
   yoAssert.fileContent(appPath, "import { PwaProvider, PwaStatus } from '@/features/pwa';");
   yoAssert.fileContent(appPath, '<PwaStatus />');

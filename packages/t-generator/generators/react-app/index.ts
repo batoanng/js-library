@@ -147,6 +147,7 @@ class AppGenerator extends GeneratorBase {
     });
 
     const sharedScaffold = buildSharedScaffold(templateContext, {
+      tailwind: false,
       auth: false,
       uiLibrary: false,
       redux: false,

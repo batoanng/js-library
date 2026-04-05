@@ -1,0 +1,7 @@
+import { z } from 'zod';
+
+export const apolloDemoRootTypeDataSchema = z.object({
+  __typename: z.string().min(1),
+});
+
+export type ApolloDemoRootTypeData = z.infer<typeof apolloDemoRootTypeDataSchema>;
