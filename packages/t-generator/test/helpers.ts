@@ -3,13 +3,17 @@ import path from 'node:path';
 
 import type { PackageJson } from '../generators/lib/types';
 
-const useBuiltGenerators = process.env.TEST_TARGET === 'build';
+const testTarget = process.env.TEST_TARGET;
+const useBuiltGenerators = testTarget === 'build' || testTarget === 'dist';
+const useDistPackage = testTarget === 'dist';
 const generatorExtension = useBuiltGenerators
   ? '.js'
   : path.extname(__filename) === '.ts'
     ? '.ts'
     : '.js';
-const generatorRoot = path.join(__dirname, '../generators');
+const generatorRoot = useDistPackage
+  ? path.join(__dirname, '../dist/generators')
+  : path.join(__dirname, '../generators');
 
 export const appGeneratorPath = path.join(
   generatorRoot,

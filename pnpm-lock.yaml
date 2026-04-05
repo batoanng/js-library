@@ -12,6 +12,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      dist:
+        specifier: link:packages/t-generator/dist
+        version: link:packages/t-generator/dist
     devDependencies:
       '@batoanng/eslint-config':
         specifier: workspace:*

@@ -401,18 +401,32 @@ This keeps the base focused on general setup only while still preparing the code
 
 ## How to use
 
-Install and link the generator locally:
+From `packages/t-generator`, build the staged package and link that output locally:
 
 ```bash
-npm install
-npm run build
-npm link ./dist
+pnpm install
+pnpm run build
+pnpm run link:dev
 ```
+
+`pnpm run build` now does two things:
+
+- compiles the generators in place under `generators/**/*.js`
+- stages a linkable package in `dist/` for the local `npm link` step
+
+`pnpm run link:dev` runs `npm link` with `dist/` as the package root. This avoids npm re-reading the workspace package in `packages/t-generator`, which fails on `workspace:*` dependencies.
 
 If `yo` is not already available on your machine:
 
 ```bash
 npm install -g yo
+```
+
+If you already linked an older build, refresh the link after rebuilding:
+
+```bash
+npm unlink -g @batoanng/t-generator
+pnpm run link:dev
 ```
 
 Generate a new React app:

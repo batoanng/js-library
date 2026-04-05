@@ -22,6 +22,8 @@ const blockedDependencies = [
   'react',
   'react-dom',
   'react-router-dom',
+  'tsc-alias',
+  'tsconfig-paths',
 ];
 
 test('generates the clean Node.js base app with the expected project structure', async () => {
@@ -111,12 +113,20 @@ test('generates the clean Node.js base app with the expected project structure',
     "app.use('/health', healthRouter);",
   );
   yoAssert.fileContent(
+    path.join(projectRoot, 'src/app.ts'),
+    "import { env } from './config/env';",
+  );
+  yoAssert.fileContent(
     path.join(projectRoot, 'src/interfaces/index.ts'),
     "export { healthRouter } from './routes/health.route';",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'tests/health.test.ts'),
     "const response = await request(app).get('/health');",
+  );
+  assert.doesNotMatch(
+    fs.readFileSync(path.join(projectRoot, 'src/app.ts'), 'utf8'),
+    /'@\//,
   );
 
   assert.equal(fs.existsSync(path.join(projectRoot, 'src/modules')), false);
@@ -150,6 +160,13 @@ test('generates the MVP Node.js base app when selected', async () => {
   yoAssert.fileContent(
     path.join(projectRoot, 'src/modules/index.ts'),
     "export { healthRouter } from './health/health.route';",
+  );
+  assert.doesNotMatch(
+    fs.readFileSync(
+      path.join(projectRoot, 'src/modules/health/health.service.ts'),
+      'utf8',
+    ),
+    /'@\//,
   );
   assert.equal(packageJson.tGenerator?.architecture, 'mvp');
   assert.equal(

@@ -54,6 +54,10 @@ test('adds the graphql feature to an existing clean Node.js base app', async () 
     path.join(projectRoot, 'src/interfaces/graphql/register-graphql.ts'),
     "'/api/graphql'",
   );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/interfaces/graphql/register-graphql.ts'),
+    "import { getGraphqlDemo } from '../../usecases/get-graphql-demo';",
+  );
 
   assert.equal(
     fs.existsSync(path.join(projectRoot, 'src/interfaces/routes/queue.route.ts')),
@@ -80,4 +84,8 @@ test('prompt-based add can select the graphql feature for an MVP Node.js server'
     path.join(projectRoot, 'src/modules/graphql/register-graphql.ts'),
     path.join(projectRoot, 'src/modules/graphql/graphql.service.ts'),
   ]);
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/modules/graphql/register-graphql.ts'),
+    "import { GraphqlService } from './graphql.service';",
+  );
 });

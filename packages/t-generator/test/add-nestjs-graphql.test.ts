@@ -78,6 +78,10 @@ test('adds the graphql feature to an existing generated NestJS base app', async 
     "'x-guest-user-id'",
   );
   yoAssert.fileContent(
+    path.join(projectRoot, 'src/server.ts'),
+    'GraphQL is available separately at `/api/graphql`',
+  );
+  yoAssert.fileContent(
     path.join(
       projectRoot,
       'src/modules/graphql/security/gql-optional-auth.guard.ts',

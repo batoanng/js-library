@@ -2,6 +2,7 @@ import type {
   NodeServerTemplateContext,
   NodeArchitecture,
 } from '../../nodejs-app/lib/types';
+import { normalizeNodeServerImports } from '../../nodejs-app/lib/normalize-imports';
 
 function lines(...content: string[]): string {
   return `${content.join('\n')}\n`;
@@ -66,7 +67,7 @@ export function buildGraphqlFeatureFiles(
   );
 
   if (context.architecture === 'clean') {
-    return {
+    return normalizeNodeServerImports({
       'src/interfaces/graphql/register-graphql.ts': graphqlRegistrationFile,
       'src/usecases/get-graphql-demo.ts': lines(
         'export function getGraphqlDemo() {',
@@ -77,10 +78,10 @@ export function buildGraphqlFeatureFiles(
         '  };',
         '}',
       ),
-    };
+    });
   }
 
-  return {
+  return normalizeNodeServerImports({
     'src/modules/graphql/register-graphql.ts': graphqlRegistrationFile,
     'src/modules/graphql/graphql.service.ts': lines(
       'export class GraphqlService {',
@@ -93,7 +94,7 @@ export function buildGraphqlFeatureFiles(
       '  }',
       '}',
     ),
-  };
+  });
 }
 
 export const QUEUE_GUARD_DEPENDENCIES = ['bullmq'] as const;
@@ -187,7 +188,7 @@ export function buildQueueFeatureFiles(
       '',
       "queueRouter.post('/demo', enqueueQueueDemo);",
     );
-    return files;
+    return normalizeNodeServerImports(files);
   }
 
   files['src/modules/queue/queue.service.ts'] = lines(
@@ -246,7 +247,7 @@ export function buildQueueFeatureFiles(
     ');',
   );
 
-  return files;
+  return normalizeNodeServerImports(files);
 }
 
 export function getCacheManagedPaths(
@@ -269,7 +270,7 @@ export function buildCacheFeatureFiles(
   context: NodeServerTemplateContext,
 ): Record<string, string> {
   if (context.architecture === 'clean') {
-    return {
+    return normalizeNodeServerImports({
       'src/usecases/cache-demo.ts': lines(
         "import redis from '@/infrastructure/redis/redis.client';",
         '',
@@ -343,10 +344,10 @@ export function buildCacheFeatureFiles(
         "cacheRouter.post('/demo', setCacheDemo);",
         "cacheRouter.get('/demo/:key', getCacheDemo);",
       ),
-    };
+    });
   }
 
-  return {
+  return normalizeNodeServerImports({
     'src/modules/cache/cache.service.ts': lines(
       "import redis from '@/infrastructure/redis/redis.client';",
       '',
@@ -427,7 +428,7 @@ export function buildCacheFeatureFiles(
       '  cacheController.getDemo(request, response, next),',
       ');',
     ),
-  };
+  });
 }
 
 export const LLM_GUARD_DEPENDENCIES = ['openai'] as const;
@@ -452,7 +453,7 @@ export function buildLlmFeatureFiles(
   context: NodeServerTemplateContext,
 ): Record<string, string> {
   if (context.architecture === 'clean') {
-    return {
+    return normalizeNodeServerImports({
       'src/usecases/run-llm-demo.ts': lines(
         "import { env } from '@/config/env';",
         "import openai from '@/infrastructure/llm/openai.client';",
@@ -503,10 +504,10 @@ export function buildLlmFeatureFiles(
         '',
         "llmRouter.post('/demo', runLlmDemoController);",
       ),
-    };
+    });
   }
 
-  return {
+  return normalizeNodeServerImports({
     'src/modules/llm/llm.service.ts': lines(
       "import { env } from '@/config/env';",
       "import openai from '@/infrastructure/llm/openai.client';",
@@ -566,5 +567,5 @@ export function buildLlmFeatureFiles(
       '  llmController.runDemo(request, response, next),',
       ');',
     ),
-  };
+  });
 }

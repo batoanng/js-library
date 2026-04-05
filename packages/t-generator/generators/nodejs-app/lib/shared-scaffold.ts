@@ -3,6 +3,7 @@ import type {
   InstalledNodeServerFeatures,
   NodeServerTemplateContext,
 } from './types';
+import { normalizeNodeServerImports } from './normalize-imports';
 
 interface ConfigField {
   name: string;
@@ -46,8 +47,6 @@ const BASE_DEV_DEPENDENCIES: Record<string, string> = {
   supertest: '^7.1.3',
   'ts-jest': '^29.2.5',
   'ts-node': '^10.9.2',
-  'tsc-alias': '^1.8.10',
-  'tsconfig-paths': '^4.2.0',
   typescript: '^5.9.3',
   'typescript-eslint': '^8.24.1',
 };
@@ -560,7 +559,7 @@ export function buildNodeServerPackageJson(
       postinstall: 'prisma generate',
       start: 'node dist/server.js',
       dev: 'nodemon --config nodemon.json',
-      build: 'tsc -p tsconfig.json && tsc-alias -p tsconfig.json',
+      build: 'tsc -p tsconfig.json',
       lint: 'eslint .',
       test: 'jest --runInBand',
       'prisma:generate': 'prisma generate',
@@ -602,5 +601,5 @@ export function buildNodeServerSharedScaffold(
       renderOpenAiClientFile();
   }
 
-  return scaffold;
+  return normalizeNodeServerImports(scaffold);
 }

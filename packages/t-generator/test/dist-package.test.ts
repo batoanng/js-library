@@ -20,11 +20,14 @@ import {
 } from './helpers';
 
 const packageSmokeTest = process.env.DIST_SMOKE === '1' ? test : test.skip;
+const useDistPackage = process.env.TEST_TARGET === 'dist';
 
 packageSmokeTest(
-  'built root package keeps the expected Yeoman layout',
+  'staged package keeps the expected Yeoman layout',
   async () => {
-    const packageRoot = path.join(__dirname, '..');
+    const packageRoot = useDistPackage
+      ? path.join(__dirname, '..', 'dist')
+      : path.join(__dirname, '..');
     const packageJson = readJson<PackageJson>(path.join(packageRoot, 'package.json'));
 
     yoAssert.file([

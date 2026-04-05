@@ -57,6 +57,10 @@ test('adds the queue feature to an existing clean Node.js base app', async () =>
     path.join(projectRoot, 'src/server.ts'),
     'disconnectRedis',
   );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/infrastructure/queue/demo-queue.ts'),
+    "import redis from '../redis/redis.client';",
+  );
 
   assert.equal(
     fs.existsSync(path.join(projectRoot, 'src/interfaces/routes/cache.route.ts')),

@@ -2,6 +2,7 @@ import type {
   InstalledNodeServerFeatures,
   NodeServerTemplateContext,
 } from './types';
+import { normalizeNodeServerImports } from './normalize-imports';
 
 function lines(...content: string[]): string {
   return `${content.join('\n')}\n`;
@@ -212,7 +213,7 @@ export function buildNodeServerArchitectureScaffold(
   features: InstalledNodeServerFeatures,
 ): Record<string, string> {
   if (context.architecture === 'clean') {
-    return {
+    return normalizeNodeServerImports({
       'src/domain/health.ts': renderCleanDomainFile(),
       'src/infrastructure/repositories/health.repository.ts':
         renderCleanHealthRepository(),
@@ -221,14 +222,14 @@ export function buildNodeServerArchitectureScaffold(
         renderCleanHealthController(),
       'src/interfaces/routes/health.route.ts': renderCleanHealthRoute(),
       'src/interfaces/index.ts': renderCleanIndex(features),
-    };
+    });
   }
 
-  return {
+  return normalizeNodeServerImports({
     'src/modules/health/health.repository.ts': renderMvpHealthRepository(),
     'src/modules/health/health.service.ts': renderMvpHealthService(context),
     'src/modules/health/health.controller.ts': renderMvpHealthController(),
     'src/modules/health/health.route.ts': renderMvpHealthRoute(),
     'src/modules/index.ts': renderMvpIndex(features),
-  };
+  });
 }

@@ -35,7 +35,9 @@ const blockedDependencies = [
   'react-dom',
   'react-router-dom',
   'supertest',
+  'tsc-alias',
   'ts-jest',
+  'tsconfig-paths',
   'vite',
   'web-push',
 ];
@@ -92,6 +94,7 @@ test('generates the NestJS base app with the expected project structure', async 
 
   [
     '@fastify/cors',
+    '@fastify/multipart',
     '@fastify/static',
     '@nestjs/common',
     '@nestjs/core',
@@ -155,7 +158,31 @@ test('generates the NestJS base app with the expected project structure', async 
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/server.ts'),
-    'const port = config.API_PORT;',
+    "import multipart from '@fastify/multipart';",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/server.ts'),
+    'let appPromise: Promise<NestFastifyApplication> | undefined;',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/server.ts'),
+    'await app.register(multipart as never, {',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/server.ts'),
+    'export default async function handler(',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/server.ts'),
+    "fastify.server.emit('request', request, response);",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/server.ts'),
+    'if (!process.env.VERCEL) {',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/server.ts'),
+    'const port = Number(config.API_PORT || API_DEFAULT_PORT);',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/modules/common/security/health.guard.ts'),
@@ -184,6 +211,10 @@ test('generates the NestJS base app with the expected project structure', async 
   yoAssert.fileContent(
     path.join(projectRoot, 'src/test/health.test.ts'),
     "service: 'starter-server'",
+  );
+  assert.doesNotMatch(
+    fs.readFileSync(path.join(projectRoot, 'index.js'), 'utf8'),
+    /tsconfig-paths\/register/,
   );
   assert.equal(packageJson.scripts?.test, 'vitest run');
 

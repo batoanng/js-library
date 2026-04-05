@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const generatorRoot = path.join(__dirname, '..', 'generators');
+const distRoot = path.join(__dirname, '..', 'dist');
 
 function walk(directoryPath) {
   for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
@@ -24,3 +25,4 @@ function walk(directoryPath) {
 }
 
 walk(generatorRoot);
+fs.rmSync(distRoot, { recursive: true, force: true });
