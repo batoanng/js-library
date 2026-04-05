@@ -2,19 +2,19 @@ import { render, screen } from '@testing-library/react';
 import { AppProviders } from '@/app/providers';
 import { ApolloPage } from './ApolloPage';
 
-const mockUseApolloDemoRootTypeQuery = jest.fn();
+const mockUseApolloSampleQuery = jest.fn();
 
 jest.mock('@/features/apollo-demo', () => ({
-  useApolloDemoRootTypeQuery: () => mockUseApolloDemoRootTypeQuery(),
+  useApolloSampleQuery: () => mockUseApolloSampleQuery(),
 }));
 
 describe('ApolloPage', () => {
   beforeEach(() => {
-    mockUseApolloDemoRootTypeQuery.mockReset();
+    mockUseApolloSampleQuery.mockReset();
   });
 
   it('renders the generated Apollo setup guidance', () => {
-    mockUseApolloDemoRootTypeQuery.mockReturnValue({
+    mockUseApolloSampleQuery.mockReturnValue({
       data: { __typename: 'Query' },
       error: undefined,
       loading: false,
@@ -27,7 +27,7 @@ describe('ApolloPage', () => {
     );
 
     expect(
-      screen.getByRole('heading', { name: /Apollo client and demo query are wired in/i }),
+      screen.getByRole('heading', { name: /Apollo client and sample query are wired in/i }),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/Default GraphQL URL/i),
@@ -44,7 +44,7 @@ describe('ApolloPage', () => {
   });
 
   it('renders query errors from the generated hook', () => {
-    mockUseApolloDemoRootTypeQuery.mockReturnValue({
+    mockUseApolloSampleQuery.mockReturnValue({
       data: undefined,
       error: new Error('Connection failed'),
       loading: false,

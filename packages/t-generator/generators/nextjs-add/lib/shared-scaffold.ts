@@ -351,7 +351,7 @@ function renderBaseHomePageParagraphs(features: InstalledFeatures): string[] {
     paragraphs.push(
       `        <p>
           Apollo scaffolding is ready for this project, including a shared client,
-          provider wiring, and a live example query route.
+          provider wiring, and a sample query route.
         </p>`,
     );
   }
@@ -481,7 +481,7 @@ function renderUiLibraryDescriptionParagraphs(
     paragraphs.push(
       `            <Typography color="text.secondary" maxWidth={720}>
               Apollo scaffolding adds a route-level GraphQL provider, a shared
-              client setup, and a live <code>__typename</code> example route.
+              client setup, and a generated <code>__typename</code> sample route.
             </Typography>`,
     );
   }

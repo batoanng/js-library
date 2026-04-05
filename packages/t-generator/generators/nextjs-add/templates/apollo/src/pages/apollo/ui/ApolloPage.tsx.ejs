@@ -1,28 +1,28 @@
 'use client';
 
 import Link from 'next/link';
-import { useApolloDemoRootTypeQuery } from '@/features/apollo-demo';
+import { useApolloSampleQuery } from '@/features/apollo-demo';
 import { env } from '@/shared/config';
 
 const generatedFiles = [
   'src/shared/apollo/ApolloAppProvider.tsx',
   'src/features/apollo-demo/model/queries.ts',
-  'src/features/apollo-demo/api/useApolloDemoRootTypeQuery.ts',
+  'src/features/apollo-demo/api/useApolloSampleQuery.ts',
   'src/pages/apollo/ui/ApolloPage.tsx',
 ];
 
-const demoQuery = `query ApolloDemoRootType {
+const sampleQuery = `query ApolloSampleQuery {
   __typename
 }`;
 
 export function ApolloPage() {
-  const { data, error, loading } = useApolloDemoRootTypeQuery();
+  const { data, error, loading } = useApolloSampleQuery();
 
   return (
     <main className="page">
       <section className="hero">
         <p className="eyebrow">Apollo example</p>
-        <h1>Apollo client and demo query are wired in</h1>
+        <h1>Apollo client and sample query are wired in</h1>
         <p>
           This route documents the generated Apollo setup and immediately runs a
           small GraphQL query against your configured endpoint.
@@ -36,10 +36,10 @@ export function ApolloPage() {
           is installed.
         </p>
         <pre>
-          <code>{demoQuery}</code>
+          <code>{sampleQuery}</code>
         </pre>
         <p>
-          Replace the demo query and hook with schema-specific operations once
+          Replace the sample query and hook with schema-specific operations once
           your backend contract is ready.
         </p>
         <ul>
@@ -53,7 +53,7 @@ export function ApolloPage() {
           <h2>Live query result</h2>
           {loading ? (
             <p>
-              Running the generated <code>__typename</code> query...
+              Running the generated <code>__typename</code> sample query...
             </p>
           ) : null}
           {error ? (
@@ -65,7 +65,7 @@ export function ApolloPage() {
             </p>
           ) : null}
           {!loading && !error && !data ? (
-            <p>No result was returned for the generated demo query.</p>
+            <p>No result was returned for the generated sample query.</p>
           ) : null}
         </section>
         <p>

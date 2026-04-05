@@ -18,6 +18,7 @@ export function useSamplePostMutation() {
       return samplePostResponseSchema.parse(data);
     },
     options: {
+      mutationKey: [CacheKeys.samplePost],
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [CacheKeys.sampleGet],

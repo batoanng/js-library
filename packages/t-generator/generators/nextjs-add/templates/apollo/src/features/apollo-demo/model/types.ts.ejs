@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-export const apolloDemoRootTypeDataSchema = z.object({
+export const apolloSampleDataSchema = z.object({
   __typename: z.string().min(1),
 });
 
-export type ApolloDemoRootTypeData = z.infer<typeof apolloDemoRootTypeDataSchema>;
+export type ApolloSampleData = z.infer<typeof apolloSampleDataSchema>;

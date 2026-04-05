@@ -19,8 +19,8 @@ export function buildApolloManagedFiles() {
       'apollo/src/features/apollo-demo/api/index.ts.ejs',
     ),
     addManagedFile(
-      'src/features/apollo-demo/api/useApolloDemoRootTypeQuery.ts',
-      'apollo/src/features/apollo-demo/api/useApolloDemoRootTypeQuery.ts.ejs',
+      'src/features/apollo-demo/api/useApolloSampleQuery.ts',
+      'apollo/src/features/apollo-demo/api/useApolloSampleQuery.ts.ejs',
     ),
     addManagedFile(
       'src/features/apollo-demo/model/index.ts',

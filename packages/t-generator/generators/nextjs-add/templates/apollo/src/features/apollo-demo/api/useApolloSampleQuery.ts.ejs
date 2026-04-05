@@ -1,0 +1,19 @@
+import type { QueryResult } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
+import {
+  APOLLO_SAMPLE_QUERY,
+  apolloSampleDataSchema,
+  type ApolloSampleData,
+} from '../model';
+
+export function useApolloSampleQuery(): QueryResult<ApolloSampleData> {
+  const result = useQuery<ApolloSampleData>(APOLLO_SAMPLE_QUERY, {
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+  });
+
+  return {
+    ...result,
+    data: result.data ? apolloSampleDataSchema.parse(result.data) : undefined,
+  };
+}
