@@ -1,5 +1,13 @@
 # @batoanng/oidc
 
+## 3.0.1
+
+### Patch Changes
+
+- Upgrade hook form
+- Updated dependencies
+  - @batoanng/mui-components@3.5.1
+
 ## 3.0.0
 
 ### Minor Changes

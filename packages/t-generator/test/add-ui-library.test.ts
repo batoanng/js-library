@@ -37,7 +37,7 @@ test('adds the ui-library feature to an existing generated base app', async () =
   assert.equal(packageJson.scripts?.build, 'vite build');
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.5.0',
+    '^3.5.1',
   );
   assert.equal(packageJson.dependencies?.['@emotion/react'], '^11.13.5');
   assert.equal(packageJson.dependencies?.['@emotion/styled'], '^11.13.5');
@@ -48,7 +48,7 @@ test('adds the ui-library feature to an existing generated base app', async () =
   assert.equal(packageJson.dependencies?.['framer-motion'], '^12.23.24');
   assert.equal(packageJson.dependencies?.['react-dropzone'], '^14.2.3');
   assert.equal(packageJson.dependencies?.['react-easy-crop'], '^5.0.2');
-  assert.equal(packageJson.dependencies?.['react-hook-form'], '7.44.3');
+  assert.equal(packageJson.dependencies?.['react-hook-form'], '7.57.0');
   assert.equal(packageJson.dependencies?.['react-idle-timer'], '^5.7.2');
   assert.equal(packageJson.scripts?.['dev:full'], undefined);
   assert.equal(packageJson.devDependencies?.concurrently, undefined);
@@ -167,7 +167,7 @@ test('ui-library can be added after bff without re-running bff checks', async ()
   );
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.5.0',
+    '^3.5.1',
   );
 });
 
@@ -191,7 +191,7 @@ test('ui-library can be added after auth without removing auth wiring', async ()
   assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], '^2.8.0');
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.5.0',
+    '^3.5.1',
   );
 
   yoAssert.fileContent(

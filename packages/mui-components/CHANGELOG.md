@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.5.1
+
+### Patch Changes
+
+- Upgrade hook form
+
 ## 3.5.0
 
 ### Minor Changes

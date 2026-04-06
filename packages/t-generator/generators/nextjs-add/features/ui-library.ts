@@ -15,7 +15,7 @@ const UI_LIBRARY_NEW_FILES = [
 ];
 
 const UI_LIBRARY_DEPENDENCIES = {
-  '@batoanng/mui-components': '^3.5.0',
+  '@batoanng/mui-components': '^3.5.1',
   '@emotion/react': '^11.13.5',
   '@emotion/styled': '^11.13.5',
   '@mui/icons-material': '6.1.8',
@@ -26,7 +26,7 @@ const UI_LIBRARY_DEPENDENCIES = {
   'framer-motion': '^12.23.24',
   'react-dropzone': '^14.2.3',
   'react-easy-crop': '^5.0.2',
-  'react-hook-form': '7.44.3',
+  'react-hook-form': '7.57.0',
   'react-idle-timer': '^5.7.2',
 };
 
