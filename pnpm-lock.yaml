@@ -280,8 +280,8 @@ importers:
   packages/mui-components:
     dependencies:
       '@batoanng/utils':
-        specifier: workspace:*
-        version: link:../utils
+        specifier: ^2.4.0
+        version: 2.4.0
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.14.0(@types/react@18.3.28)(react@19.2.4)
@@ -488,8 +488,8 @@ importers:
   packages/oidc:
     dependencies:
       '@batoanng/mui-components':
-        specifier: workspace:*
-        version: link:../mui-components
+        specifier: ^3.5.2
+        version: 3.5.2(08f58f834f1a75d41c8a4b26df5c668f)
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.14.0(@types/react@18.3.28)(react@19.2.4)
@@ -976,6 +976,34 @@ packages:
 
   '@base2/pretty-print-object@1.0.1':
     resolution: {integrity: sha512-4iri8i1AqYHJE2DstZYkyEprg6Pq6sKx3xn5FpySk9sNhH7qN2LLlHJCfDTZRILNwQNPD7mATWM0TBui7uC1pA==}
+
+  '@batoanng/mui-components@3.5.2':
+    resolution: {integrity: sha512-pafqhumCOJJXrfmecwjalGl/vZU++kpPSD8/2RlPs5/jfJpX90cS3Kk99zNK26NpD77Fe0QZAgvfA+4illTX1w==}
+    engines: {node: '>=24.0.0', pnpm: '10'}
+    peerDependencies:
+      '@emotion/react': ^11.13.5
+      '@emotion/styled': ^11.13.5
+      '@mui/icons-material': 6.1.8
+      '@mui/material': 6.1.8
+      '@mui/utils': ^6.1.8
+      '@mui/x-date-pickers': 7.22.2
+      framer-motion: ^12.23.24
+      react: ^19.2.4
+      react-dom: ^19.2.4
+      react-dropzone: ^14.2.3
+      react-easy-crop: ^5.0.2
+      react-hook-form: 7.57.0
+      react-idle-timer: ^5.7.2
+    peerDependenciesMeta:
+      '@mui/x-date-pickers':
+        optional: true
+      react-dropzone:
+        optional: true
+      react-idle-timer:
+        optional: true
+
+  '@batoanng/utils@2.4.0':
+    resolution: {integrity: sha512-MrCEicee9+vSQkE7b/OwwOrIpHkjem6r6I4cEYcm9dEyVdsKftJAMBmZnKVfrfmkdzDPmgMzioCJz085MlzZCA==}
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -11223,6 +11251,31 @@ snapshots:
       '@babel/helper-validator-identifier': 7.28.5
 
   '@base2/pretty-print-object@1.0.1': {}
+
+  '@batoanng/mui-components@3.5.2(08f58f834f1a75d41c8a4b26df5c668f)':
+    dependencies:
+      '@batoanng/utils': 2.4.0
+      '@emotion/react': 11.14.0(@types/react@18.3.28)(react@19.2.4)
+      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4)
+      '@mui/icons-material': 6.1.8(@mui/material@6.1.8(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react@18.3.28)(react@19.2.4)
+      '@mui/material': 6.1.8(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@mui/utils': 6.4.9(@types/react@18.3.28)(react@19.2.4)
+      '@tabler/icons-react': 3.41.1(react@19.2.4)
+      date-fns: 2.30.0
+      entities: 4.5.0
+      file-selector: 0.6.0
+      framer-motion: 12.38.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+      react-easy-crop: 5.5.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react-hook-form: 7.57.0(react@19.2.4)
+      react-use: 17.6.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+    optionalDependencies:
+      '@mui/x-date-pickers': 7.22.2(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4))(@mui/material@6.1.8(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@mui/system@6.5.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(date-fns@2.30.0)(dayjs@1.11.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react-dropzone: 14.4.1(react@19.2.4)
+      react-idle-timer: 5.7.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+
+  '@batoanng/utils@2.4.0': {}
 
   '@bcoe/v8-coverage@0.2.3': {}
 
