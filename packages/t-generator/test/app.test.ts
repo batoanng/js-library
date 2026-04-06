@@ -159,6 +159,10 @@ test('generates the React base app with the expected project structure', async (
     '<Route path="/" element={<HomePage />} />',
   );
   yoAssert.fileContent(
+    path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
+    'return (\n    <>\n      {children}\n    </>\n  );',
+  );
+  yoAssert.fileContent(
     path.join(projectRoot, 'src/pages/home/ui/HomePage.test.tsx'),
     '<AppProviders>',
   );

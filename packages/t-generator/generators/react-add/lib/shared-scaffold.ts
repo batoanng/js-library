@@ -338,7 +338,9 @@ function renderAppProviders(features: InstalledFeatures): string {
 
   lines.push('export function AppProviders({ children }: PropsWithChildren) {');
   lines.push('  return (');
-  lines.push(indent(bodyLines.join('\n'), 4));
+  lines.push('    <>');
+  lines.push(indent(bodyLines.join('\n'), 6));
+  lines.push('    </>');
   lines.push('  );');
   lines.push('}');
 
