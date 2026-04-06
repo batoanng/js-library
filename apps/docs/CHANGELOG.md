@@ -1,5 +1,19 @@
 # @batoanng/docs
 
+## 1.2.0
+
+### Minor Changes
+
+- Add new config, synchronize versions
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @batoanng/mui-components@3.5.0
+  - @batoanng/utils@2.4.0
+
 ## 1.1.0
 
 ### Minor Changes

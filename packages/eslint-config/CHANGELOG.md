@@ -1,5 +1,12 @@
 # batoanng/eslint-config
 
+## 3.3.0
+
+### Minor Changes
+
+- Add new config, synchronize versions
+- Add new config, synchronize versions
+
 ## 3.2.0
 
 - Add new config, synchronize versions

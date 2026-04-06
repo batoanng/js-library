@@ -1,5 +1,24 @@
 # @batoanng/mui-components
 
+## 3.5.0
+
+### Minor Changes
+
+- Add new config, synchronize versions
+- Add new config, synchronize versions
+
+### Patch Changes
+
+- Upgrade react peer dev
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @batoanng/utils@2.4.0
+
+## 3.4.0
+
+- Align peer and development React packages with the React 19 generator templates.
+
 ## 3.3.0
 
 - Add new config, synchronize versions

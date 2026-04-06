@@ -75,22 +75,21 @@ test('recreates missing shared NestJS scaffold files before adding a feature', a
   assert.match(fs.readFileSync(envExamplePath, 'utf8'), /REDIS_HOST=/);
 });
 
-test('fails when shared NestJS scaffold files have drifted before adding a feature', async () => {
+test('rebuilds shared NestJS scaffold files when they have drifted before adding a feature', async () => {
   const { projectRoot, runResult } = await scaffoldNestApp('drifted-server');
   const appModulePath = path.join(projectRoot, 'src/modules/app.module.ts');
 
   fs.writeFileSync(appModulePath, `${fs.readFileSync(appModulePath, 'utf8')}\n// drift`);
 
-  await assert.rejects(
-    async () =>
-      runResult
-        .create(
-          nestjsAddGeneratorPath,
-          { cwd: projectRoot, tmpdir: false },
-          undefined,
-        )
-        .withArguments(['queue'])
-        .run(),
-    /managed files do not match the expected scaffold/,
-  );
+  await runResult
+    .create(
+      nestjsAddGeneratorPath,
+      { cwd: projectRoot, tmpdir: false },
+      undefined,
+    )
+    .withArguments(['queue'])
+    .run();
+
+  assert.match(fs.readFileSync(appModulePath, 'utf8'), /QueueFeatureModule/);
+  assert.doesNotMatch(fs.readFileSync(appModulePath, 'utf8'), /\/\/ drift/);
 });

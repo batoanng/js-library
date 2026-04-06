@@ -11,10 +11,9 @@ import reactQueryFeature from './features/react-query';
 import reduxFeature from './features/redux';
 import tailwindFeature from './features/tailwind';
 import uiLibraryFeature from './features/ui-library';
-import { REQUIRED_BASE_FILES, REQUIRED_BASE_SCRIPTS } from './lib/constants';
 import {
+  hasPackageDependency,
   normalizeFeatureName,
-  normalizeLineEndings,
   readAppDisplayName,
   readJson,
   renderTemplateFile,
@@ -201,31 +200,9 @@ class AddGenerator extends GeneratorBase {
       );
     }
 
-    const missingScripts = REQUIRED_BASE_SCRIPTS.filter(
-      (scriptName) => typeof packageJson.scripts?.[scriptName] !== 'string',
-    );
-    const missingFiles = REQUIRED_BASE_FILES.filter(
-      (relativePath) => !fs.existsSync(this.destinationPath(relativePath)),
-    );
-    const hasBaseMarker = packageJson.tGenerator?.stack === 'nextjs';
-
-    if (missingScripts.length > 0 || missingFiles.length > 0 || !hasBaseMarker) {
-      const details: string[] = [];
-
-      if (!hasBaseMarker) {
-        details.push('missing t-generator Next.js metadata');
-      }
-
-      if (missingScripts.length > 0) {
-        details.push(`missing scripts: ${missingScripts.join(', ')}`);
-      }
-
-      if (missingFiles.length > 0) {
-        details.push(`missing files: ${missingFiles.join(', ')}`);
-      }
-
+    if (!hasPackageDependency(packageJson, 'next')) {
       throw new Error(
-        `${featureLabel} can only be generated inside a t-generator Next.js app. ${details.join('; ')}.`,
+        `${featureLabel} can only be generated inside a t-generator Next.js app or a compatible Next.js app. package.json must declare "next".`,
       );
     }
 
@@ -253,6 +230,8 @@ class AddGenerator extends GeneratorBase {
     }[],
     stateLabel: string,
   ): void {
+    void stateLabel;
+
     const missingManagedFiles = managedFiles
       .map(({ path: filePath }) => filePath)
       .filter((filePath) => !fs.existsSync(this.destinationPath(filePath)));
@@ -262,63 +241,14 @@ class AddGenerator extends GeneratorBase {
         `${featureLabel} generation aborted because required scaffold files are missing: ${missingManagedFiles.join(', ')}.`,
       );
     }
-
-    const modifiedManagedFiles = managedFiles
-      .filter((templateDefinition) => {
-        const destinationFilePath = this.destinationPath(
-          templateDefinition.path,
-        );
-        const currentContent = normalizeLineEndings(
-          fs.readFileSync(destinationFilePath, 'utf8'),
-        );
-        const expectedContent = normalizeLineEndings(
-          renderTemplateFile(
-            resolveTemplateAbsolutePath(templateDefinition),
-            this.templateContext,
-          ),
-        );
-
-        return currentContent !== expectedContent;
-      })
-      .map(({ path: filePath }) => filePath);
-
-    if (modifiedManagedFiles.length > 0) {
-      throw new Error(
-        `${featureLabel} generation aborted because these managed files do not match the expected ${stateLabel} scaffold: ${modifiedManagedFiles.join(', ')}.`,
-      );
-    }
   }
 
   _validateSharedScaffold(
     featureLabel: string,
     features: InstalledFeatures,
   ): void {
-    const expectedFiles = buildSharedScaffold(this.templateContext, features);
-    const missingManagedFiles = Object.keys(expectedFiles).filter(
-      (filePath) => !fs.existsSync(this.destinationPath(filePath)),
-    );
-
-    if (missingManagedFiles.length > 0) {
-      throw new Error(
-        `${featureLabel} generation aborted because required scaffold files are missing: ${missingManagedFiles.join(', ')}.`,
-      );
-    }
-
-    const modifiedManagedFiles = Object.entries(expectedFiles)
-      .filter(([filePath, expectedContent]) => {
-        const currentContent = normalizeLineEndings(
-          fs.readFileSync(this.destinationPath(filePath), 'utf8'),
-        );
-
-        return currentContent !== normalizeLineEndings(expectedContent);
-      })
-      .map(([filePath]) => filePath);
-
-    if (modifiedManagedFiles.length > 0) {
-      throw new Error(
-        `${featureLabel} generation aborted because these managed files do not match the expected scaffold: ${modifiedManagedFiles.join(', ')}.`,
-      );
-    }
+    void featureLabel;
+    void features;
   }
 
   _writePackageCollection(

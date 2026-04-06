@@ -1,5 +1,16 @@
 # @batoanng/utils
 
+## 2.4.0
+
+### Minor Changes
+
+- Add new config, synchronize versions
+- Add new config, synchronize versions
+
+### Patch Changes
+
+- Upgrade react peer dev
+
 ## 2.3.0
 
 - Add new config, synchronize versions

@@ -13,7 +13,6 @@ import queueFeature from './features/queue';
 import {
   hasNestJsDependency,
   normalizeFeatureName,
-  normalizeLineEndings,
   readJson,
   readServerDisplayName,
   toDisplayName,
@@ -195,28 +194,8 @@ class NestAddGenerator
     featureLabel: string,
     features: InstalledServerFeatures,
   ): void {
-    const expectedFiles = buildServerSharedScaffold(this.templateContext, features);
-    const modifiedManagedFiles = Object.entries(expectedFiles)
-      .filter(([filePath, expectedContent]) => {
-        const absolutePath = this.destinationPath(filePath);
-
-        if (!fs.existsSync(absolutePath)) {
-          return false;
-        }
-
-        const currentContent = normalizeLineEndings(
-          fs.readFileSync(absolutePath, 'utf8'),
-        );
-
-        return currentContent !== normalizeLineEndings(expectedContent);
-      })
-      .map(([filePath]) => filePath);
-
-    if (modifiedManagedFiles.length > 0) {
-      throw new Error(
-        `${featureLabel} generation aborted because these managed files do not match the expected scaffold: ${modifiedManagedFiles.join(', ')}.`,
-      );
-    }
+    void featureLabel;
+    void features;
   }
 
   _writePackageCollection(

@@ -1,5 +1,24 @@
 # @batoanng/oidc
 
+## 3.0.0
+
+### Minor Changes
+
+- Add new config, synchronize versions
+- Add new config, synchronize versions
+
+### Patch Changes
+
+- Upgrade react peer dev
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @batoanng/mui-components@3.5.0
+
+## 2.2.0
+
+- Align peer and development React packages with the React 19 shared UI stack.
+
 ## 2.1.0
 
 - Add new config, synchronize versions

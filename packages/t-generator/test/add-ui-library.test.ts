@@ -37,7 +37,7 @@ test('adds the ui-library feature to an existing generated base app', async () =
   assert.equal(packageJson.scripts?.build, 'vite build');
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.3.0',
+    '^3.4.0',
   );
   assert.equal(packageJson.dependencies?.['@emotion/react'], '^11.13.5');
   assert.equal(packageJson.dependencies?.['@emotion/styled'], '^11.13.5');
@@ -96,6 +96,50 @@ test('prompt-based add can select the ui-library feature', async () => {
   ]);
 });
 
+test('ui-library can be added when the React app is identified by package.json and shared files have drifted', async () => {
+  let tmpDir = '';
+  const helpers = await createYeomanTestHelpers();
+
+  await helpers
+    .run(addGeneratorPath)
+    .inTmpDir((directory) => {
+      tmpDir = directory;
+
+      fs.mkdirSync(path.join(directory, 'src/app/providers'), { recursive: true });
+      fs.writeFileSync(
+        path.join(directory, 'package.json'),
+        `${JSON.stringify(
+          {
+            name: 'custom-react-app',
+            dependencies: {
+              react: '^19.2.4',
+              'react-dom': '^19.2.4',
+            },
+          },
+          null,
+          2,
+        )}\n`,
+      );
+      fs.writeFileSync(
+        path.join(directory, 'src/app/providers/AppProviders.tsx'),
+        'export function AppProviders({ children }: { children: React.ReactNode }) { return <main>{children}</main>; }\n',
+      );
+    })
+    .withArguments(['ui-library']);
+
+  const projectRoot = tmpDir;
+
+  yoAssert.file([
+    path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
+    path.join(projectRoot, 'src/pages/home/ui/HomePage.tsx'),
+    path.join(projectRoot, 'src/widgets/ui-library-showcase/ui/UiLibraryShowcase.tsx'),
+  ]);
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
+    'ThemeProvider theme={appTheme}',
+  );
+});
+
 test('ui-library can be added after bff without re-running bff checks', async () => {
   const { projectRoot, runResult } = await scaffoldBaseApp('stacked-features');
 
@@ -123,7 +167,7 @@ test('ui-library can be added after bff without re-running bff checks', async ()
   );
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.3.0',
+    '^3.4.0',
   );
 });
 
@@ -147,7 +191,7 @@ test('ui-library can be added after auth without removing auth wiring', async ()
   assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], '^2.8.0');
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.3.0',
+    '^3.4.0',
   );
 
   yoAssert.fileContent(

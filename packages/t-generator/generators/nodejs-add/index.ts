@@ -18,11 +18,9 @@ import cacheFeature from './features/cache';
 import graphqlFeature from './features/graphql';
 import llmFeature from './features/llm';
 import queueFeature from './features/queue';
-import { REQUIRED_BASE_FILES, REQUIRED_BASE_SCRIPTS } from './lib/constants';
 import {
   hasPackageDependency,
   normalizeFeatureName,
-  normalizeLineEndings,
   readJson,
   readNodeArchitecture,
   readNodeServerDisplayName,
@@ -197,40 +195,13 @@ class NodeAddGenerator
       );
     }
 
-    const missingScripts = REQUIRED_BASE_SCRIPTS.filter(
-      (scriptName) => typeof packageJson.scripts?.[scriptName] !== 'string',
-    );
-    const missingFiles = REQUIRED_BASE_FILES.filter(
-      (relativePath) => !fs.existsSync(this.destinationPath(relativePath)),
-    );
-    const hasBaseMarker = packageJson.tGenerator?.stack === 'nodejs';
     const hasNodeBaseDependencies =
       hasPackageDependency(packageJson, 'express') &&
       hasPackageDependency(packageJson, '@prisma/client');
 
-    if (
-      missingScripts.length > 0 ||
-      missingFiles.length > 0 ||
-      (!hasBaseMarker && !hasNodeBaseDependencies)
-    ) {
-      const details: string[] = [];
-
-      if (!hasBaseMarker && !hasNodeBaseDependencies) {
-        details.push(
-          'missing t-generator Node.js metadata or required Node.js base dependencies',
-        );
-      }
-
-      if (missingScripts.length > 0) {
-        details.push(`missing scripts: ${missingScripts.join(', ')}`);
-      }
-
-      if (missingFiles.length > 0) {
-        details.push(`missing files: ${missingFiles.join(', ')}`);
-      }
-
+    if (!hasNodeBaseDependencies) {
       throw new Error(
-        `${featureLabel} can only be generated inside a t-generator Node.js server project. ${details.join('; ')}.`,
+        `${featureLabel} can only be generated inside a t-generator Node.js server project or a compatible Node.js server project. package.json must declare "express" and "@prisma/client".`,
       );
     }
 
@@ -250,72 +221,16 @@ class NodeAddGenerator
     featureLabel: string,
     features: InstalledNodeServerFeatures,
   ): void {
-    const expectedFiles = buildNodeServerSharedScaffold(
-      this.templateContext,
-      features,
-    );
-    const missingManagedFiles = Object.keys(expectedFiles).filter(
-      (filePath) => !fs.existsSync(this.destinationPath(filePath)),
-    );
-
-    if (missingManagedFiles.length > 0) {
-      throw new Error(
-        `${featureLabel} generation aborted because required scaffold files are missing: ${missingManagedFiles.join(', ')}.`,
-      );
-    }
-
-    const modifiedManagedFiles = Object.entries(expectedFiles)
-      .filter(([filePath, expectedContent]) => {
-        const absolutePath = this.destinationPath(filePath);
-        const currentContent = normalizeLineEndings(
-          fs.readFileSync(absolutePath, 'utf8'),
-        );
-
-        return currentContent !== normalizeLineEndings(expectedContent);
-      })
-      .map(([filePath]) => filePath);
-
-    if (modifiedManagedFiles.length > 0) {
-      throw new Error(
-        `${featureLabel} generation aborted because these managed files do not match the expected scaffold: ${modifiedManagedFiles.join(', ')}.`,
-      );
-    }
+    void featureLabel;
+    void features;
   }
 
   _validateArchitectureScaffold(
     featureLabel: string,
     features: InstalledNodeServerFeatures,
   ): void {
-    const expectedFiles = buildNodeServerArchitectureScaffold(
-      this.templateContext,
-      features,
-    );
-    const missingManagedFiles = Object.keys(expectedFiles).filter(
-      (filePath) => !fs.existsSync(this.destinationPath(filePath)),
-    );
-
-    if (missingManagedFiles.length > 0) {
-      throw new Error(
-        `${featureLabel} generation aborted because required architecture files are missing: ${missingManagedFiles.join(', ')}.`,
-      );
-    }
-
-    const modifiedManagedFiles = Object.entries(expectedFiles)
-      .filter(([filePath, expectedContent]) => {
-        const absolutePath = this.destinationPath(filePath);
-        const currentContent = normalizeLineEndings(
-          fs.readFileSync(absolutePath, 'utf8'),
-        );
-
-        return currentContent !== normalizeLineEndings(expectedContent);
-      })
-      .map(([filePath]) => filePath);
-
-    if (modifiedManagedFiles.length > 0) {
-      throw new Error(
-        `${featureLabel} generation aborted because these architecture-managed files do not match the expected scaffold: ${modifiedManagedFiles.join(', ')}.`,
-      );
-    }
+    void featureLabel;
+    void features;
   }
 
   _writePackageCollection(
