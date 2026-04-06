@@ -118,6 +118,10 @@ test('generates the Next.js base app with the expected project structure', async
     "import './globals.css';",
   );
   yoAssert.fileContent(
+    path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
+    'return (\n    <>\n      {children}\n    </>\n  );',
+  );
+  yoAssert.fileContent(
     path.join(projectRoot, 'README.md'),
     'yo t-generator:nextjs-add tailwind',
   );
