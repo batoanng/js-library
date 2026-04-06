@@ -58,6 +58,10 @@ test('adds the bff feature to an existing generated base app', async () => {
     'http-proxy-middleware',
     'url-parse',
   ]);
+  assert.equal(
+    serverPackageJson.dependencies?.['@batoanng/frontend-server'],
+    '^2.6.0',
+  );
 
   yoAssert.fileContent(
     path.join(projectRoot, 'server/server.js'),
