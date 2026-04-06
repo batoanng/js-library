@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/mui-components",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "license": "MIT",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -34,7 +34,7 @@
     "chromatic": "pnpm dlx chromatic --only-changed"
   },
   "dependencies": {
-    "@batoanng/utils": "workspace:*",
+    "@batoanng/utils": "^2.4.0",
     "@tabler/icons-react": "^3.41.1",
     "date-fns": "^2.30.0",
     "entities": "^4.5.0",

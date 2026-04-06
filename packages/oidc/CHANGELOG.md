@@ -1,5 +1,13 @@
 # @batoanng/oidc
 
+## 3.0.2
+
+### Patch Changes
+
+- Replace the published `workspace:*` MUI peer dependency with a real npm semver range.
+- Updated dependencies
+  - @batoanng/mui-components@3.5.2
+
 ## 3.0.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @batoanng/mui-components
 
+## 3.5.2
+
+### Patch Changes
+
+- Replace the published `workspace:*` utils dependency with a real npm semver range.
+
 ## 3.5.1
 
 ### Patch Changes
