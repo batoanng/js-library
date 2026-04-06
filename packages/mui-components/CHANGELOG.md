@@ -1,5 +1,9 @@
 # @batoanng/mui-components
 
+## 3.3.0
+
+- Add new config, synchronize versions
+
 ## 3.2.0
 
 ### Minor Changes

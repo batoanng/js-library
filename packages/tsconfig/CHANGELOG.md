@@ -1,5 +1,9 @@
 # @batoanng/tsconfig
 
+## 1.4.0
+
+- Add new config, synchronize versions
+
 ## 1.3.0
 
 ### Minor Changes

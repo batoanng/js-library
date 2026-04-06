@@ -1,5 +1,9 @@
 # @batoanng/oidc
 
+## 2.1.0
+
+- Add new config, synchronize versions
+
 ## 2.0.0
 
 ### Minor Changes

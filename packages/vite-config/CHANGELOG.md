@@ -1,5 +1,9 @@
 # batoanng/vite-config
 
+## 1.2.0
+
+- Add new config, synchronize versions
+
 ## 1.1.0
 
 ### Minor Changes

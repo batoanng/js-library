@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.0
+
+- Add new config, synchronize versions
+
 ## 2.5.0
 
 ### Minor Changes

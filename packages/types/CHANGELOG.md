@@ -1,5 +1,9 @@
 # @batoanng/types
 
+## 0.3.0
+
+- Add new config, synchronize versions
+
 ## 0.2.0
 
 ### Minor Changes

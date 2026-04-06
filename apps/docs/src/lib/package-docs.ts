@@ -1,67 +1,73 @@
-import { existsSync, promises as fs } from 'fs'
-import path from 'path'
+import { existsSync, promises as fs } from 'fs';
+import path from 'path';
 
-import { CATEGORY_META, CATEGORY_ORDER, type GuideSection, type PackageCategory, type PackageDoc } from './docs-catalog'
-import { humanizePackageName, slugifyValue } from './slugs'
+import {
+  CATEGORY_META,
+  CATEGORY_ORDER,
+  type GuideSection,
+  type PackageCategory,
+  type PackageDoc,
+} from './docs-catalog';
+import { humanizePackageName, slugifyValue } from './slugs';
 
 type PackageJson = {
-  author?: string
-  bin?: Record<string, string> | string
-  dependencies?: Record<string, string>
-  description?: string
-  devDependencies?: Record<string, string>
-  exports?: Record<string, unknown> | string
-  files?: string[]
-  main?: string
-  module?: string
-  name: string
-  peerDependencies?: Record<string, string>
+  author?: string;
+  bin?: Record<string, string> | string;
+  dependencies?: Record<string, string>;
+  description?: string;
+  devDependencies?: Record<string, string>;
+  exports?: Record<string, unknown> | string;
+  files?: string[];
+  main?: string;
+  module?: string;
+  name: string;
+  peerDependencies?: Record<string, string>;
   publishConfig?: {
-    access?: string
-  }
-  type?: string
-  types?: string
-  version: string
-}
+    access?: string;
+  };
+  type?: string;
+  types?: string;
+  version: string;
+};
 
 type PackageDocOverride = {
-  category: PackageCategory
-  highlights?: string[]
-  installMode?: 'dev' | 'global' | 'prod'
-  quickStart: PackageDoc['quickStart']
-  relatedSlugs?: string[]
-  summary?: string
-  tagline: string
-}
+  category: PackageCategory;
+  highlights?: string[];
+  installMode?: 'dev' | 'global' | 'prod';
+  quickStart: PackageDoc['quickStart'];
+  relatedSlugs?: string[];
+  summary?: string;
+  tagline: string;
+};
 
 type RawPackageDoc = {
-  changelog: string
-  description: string
-  folderName: string
-  keyFiles: string[]
-  packageJson: PackageJson
-  parsedReadme: MarkdownDocument
-  readme: string
-  slug: string
-  summary: string
-}
+  changelog: string;
+  description: string;
+  folderName: string;
+  keyFiles: string[];
+  packageJson: PackageJson;
+  parsedReadme: MarkdownDocument;
+  readme: string;
+  slug: string;
+  summary: string;
+};
 
 type MarkdownDocument = {
-  intro: string
-  sections: MarkdownSection[]
-}
+  intro: string;
+  sections: MarkdownSection[];
+};
 
 type MarkdownSection = {
-  content: string
-  id: string
-  title: string
-}
+  content: string;
+  id: string;
+  title: string;
+};
 
 type BasePackageDoc = Omit<PackageDoc, 'guideSections' | 'relatedPackageNames'> & {
-  parsedReadme: MarkdownDocument
-}
+  parsedReadme: MarkdownDocument;
+};
 
-let packageDocsPromise: Promise<PackageDoc[]> | null = null
+let packageDocsPromise: Promise<PackageDoc[]> | null = null;
 
 const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
   'eslint-config': {
@@ -115,14 +121,15 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
     },
     relatedSlugs: ['utils'],
   },
-  oidc: {
+  'oidc': {
     category: 'Authentication',
     tagline: 'React-first OIDC flows with route callbacks, shared auth context, and ready-made status screens.',
     summary:
       'Wrap routed React apps with OIDC callbacks, shared authorisation state, post-login profile enrichment, and optional axios token wiring around `react-oidc-context`.',
     quickStart: {
       title: 'Wrap the routed app tree',
-      description: 'Provide the OIDC settings once, then use the callback helpers to complete profile and privilege loading after login.',
+      description:
+        'Provide the OIDC settings once, then use the callback helpers to complete profile and privilege loading after login.',
       language: 'tsx',
       code: `import { OidcAuthorisationProvider } from '@batoanng/oidc';\n\n<OidcAuthorisationProvider\n  userManagerSettings={{\n    authority: 'https://your-idp.example.com',\n    client_id: 'web-app',\n    redirect_uri: 'http://localhost:3000/oidc/callback',\n    post_logout_redirect_uri: 'http://localhost:3000/oidc/logout',\n  }}\n>\n  <App />\n</OidcAuthorisationProvider>;`,
     },
@@ -155,9 +162,10 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
     ],
     quickStart: {
       title: 'Generate a stack starter',
-      description: 'Pick the stack directly or use the interactive root generator to route into the same base and add-on commands.',
+      description:
+        'Pick the stack directly or use the interactive root generator to route into the same base and add-on commands.',
       language: 'bash',
-      code: `npm install -g yo @batoanng/t-generator\nyo t-generator\nyo t-generator:react-app my-react-app\nyo t-generator:nextjs-app my-next-app\nyo t-generator:nodejs-app my-node-api`,
+      code: `npm install -g yo generator-t-generator\nyo t-generator\nyo t-generator:react-app my-react-app\nyo t-generator:nextjs-app my-next-app\nyo t-generator:nodejs-app my-node-api`,
     },
   },
   'tailwind-config': {
@@ -168,12 +176,13 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
       'Import one shared stylesheet to pick up fonts, colors, spacing, shadows, and utility extensions without maintaining a local Tailwind config file.',
     quickStart: {
       title: 'Import the shared Tailwind v4 stylesheet',
-      description: 'Add the shared stylesheet next to your app-level Tailwind import and keep project-specific tokens in regular CSS.',
+      description:
+        'Add the shared stylesheet next to your app-level Tailwind import and keep project-specific tokens in regular CSS.',
       language: 'css',
       code: `@import "tailwindcss";\n@import "@batoanng/tailwind-config/styles.css";`,
     },
   },
-  tsconfig: {
+  'tsconfig': {
     category: 'Config',
     installMode: 'dev',
     tagline: 'TypeScript presets for React apps, Next.js projects, Node runtimes, and legacy tooling edges.',
@@ -181,12 +190,13 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
       'Pick a preset, extend it from your local `tsconfig.json`, and keep compiler defaults aligned across the monorepo.',
     quickStart: {
       title: 'Extend the React preset',
-      description: 'Choose the preset that matches the runtime and only override the options that are genuinely project-specific.',
+      description:
+        'Choose the preset that matches the runtime and only override the options that are genuinely project-specific.',
       language: 'json',
       code: `{\n  "extends": "@batoanng/tsconfig/reactjs.json",\n  "compilerOptions": {\n    "outDir": "dist"\n  }\n}`,
     },
   },
-  types: {
+  'types': {
     category: 'Types',
     installMode: 'dev',
     tagline: 'Centralised domain and error contracts that can be shared across apps, servers, and tooling.',
@@ -200,14 +210,15 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
     },
     relatedSlugs: ['utils'],
   },
-  utils: {
+  'utils': {
     category: 'Utilities',
     tagline: 'General-purpose helpers and React hooks for the shared front-end ecosystem.',
     summary:
       'Reach for small, typed utilities like slug conversion, delays, previous-value tracking, and error normalisation without rewriting them in each project.',
     quickStart: {
       title: 'Pull utility functions and hooks from the package root',
-      description: 'The package is tree-shakable, so consumers can import narrow helpers without paying for the full surface area.',
+      description:
+        'The package is tree-shakable, so consumers can import narrow helpers without paying for the full surface area.',
       language: 'tsx',
       code: `import { sleep, toSlug, usePrevious } from '@batoanng/utils';\n\nawait sleep(250);\nconst previousValue = usePrevious(value);\nconst slug = toSlug('Design System Docs');`,
     },
@@ -221,12 +232,13 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
       'Adopt the default Vite stack, then merge in only the project-specific settings you need for build or test behaviour.',
     quickStart: {
       title: 'Start from the shared Vite config',
-      description: 'Both the Vite build config and the Vitest test setup are exported so apps and libraries stay aligned.',
+      description:
+        'Both the Vite build config and the Vitest test setup are exported so apps and libraries stay aligned.',
       language: 'js',
       code: `import baseConfig from '@batoanng/vite-config/vite.config';\nimport { defineConfig, mergeConfig } from 'vite';\n\nexport default mergeConfig(baseConfig, defineConfig({\n  define: {\n    __DEV__: true,\n  },\n}));`,
     },
   },
-}
+};
 
 const SECTION_PATTERNS: Record<string, RegExp[]> = {
   development: [/development/i, /linting/i, /storybook/i, /internals/i, /structure/i, /files overview/i, /strictness/i],
@@ -236,7 +248,7 @@ const SECTION_PATTERNS: Record<string, RegExp[]> = {
   notes: [/notes/i, /csp/i, /rate limiting/i, /automatic client-side env variable injection/i, /related packages/i],
   props: [/props/i, /default routes/i],
   usage: [/usage/i, /quick start/i, /main entry point/i, /customization/i, /test setup/i, /auth flow/i],
-}
+};
 
 const IGNORED_TOP_LEVEL_ENTRIES = new Set([
   '.gitignore',
@@ -249,23 +261,23 @@ const IGNORED_TOP_LEVEL_ENTRIES = new Set([
   'node_modules',
   'package-lock.json',
   'pnpm-lock.yaml',
-])
+]);
 
 function workspaceRoot(): string {
-  let currentDirectory = process.cwd()
+  let currentDirectory = process.cwd();
 
   while (true) {
     if (existsSync(path.join(currentDirectory, 'pnpm-workspace.yaml'))) {
-      return currentDirectory
+      return currentDirectory;
     }
 
-    const parentDirectory = path.dirname(currentDirectory)
+    const parentDirectory = path.dirname(currentDirectory);
 
     if (parentDirectory === currentDirectory) {
-      return process.cwd()
+      return process.cwd();
     }
 
-    currentDirectory = parentDirectory
+    currentDirectory = parentDirectory;
   }
 }
 
@@ -275,97 +287,97 @@ function stripMarkdown(text: string): string {
     .replace(/\[([^\]]+)]\([^)]*\)/g, '$1')
     .replace(/[`*_>#-]/g, ' ')
     .replace(/\s+/g, ' ')
-    .trim()
+    .trim();
 }
 
 function mergeMarkdownParts(parts: Array<string | undefined>): string {
   return parts
     .map((part) => part?.trim())
     .filter(Boolean)
-    .join('\n\n')
+    .join('\n\n');
 }
 
 function inferCategory(folderName: string): PackageCategory {
   if (folderName === 'mui-components') {
-    return 'Components'
+    return 'Components';
   }
 
   if (folderName === 'oidc') {
-    return 'Authentication'
+    return 'Authentication';
   }
 
   if (folderName === 'frontend-server') {
-    return 'Server'
+    return 'Server';
   }
 
   if (folderName === 'utils') {
-    return 'Utilities'
+    return 'Utilities';
   }
 
   if (folderName === 'types') {
-    return 'Types'
+    return 'Types';
   }
 
   if (folderName === 't-generator') {
-    return 'Scaffolding'
+    return 'Scaffolding';
   }
 
-  return 'Config'
+  return 'Config';
 }
 
 function inferInstallMode(category: PackageCategory): 'dev' | 'global' | 'prod' {
   if (category === 'Config' || category === 'Types') {
-    return 'dev'
+    return 'dev';
   }
 
   if (category === 'Scaffolding') {
-    return 'global'
+    return 'global';
   }
 
-  return 'prod'
+  return 'prod';
 }
 
 function buildInstallCommand(packageName: string, mode: 'dev' | 'global' | 'prod'): string {
   if (mode === 'global') {
-    return `npm install -g yo ${packageName}`
+    return `npm install -g yo ${packageName}`;
   }
 
   if (mode === 'dev') {
-    return `npm install -D ${packageName}`
+    return `npm install -D ${packageName}`;
   }
 
-  return `npm install ${packageName}`
+  return `npm install ${packageName}`;
 }
 
 function readingTimeMinutes(markdown: string): number {
-  const wordCount = stripMarkdown(markdown).split(/\s+/).filter(Boolean).length
+  const wordCount = stripMarkdown(markdown).split(/\s+/).filter(Boolean).length;
 
-  return Math.max(1, Math.round(wordCount / 220))
+  return Math.max(1, Math.round(wordCount / 220));
 }
 
 function extractIntro(markdown: string): string {
-  const body = markdown.replace(/^# .*\n+/, '').trim()
-  const paragraphs = body.split(/\n{2,}/).map((paragraph) => paragraph.trim())
+  const body = markdown.replace(/^# .*\n+/, '').trim();
+  const paragraphs = body.split(/\n{2,}/).map((paragraph) => paragraph.trim());
 
   return (
     paragraphs.find((paragraph) => {
       if (!paragraph) {
-        return false
+        return false;
       }
 
-      return !paragraph.startsWith('![') && !paragraph.startsWith('---') && !paragraph.startsWith('[')
+      return !paragraph.startsWith('![') && !paragraph.startsWith('---') && !paragraph.startsWith('[');
     }) ?? ''
-  )
+  );
 }
 
 function extractHighlights(markdown: string): string[] {
-  const featuresMatch = markdown.match(/## .*features[\s\S]*?(?=\n## |\n# |$)/i)
-  const source = featuresMatch?.[0] ?? markdown
+  const featuresMatch = markdown.match(/## .*features[\s\S]*?(?=\n## |\n# |$)/i);
+  const source = featuresMatch?.[0] ?? markdown;
 
   return Array.from(source.matchAll(/^- (.+)$/gm))
     .slice(0, 4)
     .map((match) => stripMarkdown(match[1]))
-    .filter(Boolean)
+    .filter(Boolean);
 }
 
 function fallbackHighlights({
@@ -376,66 +388,66 @@ function fallbackHighlights({
   keyFiles,
   peerDependencies,
 }: {
-  description: string
-  entrypoints: string[]
-  exports: string[]
-  internalDependencies: string[]
-  keyFiles: string[]
-  peerDependencies: string[]
+  description: string;
+  entrypoints: string[];
+  exports: string[];
+  internalDependencies: string[];
+  keyFiles: string[];
+  peerDependencies: string[];
 }): string[] {
   return [
     description ? stripMarkdown(description) : undefined,
-    exports.length > 0 ? `${exports.length} published export${exports.length === 1 ? '' : 's'} ready to compose.` : undefined,
+    exports.length > 0
+      ? `${exports.length} published export${exports.length === 1 ? '' : 's'} ready to compose.`
+      : undefined,
     entrypoints.length > 0
       ? `${entrypoints.length} entrypoint${entrypoints.length === 1 ? '' : 's'} exposed for consumers.`
       : undefined,
-    peerDependencies.length > 0
-      ? `Designed to work alongside ${peerDependencies.slice(0, 3).join(', ')}.`
-      : undefined,
+    peerDependencies.length > 0 ? `Designed to work alongside ${peerDependencies.slice(0, 3).join(', ')}.` : undefined,
     internalDependencies.length > 0
       ? `Connects with ${internalDependencies.slice(0, 3).join(', ')} inside the monorepo.`
       : undefined,
     keyFiles.length > 0 ? `Key files include ${keyFiles.slice(0, 3).join(', ')}.` : undefined,
   ]
     .filter((highlight): highlight is string => Boolean(highlight))
-    .slice(0, 4)
+    .slice(0, 4);
 }
 
 function collectKeyFiles(entryNames: string[]): string[] {
   return entryNames
     .filter((entryName) => !IGNORED_TOP_LEVEL_ENTRIES.has(entryName))
     .map((entryName) => (entryName.includes('.') ? `\`${entryName}\`` : `\`${entryName}/\``))
-    .slice(0, 7)
+    .slice(0, 7);
 }
 
 function flattenExportEntries(exportsValue: PackageJson['exports']): string[] {
   if (!exportsValue) {
-    return []
+    return [];
   }
 
   if (typeof exportsValue === 'string') {
-    return [`\`.\` -> \`${exportsValue}\``]
+    return [`\`.\` -> \`${exportsValue}\``];
   }
 
   return Object.entries(exportsValue).flatMap(([exportKey, exportValue]) => {
     if (typeof exportValue === 'string') {
-      return [`\`${exportKey}\` -> \`${exportValue}\``]
+      return [`\`${exportKey}\` -> \`${exportValue}\``];
     }
 
     if (!exportValue || typeof exportValue !== 'object') {
-      return []
+      return [];
     }
 
     const variants = Object.entries(exportValue)
       .filter(([, exportTarget]) => typeof exportTarget === 'string')
-      .map(([variant, exportTarget]) => `${variant}: \`${exportTarget}\``)
+      .map(([variant, exportTarget]) => `${variant}: \`${exportTarget}\``);
 
     if (variants.length === 0) {
-      return []
+      return [];
     }
 
-    return [`\`${exportKey}\` -> ${variants.join(', ')}`]
-  })
+    return [`\`${exportKey}\` -> ${variants.join(', ')}`];
+  });
 }
 
 function entrypointsForPackage(packageJson: PackageJson): string[] {
@@ -443,135 +455,136 @@ function entrypointsForPackage(packageJson: PackageJson): string[] {
     packageJson.main ? `main: \`${packageJson.main}\`` : undefined,
     packageJson.module ? `module: \`${packageJson.module}\`` : undefined,
     packageJson.types ? `types: \`${packageJson.types}\`` : undefined,
-  ]
+  ];
 
   if (packageJson.bin) {
     if (typeof packageJson.bin === 'string') {
-      entrypoints.push(`bin: \`${packageJson.bin}\``)
+      entrypoints.push(`bin: \`${packageJson.bin}\``);
     } else {
       entrypoints.push(
         ...Object.entries(packageJson.bin).map(([binName, binTarget]) => `bin \`${binName}\`: \`${binTarget}\``)
-      )
+      );
     }
   }
 
-  return entrypoints.filter((entrypoint): entrypoint is string => Boolean(entrypoint))
+  return entrypoints.filter((entrypoint): entrypoint is string => Boolean(entrypoint));
 }
 
 function extractLatestChangelogEntry(changelog: string): string {
   if (!changelog.trim()) {
-    return ''
+    return '';
   }
 
-  const lines = changelog.split('\n')
-  const excerpt: string[] = []
-  let inEntry = false
+  const lines = changelog.split('\n');
+  const excerpt: string[] = [];
+  let inEntry = false;
 
   for (const line of lines) {
     if (line.startsWith('## ')) {
       if (inEntry) {
-        break
+        break;
       }
 
-      inEntry = true
-      excerpt.push(line)
-      continue
+      inEntry = true;
+      excerpt.push(line);
+      continue;
     }
 
     if (inEntry) {
-      excerpt.push(line)
+      excerpt.push(line);
     }
   }
 
-  return excerpt.join('\n').trim()
+  return excerpt.join('\n').trim();
 }
 
 function parseMarkdownSections(markdown: string): MarkdownDocument {
-  const lines = markdown.split('\n')
-  const intro: string[] = []
-  const sections: MarkdownSection[] = []
-  let currentSection: MarkdownSection | null = null
-  let insideCodeFence = false
+  const lines = markdown.split('\n');
+  const intro: string[] = [];
+  const sections: MarkdownSection[] = [];
+  let currentSection: MarkdownSection | null = null;
+  let insideCodeFence = false;
 
   for (const line of lines) {
     if (line.trimStart().startsWith('```')) {
-      insideCodeFence = !insideCodeFence
+      insideCodeFence = !insideCodeFence;
     }
 
-    const headingMatch = !insideCodeFence ? line.match(/^(##)\s+(.+)$/) : null
+    const headingMatch = !insideCodeFence ? line.match(/^(##)\s+(.+)$/) : null;
 
     if (headingMatch) {
       if (currentSection) {
-        currentSection.content = currentSection.content.trim()
-        sections.push(currentSection)
+        currentSection.content = currentSection.content.trim();
+        sections.push(currentSection);
       }
 
       currentSection = {
         content: '',
         id: slugifyValue(headingMatch[2]),
         title: headingMatch[2].trim(),
-      }
-      continue
+      };
+      continue;
     }
 
     if (currentSection) {
-      currentSection.content += `${line}\n`
+      currentSection.content += `${line}\n`;
     } else if (!line.startsWith('# ')) {
-      intro.push(line)
+      intro.push(line);
     }
   }
 
   if (currentSection) {
-    currentSection.content = currentSection.content.trim()
-    sections.push(currentSection)
+    currentSection.content = currentSection.content.trim();
+    sections.push(currentSection);
   }
 
   return {
     intro: intro.join('\n').trim(),
     sections,
-  }
+  };
 }
 
 function stripLeadingTitle(markdown: string): string {
-  return markdown.replace(/^# .*\n+/, '').trim()
+  return markdown.replace(/^# .*\n+/, '').trim();
 }
 
 function deriveDefaultQuickStart(folderName: string, packageJson: PackageJson): PackageDoc['quickStart'] {
   return {
     title: 'Start from the primary entrypoint',
-    description: 'The package publishes a small entry surface. Start with the root export and add deeper subpaths only if you need them.',
+    description:
+      'The package publishes a small entry surface. Start with the root export and add deeper subpaths only if you need them.',
     language: 'bash',
     code: buildInstallCommand(packageJson.name, inferInstallMode(inferCategory(folderName))),
-  }
+  };
 }
 
 function pullSections(sectionPool: MarkdownSection[], patterns: RegExp[]): MarkdownSection[] {
-  return sectionPool.filter((section) => patterns.some((pattern) => pattern.test(section.title)))
+  return sectionPool.filter((section) => patterns.some((pattern) => pattern.test(section.title)));
 }
 
 function sectionMarkdown(title: string, sections: MarkdownSection[]): string {
   if (sections.length === 0) {
-    return ''
+    return '';
   }
 
   return sections
     .map((section) => {
       if (section.title.toLowerCase() === title.toLowerCase()) {
-        return section.content
+        return section.content;
       }
 
-      return `### ${section.title}\n\n${section.content}`
+      return `### ${section.title}\n\n${section.content}`;
     })
     .join('\n\n')
-    .trim()
+    .trim();
 }
 
 function makeBullets(items: string[], emptyState?: string): string {
   if (items.length === 0) {
-    return emptyState ?? ''
+    return emptyState ?? '';
   }
 
-  return items.map((item) => `- ${item}`).join('\n')
+  return items.map((item) => `- ${item}`).join('\n');
 }
 
 function buildGuideSections(
@@ -579,38 +592,38 @@ function buildGuideSections(
   readmeSections: MarkdownSection[],
   relatedPackageNames: string[]
 ): GuideSection[] {
-  const featuresSections = pullSections(readmeSections, SECTION_PATTERNS.features)
-  const installationSections = pullSections(readmeSections, SECTION_PATTERNS.installation)
-  const usageSections = pullSections(readmeSections, SECTION_PATTERNS.usage)
-  const exportsSections = pullSections(readmeSections, SECTION_PATTERNS.exports)
-  const propsSections = pullSections(readmeSections, SECTION_PATTERNS.props)
-  const notesSections = pullSections(readmeSections, SECTION_PATTERNS.notes)
-  const developmentSections = pullSections(readmeSections, SECTION_PATTERNS.development)
+  const featuresSections = pullSections(readmeSections, SECTION_PATTERNS.features);
+  const installationSections = pullSections(readmeSections, SECTION_PATTERNS.installation);
+  const usageSections = pullSections(readmeSections, SECTION_PATTERNS.usage);
+  const exportsSections = pullSections(readmeSections, SECTION_PATTERNS.exports);
+  const propsSections = pullSections(readmeSections, SECTION_PATTERNS.props);
+  const notesSections = pullSections(readmeSections, SECTION_PATTERNS.notes);
+  const developmentSections = pullSections(readmeSections, SECTION_PATTERNS.development);
 
   const overviewMarkdown = mergeMarkdownParts([
     doc.summary,
     doc.highlights.length > 0 ? makeBullets(doc.highlights.map((highlight) => stripMarkdown(highlight))) : undefined,
     sectionMarkdown('Features', featuresSections),
-  ])
+  ]);
 
   const installationMarkdown = mergeMarkdownParts([
     'Bring the package into your project with the published npm entrypoint.',
     `\`\`\`bash\n${doc.installCommand}\n\`\`\``,
     sectionMarkdown('Installation', installationSections),
-  ])
+  ]);
 
   const usageMarkdown = mergeMarkdownParts([
     doc.quickStart.description,
     `\`\`\`${doc.quickStart.language}\n${doc.quickStart.code}\n\`\`\``,
     sectionMarkdown('Usage', usageSections),
-  ])
+  ]);
 
   const exportsMarkdown = mergeMarkdownParts([
     doc.exports.length > 0 ? `### Export surface\n\n${makeBullets(doc.exports)}` : undefined,
     doc.entrypoints.length > 0 ? `### Entrypoints\n\n${makeBullets(doc.entrypoints)}` : undefined,
     doc.keyFiles.length > 0 ? `### Key files\n\n${makeBullets(doc.keyFiles)}` : undefined,
     sectionMarkdown('Exports', exportsSections),
-  ])
+  ]);
 
   const notesMarkdown = mergeMarkdownParts([
     doc.peerDependencies.length > 0
@@ -625,14 +638,12 @@ function buildGuideSections(
         )}`
       : undefined,
     sectionMarkdown('Notes', notesSections),
-  ])
+  ]);
 
   const developmentMarkdown = mergeMarkdownParts([
-    doc.latestReleaseNotes
-      ? `### Latest release snapshot\n\n${doc.latestReleaseNotes}`
-      : undefined,
+    doc.latestReleaseNotes ? `### Latest release snapshot\n\n${doc.latestReleaseNotes}` : undefined,
     sectionMarkdown('Development', developmentSections),
-  ])
+  ]);
 
   const sections: GuideSection[] = [
     {
@@ -659,7 +670,7 @@ function buildGuideSections(
       markdown: exportsMarkdown,
       title: 'Exports And Entrypoints',
     },
-  ]
+  ];
 
   if (propsSections.length > 0) {
     sections.push({
@@ -667,7 +678,7 @@ function buildGuideSections(
       id: 'props-and-routes',
       markdown: sectionMarkdown('Props', propsSections),
       title: 'Props And Route Contracts',
-    })
+    });
   }
 
   if (notesMarkdown) {
@@ -676,7 +687,7 @@ function buildGuideSections(
       id: 'integration-notes',
       markdown: notesMarkdown,
       title: 'Integration Notes',
-    })
+    });
   }
 
   if (developmentMarkdown) {
@@ -685,28 +696,28 @@ function buildGuideSections(
       id: 'development-notes',
       markdown: developmentMarkdown,
       title: 'Development Notes',
-    })
+    });
   }
 
-  return sections.filter((section) => section.markdown.trim().length > 0)
+  return sections.filter((section) => section.markdown.trim().length > 0);
 }
 
 async function readTextFile(filePath: string): Promise<string> {
   try {
-    return await fs.readFile(filePath, 'utf8')
+    return await fs.readFile(filePath, 'utf8');
   } catch {
-    return ''
+    return '';
   }
 }
 
 async function readPackage(folderName: string): Promise<RawPackageDoc> {
-  const packageDirectory = path.join(workspaceRoot(), 'packages', folderName)
-  const packageJson = JSON.parse(await fs.readFile(path.join(packageDirectory, 'package.json'), 'utf8')) as PackageJson
-  const readme = await readTextFile(path.join(packageDirectory, 'README.md'))
-  const changelog = await readTextFile(path.join(packageDirectory, 'CHANGELOG.md'))
-  const entryNames = await fs.readdir(packageDirectory)
-  const intro = extractIntro(readme)
-  const summary = stripMarkdown(packageJson.description ?? intro) || humanizePackageName(packageJson.name)
+  const packageDirectory = path.join(workspaceRoot(), 'packages', folderName);
+  const packageJson = JSON.parse(await fs.readFile(path.join(packageDirectory, 'package.json'), 'utf8')) as PackageJson;
+  const readme = await readTextFile(path.join(packageDirectory, 'README.md'));
+  const changelog = await readTextFile(path.join(packageDirectory, 'CHANGELOG.md'));
+  const entryNames = await fs.readdir(packageDirectory);
+  const intro = extractIntro(readme);
+  const summary = stripMarkdown(packageJson.description ?? intro) || humanizePackageName(packageJson.name);
 
   return {
     changelog,
@@ -718,46 +729,46 @@ async function readPackage(folderName: string): Promise<RawPackageDoc> {
     readme,
     slug: slugifyValue(folderName),
     summary,
-  }
+  };
 }
 
 async function loadAllPackageDocs(): Promise<PackageDoc[]> {
-  const packagesDirectory = path.join(workspaceRoot(), 'packages')
+  const packagesDirectory = path.join(workspaceRoot(), 'packages');
   const packageDirectories = (await fs.readdir(packagesDirectory, { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
-    .sort()
+    .sort();
 
-  const rawPackages = await Promise.all(packageDirectories.map(readPackage))
-  const packageNameToSlug = new Map(rawPackages.map((rawPackage) => [rawPackage.packageJson.name, rawPackage.slug]))
+  const rawPackages = await Promise.all(packageDirectories.map(readPackage));
+  const packageNameToSlug = new Map(rawPackages.map((rawPackage) => [rawPackage.packageJson.name, rawPackage.slug]));
 
   const baseDocs: BasePackageDoc[] = rawPackages.map((rawPackage) => {
-    const override = PACKAGE_OVERRIDES[rawPackage.folderName]
-    const category = override?.category ?? inferCategory(rawPackage.folderName)
-    const installMode = override?.installMode ?? inferInstallMode(category)
+    const override = PACKAGE_OVERRIDES[rawPackage.folderName];
+    const category = override?.category ?? inferCategory(rawPackage.folderName);
+    const installMode = override?.installMode ?? inferInstallMode(category);
     const internalDependencies = Object.keys({
       ...(rawPackage.packageJson.dependencies ?? {}),
       ...(rawPackage.packageJson.devDependencies ?? {}),
       ...(rawPackage.packageJson.peerDependencies ?? {}),
     })
       .filter((dependency) => dependency.startsWith('@batoanng/'))
-      .filter((dependency) => dependency !== rawPackage.packageJson.name)
-    const entrypoints = entrypointsForPackage(rawPackage.packageJson)
-    const exports = flattenExportEntries(rawPackage.packageJson.exports)
-    const extractedHighlights = extractHighlights(rawPackage.readme)
+      .filter((dependency) => dependency !== rawPackage.packageJson.name);
+    const entrypoints = entrypointsForPackage(rawPackage.packageJson);
+    const exports = flattenExportEntries(rawPackage.packageJson.exports);
+    const extractedHighlights = extractHighlights(rawPackage.readme);
     const highlights =
       override?.highlights && override.highlights.length > 0
         ? override.highlights
         : extractedHighlights.length > 0
-        ? extractedHighlights
-        : fallbackHighlights({
-            description: rawPackage.description || rawPackage.summary,
-            entrypoints,
-            exports,
-            internalDependencies,
-            keyFiles: rawPackage.keyFiles,
-            peerDependencies: Object.keys(rawPackage.packageJson.peerDependencies ?? {}).sort(),
-          })
+          ? extractedHighlights
+          : fallbackHighlights({
+              description: rawPackage.description || rawPackage.summary,
+              entrypoints,
+              exports,
+              internalDependencies,
+              keyFiles: rawPackage.keyFiles,
+              peerDependencies: Object.keys(rawPackage.packageJson.peerDependencies ?? {}).sort(),
+            });
 
     return {
       accent: CATEGORY_META[category].accent,
@@ -791,66 +802,69 @@ async function loadAllPackageDocs(): Promise<PackageDoc[]> {
       summary: override?.summary ?? rawPackage.summary,
       tagline: override?.tagline ?? rawPackage.summary,
       version: rawPackage.packageJson.version,
-    }
-  })
+    };
+  });
 
-  const docsBySlug = new Map(baseDocs.map((doc) => [doc.slug, doc]))
+  const docsBySlug = new Map(baseDocs.map((doc) => [doc.slug, doc]));
 
   const docs: PackageDoc[] = baseDocs.map((baseDoc) => {
     const relatedDocs = baseDoc.relatedSlugs
       .map((slug) => docsBySlug.get(slug))
-      .filter((packageDoc): packageDoc is BasePackageDoc => Boolean(packageDoc))
-    const relatedPackageNames = relatedDocs.map((packageDoc) => packageDoc.name)
-    const relatedSlugs = relatedDocs.map((packageDoc) => packageDoc.slug)
+      .filter((packageDoc): packageDoc is BasePackageDoc => Boolean(packageDoc));
+    const relatedPackageNames = relatedDocs.map((packageDoc) => packageDoc.name);
+    const relatedSlugs = relatedDocs.map((packageDoc) => packageDoc.slug);
 
     return {
       ...baseDoc,
-      guideSections: buildGuideSections({ ...baseDoc, relatedSlugs }, baseDoc.parsedReadme.sections, relatedPackageNames),
+      guideSections: buildGuideSections(
+        { ...baseDoc, relatedSlugs },
+        baseDoc.parsedReadme.sections,
+        relatedPackageNames
+      ),
       relatedPackageNames,
       relatedSlugs,
-    }
-  })
+    };
+  });
 
   return docs.sort((leftDoc, rightDoc) => {
-    const categoryDelta =
-      CATEGORY_ORDER.indexOf(leftDoc.category) - CATEGORY_ORDER.indexOf(rightDoc.category)
+    const categoryDelta = CATEGORY_ORDER.indexOf(leftDoc.category) - CATEGORY_ORDER.indexOf(rightDoc.category);
 
     if (categoryDelta !== 0) {
-      return categoryDelta
+      return categoryDelta;
     }
 
-    return leftDoc.name.localeCompare(rightDoc.name)
-  })
+    return leftDoc.name.localeCompare(rightDoc.name);
+  });
 }
 
 export async function getAllPackageDocs(): Promise<PackageDoc[]> {
   if (!packageDocsPromise) {
-    packageDocsPromise = loadAllPackageDocs()
+    packageDocsPromise = loadAllPackageDocs();
   }
 
-  return packageDocsPromise
+  return packageDocsPromise;
 }
 
 export async function getPackageDocBySlug(slug: string): Promise<PackageDoc | undefined> {
-  const packageDocs = await getAllPackageDocs()
+  const packageDocs = await getAllPackageDocs();
 
-  return packageDocs.find((packageDoc) => packageDoc.slug === slug)
+  return packageDocs.find((packageDoc) => packageDoc.slug === slug);
 }
 
 export async function getPackageCategoryGroups(): Promise<
   Array<{
-    category: PackageCategory
-    packageDocs: PackageDoc[]
+    category: PackageCategory;
+    packageDocs: PackageDoc[];
   }>
 > {
-  const packageDocs = await getAllPackageDocs()
+  const packageDocs = await getAllPackageDocs();
 
   return CATEGORY_ORDER.map((category) => ({
     category,
     packageDocs: packageDocs.filter((packageDoc) => packageDoc.category === category),
-  })).filter((group) => group.packageDocs.length > 0)
+  })).filter((group) => group.packageDocs.length > 0);
 }
 
 export function __internal__parseMarkdownSections(markdown: string): MarkdownDocument {
-  return parseMarkdownSections(markdown)
+  return parseMarkdownSections(markdown);
 }

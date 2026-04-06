@@ -1,5 +1,9 @@
 # prettier-config
 
+## 1.5.0
+
+- Add new config, synchronize versions
+
 ## 1.4.0
 
 ### Minor Changes
