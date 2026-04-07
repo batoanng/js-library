@@ -281,8 +281,8 @@ importers:
   packages/mui-components:
     dependencies:
       '@batoanng/utils':
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^2.4.1
+        version: 2.4.1
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.14.0(@types/react@18.3.28)(react@19.2.4)
@@ -489,8 +489,8 @@ importers:
   packages/oidc:
     dependencies:
       '@batoanng/mui-components':
-        specifier: ^3.5.2
-        version: 3.5.2(08f58f834f1a75d41c8a4b26df5c668f)
+        specifier: ^3.5.3
+        version: 3.5.3(08f58f834f1a75d41c8a4b26df5c668f)
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.14.0(@types/react@18.3.28)(react@19.2.4)
@@ -978,8 +978,8 @@ packages:
   '@base2/pretty-print-object@1.0.1':
     resolution: {integrity: sha512-4iri8i1AqYHJE2DstZYkyEprg6Pq6sKx3xn5FpySk9sNhH7qN2LLlHJCfDTZRILNwQNPD7mATWM0TBui7uC1pA==}
 
-  '@batoanng/mui-components@3.5.2':
-    resolution: {integrity: sha512-pafqhumCOJJXrfmecwjalGl/vZU++kpPSD8/2RlPs5/jfJpX90cS3Kk99zNK26NpD77Fe0QZAgvfA+4illTX1w==}
+  '@batoanng/mui-components@3.5.3':
+    resolution: {integrity: sha512-c/imQDHb4zRyMydKA2tIZEnJfESMg6fQv8Wsq01Og7acnm6dxg1lncgxp36+WkylW+lVYukk4W6SA+0Q43oqfw==}
     engines: {node: '>=24.0.0', pnpm: '10'}
     peerDependencies:
       '@emotion/react': ^11.13.5
@@ -1003,8 +1003,8 @@ packages:
       react-idle-timer:
         optional: true
 
-  '@batoanng/utils@2.4.0':
-    resolution: {integrity: sha512-MrCEicee9+vSQkE7b/OwwOrIpHkjem6r6I4cEYcm9dEyVdsKftJAMBmZnKVfrfmkdzDPmgMzioCJz085MlzZCA==}
+  '@batoanng/utils@2.4.1':
+    resolution: {integrity: sha512-dShZCxNheX/4RCfdVhfi359oeVUywJ+zlUDoxbpGjhF66Ctg3M81kD0F6EnJx25R8ywA9PTSB4QLoSMbTeXwRA==}
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -11253,9 +11253,9 @@ snapshots:
 
   '@base2/pretty-print-object@1.0.1': {}
 
-  '@batoanng/mui-components@3.5.2(08f58f834f1a75d41c8a4b26df5c668f)':
+  '@batoanng/mui-components@3.5.3(08f58f834f1a75d41c8a4b26df5c668f)':
     dependencies:
-      '@batoanng/utils': 2.4.0
+      '@batoanng/utils': 2.4.1
       '@emotion/react': 11.14.0(@types/react@18.3.28)(react@19.2.4)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4)
       '@mui/icons-material': 6.1.8(@mui/material@6.1.8(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react@19.2.4))(@types/react@18.3.28)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react@18.3.28)(react@19.2.4)
@@ -11276,7 +11276,7 @@ snapshots:
       react-dropzone: 14.4.1(react@19.2.4)
       react-idle-timer: 5.7.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
 
-  '@batoanng/utils@2.4.0': {}
+  '@batoanng/utils@2.4.1': {}
 
   '@bcoe/v8-coverage@0.2.3': {}
 
@@ -11505,7 +11505,7 @@ snapshots:
       '@types/node': 20.5.1
       chalk: 4.1.2
       cosmiconfig: 8.3.6(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.9.3))(ts-node@10.9.2(@types/node@24.12.0)(typescript@5.8.3))(typescript@5.9.3)
+      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.9.3))(ts-node@10.9.2(@types/node@20.5.1)(typescript@5.9.3))(typescript@5.9.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -15804,7 +15804,7 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  cosmiconfig-typescript-loader@4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.9.3))(ts-node@10.9.2(@types/node@24.12.0)(typescript@5.8.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.9.3))(ts-node@10.9.2(@types/node@20.5.1)(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
       '@types/node': 20.5.1
       cosmiconfig: 8.3.6(typescript@5.9.3)
