@@ -30,15 +30,17 @@ npm install -D @batoanng/vite-config
 ### `vite.config.js`
 
 ```js
-import baseConfig from '@batoanng/vite-config/vite.config';
-export default baseConfig;
+import { viteConfig } from '@batoanng/vite-config';
+
+export default viteConfig;
 ```
 
 ### `vitest.config.js`
 
 ```js
-import config from '@batoanng/vite-config/vitest.config';
-export default config;
+import { vitestConfig } from '@batoanng/vite-config';
+
+export default vitestConfig;
 ```
 
 ---
@@ -48,15 +50,31 @@ export default config;
 To override or extend Vite config:
 
 ```js
-import baseConfig from '@batoanng/vite-config/vite.config';
+import { viteConfig } from '@batoanng/vite-config';
 import { defineConfig, mergeConfig } from 'vite';
 
-export default mergeConfig(baseConfig, {
+export default mergeConfig(viteConfig, {
   // Add your custom overrides here
   define: {
     __DEV__: true,
   },
 });
+```
+
+If you need `vite-plugin-dts` to use a build-specific TypeScript config, use `createViteConfig`:
+
+```js
+import { createViteConfig } from '@batoanng/vite-config';
+import { mergeConfig } from 'vite';
+
+export default mergeConfig(
+  createViteConfig({
+    dts: {
+      tsconfigPath: './tsconfig.build.json',
+    },
+  }),
+  {}
+);
 ```
 
 ---

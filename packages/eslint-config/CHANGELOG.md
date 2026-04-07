@@ -1,5 +1,11 @@
 # batoanng/eslint-config
 
+## 3.3.1
+
+### Patch Changes
+
+- Minimize package size
+
 ## 3.3.0
 
 ### Minor Changes

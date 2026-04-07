@@ -1,5 +1,13 @@
 # @batoanng/mui-components
 
+## 3.5.3
+
+### Patch Changes
+
+- Minimize package size
+- Updated dependencies
+  - @batoanng/utils@2.4.1
+
 ## 3.5.2
 
 ### Patch Changes

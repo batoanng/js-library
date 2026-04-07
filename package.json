@@ -12,11 +12,12 @@
     "type-check": "turbo run type-check",
     "clean": "turbo run clean && rm -rf node_modules",
     "format": "prettier --write --list-different .",
+    "check:packaging": "node ./scripts/check-packages.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version && pnpm install --lockfile-only",
     "release": "pnpm run build:release && changeset publish",
     "prepare": "husky install",
-    "ci": "pnpm run lint && pnpm run test && pnpm run build"
+    "ci": "pnpm run lint && pnpm run test && pnpm run build && pnpm run check:packaging"
   },
   "devDependencies": {
     "@batoanng/eslint-config": "workspace:*",

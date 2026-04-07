@@ -1,10 +1,12 @@
 // @ts-expect-error shared vite config is published without local type metadata
-import { viteConfig } from '@batoanng/vite-config';
+import { createViteConfig } from '@batoanng/vite-config';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { mergeConfig } from 'vite';
 
-export default mergeConfig(viteConfig, {
+const buildTsconfigPath = fileURLToPath(new URL('./tsconfig.build.json', import.meta.url));
+
+export default mergeConfig(createViteConfig({ dts: { tsconfigPath: buildTsconfigPath } }), {
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -21,7 +23,7 @@ export default mergeConfig(viteConfig, {
     rollupOptions: {
       external: ['node:crypto', 'node:fs', 'node:fs/promises', 'node:path', 'node:url', 'crypto', 'fs', 'fs/promises', 'path', 'url'],
     },
-    sourcemap: true,
+    sourcemap: false,
     minify: true,
   },
 });

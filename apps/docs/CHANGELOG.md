@@ -1,5 +1,13 @@
 # @batoanng/docs
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @batoanng/mui-components@3.5.3
+  - @batoanng/utils@2.4.1
+
 ## 1.2.1
 
 ### Patch Changes

@@ -1,7 +1,17 @@
 {
   "name": "@batoanng/tsconfig",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "license": "MIT",
+  "files": [
+    "base.json",
+    "eslint.json",
+    "nextjs.json",
+    "node24.json",
+    "reactjs.json",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "publishConfig": {
     "access": "public"
   }

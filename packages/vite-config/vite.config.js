@@ -5,16 +5,20 @@ const { defineConfig } = require('vite');
 const dts = require('vite-plugin-dts').default;
 const svgr = require('vite-plugin-svgr').default;
 
-const viteConfig = defineConfig({
-  plugins: [
-    peerDepsExternal(),
-    nodeResolve(),
-    react(),
-    dts({
-      skipDiagnostics: true,
-    }),
-    svgr(),
-  ],
-});
+const createViteConfig = ({ dts: dtsOptions = {} } = {}) =>
+  defineConfig({
+    plugins: [
+      peerDepsExternal(),
+      nodeResolve(),
+      react(),
+      dts({
+        skipDiagnostics: true,
+        ...dtsOptions,
+      }),
+      svgr(),
+    ],
+  });
 
-module.exports = { viteConfig };
+const viteConfig = createViteConfig();
+
+module.exports = { createViteConfig, viteConfig };

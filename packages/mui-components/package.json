@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/mui-components",
-  "version": "3.5.2",
+  "version": "3.5.3",
   "license": "MIT",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -10,10 +10,16 @@
   "types": "./dist/src/index.d.ts",
   "main": "./dist/components.js",
   "files": [
-    "src",
-    "dist",
+    "dist/**/*.cjs",
+    "dist/**/*.css",
+    "dist/**/*.d.cts",
+    "dist/**/*.d.mts",
+    "dist/**/*.d.ts",
+    "dist/**/*.js",
+    "dist/assets/**/*",
     "CHANGELOG.md",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc --noEmit && vite build",
@@ -34,7 +40,7 @@
     "chromatic": "pnpm dlx chromatic --only-changed"
   },
   "dependencies": {
-    "@batoanng/utils": "^2.4.0",
+    "@batoanng/utils": "^2.4.1",
     "@tabler/icons-react": "^3.41.1",
     "date-fns": "^2.30.0",
     "entities": "^4.5.0",

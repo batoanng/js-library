@@ -1,5 +1,13 @@
 # @batoanng/oidc
 
+## 3.0.3
+
+### Patch Changes
+
+- Minimize package size
+- Updated dependencies
+  - @batoanng/mui-components@3.5.3
+
 ## 3.0.2
 
 ### Patch Changes

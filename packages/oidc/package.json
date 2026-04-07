@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/oidc",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "license": "MIT",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -10,10 +10,16 @@
   "types": "./dist/src/index.d.ts",
   "main": "./dist/oidc.js",
   "files": [
-    "src",
-    "dist",
+    "dist/**/*.cjs",
+    "dist/**/*.css",
+    "dist/**/*.d.cts",
+    "dist/**/*.d.mts",
+    "dist/**/*.d.ts",
+    "dist/**/*.js",
+    "dist/assets/**/*",
     "CHANGELOG.md",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc --noEmit && vite build",
@@ -31,7 +37,7 @@
     "typecheck": "pnpm run type-check"
   },
   "peerDependencies": {
-    "@batoanng/mui-components": "^3.5.2",
+    "@batoanng/mui-components": "^3.5.3",
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
     "@mui/icons-material": "6.1.8",

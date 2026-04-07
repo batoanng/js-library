@@ -1,10 +1,12 @@
 // @ts-ignore
-import { viteConfig } from '@batoanng/vite-config';
+import { createViteConfig } from '@batoanng/vite-config';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { mergeConfig } from 'vite';
 
-export default mergeConfig(viteConfig, {
+const buildTsconfigPath = fileURLToPath(new URL('./tsconfig.build.json', import.meta.url));
+
+export default mergeConfig(createViteConfig({ dts: { tsconfigPath: buildTsconfigPath } }), {
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -17,6 +19,6 @@ export default mergeConfig(viteConfig, {
       name: 'components',
       fileName: 'components',
     },
-    sourcemap: true,
+    sourcemap: false,
   },
 });

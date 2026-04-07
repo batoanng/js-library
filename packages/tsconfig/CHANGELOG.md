@@ -1,5 +1,11 @@
 # @batoanng/tsconfig
 
+## 1.5.1
+
+### Patch Changes
+
+- Minimize package size
+
 ## 1.5.0
 
 ### Minor Changes

@@ -1,7 +1,7 @@
 {
   "name": "@batoanng/frontend-server",
   "author": "Ba Toan Nguyen",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "publishConfig": {
     "access": "public"
   },
@@ -10,7 +10,9 @@
   "main": "./dist/frontend-server.cjs",
   "module": "./dist/frontend-server.js",
   "files": [
-    "dist",
+    "dist/**/*.cjs",
+    "dist/**/*.d.ts",
+    "dist/**/*.js",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"

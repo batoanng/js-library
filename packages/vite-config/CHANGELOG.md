@@ -1,5 +1,11 @@
 # batoanng/vite-config
 
+## 1.3.1
+
+### Patch Changes
+
+- Minimize package size
+
 ## 1.3.0
 
 ### Minor Changes
