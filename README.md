@@ -11,6 +11,10 @@ The workspace contains both published npm packages and internal applications use
 - Internal documentation and examples for local development
 - A Yeoman-based generator for bootstrapping new applications and features
 
+## Hosted Docs
+
+Browse the published docs site at [batoanng.github.io/js-library](https://batoanng.github.io/js-library/) to view all packages in one place and jump into the generated package guides.
+
 ## Package Catalog
 
 ### Runtime and UI packages
