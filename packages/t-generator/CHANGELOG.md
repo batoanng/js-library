@@ -4,8 +4,13 @@
 
 ### Minor Changes
 
-- Add new config, synchronize versions
-- Add new config, synchronize versions
+- Add nextjs generator
+
+## 0.3.0
+
+### Minor Changes
+
+- Add nodejs generator
 
 ## 0.2.0
 
