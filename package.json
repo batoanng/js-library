@@ -4,6 +4,7 @@
   },
   "scripts": {
     "build": "pnpm -r build",
+    "build:docs:pages": "NEXT_STATIC_EXPORT=true pnpm --filter @batoanng/docs... build",
     "build:release": "pnpm -r --filter './packages/*' build",
     "dev": "turbo run dev --no-cache --parallel --continue",
     "lint": "turbo run lint",
