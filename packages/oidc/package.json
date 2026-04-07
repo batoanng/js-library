@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/oidc",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "license": "MIT",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -39,34 +39,14 @@
   "peerDependencies": {
     "@batoanng/mui-components": "^3.5.3",
     "@emotion/react": "^11.13.5",
-    "@emotion/styled": "^11.13.5",
-    "@mui/icons-material": "6.1.8",
     "@mui/material": "6.1.8",
-    "@mui/utils": "^6.1.8",
-    "@mui/x-date-pickers": "7.22.2",
     "axios": "1.9.0",
-    "oidc-client": "^1.11.5",
     "oidc-client-ts": "^3.3.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-dropzone": "^14.2.3",
-    "react-easy-crop": "^5.0.2",
     "react-hook-form": "7.57.0",
-    "react-idle-timer": "^5.7.2",
     "react-oidc-context": "^3.3.0",
     "react-router-dom": "^6.26.1",
     "react-use": "^17.4.0"
-  },
-  "peerDependenciesMeta": {
-    "@mui/x-date-pickers": {
-      "optional": true
-    },
-    "react-dropzone": {
-      "optional": true
-    },
-    "react-idle-timer": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

@@ -1,5 +1,11 @@
 # @batoanng/oidc
 
+## 3.0.4
+
+### Patch Changes
+
+- Remove unused packages
+
 ## 3.0.3
 
 ### Patch Changes

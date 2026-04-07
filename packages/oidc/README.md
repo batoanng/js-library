@@ -19,7 +19,9 @@
 pnpm add @batoanng/oidc
 ```
 
-Peer dependencies include `react`, `react-router-dom`, `react-oidc-context`, `axios`, MUI, and `@batoanng/mui-components`.
+Peer dependencies include `react`, `react-router-dom`, `react-oidc-context`, `oidc-client-ts`, `axios`, `@mui/material`, `@emotion/react`, `react-hook-form`, `react-use`, and `@batoanng/mui-components`.
+
+If you use the built-in screens from `@batoanng/mui-components`, install any additional peers required by that package as well.
 
 ## Usage
 
