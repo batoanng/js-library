@@ -76,10 +76,10 @@ test('generates the Next.js base app with the expected project structure', async
     'react-dom',
     'zod',
   ]);
-  assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.2.0');
-  assert.equal(packageJson.devDependencies?.['@batoanng/jest-config'], '^1.3.0');
+  assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.3.2');
+  assert.equal(packageJson.devDependencies?.['@batoanng/jest-config'], '^1.4.1');
   assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.0');
-  assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.4.0');
+  assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.5.1');
   assert.equal(packageJson.tGenerator?.stack, 'nextjs');
   assert.deepEqual(packageJson.tGenerator?.features, []);
 

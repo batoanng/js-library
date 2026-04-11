@@ -25,7 +25,7 @@ test('adds the Tailwind feature to an existing generated React base app', async 
   assert.equal(packageJson.devDependencies?.tailwindcss, '^4.1.13');
   assert.equal(
     packageJson.devDependencies?.['@batoanng/tailwind-config'],
-    '^1.2.0',
+    '^1.4.0',
   );
 
   yoAssert.fileContent(

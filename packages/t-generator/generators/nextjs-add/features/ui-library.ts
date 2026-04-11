@@ -15,7 +15,7 @@ const UI_LIBRARY_NEW_FILES = [
 ];
 
 const UI_LIBRARY_DEPENDENCIES = {
-  '@batoanng/mui-components': '^3.5.2',
+  '@batoanng/mui-components': '^3.5.3',
   '@emotion/react': '^11.13.5',
   '@emotion/styled': '^11.13.5',
   '@mui/icons-material': '6.1.8',

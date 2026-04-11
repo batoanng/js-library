@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.4.2
+
+### Patch Changes
+
+- Refresh internal `@batoanng/*` package versions across generated templates and feature installers to match the current workspace packages.
+
 ## 0.4.1
 
 ### Patch Changes

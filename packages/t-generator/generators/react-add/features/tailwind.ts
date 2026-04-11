@@ -4,7 +4,7 @@ import { hasPackageDependency } from '../lib/helpers';
 import type { FeatureDefinition } from '../lib/types';
 
 const TAILWIND_DEV_DEPENDENCIES = {
-  '@batoanng/tailwind-config': '^1.2.0',
+  '@batoanng/tailwind-config': '^1.4.0',
   '@tailwindcss/vite': '^4.1.13',
   tailwindcss: '^4.1.13',
 };

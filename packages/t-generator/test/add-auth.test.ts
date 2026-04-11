@@ -108,7 +108,7 @@ test('auth can be added after ui-library without removing theme wiring', async (
   assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], '^2.8.0');
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.5.2',
+    '^3.5.3',
   );
 
   yoAssert.fileContent(
