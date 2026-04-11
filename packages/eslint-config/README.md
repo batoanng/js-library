@@ -18,6 +18,7 @@ Install additional peers only for the entrypoints you use:
   `@next/eslint-plugin-next`
 - `@batoanng/eslint-config/tailwind`:
   `eslint-plugin-tailwindcss`, `tailwindcss`
+  For Tailwind CSS v4, install `eslint-plugin-tailwindcss@^4.0.0-beta.0`
 - `@batoanng/eslint-config/test`:
   `eslint-plugin-jest`, `eslint-plugin-testing-library`, `jest`
 
@@ -35,6 +36,7 @@ Install additional peers only for the entrypoints you use:
   Requires: `@next/eslint-plugin-next`
 - `@batoanng/eslint-config/tailwind`: Tailwind CSS rules
   Requires: `eslint-plugin-tailwindcss`, `tailwindcss`
+  Supports: Tailwind CSS v3 with `eslint-plugin-tailwindcss@^3.18.2`, or Tailwind CSS v4 with `eslint-plugin-tailwindcss@^4.0.0-beta.0`
 - `@batoanng/eslint-config/test`: Jest, Vitest globals, and Testing Library rules
   Requires: `eslint-plugin-jest`, `eslint-plugin-testing-library`, `jest`
 
@@ -77,4 +79,6 @@ export default [...config, ...typed, ...next, ...tailwind];
 - `typed` uses `parserOptions.projectService`, so it reads the consumer project's own TypeScript configuration.
 - The shared config already enables `eslint-config-prettier`, so formatting-only rule conflicts stay off.
 - Feature-specific ESLint plugins are peer dependencies so consumers only install the entrypoint-specific packages they actually use.
+- Tailwind CSS v4 currently relies on the upstream `eslint-plugin-tailwindcss` beta channel, because stable upstream releases still pin Tailwind CSS to v3.
+- The Tailwind entrypoint automatically uses a local `tailwind.config.*` file when one exists, and falls back to Tailwind's default config for CSS-first Tailwind CSS v4 projects.
 - The package ships flat config only. Legacy `.eslintrc*` usage is intentionally unsupported.

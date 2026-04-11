@@ -1,3 +1,5 @@
+const sortImportsPlugin = require.resolve('@trivago/prettier-plugin-sort-imports');
+
 /** @type {import('prettier').Config} */
 module.exports = {
   trailingComma: 'es5',
@@ -10,7 +12,9 @@ module.exports = {
   jsxBracketSameLine: false,
   arrowParens: 'always',
   endOfLine: 'auto',
+  plugins: [sortImportsPlugin],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
+  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
   importOrder: ['^@/(.*)$', '^[./]'],
 };

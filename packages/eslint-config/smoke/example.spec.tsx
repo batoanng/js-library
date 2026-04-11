@@ -4,6 +4,7 @@ describe('loadGreeting', () => {
       return Promise.resolve(`hello ${name}`);
     }
 
+    expect(<div className="flex items-center">hello</div>).toBeTruthy();
     await expect(loadGreeting('world')).resolves.toBe('hello world');
   });
 });

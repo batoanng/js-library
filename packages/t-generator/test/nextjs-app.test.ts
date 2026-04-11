@@ -78,7 +78,7 @@ test('generates the Next.js base app with the expected project structure', async
   ]);
   assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.2.0');
   assert.equal(packageJson.devDependencies?.['@batoanng/jest-config'], '^1.3.0');
-  assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.5.0');
+  assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.0');
   assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.4.0');
   assert.equal(packageJson.tGenerator?.stack, 'nextjs');
 
@@ -124,6 +124,10 @@ test('generates the Next.js base app with the expected project structure', async
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
     'return (\n    <>\n      {children}\n    </>\n  );',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'prettier.config.js'),
+    "require('@batoanng/prettier-config')",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'README.md'),

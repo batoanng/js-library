@@ -1,5 +1,11 @@
 # prettier-config
 
+## 1.7.0
+
+### Minor Changes
+
+- Bundle the import-sorting Prettier plugin through the shared config package and expose an explicit package export.
+
 ## 1.6.1
 
 ### Patch Changes

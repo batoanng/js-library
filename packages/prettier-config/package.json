@@ -1,8 +1,12 @@
 {
   "name": "@batoanng/prettier-config",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "license": "MIT",
   "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
   "files": [
     "index.js",
     "README.md",
@@ -11,5 +15,11 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "peerDependencies": {
+    "prettier": "^3.0.0"
+  },
+  "dependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2"
   }
 }
