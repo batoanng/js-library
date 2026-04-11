@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import GeneratorBase from 'yeoman-generator';
 
+import { getTrackedFeature } from '../lib/feature-metadata';
 import type { PackageJson } from '../lib/types';
 import { buildNodeServerArchitectureScaffold } from '../nodejs-app/lib/architecture-scaffold';
 import {
@@ -210,10 +211,18 @@ class NodeAddGenerator
 
   _detectInstalledFeatures(): InstalledNodeServerFeatures {
     return {
-      graphql: graphqlFeature.isInstalled(this),
-      queue: queueFeature.isInstalled(this),
-      cache: cacheFeature.isInstalled(this),
-      llm: llmFeature.isInstalled(this),
+      graphql:
+        getTrackedFeature(this.rootPackageJson, 'graphql') ??
+        graphqlFeature.isInstalled(this),
+      queue:
+        getTrackedFeature(this.rootPackageJson, 'queue') ??
+        queueFeature.isInstalled(this),
+      cache:
+        getTrackedFeature(this.rootPackageJson, 'cache') ??
+        cacheFeature.isInstalled(this),
+      llm:
+        getTrackedFeature(this.rootPackageJson, 'llm') ??
+        llmFeature.isInstalled(this),
     };
   }
 

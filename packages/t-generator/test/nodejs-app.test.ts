@@ -75,6 +75,7 @@ test('generates the clean Node.js base app with the expected project structure',
   ]);
   assert.equal(packageJson.tGenerator?.stack, 'nodejs');
   assert.equal(packageJson.tGenerator?.architecture, 'clean');
+  assert.deepEqual(packageJson.tGenerator?.features, []);
 
   [
     '@prisma/client',
@@ -169,6 +170,7 @@ test('generates the MVP Node.js base app when selected', async () => {
     /'@\//,
   );
   assert.equal(packageJson.tGenerator?.architecture, 'mvp');
+  assert.deepEqual(packageJson.tGenerator?.features, []);
   assert.equal(
     fs.existsSync(path.join(projectRoot, 'src/interfaces/index.ts')),
     false,
@@ -199,6 +201,7 @@ test('prompts for the Node.js app name and architecture when they are not provid
     path.join(projectRoot, 'src/modules/health/health.route.ts'),
   ]);
   assert.equal(packageJson.tGenerator?.architecture, 'mvp');
+  assert.deepEqual(packageJson.tGenerator?.features, []);
 });
 
 test('fails when the Node.js target directory already exists and is not empty', async () => {

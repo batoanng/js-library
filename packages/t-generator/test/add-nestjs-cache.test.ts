@@ -43,7 +43,11 @@ test('adds the cache feature to an existing generated NestJS base app', async ()
   assert.equal(packageJson.dependencies?.['@keyv/redis'], '^5.1.6');
   assert.equal(packageJson.dependencies?.['@nestjs/cache-manager'], '^3.1.0');
   assert.equal(packageJson.dependencies?.['cache-manager'], '^7.2.8');
+  assert.equal(packageJson.dependencies?.['@nestjs/bullmq'], undefined);
+  assert.equal(packageJson.dependencies?.['@nestjs/graphql'], undefined);
+  assert.equal(packageJson.dependencies?.openai, undefined);
   assert.equal(packageJson.dependencies?.['web-push'], undefined);
+  assert.deepEqual(packageJson.tGenerator?.features, ['cache']);
 
   yoAssert.file([
     path.join(projectRoot, 'src/modules/cache/index.ts'),
@@ -113,6 +117,9 @@ test('queue and cache compose without duplicating shared Redis env wiring', asyn
 
   const envExample = readFile(path.join(projectRoot, '.env.example'));
   const appModule = readFile(path.join(projectRoot, 'src/modules/app.module.ts'));
+  const packageJson = readJson<PackageJson>(
+    path.join(projectRoot, 'package.json'),
+  );
 
   assert.equal(countOccurrences(envExample, 'REDIS_HOST='), 1);
   assert.equal(countOccurrences(envExample, 'REDIS_PORT='), 1);
@@ -120,4 +127,5 @@ test('queue and cache compose without duplicating shared Redis env wiring', asyn
   assert.equal(appModule.includes('CacheModule.registerAsync({'), true);
   assert.equal(appModule.includes('QueueFeatureModule'), true);
   assert.equal(appModule.includes('CacheFeatureModule'), true);
+  assert.deepEqual(packageJson.tGenerator?.features, ['cache', 'queue']);
 });

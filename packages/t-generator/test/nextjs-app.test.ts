@@ -81,6 +81,7 @@ test('generates the Next.js base app with the expected project structure', async
   assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.0');
   assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.4.0');
   assert.equal(packageJson.tGenerator?.stack, 'nextjs');
+  assert.deepEqual(packageJson.tGenerator?.features, []);
 
   blockedDependencies.forEach((dependencyName) => {
     assert.equal(packageJson.dependencies?.[dependencyName], undefined);

@@ -3,6 +3,10 @@ import path from 'node:path';
 
 import GeneratorBase from 'yeoman-generator';
 
+import {
+  getTrackedFeature,
+  updateTrackedFeatures,
+} from '../lib/feature-metadata';
 import type { PackageJson } from '../lib/types';
 import type { InstalledServerFeatures } from '../nestjs-app/lib/types';
 import { buildServerSharedScaffold } from '../nestjs-app/lib/shared-scaffold';
@@ -183,11 +187,42 @@ class NestAddGenerator
 
   _detectInstalledFeatures(): InstalledServerFeatures {
     return {
-      graphql: graphqlFeature.isInstalled(this),
-      queue: queueFeature.isInstalled(this),
-      cache: cacheFeature.isInstalled(this),
-      llm: llmFeature.isInstalled(this),
+      graphql:
+        getTrackedFeature(this.rootPackageJson, 'graphql') ??
+        graphqlFeature.isInstalled(this),
+      queue:
+        getTrackedFeature(this.rootPackageJson, 'queue') ??
+        queueFeature.isInstalled(this),
+      cache:
+        getTrackedFeature(this.rootPackageJson, 'cache') ??
+        cacheFeature.isInstalled(this),
+      llm:
+        getTrackedFeature(this.rootPackageJson, 'llm') ??
+        llmFeature.isInstalled(this),
     };
+  }
+
+  _writeTrackedFeatures(features: InstalledServerFeatures): void {
+    const trackedPackageJson = updateTrackedFeatures(this.rootPackageJson, {
+      graphql: features.graphql,
+      queue: features.queue,
+      cache: features.cache,
+      llm: features.llm,
+    });
+    const updatedPackageJson: PackageJson = {
+      ...trackedPackageJson,
+      tGenerator: {
+        ...trackedPackageJson.tGenerator,
+        stack: 'nestjs',
+        features: trackedPackageJson.tGenerator?.features || [],
+      },
+    };
+
+    this.rootPackageJson = updatedPackageJson;
+    this.fs.write(
+      this.packageJsonPath,
+      `${JSON.stringify(updatedPackageJson, null, 2)}\n`,
+    );
   }
 
   _validateSharedScaffold(
@@ -237,6 +272,7 @@ class NestAddGenerator
   }
 
   _writeSharedScaffold(features: InstalledServerFeatures): void {
+    this._writeTrackedFeatures(features);
     const scaffoldFiles = buildServerSharedScaffold(this.templateContext, features);
 
     Object.entries(scaffoldFiles).forEach(([filePath, contents]) => {

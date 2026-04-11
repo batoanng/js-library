@@ -3,6 +3,10 @@ import path from 'node:path';
 
 import GeneratorBase from 'yeoman-generator';
 
+import {
+  getTrackedFeature,
+  updateTrackedFeatures,
+} from '../lib/feature-metadata';
 import type { PackageJson } from '../lib/types';
 import apolloFeature from './features/apollo';
 import authFeature from './features/auth';
@@ -99,6 +103,15 @@ const FEATURE_PROMPT_CHOICES = [
     hint: 'Adds offline support, install prompts, and service worker setup.',
   },
 ] as const;
+const TRACKED_REACT_FEATURES = {
+  tailwind: 'tailwind',
+  auth: 'auth',
+  uiLibrary: 'ui-library',
+  redux: 'redux',
+  reactQuery: 'react-query',
+  apollo: 'apollo',
+  pwa: 'pwa',
+} as const;
 
 function getFeatureLabel(featureName: string): string {
   return FEATURE_BY_NAME.get(featureName)?.label || `Feature "${featureName}"`;
@@ -221,14 +234,61 @@ class AddGenerator extends GeneratorBase {
 
   _detectInstalledFeatures(): InstalledFeatures {
     return {
-      tailwind: tailwindFeature.isInstalled?.(this) ?? false,
-      auth: authFeature.isInstalled?.(this) ?? false,
-      uiLibrary: uiLibraryFeature.isInstalled?.(this) ?? false,
-      redux: reduxFeature.isInstalled?.(this) ?? false,
-      reactQuery: reactQueryFeature.isInstalled?.(this) ?? false,
-      apollo: apolloFeature.isInstalled?.(this) ?? false,
-      pwa: pwaFeature.isInstalled?.(this) ?? false,
+      tailwind:
+        getTrackedFeature(this.rootPackageJson, TRACKED_REACT_FEATURES.tailwind) ??
+        tailwindFeature.isInstalled?.(this) ??
+        false,
+      auth:
+        getTrackedFeature(this.rootPackageJson, TRACKED_REACT_FEATURES.auth) ??
+        authFeature.isInstalled?.(this) ??
+        false,
+      uiLibrary:
+        getTrackedFeature(this.rootPackageJson, TRACKED_REACT_FEATURES.uiLibrary) ??
+        uiLibraryFeature.isInstalled?.(this) ??
+        false,
+      redux:
+        getTrackedFeature(this.rootPackageJson, TRACKED_REACT_FEATURES.redux) ??
+        reduxFeature.isInstalled?.(this) ??
+        false,
+      reactQuery:
+        getTrackedFeature(this.rootPackageJson, TRACKED_REACT_FEATURES.reactQuery) ??
+        reactQueryFeature.isInstalled?.(this) ??
+        false,
+      apollo:
+        getTrackedFeature(this.rootPackageJson, TRACKED_REACT_FEATURES.apollo) ??
+        apolloFeature.isInstalled?.(this) ??
+        false,
+      pwa:
+        getTrackedFeature(this.rootPackageJson, TRACKED_REACT_FEATURES.pwa) ??
+        pwaFeature.isInstalled?.(this) ??
+        false,
     };
+  }
+
+  _writeTrackedFeatures(features: InstalledFeatures): void {
+    const trackedPackageJson = updateTrackedFeatures(this.rootPackageJson, {
+      [TRACKED_REACT_FEATURES.tailwind]: features.tailwind,
+      [TRACKED_REACT_FEATURES.auth]: features.auth,
+      [TRACKED_REACT_FEATURES.uiLibrary]: features.uiLibrary,
+      [TRACKED_REACT_FEATURES.redux]: features.redux,
+      [TRACKED_REACT_FEATURES.reactQuery]: features.reactQuery,
+      [TRACKED_REACT_FEATURES.apollo]: features.apollo,
+      [TRACKED_REACT_FEATURES.pwa]: features.pwa,
+    });
+    const updatedPackageJson: PackageJson = {
+      ...trackedPackageJson,
+      tGenerator: {
+        ...trackedPackageJson.tGenerator,
+        stack: 'react',
+        features: trackedPackageJson.tGenerator?.features || [],
+      },
+    };
+
+    this.rootPackageJson = updatedPackageJson;
+    this.fs.write(
+      this.packageJsonPath,
+      `${JSON.stringify(updatedPackageJson, null, 2)}\n`,
+    );
   }
 
   _validateManagedFiles(
@@ -313,6 +373,7 @@ class AddGenerator extends GeneratorBase {
 
   _writeSharedScaffold(features: InstalledFeatures): void {
     this._writeDependencies(REACT_SHARED_DEPENDENCIES);
+    this._writeTrackedFeatures(features);
     const scaffoldFiles = buildSharedScaffold(this.templateContext, features);
 
     Object.entries(scaffoldFiles).forEach(([filePath, contents]) => {

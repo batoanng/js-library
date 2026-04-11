@@ -54,15 +54,17 @@ test('adds the react-query feature to an existing generated base app', async () 
     '5.64.2',
   );
   assert.equal(packageJson.dependencies?.axios, '1.9.0');
+  assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
+  assert.equal(packageJson.dependencies?.['@mui/material'], undefined);
+  assert.deepEqual(packageJson.tGenerator?.features, ['react-query']);
 
   yoAssert.file([
     path.join(projectRoot, 'src/shared/api/createApiClient.ts'),
     path.join(projectRoot, 'src/shared/api/createQueryClient.ts'),
     path.join(projectRoot, 'src/shared/api/useApiQuery.ts'),
     path.join(projectRoot, 'src/shared/api/useApiMutation.ts'),
-    path.join(projectRoot, 'src/shared/lib/decryptData.ts'),
-    path.join(projectRoot, 'src/features/react-query-demo/api/useGetChatMessages.ts'),
-    path.join(projectRoot, 'src/features/react-query-demo/api/useCallChatMutation.ts'),
+    path.join(projectRoot, 'src/features/react-query-demo/api/useSampleGetQuery.ts'),
+    path.join(projectRoot, 'src/features/react-query-demo/api/useSamplePostMutation.ts'),
     path.join(projectRoot, 'src/pages/react-query/index.ts'),
     path.join(projectRoot, 'src/pages/react-query/ui/ReactQueryPage.tsx'),
     path.join(projectRoot, 'src/pages/react-query/ui/ReactQueryPage.test.tsx'),
@@ -96,6 +98,16 @@ test('adds the react-query feature to an existing generated base app', async () 
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
     'import.meta.env.DEV ? <ReactQueryDevtools',
   );
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/widgets/ui-library-showcase')),
+    false,
+  );
+  assert.equal(
+    readFile(path.join(projectRoot, 'src/app/providers/AppProviders.tsx')).includes(
+      'ThemeProvider',
+    ),
+    false,
+  );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/routes/AppRouter.tsx'),
     'path="/react-query"',
@@ -105,24 +117,48 @@ test('adds the react-query feature to an existing generated base app', async () 
     'Open the React Query example',
   );
   yoAssert.fileContent(
-    path.join(projectRoot, 'src/features/react-query-demo/api/useGetChatMessages.ts'),
-    'useApiQuery<ChatMessage[], AxiosError>',
+    path.join(projectRoot, 'src/features/react-query-demo/api/useSampleGetQuery.ts'),
+    'useApiQuery<SampleGetResponse, AxiosError>',
   );
   yoAssert.fileContent(
-    path.join(projectRoot, 'src/features/react-query-demo/api/useGetChatMessages.ts'),
+    path.join(projectRoot, 'src/features/react-query-demo/api/useSampleGetQuery.ts'),
     'placeholderData: (previousData) => previousData',
   );
   yoAssert.fileContent(
-    path.join(projectRoot, 'src/features/react-query-demo/api/useCallChatMutation.ts'),
-    'useApiMutation<ChatMessage, string, AxiosError>',
+    path.join(projectRoot, 'src/features/react-query-demo/api/useSamplePostMutation.ts'),
+    'useApiMutation<SamplePostResponse, SamplePostRequest, AxiosError>',
   );
   yoAssert.fileContent(
-    path.join(projectRoot, 'src/features/react-query-demo/api/useCallChatMutation.ts'),
+    path.join(projectRoot, 'src/features/react-query-demo/api/useSamplePostMutation.ts'),
     'invalidateQueries',
   );
   yoAssert.fileContent(
+    path.join(projectRoot, 'src/features/react-query-demo/model/CacheKeys.ts'),
+    "sampleGet: 'sample-get'",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/features/react-query-demo/model/CacheKeys.ts'),
+    "samplePost: 'sample-post'",
+  );
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/shared/lib/decryptData.ts')),
+    false,
+  );
+  assert.equal(
+    fs.existsSync(
+      path.join(projectRoot, 'src/features/react-query-demo/api/useGetChatMessages.ts'),
+    ),
+    false,
+  );
+  assert.equal(
+    fs.existsSync(
+      path.join(projectRoot, 'src/features/react-query-demo/api/useCallChatMutation.ts'),
+    ),
+    false,
+  );
+  yoAssert.fileContent(
     path.join(projectRoot, 'src/pages/react-query/ui/ReactQueryPage.tsx'),
-    'Query client and API hooks are wired in',
+    'Query client and sample GET/POST hooks are wired in',
   );
 });
 

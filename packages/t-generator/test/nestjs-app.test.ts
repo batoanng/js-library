@@ -91,6 +91,8 @@ test('generates the NestJS base app with the expected project structure', async 
     'prisma:generate',
     'prisma:push',
   ]);
+  assert.equal(packageJson.tGenerator?.stack, 'nestjs');
+  assert.deepEqual(packageJson.tGenerator?.features, []);
 
   [
     '@fastify/cors',

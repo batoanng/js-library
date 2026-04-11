@@ -14,6 +14,7 @@ export interface PackageJson {
   tGenerator?: {
     stack?: 'react' | 'nextjs' | 'nestjs' | 'nodejs';
     architecture?: string;
+    features?: string[];
   };
 }
 

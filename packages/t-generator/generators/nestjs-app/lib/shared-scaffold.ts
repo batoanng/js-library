@@ -1,4 +1,5 @@
 import type { PackageJson } from '../../lib/types';
+import { createTrackedFeatureList } from '../../lib/feature-metadata';
 import type {
   InstalledServerFeatures,
   ServerTemplateContext,
@@ -248,6 +249,15 @@ export function buildServerPackageJson(
     },
     dependencies: mergeRecords(...dependencies),
     devDependencies: mergeRecords(...devDependencies),
+    tGenerator: {
+      stack: 'nestjs',
+      features: createTrackedFeatureList({
+        graphql: features.graphql,
+        queue: features.queue,
+        cache: features.cache,
+        llm: features.llm,
+      }),
+    },
   };
 }
 

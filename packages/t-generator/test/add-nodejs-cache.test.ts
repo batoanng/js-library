@@ -5,8 +5,10 @@ import test from 'node:test';
 
 import yoAssert from 'yeoman-assert';
 
+import type { PackageJson } from '../generators/lib/types';
 import {
   nodejsAddGeneratorPath,
+  readJson,
   scaffoldNodeApp,
 } from './helpers';
 
@@ -33,6 +35,10 @@ test('adds the cache feature to an existing MVP Node.js base app', async () => {
     .withArguments(['cache'])
     .run();
 
+  const packageJson = readJson<PackageJson>(
+    path.join(projectRoot, 'package.json'),
+  );
+
   yoAssert.file([
     path.join(projectRoot, 'src/infrastructure/redis/redis.client.ts'),
     path.join(projectRoot, 'src/modules/cache/cache.service.ts'),
@@ -47,6 +53,11 @@ test('adds the cache feature to an existing MVP Node.js base app', async () => {
     path.join(projectRoot, 'src/app.ts'),
     "app.use('/api/cache', cacheRouter);",
   );
+  assert.equal(packageJson.dependencies?.ioredis, '^5.3.2');
+  assert.equal(packageJson.dependencies?.bullmq, undefined);
+  assert.equal(packageJson.dependencies?.graphql, undefined);
+  assert.equal(packageJson.dependencies?.openai, undefined);
+  assert.deepEqual(packageJson.tGenerator?.features, ['cache']);
 });
 
 test('queue and cache compose without duplicating shared Redis env wiring', async () => {

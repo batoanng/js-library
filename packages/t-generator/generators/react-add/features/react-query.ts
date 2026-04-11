@@ -25,14 +25,6 @@ const REACT_QUERY_NEW_FILES = [
     'react-query/src/shared/api/index.ts.ejs',
   ),
   addManagedFile(
-    'src/shared/lib/decryptData.ts',
-    'react-query/src/shared/lib/decryptData.ts.ejs',
-  ),
-  addManagedFile(
-    'src/shared/lib/index.ts',
-    'react-query/src/shared/lib/index.ts.ejs',
-  ),
-  addManagedFile(
     'src/features/react-query-demo/index.ts',
     'react-query/src/features/react-query-demo/index.ts.ejs',
   ),
@@ -41,12 +33,12 @@ const REACT_QUERY_NEW_FILES = [
     'react-query/src/features/react-query-demo/api/index.ts.ejs',
   ),
   addManagedFile(
-    'src/features/react-query-demo/api/useCallChatMutation.ts',
-    'react-query/src/features/react-query-demo/api/useCallChatMutation.ts.ejs',
+    'src/features/react-query-demo/api/useSampleGetQuery.ts',
+    'react-query/src/features/react-query-demo/api/useSampleGetQuery.ts.ejs',
   ),
   addManagedFile(
-    'src/features/react-query-demo/api/useGetChatMessages.ts',
-    'react-query/src/features/react-query-demo/api/useGetChatMessages.ts.ejs',
+    'src/features/react-query-demo/api/useSamplePostMutation.ts',
+    'react-query/src/features/react-query-demo/api/useSamplePostMutation.ts.ejs',
   ),
   addManagedFile(
     'src/features/react-query-demo/model/index.ts',
@@ -76,7 +68,6 @@ const REACT_QUERY_NEW_FILES = [
 
 const REACT_QUERY_MANAGED_FILES = [
   appManagedFile('src/shared/api/index.ts', 'src/shared/api/index.ts.ejs'),
-  appManagedFile('src/shared/lib/index.ts', 'src/shared/lib/index.ts.ejs'),
 ];
 
 const REACT_QUERY_DEPENDENCIES = {
@@ -90,7 +81,6 @@ const REACT_QUERY_MANAGED_PATHS = [
   'src/shared/api/createQueryClient.ts',
   'src/shared/api/useApiMutation.ts',
   'src/shared/api/useApiQuery.ts',
-  'src/shared/lib/decryptData.ts',
   'src/features/react-query-demo',
   'src/pages/react-query',
 ] as const;

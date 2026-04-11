@@ -114,6 +114,10 @@ test('adds the react-query feature to an existing generated Next.js base app', a
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@tanstack/react-query'], '^5.59.16');
+  assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
+  assert.equal(packageJson.dependencies?.['@mui/material'], undefined);
+  assert.equal(packageJson.dependencies?.['@mui/material-nextjs'], undefined);
+  assert.deepEqual(packageJson.tGenerator?.features, ['react-query']);
   yoAssert.file([
     path.join(projectRoot, 'src/shared/api/createQueryClient.ts'),
     path.join(projectRoot, 'src/features/react-query-demo/api/useSampleGetQuery.ts'),
@@ -124,6 +128,17 @@ test('adds the react-query feature to an existing generated Next.js base app', a
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
     'QueryClientProvider',
+  );
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/widgets/ui-library-showcase')),
+    false,
+  );
+  assert.equal(
+    fs.readFileSync(
+      path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
+      'utf8',
+    ).includes('ThemeProvider'),
+    false,
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/features/react-query-demo/model/CacheKeys.ts'),

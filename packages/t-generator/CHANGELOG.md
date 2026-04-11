@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.4.1
+
+### Patch Changes
+
+- Replace the React React Query chat-style demo scaffold with generic GET/POST sample hooks and tighten feature isolation.
+
 ## 0.4.0
 
 ### Minor Changes

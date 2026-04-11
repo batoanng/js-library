@@ -1,4 +1,5 @@
 import type { PackageJson } from '../../lib/types';
+import { createTrackedFeatureList } from '../../lib/feature-metadata';
 import type {
   InstalledNodeServerFeatures,
   NodeServerTemplateContext,
@@ -570,6 +571,12 @@ export function buildNodeServerPackageJson(
     tGenerator: {
       stack: 'nodejs',
       architecture: context.architecture,
+      features: createTrackedFeatureList({
+        graphql: features.graphql,
+        queue: features.queue,
+        cache: features.cache,
+        llm: features.llm,
+      }),
     },
   };
 }
