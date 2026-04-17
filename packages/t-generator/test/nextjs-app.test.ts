@@ -15,6 +15,7 @@ import {
 } from './helpers';
 
 const blockedDependencies = [
+  '@vitejs/plugin-react',
   '@apollo/client',
   '@auth0/nextjs-auth0',
   '@batoanng/mui-components',
@@ -29,12 +30,27 @@ const blockedDependencies = [
   '@tanstack/react-query',
   '@tanstack/react-query-devtools',
   'axios',
+  'concurrently',
   'graphql',
   'react-redux',
   'redux',
   'redux-persist',
   'tailwindcss',
+  'vite',
+  'vite-plugin-pwa',
+  'vitest',
 ];
+
+function assertNoViteArtifacts(projectRoot: string, packageJson: PackageJson): void {
+  assert.equal(packageJson.scripts?.preview, undefined);
+  assert.equal(packageJson.scripts?.['dev:client'], undefined);
+  assert.equal(packageJson.scripts?.['dev:server'], undefined);
+  assert.equal(packageJson.scripts?.['dev:full'], undefined);
+  assert.equal(packageJson.devDependencies?.concurrently, undefined);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'vite.config.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'vitest.config.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'server')), false);
+}
 
 test('generates the Next.js base app with the expected project structure', async () => {
   const { projectRoot } = await scaffoldNextjsApp('starter-next');
@@ -82,6 +98,7 @@ test('generates the Next.js base app with the expected project structure', async
   assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.5.1');
   assert.equal(packageJson.tGenerator?.stack, 'nextjs');
   assert.deepEqual(packageJson.tGenerator?.features, []);
+  assertNoViteArtifacts(projectRoot, packageJson);
 
   blockedDependencies.forEach((dependencyName) => {
     assert.equal(packageJson.dependencies?.[dependencyName], undefined);
@@ -224,9 +241,12 @@ test('root generator can route to Next.js feature generation', async () => {
     })
     .run();
 
+  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+
   yoAssert.file([path.join(projectRoot, 'postcss.config.js')]);
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/globals.css'),
     '@import "tailwindcss";',
   );
+  assertNoViteArtifacts(projectRoot, packageJson);
 });

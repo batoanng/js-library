@@ -13,6 +13,21 @@ import {
   scaffoldNextjsApp,
 } from './helpers';
 
+function assertNoViteArtifacts(projectRoot: string, packageJson: PackageJson): void {
+  assert.equal(packageJson.scripts?.preview, undefined);
+  assert.equal(packageJson.scripts?.['dev:client'], undefined);
+  assert.equal(packageJson.scripts?.['dev:server'], undefined);
+  assert.equal(packageJson.scripts?.['dev:full'], undefined);
+  assert.equal(packageJson.devDependencies?.concurrently, undefined);
+  assert.equal(packageJson.dependencies?.vite, undefined);
+  assert.equal(packageJson.devDependencies?.vite, undefined);
+  assert.equal(packageJson.devDependencies?.vitest, undefined);
+  assert.equal(packageJson.devDependencies?.['vite-plugin-pwa'], undefined);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'vite.config.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'vitest.config.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'server')), false);
+}
+
 test('adds the auth feature to an existing generated Next.js base app', async () => {
   const { projectRoot, runResult } = await scaffoldNextjsApp('next-auth');
 
@@ -24,6 +39,7 @@ test('adds the auth feature to an existing generated Next.js base app', async ()
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], '^4.9.0');
+  assertNoViteArtifacts(projectRoot, packageJson);
 
   yoAssert.file([
     path.join(projectRoot, 'src/lib/auth0.ts'),
@@ -54,10 +70,13 @@ test('prompt-based add can select the Tailwind feature for Next.js', async () =>
     .withPrompts({ featureName: 'tailwind' })
     .run();
 
+  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+
   yoAssert.file([
     path.join(projectRoot, 'postcss.config.js'),
     path.join(projectRoot, 'src/app/globals.css'),
   ]);
+  assertNoViteArtifacts(projectRoot, packageJson);
 });
 
 test('adds the ui-library feature to an existing generated Next.js base app', async () => {
@@ -71,6 +90,7 @@ test('adds the ui-library feature to an existing generated Next.js base app', as
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@mui/material-nextjs'], '6.1.8');
+  assertNoViteArtifacts(projectRoot, packageJson);
   yoAssert.file([
     path.join(projectRoot, 'src/widgets/ui-library-showcase/index.ts'),
     path.join(projectRoot, 'src/widgets/ui-library-showcase/ui/UiLibraryShowcase.tsx'),
@@ -92,6 +112,7 @@ test('adds the redux feature to an existing generated Next.js base app', async (
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], '^2.2.7');
+  assertNoViteArtifacts(projectRoot, packageJson);
   yoAssert.file([
     path.join(projectRoot, 'src/app/store/index.ts'),
     path.join(projectRoot, 'src/pages/redux/ui/ReduxPage.tsx'),
@@ -118,6 +139,7 @@ test('adds the react-query feature to an existing generated Next.js base app', a
   assert.equal(packageJson.dependencies?.['@mui/material'], undefined);
   assert.equal(packageJson.dependencies?.['@mui/material-nextjs'], undefined);
   assert.deepEqual(packageJson.tGenerator?.features, ['react-query']);
+  assertNoViteArtifacts(projectRoot, packageJson);
   yoAssert.file([
     path.join(projectRoot, 'src/shared/api/createQueryClient.ts'),
     path.join(projectRoot, 'src/features/react-query-demo/api/useSampleGetQuery.ts'),
@@ -173,6 +195,7 @@ test('adds the apollo feature to an existing generated Next.js base app', async 
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@apollo/client'], '^4.1.6');
+  assertNoViteArtifacts(projectRoot, packageJson);
   yoAssert.file([
     path.join(projectRoot, 'src/shared/apollo/ApolloAppProvider.tsx'),
     path.join(projectRoot, 'src/pages/apollo/ui/ApolloPage.tsx'),
@@ -192,6 +215,8 @@ test('adds the pwa feature to an existing generated Next.js base app', async () 
     .withArguments(['pwa'])
     .run();
 
+  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+
   yoAssert.file([
     path.join(projectRoot, 'src/features/pwa/PwaClient.tsx'),
     path.join(projectRoot, 'src/app/manifest.ts'),
@@ -207,6 +232,7 @@ test('adds the pwa feature to an existing generated Next.js base app', async () 
     path.join(projectRoot, 'src/pages/home/ui/HomePage.tsx'),
     'Open the PWA example',
   );
+  assertNoViteArtifacts(projectRoot, packageJson);
 });
 
 test('tailwind composes with ui-library in a generated Next.js app', async () => {
@@ -222,6 +248,8 @@ test('tailwind composes with ui-library in a generated Next.js app', async () =>
     .withArguments(['tailwind'])
     .run();
 
+  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
     'enableCssLayer: true',
@@ -230,6 +258,7 @@ test('tailwind composes with ui-library in a generated Next.js app', async () =>
     path.join(projectRoot, 'src/app/globals.css'),
     '@layer theme, base, mui, components, utilities;',
   );
+  assertNoViteArtifacts(projectRoot, packageJson);
 });
 
 test('fails when nextjs-add is run outside a generated Next.js base project', async () => {
