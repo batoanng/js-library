@@ -1,10 +1,15 @@
 # @batoanng/types
 
+## 0.5.0
+
+### Minor Changes
+
+- add runtime data structures, shared helpers, Vitest coverage, and expanded package documentation
+
 ## 0.4.0
 
 ### Minor Changes
 
-- Add new config, synchronize versions
 - Add new config, synchronize versions
 
 ## 0.3.0

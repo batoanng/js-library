@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/types",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,7 +8,14 @@
   "sideEffects": false,
   "license": "MIT",
   "files": [
-    "dist/**"
+    "dist/**/*.cjs",
+    "dist/**/*.d.cts",
+    "dist/**/*.d.mts",
+    "dist/**/*.d.ts",
+    "dist/**/*.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "exports": {
     ".": {
@@ -16,14 +23,32 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
+    },
+    "./errors": {
+      "types": "./dist/errors/index.d.ts",
+      "import": "./dist/errors/index.js",
+      "require": "./dist/errors/index.cjs",
+      "default": "./dist/errors/index.js"
+    },
+    "./structures": {
+      "types": "./dist/structures/index.d.ts",
+      "import": "./dist/structures/index.js",
+      "require": "./dist/structures/index.cjs",
+      "default": "./dist/structures/index.js"
+    },
+    "./shared": {
+      "types": "./dist/shared/index.d.ts",
+      "import": "./dist/shared/index.js",
+      "require": "./dist/shared/index.cjs",
+      "default": "./dist/shared/index.js"
     }
   },
   "scripts": {
-    "build": "tsup src/index.tsx --format esm,cjs --dts",
-    "dev": "tsup src/index.tsx --format esm,cjs --watch --dts",
+    "build": "tsup src/index.tsx src/errors/index.ts src/structures/index.ts src/shared/index.ts --format esm,cjs --dts --clean",
+    "dev": "tsup src/index.tsx src/errors/index.ts src/structures/index.ts src/shared/index.ts --format esm,cjs --watch --dts",
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
-    "test": "jest --passWithNoTests",
-    "test:watch": "jest --watch",
+    "test": "vitest run --config vitest.config.ts --passWithNoTests",
+    "test:watch": "vitest --config vitest.config.ts",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
