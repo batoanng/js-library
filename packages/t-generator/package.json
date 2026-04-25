@@ -38,7 +38,7 @@
     "clean:build": "node scripts/clean-build-output.cjs",
     "clean": "pnpm run clean:build",
     "build": "pnpm run clean:build && tsc -p tsconfig.build.json && node scripts/stage-dist.cjs",
-    "link:dev": "npm --prefix ./dist link",
+    "link:dev": "npm --prefix ./dist install && cd ./dist && npm link",
     "test:dist": "pnpm run build && DIST_SMOKE=1 TEST_TARGET=dist node --import tsx --test test/dist-package.test.ts",
     "prepack": "pnpm run build",
     "postpack": "pnpm run clean:build",

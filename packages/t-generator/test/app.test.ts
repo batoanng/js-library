@@ -167,7 +167,7 @@ test('generates the React base app with the expected project structure', async (
       projectRoot,
       '.codex/skills/use-types-structures/agents/openai.yaml',
     ),
-    'default_prompt: "Use $use-types-structures when implementing or reviewing this feature so the solution reuses packages/types where appropriate and explains the expected complexity of the critical path."',
+    'default_prompt: "Use $use-types-structures when implementing or reviewing this feature so the solution reuses @batoanng/types where appropriate and explains the expected complexity of the critical path."',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/shared/config/env.ts'),
