@@ -21,6 +21,7 @@ const BASE_DEPENDENCIES: Record<string, string> = {
   '@fastify/static': '^9.0.0',
   '@nestjs/common': '^11.1.6',
   '@nestjs/core': '^11.1.6',
+  '@nestjs/jwt': '^11.0.1',
   '@nestjs/passport': '^11.0.5',
   '@nestjs/platform-fastify': '^11.1.6',
   '@nestjs/swagger': '^11.2.0',
@@ -28,13 +29,12 @@ const BASE_DEPENDENCIES: Record<string, string> = {
   '@prisma/client': '^6.16.2',
   'class-transformer': '^0.5.1',
   'class-validator': '^0.15.1',
-  'fastify': '^5.6.0',
-  'jwks-rsa': '^3.2.0',
-  'passport': '^0.7.0',
+  fastify: '^5.6.0',
+  passport: '^0.7.0',
   'passport-jwt': '^4.0.1',
   'reflect-metadata': '^0.2.2',
-  'rxjs': '^7.8.2',
-  'zod': '^4.3.6',
+  rxjs: '^7.8.2',
+  zod: '^4.3.6',
 };
 
 const BASE_DEV_DEPENDENCIES: Record<string, string> = {
@@ -45,13 +45,13 @@ const BASE_DEV_DEPENDENCIES: Record<string, string> = {
   '@typescript-eslint/eslint-plugin': '^8.46.2',
   '@typescript-eslint/parser': '^8.46.2',
   'env-cmd': '^11.0.0',
-  'eslint': '^8.57.1',
-  'nodemon': '^3.1.10',
-  'prettier': '^3.8.1',
-  'prisma': '^6.15.0',
+  eslint: '^8.57.1',
+  nodemon: '^3.1.10',
+  prettier: '^3.8.1',
+  prisma: '^6.15.0',
   'ts-node': '^10.9.2',
-  'typescript': '^5.9.3',
-  'vitest': '^3',
+  typescript: '^5.9.3',
+  vitest: '^3',
 };
 
 const GRAPHQL_DEPENDENCIES: Record<string, string> = {
@@ -109,16 +109,28 @@ const BASE_CONFIG_FIELDS: ConfigField[] = [
     sample: 'replace-me',
   },
   {
-    name: 'OIDC_AUTHORITY',
-    type: 'string',
-    schema: 'oidcAuthoritySchema',
-    sample: 'https://example.auth0.com',
-  },
-  {
-    name: 'OIDC_AUDIENCE',
+    name: 'ACCESS_SECRET',
     type: 'string',
     schema: 'z.string().min(1)',
-    sample: 'https://api.example.com',
+    sample: 'change-me-access-secret',
+  },
+  {
+    name: 'REFRESH_SECRET',
+    type: 'string',
+    schema: 'z.string().min(1)',
+    sample: 'change-me-refresh-secret',
+  },
+  {
+    name: 'ACCESS_EXPIRES_IN',
+    type: 'string',
+    schema: "durationSchema.default('15m')",
+    sample: '15m',
+  },
+  {
+    name: 'REFRESH_EXPIRES_IN',
+    type: 'string',
+    schema: "durationSchema.default('7d')",
+    sample: '7d',
   },
   {
     name: 'CORS_ORIGIN',
@@ -340,8 +352,19 @@ function renderConfigType(features: InstalledServerFeatures): string {
     '  return origins.length > 0 ? origins : undefined;',
     '}',
     '',
-    'function stripTrailingSlash(value: string): string {',
-    "  return value.replace(/\\/+$/, '');",
+    'function parseDurationToSeconds(fieldName: string, value: string): number {',
+    '  const match = /^(\\d+)([smhd])$/.exec(value);',
+    '',
+    '  if (!match) {',
+    '    throw new Error(`Invalid ${fieldName} duration: ${value}`);',
+    '  }',
+    '',
+    '  const amount = Number(match[1]);',
+    '  const unit = match[2];',
+    '',
+    "  const unitToSeconds = { s: 1, m: 60, h: 60 * 60, d: 60 * 60 * 24 } as const;",
+    '',
+    '  return amount * unitToSeconds[unit as keyof typeof unitToSeconds];',
     '}',
     '',
     'const stringSchema = z.preprocess(trimString, z.string().min(1));',
@@ -349,13 +372,15 @@ function renderConfigType(features: InstalledServerFeatures): string {
     '  toOptionalTrimmedString,',
     '  z.string().min(1).optional(),',
     ');',
-    'const urlStringSchema = z.preprocess(trimString, z.string().url());',
     'const booleanFlagSchema = z.preprocess(toBooleanFlag, z.boolean());',
     'const corsOriginSchema = z.preprocess(',
     '  toOriginList,',
     '  z.array(z.string().min(1)).optional(),',
     ');',
-    'const oidcAuthoritySchema = urlStringSchema.transform(stripTrailingSlash);',
+    'const durationSchema = z',
+    '  .string()',
+    '  .trim()',
+    "  .regex(/^\\d+[smhd]$/, 'Use a duration like 15m, 1h, or 7d.');",
     '',
     'export const configSchema = z.object({',
   ];
@@ -366,7 +391,14 @@ function renderConfigType(features: InstalledServerFeatures): string {
 
   lines.push('});');
   lines.push('');
-  lines.push('export type Config = z.infer<typeof configSchema>;');
+  lines.push('type BaseConfig = z.infer<typeof configSchema>;');
+  lines.push('');
+  lines.push('export type Config = Readonly<');
+  lines.push('  BaseConfig & {');
+  lines.push('    ACCESS_EXPIRES_IN_SECONDS: number;');
+  lines.push('    REFRESH_EXPIRES_IN_SECONDS: number;');
+  lines.push('  }');
+  lines.push('>;');
   lines.push('');
   lines.push('let cachedConfig: Config | undefined;');
   lines.push('');
@@ -388,7 +420,17 @@ function renderConfigType(features: InstalledServerFeatures): string {
   lines.push('    throw new Error(formatConfigError(result.error));');
   lines.push('  }');
   lines.push('');
-  lines.push('  cachedConfig = Object.freeze(result.data);');
+  lines.push('  cachedConfig = Object.freeze({');
+  lines.push('    ...result.data,');
+  lines.push('    ACCESS_EXPIRES_IN_SECONDS: parseDurationToSeconds(');
+  lines.push("      'ACCESS_EXPIRES_IN',");
+  lines.push('      result.data.ACCESS_EXPIRES_IN,');
+  lines.push('    ),');
+  lines.push('    REFRESH_EXPIRES_IN_SECONDS: parseDurationToSeconds(');
+  lines.push("      'REFRESH_EXPIRES_IN',");
+  lines.push('      result.data.REFRESH_EXPIRES_IN,');
+  lines.push('    ),');
+  lines.push('  });');
   lines.push('');
   lines.push('  return cachedConfig;');
   lines.push('}');
@@ -575,8 +617,8 @@ function renderServerFile(
   features: InstalledServerFeatures,
 ): string {
   const swaggerDescription = features.graphql
-    ? `REST API for ${context.appDisplayName}.\n\nAuthentication modes:\n- JWT bearer tokens for signed-in endpoints.\n- Optional JWT or \`x-guest-user-id\` for guest-capable endpoints.\n- Dedicated health bearer token for \`/health\`.\n\nMultipart upload endpoints expect a \`file\` field in \`multipart/form-data\`.\nGraphQL is available separately at \`/api/graphql\` and is not included in this Swagger document.`
-    : `REST API for ${context.appDisplayName}.\n\nAuthentication modes:\n- JWT bearer tokens for signed-in endpoints.\n- Dedicated health bearer token for \`/health\`.\n\nMultipart upload endpoints expect a \`file\` field in \`multipart/form-data\`.`;
+    ? `REST API for ${context.appDisplayName}.\n\nAuthentication modes:\n- Local JWT access tokens for authenticated REST endpoints.\n- Refresh tokens are exchanged through /auth/refresh and invalidated client-side through /auth/logout.\n- Dedicated health bearer token for /health.\n- Optional JWT or \`x-guest-user-id\` for guest-capable GraphQL endpoints.\n\nMultipart upload endpoints expect a \`file\` field in \`multipart/form-data\`.\nGraphQL is available separately at \`/api/graphql\` and is not included in this Swagger document.`
+    : `REST API for ${context.appDisplayName}.\n\nAuthentication modes:\n- Local JWT access tokens for authenticated REST endpoints.\n- Refresh tokens are exchanged through /auth/refresh and invalidated client-side through /auth/logout.\n- Dedicated health bearer token for /health.\n\nMultipart upload endpoints expect a \`file\` field in \`multipart/form-data\`.`;
 
   const allowedHeaders = ["'Content-Type'", "'Authorization'"];
 
@@ -642,7 +684,7 @@ function renderServerFile(
     '  SwaggerModule.setup(SWAGGER_PREFIX, app, document);',
     '}',
     '',
-    'async function createApp(): Promise<NestFastifyApplication> {',
+    'export async function createApp(): Promise<NestFastifyApplication> {',
     '  const adapter = new FastifyAdapter();',
     '  const origins = (config.CORS_ORIGIN ?? [])',
     '    .map((entry) => entry.trim())',

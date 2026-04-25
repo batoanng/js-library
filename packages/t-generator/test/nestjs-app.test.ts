@@ -84,8 +84,15 @@ test('generates the NestJS base app with the expected project structure', async 
     path.join(projectRoot, 'src/modules/common/flow/log.interceptor.ts'),
     path.join(projectRoot, 'src/modules/common/controller/health.controller.ts'),
     path.join(projectRoot, 'src/modules/common/security/health.guard.ts'),
+    path.join(projectRoot, 'src/modules/auth/auth.controller.ts'),
     path.join(projectRoot, 'src/modules/auth/auth.module.ts'),
+    path.join(projectRoot, 'src/modules/auth/auth.service.ts'),
+    path.join(projectRoot, 'src/modules/auth/current-user.decorator.ts'),
+    path.join(projectRoot, 'src/modules/auth/dto/login.dto.ts'),
+    path.join(projectRoot, 'src/modules/auth/dto/refresh-token.dto.ts'),
+    path.join(projectRoot, 'src/modules/auth/guards/access-token.guard.ts'),
     path.join(projectRoot, 'src/modules/auth/jwt.strategy.ts'),
+    path.join(projectRoot, 'src/test/auth.test.ts'),
     path.join(projectRoot, 'src/test/health.test.ts'),
     path.join(projectRoot, 'src/modules/tokens.ts'),
     path.join(projectRoot, 'src/types/config.ts'),
@@ -111,6 +118,7 @@ test('generates the NestJS base app with the expected project structure', async 
     '@fastify/static',
     '@nestjs/common',
     '@nestjs/core',
+    '@nestjs/jwt',
     '@nestjs/passport',
     '@nestjs/platform-fastify',
     '@nestjs/swagger',
@@ -120,7 +128,6 @@ test('generates the NestJS base app with the expected project structure', async 
     'class-transformer',
     'class-validator',
     'fastify',
-    'jwks-rsa',
     'passport',
     'passport-jwt',
     'reflect-metadata',
@@ -157,7 +164,19 @@ test('generates the NestJS base app with the expected project structure', async 
   );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
-    'OIDC_AUTHORITY=https://example.auth0.com',
+    'ACCESS_SECRET=change-me-access-secret',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'REFRESH_SECRET=change-me-refresh-secret',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'ACCESS_EXPIRES_IN=15m',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'REFRESH_EXPIRES_IN=7d',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/modules/app.module.ts'),
@@ -177,11 +196,15 @@ test('generates the NestJS base app with the expected project structure', async 
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/types/config.ts'),
-    'export type Config = z.infer<typeof configSchema>;',
+    'ACCESS_EXPIRES_IN_SECONDS: number;',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/types/config.ts'),
     'export function getConfig(): Config {',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/types/config.ts'),
+    "durationSchema.default('15m')",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/server.ts'),
@@ -194,6 +217,10 @@ test('generates the NestJS base app with the expected project structure', async 
   yoAssert.fileContent(
     path.join(projectRoot, 'src/server.ts'),
     'await app.register(multipart as never, {',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/server.ts'),
+    'export async function createApp(): Promise<NestFastifyApplication> {',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/server.ts'),
@@ -229,11 +256,31 @@ test('generates the NestJS base app with the expected project structure', async 
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/modules/auth/jwt.strategy.ts'),
-    'return jwtPayloadSchema.parse(payload);',
+    'secretOrKey: config.ACCESS_SECRET',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/modules/auth/jwt.strategy.ts'),
+    "type: z.literal('access')",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/modules/auth/auth.module.ts'),
-    'CommonModule',
+    'JwtModule.registerAsync',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/modules/auth/auth.service.ts'),
+    'refreshTokenExpiresIn: this.config.REFRESH_EXPIRES_IN_SECONDS',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/modules/auth/auth.controller.ts'),
+    "@Controller('auth')",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/modules/auth/guards/access-token.guard.ts'),
+    "extends AuthGuard('jwt')",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/test/auth.test.ts'),
+    "/api/v1/auth/login",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'vitest.config.ts'),
@@ -250,6 +297,10 @@ test('generates the NestJS base app with the expected project structure', async 
   yoAssert.fileContent(
     path.join(projectRoot, 'src/test/health.test.ts'),
     "service: 'starter-server'",
+  );
+  assert.doesNotMatch(
+    fs.readFileSync(path.join(projectRoot, '.env.example'), 'utf8'),
+    /OIDC_AUTHORITY|OIDC_AUDIENCE/,
   );
   assert.doesNotMatch(
     fs.readFileSync(path.join(projectRoot, 'index.js'), 'utf8'),

@@ -1,15 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import * as jwksRsa from 'jwks-rsa';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { z } from 'zod';
 
 import type { Config } from '../../types/config';
 import { Service } from '../tokens';
+import type { AuthenticatedUser } from './current-user.decorator';
 
 const jwtPayloadSchema = z
   .object({
-    sub: z.string().optional(),
+    sub: z.string().min(1),
+    email: z.string().email(),
+    type: z.literal('access'),
   })
   .passthrough();
 
@@ -19,19 +21,19 @@ type JwtPayload = z.infer<typeof jwtPayloadSchema>;
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(@Inject(Service.CONFIG) config: Config) {
     super({
-      secretOrKeyProvider: jwksRsa.passportJwtSecret({
-        jwksUri: `${config.OIDC_AUTHORITY}/.well-known/jwks.json`,
-        cache: true,
-        rateLimit: true,
-      }),
-      audience: config.OIDC_AUDIENCE,
-      issuer: `${config.OIDC_AUTHORITY}/`,
-      algorithms: ['RS256'],
+      secretOrKey: config.ACCESS_SECRET,
+      algorithms: ['HS256'],
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
 
-  validate(payload: unknown): JwtPayload {
-    return jwtPayloadSchema.parse(payload);
+  validate(payload: unknown): AuthenticatedUser {
+    const validatedPayload = jwtPayloadSchema.parse(payload) as JwtPayload;
+
+    return {
+      sub: validatedPayload.sub,
+      email: validatedPayload.email,
+      type: validatedPayload.type,
+    };
   }
 }

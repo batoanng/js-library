@@ -295,9 +295,9 @@ Responsibilities:
 
 - scaffold a NestJS + Fastify + Prisma server
 - configure typed env handling with `zod`
-- configure Swagger, auth scaffolding, and health endpoint wiring
+- configure Swagger, local access/refresh JWT auth scaffolding, and health endpoint wiring
 - create the initial `src/modules` structure
-- add a basic Vitest + Fastify injection test
+- add basic Vitest + Fastify injection tests for health and auth routes
 
 ### 7.7 NestJS server feature command
 
@@ -342,9 +342,9 @@ Responsibilities:
 - scaffold an Express + Prisma + MySQL server
 - prompt for architecture: `clean` or `mvp`
 - configure typed env handling with `zod`
-- configure logging, security middleware, and graceful shutdown wiring
-- create a sample `GET /health` API
-- add a basic Jest + Supertest health test
+- configure logging, security middleware, graceful shutdown, and local JWT auth wiring
+- create sample `GET /health` plus `/api/auth/login`, `/api/auth/refresh`, `/api/auth/logout`, and `/api/auth/me` APIs
+- add basic Jest + Supertest health and auth tests
 
 ### 7.9 Node.js server feature command
 

@@ -61,15 +61,25 @@ test('generates the clean Node.js base app with the expected project structure',
     path.join(projectRoot, 'src/server.ts'),
     path.join(projectRoot, 'src/config/env.ts'),
     path.join(projectRoot, 'src/config/logger.ts'),
+    path.join(projectRoot, 'src/domain/auth.ts'),
     path.join(projectRoot, 'src/infrastructure/prisma/prisma.ts'),
     path.join(projectRoot, 'src/infrastructure/repositories/health.repository.ts'),
     path.join(projectRoot, 'src/domain/health.ts'),
+    path.join(projectRoot, 'src/usecases/auth.ts'),
     path.join(projectRoot, 'src/usecases/check-health.ts'),
+    path.join(projectRoot, 'src/interfaces/controllers/auth.controller.ts'),
     path.join(projectRoot, 'src/interfaces/controllers/health.controller.ts'),
+    path.join(projectRoot, 'src/interfaces/routes/auth.route.ts'),
     path.join(projectRoot, 'src/interfaces/routes/health.route.ts'),
     path.join(projectRoot, 'src/interfaces/index.ts'),
+    path.join(projectRoot, 'src/shared/auth/access-auth.ts'),
+    path.join(projectRoot, 'src/shared/auth/contracts.ts'),
+    path.join(projectRoot, 'src/shared/auth/errors.ts'),
+    path.join(projectRoot, 'src/shared/auth/index.ts'),
+    path.join(projectRoot, 'src/shared/auth/tokens.ts'),
     path.join(projectRoot, 'src/shared/error-middleware.ts'),
     path.join(projectRoot, 'src/shared/graceful-shutdown.ts'),
+    path.join(projectRoot, 'tests/auth.test.ts'),
     path.join(projectRoot, 'tests/health.test.ts'),
   ]);
 
@@ -96,6 +106,7 @@ test('generates the clean Node.js base app with the expected project structure',
     'express-rate-limit',
     'helmet',
     'hpp',
+    'jsonwebtoken',
     'morgan',
     'winston',
     'zod',
@@ -131,8 +142,28 @@ test('generates the clean Node.js base app with the expected project structure',
     'DATABASE_URL=mysql://root:root@localhost:3306/starter_node',
   );
   yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'ACCESS_SECRET=change-me-access-secret',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'REFRESH_SECRET=change-me-refresh-secret',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'ACCESS_EXPIRES_IN=15m',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'REFRESH_EXPIRES_IN=7d',
+  );
+  yoAssert.fileContent(
     path.join(projectRoot, 'prisma/schema.prisma'),
     "provider = 'mysql'",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/app.ts'),
+    "app.use('/api/auth', authRouter);",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app.ts'),
@@ -144,7 +175,27 @@ test('generates the clean Node.js base app with the expected project structure',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/interfaces/index.ts'),
+    "export { authRouter } from './routes/auth.route';",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/interfaces/index.ts'),
     "export { healthRouter } from './routes/health.route';",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/shared/auth/tokens.ts'),
+    'accessTokenExpiresIn: env.ACCESS_EXPIRES_IN_SECONDS',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/shared/error-middleware.ts'),
+    'error instanceof AuthenticationError',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'tests/auth.test.ts'),
+    "post('/api/auth/login')",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'tests/auth.test.ts'),
+    "get('/api/auth/me')",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'tests/health.test.ts'),
@@ -189,6 +240,9 @@ test('generates the MVP Node.js base app when selected', async () => {
   );
 
   yoAssert.file([
+    path.join(projectRoot, 'src/modules/auth/auth.controller.ts'),
+    path.join(projectRoot, 'src/modules/auth/auth.route.ts'),
+    path.join(projectRoot, 'src/modules/auth/auth.service.ts'),
     path.join(projectRoot, 'src/modules/health/health.repository.ts'),
     path.join(projectRoot, 'src/modules/health/health.service.ts'),
     path.join(projectRoot, 'src/modules/health/health.controller.ts'),
@@ -197,7 +251,15 @@ test('generates the MVP Node.js base app when selected', async () => {
   ]);
   yoAssert.fileContent(
     path.join(projectRoot, 'src/modules/index.ts'),
+    "export { authRouter } from './auth/auth.route';",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/modules/index.ts'),
     "export { healthRouter } from './health/health.route';",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/modules/auth/auth.route.ts'),
+    "authRouter.get('/me', requireAccessToken",
   );
   assert.doesNotMatch(
     fs.readFileSync(

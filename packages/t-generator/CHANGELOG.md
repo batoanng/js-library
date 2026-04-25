@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.4.4
+
+### Patch Changes
+
+- Add default local access/refresh JWT auth scaffolding to generated NestJS and Node.js server bases, including `login`, `refresh`, `logout`, and `me` routes plus default auth env settings.
+
 ## 0.4.3
 
 ### Patch Changes

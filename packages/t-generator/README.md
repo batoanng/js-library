@@ -13,6 +13,8 @@ The current implementation covers:
 - a Node.js + Express + Prisma + MySQL server base scaffold with a choice of `clean` or `mvp` architecture
 - four Node.js server add-on features: `graphql`, `queue`, `cache`, and `llm`
 
+The current server base defaults now include local access/refresh JWT auth scaffolding for both NestJS and Node.js, with generated `login`, `refresh`, `logout`, and `me` routes.
+
 The long-term direction is described in [SPECS.md](./SPECS.md).
 
 Primary interactive command:
@@ -194,9 +196,10 @@ The NestJS base generator creates a lean Nest 11 server with:
 - a versioned `/api/v1`-style global prefix
 - Prisma configured for MongoDB
 - a health endpoint protected by `HEALTH_TOKEN`
-- OIDC/JWKS Passport JWT auth scaffolding
+- local access/refresh JWT auth scaffolding with `login`, `refresh`, `logout`, and `me` routes
+- default auth env entries for `ACCESS_SECRET`, `REFRESH_SECRET`, `ACCESS_EXPIRES_IN=15m`, and `REFRESH_EXPIRES_IN=7d`
 - a typed env/config provider
-- Vitest plus a starter Fastify injection test
+- Vitest plus starter health and auth smoke tests
 
 The base intentionally excludes GraphQL, BullMQ, Redis-backed caching, and LLM tooling until you add them with `yo t-generator:nestjs-add`.
 
@@ -213,10 +216,11 @@ The Node.js base generator creates an Express + Prisma server with:
 
 - a prompt to choose `Clean Architecture` or `MVP`
 - Prisma configured for MySQL
-- a generated `GET /health` endpoint
-- shared env parsing with `zod`
+- generated `GET /health` and `/api/auth/*` endpoints
+- shared env parsing with `zod`, including access/refresh token secrets and expiries
+- default auth env entries for `ACCESS_SECRET`, `REFRESH_SECRET`, `ACCESS_EXPIRES_IN=15m`, and `REFRESH_EXPIRES_IN=7d`
 - logging, security middleware, and graceful shutdown wiring
-- Jest + Supertest starter coverage
+- Jest + Supertest starter coverage for health and auth flows
 
 The base intentionally excludes GraphQL, BullMQ, Redis-backed caching, and LLM tooling until you add them with `yo t-generator:nodejs-add`.
 
