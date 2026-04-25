@@ -144,6 +144,7 @@ The React base command currently includes:
 - Prettier configuration
 - `@` path alias mapped to `src`
 - `.env` example file plus a small env helper
+- `VITE_APP_PORT=3000` in `.env.example`, wired into the generated Vite dev server config for local development
 - a provider composition entry point
 - React Router setup
 - a placeholder home page

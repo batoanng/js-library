@@ -175,6 +175,10 @@ test('generates the React base app with the expected project structure', async (
     'appName: import.meta.env.VITE_APP_NAME?.trim() || fallbackAppName',
   );
   yoAssert.fileContent(
+    path.join(projectRoot, 'src/vite-env.d.ts'),
+    'readonly VITE_APP_PORT?: string;',
+  );
+  yoAssert.fileContent(
     path.join(projectRoot, 'src/shared/config/env.ts'),
     "import { z } from 'zod';",
   );
@@ -201,6 +205,22 @@ test('generates the React base app with the expected project structure', async (
   yoAssert.fileContent(
     path.join(projectRoot, 'Dockerfile'),
     'RUN pnpm run build',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'VITE_APP_PORT=3000',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'vite.config.ts'),
+    "import { defineConfig, loadEnv } from 'vite';",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'vite.config.ts'),
+    "const appPort = Number.parseInt(env.VITE_APP_PORT || '3000', 10);",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'vite.config.ts'),
+    'port: Number.isNaN(appPort) ? 3000 : appPort,',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'README.md'),
@@ -258,6 +278,10 @@ test('prompts for the app name when one is not provided', async () => {
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
     'VITE_APP_NAME=Prompt Driven App',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, '.env.example'),
+    'VITE_APP_PORT=3000',
   );
 });
 

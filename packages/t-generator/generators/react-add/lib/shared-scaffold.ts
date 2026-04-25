@@ -32,7 +32,10 @@ function renderEnvExample(
   context: TemplateContext,
   features: InstalledFeatures,
 ): string {
-  const lines = [`VITE_APP_NAME=${context.appDisplayName}`];
+  const lines = [
+    `VITE_APP_NAME=${context.appDisplayName}`,
+    'VITE_APP_PORT=3000',
+  ];
 
   if (features.auth) {
     lines.push('VITE_AUTH0_DOMAIN=');
@@ -59,6 +62,7 @@ function renderViteEnv(features: InstalledFeatures): string {
   const lines = ['/// <reference types="vite/client" />', '', 'interface ImportMetaEnv {'];
 
   lines.push('  readonly VITE_APP_NAME?: string;');
+  lines.push('  readonly VITE_APP_PORT?: string;');
 
   if (features.auth) {
     lines.push('  readonly VITE_AUTH0_DOMAIN?: string;');
@@ -93,7 +97,7 @@ function renderViteConfig(
 ): string {
   const imports = [
     "import { fileURLToPath, URL } from 'node:url';",
-    "import { defineConfig } from 'vite';",
+    "import { defineConfig, loadEnv } from 'vite';",
     "import react from '@vitejs/plugin-react';",
   ];
   const plugins = ['react()'];
@@ -140,10 +144,10 @@ function renderViteConfig(
     })`);
   }
 
-  return `${imports.join('\n')}\n\nexport default defineConfig({\n  plugins: [\n${indent(
+  return `${imports.join('\n')}\n\nexport default defineConfig(({ mode }) => {\n  const env = loadEnv(mode, process.cwd(), '');\n  const appPort = Number.parseInt(env.VITE_APP_PORT || '3000', 10);\n\n  return {\n    plugins: [\n${indent(
     plugins.join(',\n'),
-    4,
-  )}\n  ],\n  resolve: {\n    alias: {\n      '@': fileURLToPath(new URL('./src', import.meta.url)),\n    },\n  },\n});\n`;
+    6,
+  )}\n    ],\n    server: {\n      port: Number.isNaN(appPort) ? 3000 : appPort,\n    },\n    resolve: {\n      alias: {\n        '@': fileURLToPath(new URL('./src', import.meta.url)),\n      },\n    },\n  };\n});\n`;
 }
 
 function renderEnvConfig(

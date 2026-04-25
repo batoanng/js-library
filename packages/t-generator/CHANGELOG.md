@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.4.5
+
+### Patch Changes
+
+- Add `VITE_APP_PORT=3000` to the generated React base `.env.example` file and use it to configure the local Vite dev server port.
+
 ## 0.4.4
 
 ### Patch Changes
