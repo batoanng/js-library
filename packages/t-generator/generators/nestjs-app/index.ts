@@ -118,6 +118,7 @@ class NestAppGenerator extends GeneratorBase {
     };
 
     const templateFiles = [
+      ['Dockerfile.ejs', 'Dockerfile'],
       ['tsconfig.json.ejs', 'tsconfig.json'],
       ['tsconfig.eslint.json.ejs', 'tsconfig.eslint.json'],
       ['vitest.config.ts.ejs', 'vitest.config.ts'],

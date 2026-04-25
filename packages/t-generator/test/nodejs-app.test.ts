@@ -46,6 +46,7 @@ test('generates the clean Node.js base app with the expected project structure',
       projectRoot,
       '.codex/skills/use-types-structures/agents/openai.yaml',
     ),
+    path.join(projectRoot, 'Dockerfile'),
     path.join(projectRoot, 'README.md'),
     path.join(projectRoot, 'tsconfig.json'),
     path.join(projectRoot, 'tsconfig.test.json'),
@@ -148,6 +149,18 @@ test('generates the clean Node.js base app with the expected project structure',
   yoAssert.fileContent(
     path.join(projectRoot, 'tests/health.test.ts'),
     "const response = await request(app).get('/health');",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'RUN pnpm run prisma:generate',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'COPY --from=builder --chown=node:node /usr/app/prisma/ ./prisma/',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'CMD ["node", "dist/server.js"]',
   );
   assert.doesNotMatch(
     fs.readFileSync(path.join(projectRoot, 'src/app.ts'), 'utf8'),

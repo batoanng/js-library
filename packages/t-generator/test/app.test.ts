@@ -63,6 +63,7 @@ test('generates the React base app with the expected project structure', async (
       projectRoot,
       '.codex/skills/use-types-structures/SKILL.md',
     ),
+    path.join(projectRoot, 'Dockerfile'),
     path.join(
       projectRoot,
       '.codex/skills/use-types-structures/agents/openai.yaml',
@@ -192,6 +193,14 @@ test('generates the React base app with the expected project structure', async (
   yoAssert.fileContent(
     path.join(projectRoot, 'src/pages/home/ui/HomePage.test.tsx'),
     '<AppProviders>',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'CMD ["serve", "-s", "dist", "-l", "3000"]',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'RUN pnpm run build',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'README.md'),

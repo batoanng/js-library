@@ -58,6 +58,7 @@ test('generates the NestJS base app with the expected project structure', async 
       projectRoot,
       '.codex/skills/use-types-structures/SKILL.md',
     ),
+    path.join(projectRoot, 'Dockerfile'),
     path.join(
       projectRoot,
       '.codex/skills/use-types-structures/agents/openai.yaml',
@@ -209,6 +210,18 @@ test('generates the NestJS base app with the expected project structure', async 
   yoAssert.fileContent(
     path.join(projectRoot, 'src/server.ts'),
     'const port = Number(config.API_PORT || API_DEFAULT_PORT);',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'RUN pnpm run prisma:generate',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'ENV API_PORT=3001',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'EXPOSE 3001',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/modules/common/security/health.guard.ts'),

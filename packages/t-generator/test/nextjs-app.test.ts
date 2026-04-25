@@ -63,6 +63,7 @@ test('generates the Next.js base app with the expected project structure', async
       projectRoot,
       '.codex/skills/use-types-structures/SKILL.md',
     ),
+    path.join(projectRoot, 'Dockerfile'),
     path.join(
       projectRoot,
       '.codex/skills/use-types-structures/agents/openai.yaml',
@@ -167,6 +168,14 @@ test('generates the Next.js base app with the expected project structure', async
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
     'return (\n    <>\n      {children}\n    </>\n  );',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'COPY --from=builder --chown=node:node /usr/app/.next/ ./.next/',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'CMD ["npm", "run", "start"]',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'prettier.config.js'),

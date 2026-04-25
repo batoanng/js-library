@@ -182,6 +182,7 @@ class NodeAppGenerator extends GeneratorBase {
 
     const templateFiles = [
       ['README.md.ejs', 'README.md'],
+      ['Dockerfile.ejs', 'Dockerfile'],
       ['tsconfig.json.ejs', 'tsconfig.json'],
       ['tsconfig.test.json.ejs', 'tsconfig.test.json'],
       ['jest.config.js.ejs', 'jest.config.js'],

@@ -117,6 +117,7 @@ class AppGenerator extends GeneratorBase {
     const templateFiles = [
       ['package.json.ejs', 'package.json'],
       ['README.md.ejs', 'README.md'],
+      ['Dockerfile.ejs', 'Dockerfile'],
       ['tsconfig.json.ejs', 'tsconfig.json'],
       ['next.config.mjs.ejs', 'next.config.mjs'],
       ['jest.config.js.ejs', 'jest.config.js'],

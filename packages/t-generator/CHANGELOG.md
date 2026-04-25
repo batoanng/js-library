@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.4.3
+
+### Patch Changes
+
+- Add base `Dockerfile` templates for generated React, Next.js, NestJS, and Node.js app scaffolds with stack-specific production build and runtime flows.
+
 ## 0.4.2
 
 ### Patch Changes
