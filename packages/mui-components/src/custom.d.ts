@@ -23,8 +23,3 @@ declare module 'react-use' {
         value: T;
       };
 }
-
-declare module '*.mdx' {
-  const content: string;
-  export default content;
-}
