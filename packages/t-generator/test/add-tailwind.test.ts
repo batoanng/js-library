@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
@@ -27,6 +28,12 @@ test('adds the Tailwind feature to an existing generated React base app', async 
     packageJson.devDependencies?.['@batoanng/tailwind-config'],
     '^1.4.0',
   );
+  assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], undefined);
+  assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
+  assert.equal(packageJson.devDependencies?.['vite-plugin-pwa'], undefined);
 
   yoAssert.fileContent(
     path.join(projectRoot, 'vite.config.ts'),
@@ -44,6 +51,18 @@ test('adds the Tailwind feature to an existing generated React base app', async 
     path.join(projectRoot, 'src/app/styles/global.css'),
     '@import "@batoanng/tailwind-config/styles.css";',
   );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/widgets')), true);
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/widgets/ui-library-showcase')),
+    false,
+  );
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/app/providers/auth')),
+    false,
+  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/store')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/pages/apollo')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/features/pwa')), false);
 });
 
 test('tailwind can be added after ui-library without removing theme wiring', async () => {

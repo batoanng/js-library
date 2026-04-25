@@ -30,6 +30,10 @@ test('adds the auth feature to an existing generated base app', async () => {
     packageJson.dependencies?.['@batoanng/mui-components'],
     undefined,
   );
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
+  assert.equal(packageJson.devDependencies?.['vite-plugin-pwa'], undefined);
 
   yoAssert.file([
     path.join(
@@ -69,6 +73,13 @@ test('adds the auth feature to an existing generated base app', async () => {
     path.join(projectRoot, 'src/pages/auth/ui/AuthPage.tsx'),
     'Connect Auth0',
   );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/store')), false);
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/pages/react-query')),
+    false,
+  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/pages/apollo')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/features/pwa')), false);
 });
 
 test('prompt-based add can select the auth feature', async () => {

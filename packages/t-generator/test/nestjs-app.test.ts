@@ -53,6 +53,15 @@ test('generates the NestJS base app with the expected project structure', async 
 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
+    path.join(projectRoot, '.codex/config.toml'),
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/SKILL.md',
+    ),
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/agents/openai.yaml',
+    ),
     path.join(projectRoot, 'tsconfig.json'),
     path.join(projectRoot, 'tsconfig.eslint.json'),
     path.join(projectRoot, 'vitest.config.ts'),
@@ -95,6 +104,7 @@ test('generates the NestJS base app with the expected project structure', async 
   assert.deepEqual(packageJson.tGenerator?.features, []);
 
   [
+    '@batoanng/types',
     '@fastify/cors',
     '@fastify/multipart',
     '@fastify/static',
@@ -126,6 +136,20 @@ test('generates the NestJS base app with the expected project structure', async 
     assert.equal(packageJson.devDependencies?.[dependencyName], undefined);
   });
 
+  yoAssert.fileContent(
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/SKILL.md',
+    ),
+    'Prefer reusing that package over ad hoc arrays, objects, or one-off storage utilities',
+  );
+  yoAssert.fileContent(
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/agents/openai.yaml',
+    ),
+    'default_prompt: "Use $use-types-structures when implementing or reviewing this feature so the solution reuses packages/types where appropriate and explains the expected complexity of the critical path."',
+  );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
     'DATABASE_URL=mongodb://localhost:27017/starter-server',

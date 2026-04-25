@@ -58,6 +58,15 @@ test('generates the React base app with the expected project structure', async (
 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
+    path.join(projectRoot, '.codex/config.toml'),
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/SKILL.md',
+    ),
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/agents/openai.yaml',
+    ),
     path.join(projectRoot, 'index.html'),
     path.join(projectRoot, 'tsconfig.json'),
     path.join(projectRoot, 'vite.config.ts'),
@@ -87,11 +96,13 @@ test('generates the React base app with the expected project structure', async (
   ]);
 
   assert.deepEqual(Object.keys(packageJson.dependencies || {}).sort(), [
+    '@batoanng/types',
     'react',
     'react-dom',
     'react-router-dom',
     'zod',
   ]);
+  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.0');
   assert.equal(packageJson.dependencies?.react, '^19.2.4');
   assert.equal(packageJson.dependencies?.['react-dom'], '^19.2.4');
   assert.equal(packageJson.dependencies?.['react-router-dom'], '^7.14.0');
@@ -144,6 +155,20 @@ test('generates the React base app with the expected project structure', async (
   assert.equal(fs.existsSync(path.join(projectRoot, 'src/features/pwa')), false);
   assert.equal(fs.existsSync(path.join(projectRoot, 'public/pwa-icon.svg')), false);
 
+  yoAssert.fileContent(
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/SKILL.md',
+    ),
+    'Prefer reusing that package over ad hoc arrays, objects, or one-off storage utilities',
+  );
+  yoAssert.fileContent(
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/agents/openai.yaml',
+    ),
+    'default_prompt: "Use $use-types-structures when implementing or reviewing this feature so the solution reuses packages/types where appropriate and explains the expected complexity of the critical path."',
+  );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/shared/config/env.ts'),
     'appName: import.meta.env.VITE_APP_NAME?.trim() || fallbackAppName',

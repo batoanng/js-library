@@ -49,6 +49,11 @@ test('adds the pwa feature to an existing generated base app', async () => {
 
   assert.equal(packageJson.devDependencies?.['vite-plugin-pwa'], '^1.0.3');
   assert.equal(packageJson.dependencies?.['vite-plugin-pwa'], undefined);
+  assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], undefined);
+  assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
 
   yoAssert.file([
     path.join(projectRoot, 'src/features/pwa/index.ts'),
@@ -98,6 +103,20 @@ test('adds the pwa feature to an existing generated base app', async () => {
     '<AppRouter />',
   ]);
   assertTokenOrder(viteConfigPath, ['react(),', 'VitePWA({']);
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/app/providers/auth')),
+    false,
+  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/store')), false);
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/widgets/ui-library-showcase')),
+    false,
+  );
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/pages/react-query')),
+    false,
+  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/pages/apollo')), false);
 });
 
 test('prompt-based add can select the pwa feature', async () => {

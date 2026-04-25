@@ -58,6 +58,15 @@ test('generates the Next.js base app with the expected project structure', async
 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
+    path.join(projectRoot, '.codex/config.toml'),
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/SKILL.md',
+    ),
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/agents/openai.yaml',
+    ),
     path.join(projectRoot, 'next.config.mjs'),
     path.join(projectRoot, 'jest.config.js'),
     path.join(projectRoot, 'eslint.config.mjs'),
@@ -87,11 +96,13 @@ test('generates the Next.js base app with the expected project structure', async
   ]);
 
   assert.deepEqual(Object.keys(packageJson.dependencies || {}).sort(), [
+    '@batoanng/types',
     'next',
     'react',
     'react-dom',
     'zod',
   ]);
+  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.0');
   assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.3.2');
   assert.equal(packageJson.devDependencies?.['@batoanng/jest-config'], '^1.4.1');
   assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.0');
@@ -127,6 +138,20 @@ test('generates the Next.js base app with the expected project structure', async
   assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/apollo')), false);
   assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/pwa')), false);
 
+  yoAssert.fileContent(
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/SKILL.md',
+    ),
+    'Prefer reusing that package over ad hoc arrays, objects, or one-off storage utilities',
+  );
+  yoAssert.fileContent(
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/agents/openai.yaml',
+    ),
+    'default_prompt: "Use $use-types-structures when implementing or reviewing this feature so the solution reuses packages/types where appropriate and explains the expected complexity of the critical path."',
+  );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
     'NEXT_PUBLIC_APP_NAME=starter-next',

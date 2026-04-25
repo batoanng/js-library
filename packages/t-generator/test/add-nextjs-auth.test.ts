@@ -39,6 +39,10 @@ test('adds the auth feature to an existing generated Next.js base app', async ()
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], '^4.9.0');
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
+  assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
   assertNoViteArtifacts(projectRoot, packageJson);
 
   yoAssert.file([
@@ -60,6 +64,10 @@ test('adds the auth feature to an existing generated Next.js base app', async ()
     path.join(projectRoot, 'src/pages/auth/ui/AuthPage.tsx'),
     'Auth0 route handling is ready',
   );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/redux')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/react-query')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/apollo')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/pwa')), false);
 });
 
 test('prompt-based add can select the Tailwind feature for Next.js', async () => {
@@ -90,6 +98,10 @@ test('adds the ui-library feature to an existing generated Next.js base app', as
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@mui/material-nextjs'], '6.1.8');
+  assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], undefined);
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
   assertNoViteArtifacts(projectRoot, packageJson);
   yoAssert.file([
     path.join(projectRoot, 'src/widgets/ui-library-showcase/index.ts'),
@@ -99,6 +111,10 @@ test('adds the ui-library feature to an existing generated Next.js base app', as
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
     'AppRouterCacheProvider',
   );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/lib/auth0.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/redux')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/react-query')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/apollo')), false);
 });
 
 test('adds the redux feature to an existing generated Next.js base app', async () => {
@@ -112,6 +128,10 @@ test('adds the redux feature to an existing generated Next.js base app', async (
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], '^2.2.7');
+  assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
+  assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
   assertNoViteArtifacts(projectRoot, packageJson);
   yoAssert.file([
     path.join(projectRoot, 'src/app/store/index.ts'),
@@ -122,6 +142,10 @@ test('adds the redux feature to an existing generated Next.js base app', async (
     path.join(projectRoot, '.env.example'),
     'NEXT_PUBLIC_ENABLE_REDUX_LOGGING=false',
   );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/lib/auth0.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/react-query')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/apollo')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/pwa')), false);
 });
 
 test('adds the react-query feature to an existing generated Next.js base app', async () => {
@@ -195,6 +219,10 @@ test('adds the apollo feature to an existing generated Next.js base app', async 
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   assert.equal(packageJson.dependencies?.['@apollo/client'], '^4.1.6');
+  assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], undefined);
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
   assertNoViteArtifacts(projectRoot, packageJson);
   yoAssert.file([
     path.join(projectRoot, 'src/shared/apollo/ApolloAppProvider.tsx'),
@@ -205,6 +233,10 @@ test('adds the apollo feature to an existing generated Next.js base app', async 
     path.join(projectRoot, 'src/shared/apollo/index.ts'),
     'ApolloAppProvider',
   );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/lib/auth0.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/redux')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/react-query')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/pwa')), false);
 });
 
 test('adds the pwa feature to an existing generated Next.js base app', async () => {
@@ -233,6 +265,10 @@ test('adds the pwa feature to an existing generated Next.js base app', async () 
     'Open the PWA example',
   );
   assertNoViteArtifacts(projectRoot, packageJson);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/lib/auth0.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/redux')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/react-query')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/apollo')), false);
 });
 
 test('tailwind composes with ui-library in a generated Next.js app', async () => {

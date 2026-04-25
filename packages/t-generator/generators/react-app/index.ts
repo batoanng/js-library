@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import GeneratorBase from 'yeoman-generator';
 
+import { buildDefaultCodexScaffold } from '../lib/defaults';
 import type { TemplateContext } from '../lib/types';
 import { buildSharedScaffold } from '../react-add/lib/shared-scaffold';
 
@@ -159,6 +160,12 @@ class AppGenerator extends GeneratorBase {
     Object.entries(sharedScaffold).forEach(([filePath, contents]) => {
       this.fs.write(this.destinationPath(filePath), contents);
     });
+
+    Object.entries(buildDefaultCodexScaffold()).forEach(
+      ([filePath, contents]) => {
+        this.fs.write(this.destinationPath(filePath), contents);
+      },
+    );
 
     ['src/widgets', 'src/features', 'src/entities'].forEach((directory) => {
       fs.mkdirSync(this.destinationPath(directory), { recursive: true });

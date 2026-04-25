@@ -37,6 +37,15 @@ test('generates the clean Node.js base app with the expected project structure',
 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
+    path.join(projectRoot, '.codex/config.toml'),
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/SKILL.md',
+    ),
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/agents/openai.yaml',
+    ),
     path.join(projectRoot, 'README.md'),
     path.join(projectRoot, 'tsconfig.json'),
     path.join(projectRoot, 'tsconfig.test.json'),
@@ -78,6 +87,7 @@ test('generates the clean Node.js base app with the expected project structure',
   assert.deepEqual(packageJson.tGenerator?.features, []);
 
   [
+    '@batoanng/types',
     '@prisma/client',
     'cors',
     'dotenv',
@@ -101,6 +111,20 @@ test('generates the clean Node.js base app with the expected project structure',
     assert.equal(packageJson.devDependencies?.[dependencyName], undefined);
   });
 
+  yoAssert.fileContent(
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/SKILL.md',
+    ),
+    'Prefer reusing that package over ad hoc arrays, objects, or one-off storage utilities',
+  );
+  yoAssert.fileContent(
+    path.join(
+      projectRoot,
+      '.codex/skills/use-types-structures/agents/openai.yaml',
+    ),
+    'default_prompt: "Use $use-types-structures when implementing or reviewing this feature so the solution reuses packages/types where appropriate and explains the expected complexity of the critical path."',
+  );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
     'DATABASE_URL=mysql://root:root@localhost:3306/starter_node',

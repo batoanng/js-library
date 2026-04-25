@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import GeneratorBase from 'yeoman-generator';
 
+import { buildDefaultCodexScaffold } from '../lib/defaults';
 import type { TemplateContext } from '../lib/types';
 import {
   buildServerPackageJson,
@@ -174,6 +175,12 @@ class NestAppGenerator extends GeneratorBase {
     Object.entries(sharedScaffold).forEach(([filePath, contents]) => {
       this.fs.write(this.destinationPath(filePath), contents);
     });
+
+    Object.entries(buildDefaultCodexScaffold()).forEach(
+      ([filePath, contents]) => {
+        this.fs.write(this.destinationPath(filePath), contents);
+      },
+    );
   }
 
   end(): void {

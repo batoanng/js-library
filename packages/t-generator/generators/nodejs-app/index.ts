@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import GeneratorBase from 'yeoman-generator';
 
+import { buildDefaultCodexScaffold } from '../lib/defaults';
 import type { NodeArchitecture, NodeServerTemplateContext } from './lib/types';
 import { buildNodeServerArchitectureScaffold } from './lib/architecture-scaffold';
 import {
@@ -236,6 +237,12 @@ class NodeAppGenerator extends GeneratorBase {
     Object.entries(architectureScaffold).forEach(([filePath, contents]) => {
       this.fs.write(this.destinationPath(filePath), contents);
     });
+
+    Object.entries(buildDefaultCodexScaffold()).forEach(
+      ([filePath, contents]) => {
+        this.fs.write(this.destinationPath(filePath), contents);
+      },
+    );
   }
 
   end(): void {

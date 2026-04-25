@@ -1,4 +1,5 @@
 import type { PackageJson } from '../../lib/types';
+import { BATOANNG_TYPES_VERSION } from '../../lib/defaults';
 import { createTrackedFeatureList } from '../../lib/feature-metadata';
 import type {
   InstalledNodeServerFeatures,
@@ -17,6 +18,7 @@ function lines(...content: string[]): string {
 }
 
 const BASE_DEPENDENCIES: Record<string, string> = {
+  '@batoanng/types': BATOANNG_TYPES_VERSION,
   '@prisma/client': '^6.16.2',
   cors: '^2.8.5',
   dotenv: '^16.3.1',

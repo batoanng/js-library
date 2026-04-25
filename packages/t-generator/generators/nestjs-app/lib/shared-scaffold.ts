@@ -1,4 +1,5 @@
 import type { PackageJson } from '../../lib/types';
+import { BATOANNG_TYPES_VERSION } from '../../lib/defaults';
 import { createTrackedFeatureList } from '../../lib/feature-metadata';
 import type {
   InstalledServerFeatures,
@@ -14,6 +15,7 @@ interface ConfigField {
 }
 
 const BASE_DEPENDENCIES: Record<string, string> = {
+  '@batoanng/types': BATOANNG_TYPES_VERSION,
   '@fastify/cors': '^11.2.0',
   '@fastify/multipart': '^9.2.1',
   '@fastify/static': '^9.0.0',

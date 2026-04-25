@@ -50,8 +50,13 @@ test('adds the ui-library feature to an existing generated base app', async () =
   assert.equal(packageJson.dependencies?.['react-easy-crop'], '^5.0.2');
   assert.equal(packageJson.dependencies?.['react-hook-form'], '7.57.0');
   assert.equal(packageJson.dependencies?.['react-idle-timer'], '^5.7.2');
+  assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], undefined);
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
   assert.equal(packageJson.scripts?.['dev:full'], undefined);
   assert.equal(packageJson.devDependencies?.concurrently, undefined);
+  assert.equal(packageJson.devDependencies?.['vite-plugin-pwa'], undefined);
 
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),
@@ -80,6 +85,17 @@ test('adds the ui-library feature to an existing generated base app', async () =
     path.join(projectRoot, 'src/pages/home/ui/HomePage.test.tsx'),
     '<AppProviders>',
   );
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/app/providers/auth')),
+    false,
+  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/app/store')), false);
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/pages/react-query')),
+    false,
+  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/pages/apollo')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/features/pwa')), false);
 });
 
 test('prompt-based add can select the ui-library feature', async () => {

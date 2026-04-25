@@ -42,6 +42,11 @@ test('adds the redux feature to an existing generated base app', async () => {
     packageJson.devDependencies?.['@types/redux-logger'],
     '^3.0.13',
   );
+  assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], undefined);
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
+  assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
+  assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
+  assert.equal(packageJson.devDependencies?.['vite-plugin-pwa'], undefined);
 
   yoAssert.file([
     path.join(projectRoot, 'src/app/store/index.ts'),
@@ -80,6 +85,16 @@ test('adds the redux feature to an existing generated base app', async () => {
     path.join(projectRoot, 'src/pages/redux/ui/ReduxPage.test.tsx'),
     'persist:${PERSIST_STORAGE_KEY}',
   );
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/app/providers/auth')),
+    false,
+  );
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'src/pages/react-query')),
+    false,
+  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/pages/apollo')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/features/pwa')), false);
 });
 
 test('prompt-based add can select the redux feature', async () => {
