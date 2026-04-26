@@ -151,7 +151,8 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
   't-generator': {
     category: 'Scaffolding',
     installMode: 'global',
-    tagline: 'Yeoman generators for React, Next.js, NestJS, and Node.js stacks with documented base structures and installable features.',
+    tagline:
+      'Yeoman generators for React, Next.js, NestJS, and Node.js stacks with documented base structures and installable features.',
     summary:
       'Generate one of four stack-specific base projects, then extend it with supported add-on features for UI, auth, data, GraphQL, queues, caching, PWA support, or LLM tooling.',
     highlights: [
@@ -753,7 +754,7 @@ function buildTGeneratorGuideSections(doc: Omit<PackageDoc, 'guideSections' | 'r
         'If you already linked an older local build:',
         '```bash\nnpm unlink -g generator-t-generator\npnpm run link:dev\n```',
         'Manual package validation from `packages/t-generator`:',
-        '```bash\nPACKAGE_TGZ=\"$(npm pack)\"\nnpm install -g yo \"./$PACKAGE_TGZ\"\n```',
+        '```bash\nPACKAGE_TGZ=\\"$(npm pack)\\"\nnpm install -g yo \\"./$PACKAGE_TGZ\\"\n```',
         '### Release workflow',
         'Create a changeset from the repository root:',
         '```bash\npnpm changeset\n```',
