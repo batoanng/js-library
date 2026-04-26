@@ -62,6 +62,30 @@ Import the entrypoint.`)
     expect(packageDoc?.highlights.join(' ')).toContain('Node.js + Express')
   })
 
+  it('builds rich stack-by-stack guide sections for t-generator', async () => {
+    const packageDoc = await getPackageDocBySlug('t-generator')
+
+    expect(packageDoc).toBeDefined()
+    expect(packageDoc?.guideSections.map((section) => section.title)).toEqual(
+      expect.arrayContaining([
+        'What It Covers',
+        'Install And Run',
+        'React And Next.js Stacks',
+        'NestJS And Node.js Stacks',
+        'Local Development And Release Workflow',
+      ])
+    )
+    expect(packageDoc?.guideSections.find((section) => section.id === 'react-and-nextjs')?.markdown).toContain(
+      'yo t-generator:react-add bff'
+    )
+    expect(packageDoc?.guideSections.find((section) => section.id === 'nestjs-and-nodejs')?.markdown).toContain(
+      'yo t-generator:nestjs-add graphql'
+    )
+    expect(packageDoc?.guideSections.find((section) => section.id === 'overview')?.markdown).toContain(
+      '| React | React, TypeScript, Vite, React Router, Vitest, Feature-Sliced Design structure |'
+    )
+  })
+
   it('documents tailwind-config with the Tailwind v4 CSS-first quick start', async () => {
     const packageDoc = await getPackageDocBySlug('tailwind-config')
 

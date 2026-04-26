@@ -609,11 +609,173 @@ function makeBullets(items: string[], emptyState?: string): string {
   return items.map((item) => `- ${item}`).join('\n');
 }
 
+function buildTGeneratorGuideSections(doc: Omit<PackageDoc, 'guideSections' | 'relatedPackageNames'>): GuideSection[] {
+  return [
+    {
+      eyebrow: 'Overview',
+      id: 'overview',
+      title: 'What It Covers',
+      markdown: [
+        doc.summary,
+        '### Supported stacks',
+        '| Stack | Base scaffold | Installable features |',
+        '| --- | --- | --- |',
+        '| React | React, TypeScript, Vite, React Router, Vitest, Feature-Sliced Design structure | `bff`, `tailwind`, `ui-library`, `auth`, `redux`, `react-query`, `apollo`, `pwa` |',
+        '| Next.js | App Router, TypeScript, Jest, Feature-Sliced Design structure | `tailwind`, `ui-library`, `auth`, `redux`, `react-query`, `apollo`, `pwa` |',
+        '| NestJS | Nest 11, Fastify, Prisma, Swagger, JWT auth | `graphql`, `queue`, `cache`, `llm` |',
+        '| Node.js | Express, Prisma, JWT auth, `clean` or `mvp` architecture | `graphql`, `queue`, `cache`, `llm` |',
+        '### Core behavior',
+        makeBullets([
+          'Base generators create a new normalized directory and fail if it already exists and is not empty.',
+          'Add-feature generators must run from the root of a compatible generated project.',
+          'Generators write files only and do not install dependencies or initialize Git.',
+          'Installed features are tracked in `package.json` under `tGenerator.features`.',
+        ]),
+      ].join('\n\n'),
+    },
+    {
+      eyebrow: 'Setup',
+      id: 'installation',
+      title: 'Install And Run',
+      markdown: [
+        'Install globally for the standard Yeoman flow:',
+        '```bash\nnpm install -g yo generator-t-generator\nyo t-generator\n```',
+        'Run without a global install:',
+        '```bash\nnpx -p yo -p generator-t-generator yo t-generator\n```',
+        'Use direct stack commands when you want to skip the interactive router:',
+        '```bash\nyo t-generator:react-app my-app\nyo t-generator:nextjs-app my-next-app\nyo t-generator:nestjs-app my-server\nyo t-generator:nodejs-app my-node-server\n```',
+        'Use feature generators from the root of an existing generated project:',
+        '```bash\nyo t-generator:react-add\nyo t-generator:nextjs-add\nyo t-generator:nestjs-add\nyo t-generator:nodejs-add\n```',
+      ].join('\n\n'),
+    },
+    {
+      eyebrow: 'Frontend',
+      id: 'react-and-nextjs',
+      title: 'React And Next.js Stacks',
+      markdown: [
+        '### React base structure',
+        '```text\nsrc/\n  app/\n    entrypoint/\n    providers/\n    routes/\n    styles/\n  pages/\n    home/\n      ui/\n      index.ts\n  widgets/\n  features/\n  entities/\n  shared/\n    api/\n    config/\n    lib/\n    ui/\n  test/\nmain.tsx\n```',
+        '### React base includes',
+        makeBullets([
+          'React + TypeScript via Vite.',
+          'React Router wiring, `@` path alias, ESLint, Prettier, Vitest, and Testing Library.',
+          '`.env.example`, env helper, provider composition entry point, and Feature-Sliced Design starter structure.',
+        ]),
+        '### React installable features',
+        makeBullets([
+          '`bff`: adds a top-level `server/` package for API proxying and frontend serving.',
+          '`tailwind`: adds Tailwind CSS v4 through `@tailwindcss/vite` and shared styles from `@batoanng/tailwind-config`.',
+          '`ui-library`: adds MUI theme wiring and integrates `@batoanng/mui-components`.',
+          '`auth`: adds Auth0 React SDK wiring and an `/auth` example page.',
+          '`redux`: adds Redux Toolkit, `redux-persist`, typed hooks, and a `/redux` example page.',
+          '`react-query`: adds TanStack Query, Axios helpers, and a `/react-query` example page.',
+          '`apollo`: adds Apollo Client wiring and an `/apollo` example page.',
+          '`pwa`: adds `vite-plugin-pwa`, install/update state handling, and a `/pwa` example page.',
+        ]),
+        '```bash\nyo t-generator:react-add bff\nyo t-generator:react-add tailwind\nyo t-generator:react-add ui-library\nyo t-generator:react-add auth\nyo t-generator:react-add redux\nyo t-generator:react-add react-query\nyo t-generator:react-add apollo\nyo t-generator:react-add pwa\n```',
+        '### Next.js base structure',
+        '```text\nsrc/\n  app/\n    layout.tsx\n    page.tsx\n    providers/\n  pages/\n    home/\n      ui/\n      index.ts\n  widgets/\n  features/\n  entities/\n  shared/\n    api/\n    config/\n    lib/\n    ui/\n```',
+        '### Next.js base includes',
+        makeBullets([
+          'Next.js App Router with TypeScript via `@batoanng/tsconfig/nextjs.json`.',
+          '`@` path alias, ESLint, Prettier, Jest, Testing Library, `.env.example`, env helper, and provider composition entry point.',
+          'Feature-Sliced Design starter structure with optional add-ons layered in later.',
+        ]),
+        '### Next.js installable features',
+        makeBullets([
+          '`tailwind`: adds Tailwind CSS v4 through `@tailwindcss/postcss` and shared styles from `@batoanng/tailwind-config`.',
+          '`ui-library`: adds MUI theme wiring and integrates `@batoanng/mui-components`.',
+          '`auth`: adds Auth0 route handlers, middleware, env wiring, and an `/auth` example page.',
+          '`redux`: adds Redux Toolkit, `redux-persist`, typed hooks, and a `/redux` example page.',
+          '`react-query`: adds TanStack Query, Axios helpers, and a `/react-query` example page.',
+          '`apollo`: adds Apollo Client wiring and an `/apollo` example page.',
+          '`pwa`: adds `app/manifest.ts`, `public/sw.js`, registration client wiring, and a `/pwa` example page.',
+        ]),
+        '`bff` is intentionally not available for Next.js because App Router and route handlers already provide the server-side integration layer.',
+        '```bash\nyo t-generator:nextjs-add tailwind\nyo t-generator:nextjs-add ui-library\nyo t-generator:nextjs-add auth\nyo t-generator:nextjs-add redux\nyo t-generator:nextjs-add react-query\nyo t-generator:nextjs-add apollo\nyo t-generator:nextjs-add pwa\n```',
+      ].join('\n\n'),
+    },
+    {
+      eyebrow: 'Backend',
+      id: 'nestjs-and-nodejs',
+      title: 'NestJS And Node.js Stacks',
+      markdown: [
+        '### NestJS base structure',
+        '```text\nsrc/\n  modules/\n    app.module.ts\n    auth/\n    common/\n      controller/\n      flow/\n      provider/\n      security/\n    tokens.ts\n  test/\n  types/\nserver.ts\nprisma/\n  schema.prisma\n```',
+        '### NestJS base includes',
+        makeBullets([
+          'Nest 11 with Fastify, Swagger at `/docs`, versioned API prefix, and Prisma configured for MongoDB.',
+          'Health endpoint protected by `HEALTH_TOKEN` plus local access/refresh JWT auth with `login`, `refresh`, `logout`, and `me`.',
+          'Typed config provider and Vitest starter tests.',
+        ]),
+        '### NestJS installable features',
+        makeBullets([
+          '`graphql`: adds Apollo code-first GraphQL at `/api/graphql` with demo resolver scaffolding.',
+          '`queue`: adds BullMQ infrastructure, shared Redis env, and a demo queue endpoint.',
+          '`cache`: adds Redis-backed cache infrastructure and a demo cache module.',
+          '`llm`: adds OpenAI client wiring and a demo prompt-chain endpoint.',
+        ]),
+        '```bash\nyo t-generator:nestjs-add graphql\nyo t-generator:nestjs-add queue\nyo t-generator:nestjs-add cache\nyo t-generator:nestjs-add llm\n```',
+        '### Node.js shared base structure',
+        '```text\nsrc/\n  config/\n  infrastructure/\n    prisma/\n  shared/\n    auth/\n  app.ts\n  server.ts\ntests/\nprisma/\n  schema.prisma\n```',
+        '### Node.js architecture options',
+        'Clean Architecture:',
+        '```text\nsrc/\n  domain/\n  usecases/\n  interfaces/\n    controllers/\n    routes/\n  infrastructure/\n    prisma/\n    repositories/\n```',
+        'MVP:',
+        '```text\nsrc/\n  modules/\n    auth/\n    health/\n  infrastructure/\n    prisma/\n```',
+        '### Node.js base includes',
+        makeBullets([
+          'Express + Prisma with a prompt to choose `clean` or `mvp`.',
+          'Prisma configured for MySQL, `GET /health`, `/api/auth/*`, shared env parsing with `zod`, JWT auth, logging, security middleware, and graceful shutdown.',
+          'Jest + Supertest starter coverage.',
+        ]),
+        '### Node.js installable features',
+        makeBullets([
+          '`graphql`: adds a GraphQL endpoint at `/api/graphql`.',
+          '`queue`: adds BullMQ plus Redis-backed demo queue infrastructure.',
+          '`cache`: adds Redis-backed demo cache endpoints.',
+          '`llm`: adds OpenAI client wiring and a demo REST endpoint.',
+        ]),
+        '```bash\nyo t-generator:nodejs-add graphql\nyo t-generator:nodejs-add queue\nyo t-generator:nodejs-add cache\nyo t-generator:nodejs-add llm\n```',
+      ].join('\n\n'),
+    },
+    {
+      eyebrow: 'Workflow',
+      id: 'development-and-release',
+      title: 'Local Development And Release Workflow',
+      markdown: [
+        '### Local development',
+        '```bash\npnpm install\npnpm run type-check\npnpm run lint\npnpm test\npnpm run build\npnpm run test:dist\n```',
+        'Link the built package locally:',
+        '```bash\npnpm run link:dev\n```',
+        'If `yo` is not installed yet:',
+        '```bash\nnpm install -g yo\n```',
+        'If you already linked an older local build:',
+        '```bash\nnpm unlink -g generator-t-generator\npnpm run link:dev\n```',
+        'Manual package validation from `packages/t-generator`:',
+        '```bash\nPACKAGE_TGZ=\"$(npm pack)\"\nnpm install -g yo \"./$PACKAGE_TGZ\"\n```',
+        '### Release workflow',
+        'Create a changeset from the repository root:',
+        '```bash\npnpm changeset\n```',
+        'Apply pending changesets from the repository root:',
+        '```bash\npnpm version-packages\n```',
+        'Publish from `packages/t-generator`:',
+        '```bash\npnpm run release\n```',
+        'GitHub Actions can publish automatically from `main` when a Changesets release PR is merged and `NPM_TOKEN` is configured in repository secrets.',
+      ].join('\n\n'),
+    },
+  ];
+}
+
 function buildGuideSections(
   doc: Omit<PackageDoc, 'guideSections' | 'relatedPackageNames'>,
   readmeSections: MarkdownSection[],
   relatedPackageNames: string[]
 ): GuideSection[] {
+  if (doc.slug === 't-generator') {
+    return buildTGeneratorGuideSections(doc);
+  }
+
   const featuresSections = pullSections(readmeSections, SECTION_PATTERNS.features);
   const installationSections = pullSections(readmeSections, SECTION_PATTERNS.installation);
   const usageSections = pullSections(readmeSections, SECTION_PATTERNS.usage);
