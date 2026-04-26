@@ -151,21 +151,21 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
   't-generator': {
     category: 'Scaffolding',
     installMode: 'global',
-    tagline: 'Yeoman generators for React, Next.js, NestJS, and Node.js projects with composable add-ons.',
+    tagline: 'Yeoman generators for React, Next.js, NestJS, and Node.js stacks with documented base structures and installable features.',
     summary:
-      'Bootstrap opinionated project structures quickly, then layer in stack-specific features like Tailwind, auth, GraphQL, queues, or PWA support as needed.',
+      'Generate one of four stack-specific base projects, then extend it with supported add-on features for UI, auth, data, GraphQL, queues, caching, PWA support, or LLM tooling.',
     highlights: [
-      'React + Vite base generator with add-ons for bff, tailwind, ui-library, auth, redux, react-query, apollo, and pwa.',
-      'Next.js App Router base generator with add-ons for tailwind, ui-library, auth, redux, react-query, apollo, and pwa.',
-      'NestJS server generator with infrastructure-focused graphql, queue, cache, and llm add-ons.',
-      'Node.js + Express server generator with clean or mvp architecture plus graphql, queue, cache, and llm add-ons.',
+      'React + Vite scaffold with Feature-Sliced Design structure and add-ons for bff, tailwind, ui-library, auth, redux, react-query, apollo, and pwa.',
+      'Next.js App Router scaffold with Feature-Sliced Design structure and add-ons for tailwind, ui-library, auth, redux, react-query, apollo, and pwa.',
+      'NestJS + Fastify + Prisma scaffold with module-based server structure and add-ons for graphql, queue, cache, and llm.',
+      'Node.js + Express + Prisma scaffold with clean or mvp architecture plus add-ons for graphql, queue, cache, and llm.',
     ],
     quickStart: {
       title: 'Generate a stack starter',
       description:
-        'Pick the stack directly or use the interactive root generator to route into the same base and add-on commands.',
+        'Install the generator globally, then use either the interactive router or the direct stack commands for React, Next.js, NestJS, and Node.js.',
       language: 'bash',
-      code: `npm install -g yo generator-t-generator\nyo t-generator\nyo t-generator:react-app my-react-app\nyo t-generator:nextjs-app my-next-app\nyo t-generator:nodejs-app my-node-api`,
+      code: `npm install -g yo generator-t-generator\nyo t-generator\nyo t-generator:react-app my-app\nyo t-generator:nextjs-app my-next-app\nyo t-generator:nestjs-app my-server\nyo t-generator:nodejs-app my-node-server`,
     },
   },
   'tailwind-config': {
@@ -241,13 +241,35 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
 };
 
 const SECTION_PATTERNS: Record<string, RegExp[]> = {
-  development: [/development/i, /linting/i, /storybook/i, /internals/i, /structure/i, /files overview/i, /strictness/i],
+  development: [
+    /development/i,
+    /linting/i,
+    /storybook/i,
+    /internals/i,
+    /structure/i,
+    /files overview/i,
+    /strictness/i,
+    /local development/i,
+    /release workflow/i,
+  ],
   exports: [/exports/i, /available configs/i],
-  features: [/features/i, /what the generators create today/i, /ui direction/i],
-  installation: [/installation/i],
+  features: [/features/i, /what the generators create today/i, /ui direction/i, /stack overview/i],
+  installation: [/installation/i, /install and run/i],
   notes: [/notes/i, /csp/i, /rate limiting/i, /automatic client-side env variable injection/i, /related packages/i],
   props: [/props/i, /default routes/i],
-  usage: [/usage/i, /quick start/i, /main entry point/i, /customization/i, /test setup/i, /auth flow/i],
+  usage: [
+    /usage/i,
+    /quick start/i,
+    /main entry point/i,
+    /customization/i,
+    /test setup/i,
+    /auth flow/i,
+    /react stack/i,
+    /next\.js stack/i,
+    /nestjs stack/i,
+    /node\.js stack/i,
+    /generator behavior/i,
+  ],
 };
 
 const IGNORED_TOP_LEVEL_ENTRIES = new Set([
