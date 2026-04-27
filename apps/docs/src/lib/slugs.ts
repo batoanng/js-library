@@ -4,7 +4,7 @@ export function slugifyValue(value: string): string {
     .replace(/[`~!@#$%^&*()+=[\]{}|\\:;"'<>,.?/]/g, ' ')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
+    .replace(/^-|-$/g, '');
 }
 
 export function humanizePackageName(packageName: string): string {
@@ -12,5 +12,5 @@ export function humanizePackageName(packageName: string): string {
     .replace(/^@[^/]+\//, '')
     .split('-')
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-    .join(' ')
+    .join(' ');
 }

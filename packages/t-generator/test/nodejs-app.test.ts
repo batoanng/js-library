@@ -38,6 +38,7 @@ test('generates the clean Node.js base app with the expected project structure',
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
     path.join(projectRoot, '.codex/config.toml'),
+    path.join(projectRoot, '.husky/pre-push'),
     path.join(
       projectRoot,
       '.codex/skills/use-types-structures/SKILL.md',
@@ -90,6 +91,8 @@ test('generates the clean Node.js base app with the expected project structure',
     'build',
     'lint',
     'test',
+    'prepush',
+    'prepare',
     'prisma:generate',
     'prisma:migrate:dev',
   ]);

@@ -54,6 +54,7 @@ test('generates the NestJS base app with the expected project structure', async 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
     path.join(projectRoot, '.codex/config.toml'),
+    path.join(projectRoot, '.husky/pre-push'),
     path.join(
       projectRoot,
       '.codex/skills/use-types-structures/SKILL.md',
@@ -105,6 +106,8 @@ test('generates the NestJS base app with the expected project structure', async 
     'build',
     'test',
     'lint',
+    'prepush',
+    'prepare',
     'prisma:generate',
     'prisma:push',
   ]);

@@ -167,6 +167,12 @@ class AppGenerator extends GeneratorBase {
   }
 
   end(): void {
+    const prePushHookPath = this.destinationPath('.husky/pre-push');
+
+    if (fs.existsSync(prePushHookPath)) {
+      fs.chmodSync(prePushHookPath, 0o755);
+    }
+
     this.log('');
     this.log(`Base app scaffolded in ./${this.appName}`);
     this.log('Next steps:');

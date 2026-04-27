@@ -8,6 +8,7 @@
     "build:release": "pnpm -r --filter './packages/*' build",
     "dev": "turbo run dev --no-cache --parallel --continue",
     "lint": "turbo run lint",
+    "prepush": "pnpm -r --if-present run lint",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch",
     "type-check": "turbo run type-check",

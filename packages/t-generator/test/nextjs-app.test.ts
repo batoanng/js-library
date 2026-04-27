@@ -59,6 +59,7 @@ test('generates the Next.js base app with the expected project structure', async
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
     path.join(projectRoot, '.codex/config.toml'),
+    path.join(projectRoot, '.husky/pre-push'),
     path.join(
       projectRoot,
       '.codex/skills/use-types-structures/SKILL.md',
@@ -94,6 +95,8 @@ test('generates the Next.js base app with the expected project structure', async
     'lint',
     'test',
     'type-check',
+    'prepush',
+    'prepare',
   ]);
 
   assert.deepEqual(Object.keys(packageJson.dependencies || {}).sort(), [

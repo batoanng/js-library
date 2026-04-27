@@ -1,4 +1,4 @@
-import { slugifyValue } from './slugs'
+import { slugifyValue } from './slugs';
 
 export type PackageCategory =
   | 'Authentication'
@@ -7,58 +7,58 @@ export type PackageCategory =
   | 'Scaffolding'
   | 'Server'
   | 'Types'
-  | 'Utilities'
+  | 'Utilities';
 
 export type PackageAccent = {
-  badgeClassName: string
-  borderClassName: string
-  glowClassName: string
-  orbClassName: string
-  surfaceClassName: string
-  textClassName: string
-}
+  badgeClassName: string;
+  borderClassName: string;
+  glowClassName: string;
+  orbClassName: string;
+  surfaceClassName: string;
+  textClassName: string;
+};
 
 export type GuideSection = {
-  eyebrow: string
-  id: string
-  markdown: string
-  title: string
-}
+  eyebrow: string;
+  id: string;
+  markdown: string;
+  title: string;
+};
 
 export type PackageQuickStart = {
-  code: string
-  description: string
-  language: string
-  title: string
-}
+  code: string;
+  description: string;
+  language: string;
+  title: string;
+};
 
 export type PackageDoc = {
-  accent: PackageAccent
-  category: PackageCategory
-  changelog: string
-  description: string
-  entrypoints: string[]
-  exports: string[]
-  folderName: string
-  guideSections: GuideSection[]
-  highlights: string[]
-  installCommand: string
-  internalDependencies: string[]
-  keyFiles: string[]
-  latestReleaseNotes: string
-  name: string
-  peerDependencies: string[]
-  quickStart: PackageQuickStart
-  readme: string
-  readingTimeMinutes: number
-  referenceMarkdown: string
-  relatedPackageNames: string[]
-  relatedSlugs: string[]
-  slug: string
-  summary: string
-  tagline: string
-  version: string
-}
+  accent: PackageAccent;
+  category: PackageCategory;
+  changelog: string;
+  description: string;
+  entrypoints: string[];
+  exports: string[];
+  folderName: string;
+  guideSections: GuideSection[];
+  highlights: string[];
+  installCommand: string;
+  internalDependencies: string[];
+  keyFiles: string[];
+  latestReleaseNotes: string;
+  name: string;
+  peerDependencies: string[];
+  quickStart: PackageQuickStart;
+  readme: string;
+  readingTimeMinutes: number;
+  referenceMarkdown: string;
+  relatedPackageNames: string[];
+  relatedSlugs: string[];
+  slug: string;
+  summary: string;
+  tagline: string;
+  version: string;
+};
 
 export const CATEGORY_ORDER: PackageCategory[] = [
   'Components',
@@ -68,14 +68,14 @@ export const CATEGORY_ORDER: PackageCategory[] = [
   'Types',
   'Config',
   'Scaffolding',
-]
+];
 
 export const CATEGORY_META: Record<
   PackageCategory,
   {
-    description: string
-    label: string
-    accent: PackageAccent
+    description: string;
+    label: string;
+    accent: PackageAccent;
   }
 > = {
   Components: {
@@ -162,8 +162,8 @@ export const CATEGORY_META: Record<
       textClassName: 'text-pink-700',
     },
   },
-}
+};
 
 export function categoryAnchor(category: PackageCategory): string {
-  return `category-${slugifyValue(category)}`
+  return `category-${slugifyValue(category)}`;
 }

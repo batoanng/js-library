@@ -7,7 +7,7 @@
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "dev": "next dev -p 3002",
-    "lint": "TIMING=1 eslint .",
+    "lint": "TIMING=1 eslint . --ignore-pattern out",
     "test": "jest",
     "test:watch": "jest --watch",
     "type-check": "tsc --noEmit",

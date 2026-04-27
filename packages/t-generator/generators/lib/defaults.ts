@@ -7,6 +7,7 @@ const DEFAULT_CODEX_SCAFFOLD_PATHS = [
   '.codex/config.toml',
   '.codex/skills/use-types-structures/SKILL.md',
   '.codex/skills/use-types-structures/agents/openai.yaml',
+  '.husky/pre-push',
 ] as const;
 
 const DEFAULT_CODEX_TEMPLATE_ROOT = path.join(__dirname, 'templates');
