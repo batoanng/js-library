@@ -1,19 +1,19 @@
 ---
 name: use-types-structures
-description: Use when implementing or reviewing a new feature, helper, algorithm, or function in this repo and data-structure choice or complexity matters. Before adding custom storage logic, check `packages/types` for an existing structure to reuse. Call out the expected time complexity of the new function and justify the chosen structure.
+description: Use when implementing or reviewing a new feature, helper, algorithm, or function in this repo and data-structure choice or complexity matters. Before adding custom storage logic, check `@batoanng/types` for an existing structure to reuse. Call out the expected time complexity of the new function and justify the chosen structure.
 ---
 
 # Use Types Structures
 
-Before implementing a new feature or function in this repo, check whether `packages/types` already provides the right data structure. Prefer reusing that package over ad hoc arrays, objects, or one-off storage utilities when the behavior matches.
+Before implementing a new feature or function in this repo, check whether `@batoanng/types` already provides the right data structure. Prefer reusing that package over ad hoc arrays, objects, or one-off storage utilities when the behavior matches.
 
 ## Workflow
 
 1. Identify the dominant operations in the new code path.
 2. Estimate the target complexity for the hot path before writing code.
-3. Check `packages/types/README.md` and `packages/types/src/structures` for an existing structure that matches those operations.
-4. Reuse `@batoanng/types` from other packages when the structure already exists.
-5. Only build a new local structure if `packages/types` does not fit the problem or would materially complicate the code.
+3. Check the exported `@batoanng/types` structures and helpers for an existing structure that matches those operations.
+4. Reuse `@batoanng/types` when the structure already exists.
+5. Only build a new local structure if `@batoanng/types` does not fit the problem or would materially complicate the code.
 6. In the final explanation, state which structure was chosen and the expected complexity of the new function or critical operations.
 
 ## Structure Selection Heuristics
@@ -44,11 +44,10 @@ If the code intentionally accepts a slower operation, explain why that tradeoff 
 
 ## Repo-Specific Guidance
 
-- Read `packages/types/README.md` for the current exported structures, behaviors, and complexity table.
-- Check `packages/types/src/structures/index.ts` for the exported structure list.
-- Check `packages/types/src/shared/index.ts` for reusable comparator and hash helpers before inventing local equivalents.
-- Outside `packages/types`, prefer importing from `@batoanng/types` instead of duplicating queue, stack, set, tree, trie, or graph logic.
-- Inside `packages/types`, extend the package only when the repo genuinely needs a missing reusable structure.
+- Check the public exports from `@batoanng/types` before inventing local storage utilities.
+- Prefer importing from `@batoanng/types` instead of duplicating queue, stack, set, tree, trie, or graph logic.
+- Reuse the package's exported helpers when you need shared comparator or hash behavior.
+- If `@batoanng/types` does not cover the access pattern cleanly, keep the local structure minimal and explain why the package was not a fit.
 
 ## Expected Output
 
