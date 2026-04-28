@@ -1,6 +1,6 @@
 {
   "name": "generator-t-generator",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Yeoman generators for bootstrapping React apps, Next.js apps, NestJS servers, and Node.js servers.",
   "publishConfig": {
     "access": "public"
@@ -48,9 +48,9 @@
     "yeoman-generator": "^5.10.0"
   },
   "devDependencies": {
-    "@batoanng/eslint-config": "workspace:*",
-    "@batoanng/prettier-config": "workspace:*",
-    "@batoanng/tsconfig": "workspace:*",
+    "@batoanng/eslint-config": "^3.3.2",
+    "@batoanng/prettier-config": "^1.7.0",
+    "@batoanng/tsconfig": "^1.5.1",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/yeoman-generator": "^5.2.14",
     "tsx": "^4.21.0",

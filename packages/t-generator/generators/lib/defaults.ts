@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const BATOANNG_TYPES_VERSION = '^0.5.0';
+export const BATOANNG_TYPES_VERSION = '^0.5.1';
 
 const DEFAULT_CODEX_SCAFFOLD_PATHS = [
   '.codex/config.toml',

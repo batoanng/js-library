@@ -1,5 +1,11 @@
 # @batoanng/utils
 
+## 2.4.2
+
+### Patch Changes
+
+- Replace published `workspace:*` development dependency ranges with npm semver ranges.
+
 ## 2.4.1
 
 ### Patch Changes

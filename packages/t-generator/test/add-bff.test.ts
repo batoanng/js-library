@@ -60,7 +60,7 @@ test('adds the bff feature to an existing generated base app', async () => {
   ]);
   assert.equal(
     serverPackageJson.dependencies?.['@batoanng/frontend-server'],
-    '^2.7.1',
+    '^2.7.2',
   );
 
   yoAssert.fileContent(

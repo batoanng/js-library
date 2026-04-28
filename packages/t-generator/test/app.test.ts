@@ -106,7 +106,7 @@ test('generates the React base app with the expected project structure', async (
     'react-router-dom',
     'zod',
   ]);
-  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.0');
+  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.1');
   assert.equal(packageJson.dependencies?.react, '^19.2.4');
   assert.equal(packageJson.dependencies?.['react-dom'], '^19.2.4');
   assert.equal(packageJson.dependencies?.['react-router-dom'], '^7.14.0');

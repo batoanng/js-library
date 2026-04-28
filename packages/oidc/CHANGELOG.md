@@ -1,5 +1,13 @@
 # @batoanng/oidc
 
+## 3.0.5
+
+### Patch Changes
+
+- Replace published `workspace:*` development dependency ranges with npm semver ranges.
+- Updated dependencies
+  - @batoanng/mui-components@3.5.4
+
 ## 3.0.4
 
 ### Patch Changes

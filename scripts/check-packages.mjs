@@ -46,6 +46,15 @@ const allowedExceptions = {
   'generator-t-generator': [/\/templates\//],
 };
 
+const dependencyFields = [
+  'dependencies',
+  'devDependencies',
+  'peerDependencies',
+  'optionalDependencies',
+  'bundledDependencies',
+  'bundleDependencies',
+];
+
 const parsePackOutput = (output) => {
   const match = output.trim().match(/(\[\s*\{[\s\S]*\}\s*\])\s*$/);
 
@@ -59,10 +68,27 @@ const parsePackOutput = (output) => {
 const isAllowedException = (packageName, filePath) =>
   (allowedExceptions[packageName] ?? []).some((pattern) => pattern.test(filePath));
 
+const collectWorkspaceDependencyViolations = (packageJson) =>
+  dependencyFields.flatMap((field) =>
+    Object.entries(packageJson[field] ?? {})
+      .filter(([, specifier]) => String(specifier).startsWith('workspace:'))
+      .map(([dependencyName, specifier]) => `${field}: ${dependencyName}@${specifier}`)
+  );
+
 const violations = [];
 
 for (const packageDir of packageDirs) {
   const packageJson = JSON.parse(readFileSync(path.join(packageDir, 'package.json'), 'utf8'));
+  const workspaceDependencyViolations = collectWorkspaceDependencyViolations(packageJson);
+
+  if (workspaceDependencyViolations.length > 0) {
+    violations.push(
+      `\n${packageJson.name}\n${workspaceDependencyViolations
+        .map((entry) => `  - workspace protocol dependency: ${entry}`)
+        .join('\n')}`
+    );
+  }
+
   const [{ files }] = parsePackOutput(
     execFileSync('npm', ['pack', '--json', '--dry-run', packageDir], {
       cwd: workspaceDir,

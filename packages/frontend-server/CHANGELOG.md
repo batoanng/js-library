@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.2
+
+### Patch Changes
+
+- Replace published `workspace:*` development dependency ranges with npm semver ranges.
+
 ## 2.7.1
 
 ### Patch Changes

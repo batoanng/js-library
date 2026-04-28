@@ -1,5 +1,11 @@
 # @batoanng/types
 
+## 0.5.1
+
+### Patch Changes
+
+- Replace published `workspace:*` development dependency ranges with npm semver ranges.
+
 ## 0.5.0
 
 ### Minor Changes

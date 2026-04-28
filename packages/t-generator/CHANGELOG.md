@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.4.6
+
+### Patch Changes
+
+- Replace published `workspace:*` development dependency ranges with npm semver ranges and refresh generated `@batoanng/*` package versions.
+
 ## 0.4.5
 
 ### Patch Changes

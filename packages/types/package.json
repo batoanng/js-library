@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/types",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -52,8 +52,8 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
-    "@batoanng/eslint-config": "workspace:*",
-    "@batoanng/tsconfig": "workspace:*",
+    "@batoanng/eslint-config": "^3.3.2",
+    "@batoanng/tsconfig": "^1.5.1",
     "axios": "^1.14.0",
     "tsup": "^7.2.0",
     "typescript": "^5.8.3"

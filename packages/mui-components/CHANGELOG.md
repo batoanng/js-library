@@ -1,5 +1,13 @@
 # @batoanng/mui-components
 
+## 3.5.4
+
+### Patch Changes
+
+- Replace published `workspace:*` development dependency ranges with npm semver ranges.
+- Updated dependencies
+  - @batoanng/utils@2.4.2
+
 ## 3.5.3
 
 ### Patch Changes
