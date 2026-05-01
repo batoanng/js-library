@@ -19,7 +19,7 @@
     "skipLibCheck": true,
     "strict": true,
     "resolveJsonModule": true,
-    "tsBuildInfoFile": "./.tsbuildinfo"
+    "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules"]
 }

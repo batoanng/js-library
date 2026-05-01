@@ -110,7 +110,7 @@ test('generates the Next.js base app with the expected project structure', async
   assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.4.0');
   assert.equal(packageJson.devDependencies?.['@batoanng/jest-config'], '^1.4.2');
   assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.1');
-  assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.6.0');
+  assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.6.1');
   assert.equal(packageJson.tGenerator?.stack, 'nextjs');
   assert.deepEqual(packageJson.tGenerator?.features, []);
   assertNoViteArtifacts(projectRoot, packageJson);

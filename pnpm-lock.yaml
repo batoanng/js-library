@@ -147,7 +147,7 @@ importers:
         specifier: ^1.4.1
         version: link:../../packages/tailwind-config
       '@batoanng/tsconfig':
-        specifier: ^1.6.0
+        specifier: ^1.6.1
         version: link:../../packages/tsconfig
       '@tailwindcss/postcss':
         specifier: ^4.2.4
@@ -251,7 +251,7 @@ importers:
         specifier: ^1.7.1
         version: link:../prettier-config
       '@batoanng/tsconfig':
-        specifier: ^1.6.0
+        specifier: ^1.6.1
         version: link:../tsconfig
       '@batoanng/vite-config':
         specifier: ^1.4.0
@@ -335,7 +335,7 @@ importers:
         specifier: ^1.7.1
         version: link:../prettier-config
       '@batoanng/tsconfig':
-        specifier: ^1.6.0
+        specifier: ^1.6.1
         version: link:../tsconfig
       '@batoanng/vite-config':
         specifier: ^1.4.0
@@ -444,7 +444,7 @@ importers:
         specifier: ^1.7.1
         version: link:../prettier-config
       '@batoanng/tsconfig':
-        specifier: ^1.6.0
+        specifier: ^1.6.1
         version: link:../tsconfig
       '@batoanng/vite-config':
         specifier: ^1.4.0
@@ -514,7 +514,7 @@ importers:
         specifier: ^1.7.1
         version: link:../prettier-config
       '@batoanng/tsconfig':
-        specifier: ^1.6.0
+        specifier: ^1.6.1
         version: link:../tsconfig
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^6.0.2
@@ -549,7 +549,7 @@ importers:
         specifier: ^3.4.0
         version: link:../eslint-config
       '@batoanng/tsconfig':
-        specifier: ^1.6.0
+        specifier: ^1.6.1
         version: link:../tsconfig
       axios:
         specifier: ^1.15.2
@@ -570,7 +570,7 @@ importers:
         specifier: ^1.4.2
         version: link:../jest-config
       '@batoanng/tsconfig':
-        specifier: ^1.6.0
+        specifier: ^1.6.1
         version: link:../tsconfig
       '@batoanng/types':
         specifier: ^0.5.2

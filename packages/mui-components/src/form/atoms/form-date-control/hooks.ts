@@ -28,7 +28,7 @@ export const useDateControlRules = <
   fieldValueFormat: DateControlFieldValueFormat | undefined = 'dd/MM/yyyy',
   formValueFormat: DateControlFormValueFormat | undefined = 'yyyy-MM-dd',
   errorMessages: FormDateControlErrorMessages | undefined = {}
-) => {
+): FormFieldRules<TFieldValues, TName> => {
   const errorMessagesRef = useLatest(errorMessages);
 
   const { validate: inferredValidate, ...inferredRules } = useMemo((): FormFieldRules<TFieldValues, TName> => {

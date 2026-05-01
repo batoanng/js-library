@@ -54,7 +54,7 @@
   "devDependencies": {
     "@batoanng/eslint-config": "^3.4.0",
     "@batoanng/prettier-config": "^1.7.1",
-    "@batoanng/tsconfig": "^1.6.0",
+    "@batoanng/tsconfig": "^1.6.1",
     "@batoanng/vite-config": "^1.4.0",
     "@types/cors": "^2.8.19",
     "@types/express": "5.0.6",

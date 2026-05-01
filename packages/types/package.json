@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@batoanng/eslint-config": "^3.4.0",
-    "@batoanng/tsconfig": "^1.6.0",
+    "@batoanng/tsconfig": "^1.6.1",
     "axios": "^1.15.2",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3"
