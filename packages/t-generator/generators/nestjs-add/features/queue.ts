@@ -10,7 +10,7 @@ import type { ServerFeatureDefinition } from '../lib/types';
 
 const QUEUE_DEPENDENCIES = {
   '@nestjs/bullmq': '^11.0.4',
-  bullmq: '^5.72.1',
+  bullmq: '^5.76.4',
 };
 
 const queueFeature: ServerFeatureDefinition = {
@@ -67,4 +67,4 @@ const queueFeature: ServerFeatureDefinition = {
   },
 };
 
-export = queueFeature;
+export default queueFeature;

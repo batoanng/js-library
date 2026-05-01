@@ -17,30 +17,31 @@ interface ConfigField {
 const BASE_DEPENDENCIES: Record<string, string> = {
   '@batoanng/types': BATOANNG_TYPES_VERSION,
   '@fastify/cors': '^11.2.0',
-  '@fastify/multipart': '^9.2.1',
-  '@fastify/static': '^9.0.0',
-  '@nestjs/common': '^11.1.6',
-  '@nestjs/core': '^11.1.6',
+  '@fastify/multipart': '^10.0.0',
+  '@fastify/static': '^9.1.3',
+  '@nestjs/common': '^11.1.19',
+  '@nestjs/core': '^11.1.19',
   '@nestjs/jwt': '^11.0.1',
   '@nestjs/passport': '^11.0.5',
-  '@nestjs/platform-fastify': '^11.1.6',
-  '@nestjs/swagger': '^11.2.0',
-  '@nestjs/terminus': '^11.0.0',
-  '@prisma/client': '^6.16.2',
-  'class-transformer': '^0.5.1',
+  '@nestjs/platform-fastify': '^11.1.19',
+  '@nestjs/swagger': '^11.4.2',
+  '@nestjs/terminus': '^11.1.1',
+  '@prisma/adapter-mariadb': '^7.8.0',
+  '@prisma/client': '^7.8.0',
+  'class-transformer': '^0.5.2',
   'class-validator': '^0.15.1',
-  fastify: '^5.6.0',
+  fastify: '^5.8.5',
   passport: '^0.7.0',
   'passport-jwt': '^4.0.1',
   'reflect-metadata': '^0.2.2',
   rxjs: '^7.8.2',
-  zod: '^4.3.6',
+  zod: '^4.4.1',
 };
 
 const BASE_DEV_DEPENDENCIES: Record<string, string> = {
-  '@nestjs/testing': '^11.1.6',
+  '@nestjs/testing': '^11.1.19',
   '@trivago/prettier-plugin-sort-imports': '^6.0.2',
-  '@types/node': '^24.9.0',
+  '@types/node': '^25.6.0',
   '@types/passport-jwt': '^4.0.1',
   '@typescript-eslint/eslint-plugin': '^8.46.2',
   '@typescript-eslint/parser': '^8.46.2',
@@ -48,34 +49,34 @@ const BASE_DEV_DEPENDENCIES: Record<string, string> = {
   eslint: '^8.57.1',
   husky: '^9.1.7',
   nodemon: '^3.1.10',
-  prettier: '^3.8.1',
-  prisma: '^6.15.0',
+  prettier: '^3.8.3',
+  prisma: '^7.8.0',
   'ts-node': '^10.9.2',
-  typescript: '^5.9.3',
-  vitest: '^3',
+  typescript: '^6.0.3',
+  vitest: '^4.1.5',
 };
 
 const GRAPHQL_DEPENDENCIES: Record<string, string> = {
   '@apollo/server': '^5.5.0',
   '@as-integrations/fastify': '^3.1.0',
   '@nestjs/apollo': '^13.2.4',
-  '@nestjs/graphql': '^13.2.4',
+  '@nestjs/graphql': '^13.4.0',
   graphql: '^16.13.2',
 };
 
 const QUEUE_DEPENDENCIES: Record<string, string> = {
   '@nestjs/bullmq': '^11.0.4',
-  bullmq: '^5.72.1',
+  bullmq: '^5.76.4',
 };
 
 const CACHE_DEPENDENCIES: Record<string, string> = {
   '@keyv/redis': '^5.1.6',
-  '@nestjs/cache-manager': '^3.1.0',
+  '@nestjs/cache-manager': '^3.1.2',
   'cache-manager': '^7.2.8',
 };
 
 const LLM_DEPENDENCIES: Record<string, string> = {
-  openai: '^6.33.0',
+  openai: '^6.35.0',
 };
 
 const BASE_CONFIG_FIELDS: ConfigField[] = [
@@ -101,7 +102,7 @@ const BASE_CONFIG_FIELDS: ConfigField[] = [
     name: 'DATABASE_URL',
     type: 'string',
     schema: 'z.string().min(1)',
-    sample: 'mongodb://localhost:27017/app-db',
+    sample: 'mysql://root:root@localhost:3306/app_db',
   },
   {
     name: 'HEALTH_TOKEN',
@@ -291,7 +292,7 @@ function renderEnvExample(
 ): string {
   const fields = getConfigFields(features).map((field) => {
     if (field.name === 'DATABASE_URL') {
-      return `${field.name}=mongodb://localhost:27017/${context.appName}`;
+      return `${field.name}=mysql://root:root@localhost:3306/${context.appName.replace(/-/g, '_')}`;
     }
 
     return `${field.name}=${field.sample}`;
@@ -445,8 +446,8 @@ function renderConfigType(features: InstalledServerFeatures): string {
 
 function renderConfigProvider(_features: InstalledServerFeatures): string {
   const lines = [
-    "import { getConfig } from '../../../types/config';",
-    "import { Service } from '../../tokens';",
+    "import { getConfig } from '../../../types/config.js';",
+    "import { Service } from '../../tokens.js';",
     '',
     'export const configProvider = {',
     '  provide: Service.CONFIG,',
@@ -493,27 +494,27 @@ function renderAppModule(features: InstalledServerFeatures): string {
 
   imports.push(
     "import { AuthModule } from './auth/auth.module';",
-    "import { CommonModule } from './common';",
+    "import { CommonModule } from './common.js';",
   );
 
   if (features.graphql) {
-    imports.push("import { GraphqlFeatureModule } from './graphql';");
+    imports.push("import { GraphqlFeatureModule } from './graphql.js';");
   }
 
   if (features.queue) {
-    imports.push("import { QueueFeatureModule } from './queue';");
+    imports.push("import { QueueFeatureModule } from './queue.js';");
   }
 
   if (features.cache) {
-    imports.push("import { CacheFeatureModule } from './cache';");
+    imports.push("import { CacheFeatureModule } from './cache.js';");
   }
 
   if (features.llm) {
-    imports.push("import { LlmFeatureModule } from './llm';");
+    imports.push("import { LlmFeatureModule } from './llm.js';");
   }
 
   if (features.queue || features.cache) {
-    imports.push("import { config } from '../types/config';");
+    imports.push("import { config } from '../types/config.js';");
   }
 
   const lines = [...imports, ''];
@@ -643,8 +644,8 @@ function renderServerFile(
     "import type { IncomingMessage, ServerResponse } from 'node:http';",
     '',
     "import { ApplicationModule } from './modules/app.module';",
-    "import { CommonModule, LogInterceptor } from './modules/common';",
-    "import { config } from './types/config';",
+    "import { CommonModule, LogInterceptor } from './modules/common.js';",
+    "import { config } from './types/config.js';",
     '',
     `const API_DEFAULT_PORT = ${String(BASE_CONFIG_FIELDS.find((field) => field.name === 'API_PORT')?.sample || '3001')};`,
     `const API_DEFAULT_VERSION = ${String(BASE_CONFIG_FIELDS.find((field) => field.name === 'API_VERSION')?.sample || '1')};`,

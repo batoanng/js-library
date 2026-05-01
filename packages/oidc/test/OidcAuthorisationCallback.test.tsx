@@ -1,5 +1,6 @@
 import axios, { AxiosHeaders } from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import type React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -40,7 +41,7 @@ vi.mock('../src/OidcLoginError', () => ({
 
 import { AuthorisationContext } from '../src/hooks';
 import { OidcAuthorisationCallback } from '../src/OidcAuthorisationCallback';
-import type { UserInformation } from '../src/types';
+import type { UserInformation, UserPrivileges } from '../src/types';
 
 const userInformation: UserInformation = {
   shortName: 'Test',
@@ -55,16 +56,17 @@ const privileges = {
 const readAuthorizationHeader = (headers: unknown) => AxiosHeaders.from(headers as any).get('Authorization');
 
 const renderCallback = (
-  ui: JSX.Element,
+  ui: React.JSX.Element,
   overrides?: {
-    onLogout?: ReturnType<typeof vi.fn>;
-    updatePrivileges?: ReturnType<typeof vi.fn>;
-    updateUserInformation?: ReturnType<typeof vi.fn>;
+    onLogout?: ReturnType<typeof vi.fn<() => void>>;
+    updatePrivileges?: ReturnType<typeof vi.fn<(nextPrivileges: UserPrivileges) => void>>;
+    updateUserInformation?: ReturnType<typeof vi.fn<(nextUserInformation: UserInformation) => void>>;
   }
 ) => {
-  const updateUserInformation = overrides?.updateUserInformation ?? vi.fn();
-  const updatePrivileges = overrides?.updatePrivileges ?? vi.fn();
-  const onLogout = overrides?.onLogout ?? vi.fn();
+  const updateUserInformation =
+    overrides?.updateUserInformation ?? vi.fn<(nextUserInformation: UserInformation) => void>();
+  const updatePrivileges = overrides?.updatePrivileges ?? vi.fn<(nextPrivileges: UserPrivileges) => void>();
+  const onLogout = overrides?.onLogout ?? vi.fn<() => void>();
 
   const view = render(
     <AuthorisationContext.Provider

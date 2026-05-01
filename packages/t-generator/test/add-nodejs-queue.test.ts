@@ -31,8 +31,8 @@ test('adds the queue feature to an existing clean Node.js base app', async () =>
     path.join(projectRoot, 'package.json'),
   );
 
-  assert.equal(packageJson.dependencies?.bullmq, '^5.72.1');
-  assert.equal(packageJson.dependencies?.ioredis, '^5.3.2');
+  assert.equal(packageJson.dependencies?.bullmq, '^5.76.4');
+  assert.equal(packageJson.dependencies?.ioredis, '^5.10.1');
 
   yoAssert.file([
     path.join(projectRoot, 'src/infrastructure/redis/redis.client.ts'),
@@ -59,7 +59,7 @@ test('adds the queue feature to an existing clean Node.js base app', async () =>
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/infrastructure/queue/demo-queue.ts'),
-    "import redis from '../redis/redis.client';",
+    "import redis from '../redis/redis.client.js';",
   );
 
   assert.equal(

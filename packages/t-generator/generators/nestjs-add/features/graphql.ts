@@ -11,8 +11,8 @@ import type { ServerFeatureDefinition } from '../lib/types';
 const GRAPHQL_DEPENDENCIES = {
   '@apollo/server': '^5.5.0',
   '@as-integrations/fastify': '^3.1.0',
-  '@nestjs/apollo': '^13.2.4',
-  '@nestjs/graphql': '^13.2.4',
+  '@nestjs/apollo': '^13.4.0',
+  '@nestjs/graphql': '^13.4.0',
   graphql: '^16.13.2',
 };
 
@@ -70,4 +70,4 @@ const graphqlFeature: ServerFeatureDefinition = {
   },
 };
 
-export = graphqlFeature;
+export default graphqlFeature;

@@ -1,3 +1,4 @@
+import type React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 
 jest.mock('react-markdown', () => {
@@ -5,7 +6,7 @@ jest.mock('react-markdown', () => {
     components,
   }: {
     components: {
-      code?: (props: { children: string; className?: string }) => JSX.Element;
+      code?: (props: { children: string; className?: string }) => React.JSX.Element;
     };
   }) {
     return <div>{components.code?.({ children: 'flowchart TD\n  A --> B\n', className: 'language-mermaid' })}</div>;

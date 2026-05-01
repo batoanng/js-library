@@ -47,7 +47,7 @@ test('adds the pwa feature to an existing generated base app', async () => {
   const appPath = path.join(projectRoot, 'src/app/entrypoint/App.tsx');
   const viteConfigPath = path.join(projectRoot, 'vite.config.ts');
 
-  assert.equal(packageJson.devDependencies?.['vite-plugin-pwa'], '^1.0.3');
+  assert.equal(packageJson.devDependencies?.['vite-plugin-pwa'], '^1.2.0');
   assert.equal(packageJson.dependencies?.['vite-plugin-pwa'], undefined);
   assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], undefined);
   assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);

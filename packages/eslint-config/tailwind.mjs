@@ -1,8 +1,6 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
-import tailwindcss from 'eslint-plugin-tailwindcss';
-
 const tailwindConfigFiles = [
   'tailwind.config.js',
   'tailwind.config.mjs',
@@ -26,10 +24,6 @@ function resolveTailwindConfig() {
 }
 
 export default [
-  ...tailwindcss.configs['flat/recommended'].map((config, index) => ({
-    ...config,
-    name: `@batoanng/eslint-config/tailwind/${index + 1}`,
-  })),
   {
     name: '@batoanng/eslint-config/tailwind/settings',
     settings: {

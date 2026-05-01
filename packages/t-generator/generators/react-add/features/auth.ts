@@ -21,7 +21,7 @@ const AUTH_NEW_FILES = [
 ];
 
 const AUTH_DEPENDENCIES = {
-  '@auth0/auth0-react': '^2.8.0',
+  '@auth0/auth0-react': '^2.16.2',
 };
 
 const AUTH_MANAGED_DIRECTORIES = [
@@ -99,4 +99,4 @@ const authFeature: FeatureDefinition = {
   },
 };
 
-export = authFeature;
+export default authFeature;

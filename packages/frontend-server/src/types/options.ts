@@ -1,5 +1,9 @@
-import type { Request as ExpressRequest } from 'express';
-import { type OnProxyResCallback } from 'http-proxy-middleware/dist/types';
+import type { Request as ExpressRequest, Response as ExpressResponse } from 'express';
+import type { Options as ProxyOptionsBase } from 'http-proxy-middleware';
+
+export type OnProxyResCallback = NonNullable<
+  NonNullable<ProxyOptionsBase<ExpressRequest, ExpressResponse>['on']>['proxyRes']
+>;
 
 export type CorsOptions = {
   /**

@@ -36,7 +36,7 @@ export type FormDatePickerProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = FormDateControlProps<TFieldValues, TName> &
-  Omit<DatePickerProps<Date>, 'format' | 'margin' | 'focused' | 'hiddenLabel' | 'optional' | 'value'> & {
+  Omit<DatePickerProps, 'format' | 'margin' | 'focused' | 'hiddenLabel' | 'optional' | 'value'> & {
     required?: boolean;
     placeholder?: string;
     inputWidth?: InputWidthVariant;
@@ -120,7 +120,11 @@ export const FormDatePicker = <
               name: fieldName,
               error: hasError,
               onBlur: handleBlur,
-              placeholder,
+              slotProps: {
+                htmlInput: {
+                  placeholder,
+                },
+              },
             },
             popper: {
               placement: 'bottom-end',

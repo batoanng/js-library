@@ -4,12 +4,12 @@ const path = require('node:path');
 const generatorRoot = path.join(__dirname, '..', 'generators');
 const distRoot = path.join(__dirname, '..', 'dist');
 
-function walk(directoryPath) {
+function cleanLegacyBuildOutput(directoryPath) {
   for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
     const absolutePath = path.join(directoryPath, entry.name);
 
     if (entry.isDirectory()) {
-      walk(absolutePath);
+      cleanLegacyBuildOutput(absolutePath);
       continue;
     }
 
@@ -24,5 +24,5 @@ function walk(directoryPath) {
   }
 }
 
-walk(generatorRoot);
+cleanLegacyBuildOutput(generatorRoot);
 fs.rmSync(distRoot, { recursive: true, force: true });

@@ -1,10 +1,9 @@
-import type { Express } from 'express';
-import type { OnProxyResCallback, Response } from 'http-proxy-middleware/dist/types';
+import type { Express, Response } from 'express';
 
 import { BuildServerNewRelicConfig } from '@/types/newRelic';
 
 import type { CspOptions } from './csp';
-import type { CorsOptions, IndexHtmlOptions, ProxyOptions, RateLimitOptions } from './options';
+import type { CorsOptions, IndexHtmlOptions, OnProxyResCallback, ProxyOptions, RateLimitOptions } from './options';
 
 export type BuildServerParams = {
   /**

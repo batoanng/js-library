@@ -43,4 +43,4 @@ const pwaFeature: FeatureDefinition = {
   },
 };
 
-export = pwaFeature;
+export default pwaFeature;

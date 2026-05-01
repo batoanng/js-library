@@ -47,7 +47,7 @@ test('adds the bff feature to an existing generated base app', async () => {
     packageJson.scripts?.['dev:full'],
     'concurrently -k -n client,server "npm run dev:client" "npm run dev:server"',
   );
-  assert.equal(packageJson.devDependencies?.concurrently, '^9.0.1');
+  assert.equal(packageJson.devDependencies?.concurrently, '^9.2.1');
 
   assert.equal(serverPackageJson.name, 'starter-app-server');
   assert.deepEqual(Object.keys(serverPackageJson.dependencies || {}).sort(), [
@@ -60,7 +60,7 @@ test('adds the bff feature to an existing generated base app', async () => {
   ]);
   assert.equal(
     serverPackageJson.dependencies?.['@batoanng/frontend-server'],
-    '^2.7.2',
+    '^2.8.0',
   );
 
   yoAssert.fileContent(

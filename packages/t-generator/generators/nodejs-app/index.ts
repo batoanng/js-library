@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import GeneratorBase from 'yeoman-generator';
+import GeneratorBase, { type BaseOptions, type PromptAnswers, type PromptQuestion } from 'yeoman-generator';
 
 import { buildDefaultCodexScaffold } from '../lib/defaults';
 import type { NodeArchitecture, NodeServerTemplateContext } from './lib/types';
@@ -11,12 +12,14 @@ import {
   buildNodeServerSharedScaffold,
 } from './lib/shared-scaffold';
 
-interface NodeAppGeneratorOptions extends GeneratorBase.GeneratorOptions {
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+type NodeAppGeneratorOptions = BaseOptions & {
   appName?: string;
   architecture?: NodeArchitecture;
-}
+};
 
-interface AppPromptAnswers extends GeneratorBase.Answers {
+interface AppPromptAnswers extends PromptAnswers {
   appName: string;
   architecture: NodeArchitecture;
 }
@@ -83,7 +86,7 @@ class NodeAppGenerator extends GeneratorBase {
   private architecture!: NodeArchitecture;
 
   constructor(args: string | string[], opts: NodeAppGeneratorOptions) {
-    super(args, opts);
+    super(Array.isArray(args) ? args : [args], opts);
     this.sourceRoot(path.join(__dirname, 'templates'));
 
     this.argument('appName', {
@@ -101,7 +104,7 @@ class NodeAppGenerator extends GeneratorBase {
   }
 
   async prompting(): Promise<void> {
-    const prompts: GeneratorBase.Question<AppPromptAnswers>[] = [];
+    const prompts: PromptQuestion<AppPromptAnswers>[] = [];
 
     if (!this.options.appName) {
       prompts.push({
@@ -109,7 +112,7 @@ class NodeAppGenerator extends GeneratorBase {
         name: 'appName',
         message: 'Node.js application name',
         default: 'my-nodejs-server',
-        validate: (value) => {
+        validate: (value: unknown) => {
           if (!normalizeAppName(value)) {
             return 'Enter a valid application name.';
           }
@@ -121,7 +124,7 @@ class NodeAppGenerator extends GeneratorBase {
 
     if (!normalizeArchitecture(this.options.architecture)) {
       prompts.push({
-        type: 'list',
+        type: 'select',
         name: 'architecture',
         message: 'Node.js server architecture',
         choices: ARCHITECTURE_CHOICES,
@@ -265,4 +268,4 @@ class NodeAppGenerator extends GeneratorBase {
   }
 }
 
-export = NodeAppGenerator;
+export default NodeAppGenerator;

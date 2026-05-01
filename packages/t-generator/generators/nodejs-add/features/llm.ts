@@ -68,4 +68,4 @@ const llmFeature: NodeServerFeatureDefinition = {
   },
 };
 
-export = llmFeature;
+export default llmFeature;

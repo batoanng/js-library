@@ -71,9 +71,9 @@ const REACT_QUERY_MANAGED_FILES = [
 ];
 
 const REACT_QUERY_DEPENDENCIES = {
-  '@tanstack/react-query': '^5.64.2',
-  '@tanstack/react-query-devtools': '5.64.2',
-  axios: '1.9.0',
+  '@tanstack/react-query': '^5.100.6',
+  '@tanstack/react-query-devtools': '5.100.6',
+  axios: '1.15.2',
 };
 
 const REACT_QUERY_MANAGED_PATHS = [
@@ -150,4 +150,4 @@ const reactQueryFeature: FeatureDefinition = {
   },
 };
 
-export = reactQueryFeature;
+export default reactQueryFeature;

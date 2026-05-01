@@ -5,13 +5,17 @@
   "extends": "@batoanng/tsconfig/nextjs.json",
   "compilerOptions": {
     "rootDir": ".",
-    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "types": [
+      "jest",
+      "@testing-library/jest-dom",
+      "node"
+    ]
   },
   "include": [
     "**/*.ts",

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import GeneratorBase from 'yeoman-generator';
+import GeneratorBase, { type BaseOptions, type PromptAnswers } from 'yeoman-generator';
 
 import {
   getTrackedFeature,
@@ -26,11 +26,11 @@ import type {
   ServerFeatureDefinition,
 } from './lib/types';
 
-interface NestAddGeneratorOptions extends GeneratorBase.GeneratorOptions {
+type NestAddGeneratorOptions = BaseOptions & {
   featureName?: string;
-}
+};
 
-interface FeaturePromptAnswers extends GeneratorBase.Answers {
+interface FeaturePromptAnswers extends PromptAnswers {
   featureName: string;
 }
 
@@ -99,7 +99,7 @@ class NestAddGenerator
   installedFeatures!: InstalledServerFeatures;
 
   constructor(args: string | string[], opts: NestAddGeneratorOptions) {
-    super(args, opts);
+    super(Array.isArray(args) ? args : [args], opts);
 
     this.argument('featureName', {
       type: String,
@@ -173,6 +173,7 @@ class NestAddGenerator
 
       throw new Error(
         `${featureLabel} can only be generated inside a NestJS server project. Unable to read package.json: ${message}`,
+        { cause: error },
       );
     }
 
@@ -290,4 +291,4 @@ class NestAddGenerator
   }
 }
 
-export = NestAddGenerator;
+export default NestAddGenerator;

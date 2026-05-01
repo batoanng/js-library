@@ -30,7 +30,7 @@ test('adds the llm feature to an existing clean Node.js base app', async () => {
     path.join(projectRoot, 'package.json'),
   );
 
-  assert.equal(packageJson.dependencies?.openai, '^6.33.0');
+  assert.equal(packageJson.dependencies?.openai, '^6.35.0');
   yoAssert.file([
     path.join(projectRoot, 'src/infrastructure/llm/openai.client.ts'),
     path.join(projectRoot, 'src/usecases/run-llm-demo.ts'),

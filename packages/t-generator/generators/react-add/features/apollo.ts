@@ -67,4 +67,4 @@ const apolloFeature: FeatureDefinition = {
   },
 };
 
-export = apolloFeature;
+export default apolloFeature;

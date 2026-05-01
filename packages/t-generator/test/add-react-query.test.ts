@@ -48,12 +48,12 @@ test('adds the react-query feature to an existing generated base app', async () 
     path.join(projectRoot, 'package.json'),
   );
 
-  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], '^5.64.2');
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], '^5.100.6');
   assert.equal(
     packageJson.dependencies?.['@tanstack/react-query-devtools'],
-    '5.64.2',
+    '5.100.6',
   );
-  assert.equal(packageJson.dependencies?.axios, '1.9.0');
+  assert.equal(packageJson.dependencies?.axios, '1.15.2');
   assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
   assert.equal(packageJson.dependencies?.['@mui/material'], undefined);
   assert.deepEqual(packageJson.tGenerator?.features, ['react-query']);
@@ -84,11 +84,11 @@ test('adds the react-query feature to an existing generated base app', async () 
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/shared/api/index.ts'),
-    "export { useApiQuery } from './useApiQuery';",
+    "export { useApiQuery } from './useApiQuery.js';",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/shared/api/index.ts'),
-    "export { useApiMutation } from './useApiMutation';",
+    "export { useApiMutation } from './useApiMutation.js';",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),

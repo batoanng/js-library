@@ -50,4 +50,4 @@ const cacheFeature: NodeServerFeatureDefinition = {
   },
 };
 
-export = cacheFeature;
+export default cacheFeature;

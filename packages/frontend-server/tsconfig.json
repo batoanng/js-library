@@ -3,14 +3,13 @@
   "compilerOptions": {
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "outDir": "./dist",
     "noEmit": false,
     "sourceMap": true,
-    "baseUrl": ".",
     "types": ["vite/client", "node", "vitest/globals"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["index.ts", "src", "vite.config.ts", "vitest.config.ts"],

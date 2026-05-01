@@ -19,7 +19,7 @@ const AUTH_NEW_FILES = [
 ];
 
 const AUTH_DEPENDENCIES = {
-  '@auth0/nextjs-auth0': '^4.9.0',
+  '@auth0/nextjs-auth0': '^4.19.0',
 };
 
 const AUTH_MANAGED_PATHS = [
@@ -83,4 +83,4 @@ const authFeature: FeatureDefinition = {
   },
 };
 
-export = authFeature;
+export default authFeature;

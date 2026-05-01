@@ -106,11 +106,11 @@ test('generates the React base app with the expected project structure', async (
     'react-router-dom',
     'zod',
   ]);
-  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.1');
-  assert.equal(packageJson.dependencies?.react, '^19.2.4');
-  assert.equal(packageJson.dependencies?.['react-dom'], '^19.2.4');
-  assert.equal(packageJson.dependencies?.['react-router-dom'], '^7.14.0');
-  assert.equal(packageJson.dependencies?.zod, '^4.3.6');
+  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.2');
+  assert.equal(packageJson.dependencies?.react, '^19.2.5');
+  assert.equal(packageJson.dependencies?.['react-dom'], '^19.2.5');
+  assert.equal(packageJson.dependencies?.['react-router-dom'], '^7.14.2');
+  assert.equal(packageJson.dependencies?.zod, '^4.4.1');
   assert.equal(packageJson.devDependencies?.['@types/react'], '^19.2.14');
   assert.equal(packageJson.devDependencies?.['@types/react-dom'], '^19.2.3');
   assert.equal(packageJson.tGenerator?.stack, 'react');
@@ -327,7 +327,8 @@ test('root generator can route to the React base generator', async () => {
       stack: 'react',
       action: 'create-base',
       appName: 'root-react-app',
-    });
+    })
+    .run();
 
   yoAssert.file([
     path.join(tmpDir, 'root-react-app/package.json'),
@@ -371,7 +372,8 @@ test('root generator can route to the Node.js base generator', async () => {
       action: 'create-base',
       appName: 'root-node-server',
       architecture: 'clean',
-    });
+    })
+    .run();
 
   yoAssert.file([
     path.join(tmpDir, 'root-node-server/package.json'),

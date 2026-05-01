@@ -248,7 +248,7 @@ function renderCleanIndex(
     ...(features.cache ? ["export { cacheRouter } from './routes/cache.route';"] : []),
     ...(features.llm ? ["export { llmRouter } from './routes/llm.route';"] : []),
     ...(features.graphql
-      ? ["export { registerGraphql } from './graphql/register-graphql';"]
+      ? ["export { registerGraphql } from './graphql/register-graphql.js';"]
       : []),
   );
 }
@@ -469,7 +469,7 @@ function renderMvpIndex(
     ...(features.cache ? ["export { cacheRouter } from './cache/cache.route';"] : []),
     ...(features.llm ? ["export { llmRouter } from './llm/llm.route';"] : []),
     ...(features.graphql
-      ? ["export { registerGraphql } from './graphql/register-graphql';"]
+      ? ["export { registerGraphql } from './graphql/register-graphql.js';"]
       : []),
   );
 }

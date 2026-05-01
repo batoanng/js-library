@@ -19,18 +19,18 @@ const UI_LIBRARY_NEW_FILES = [
 ];
 
 const UI_LIBRARY_DEPENDENCIES = {
-  '@batoanng/mui-components': '^3.5.4',
-  '@emotion/react': '^11.13.5',
-  '@emotion/styled': '^11.13.5',
-  '@mui/icons-material': '6.1.8',
-  '@mui/material': '6.1.8',
-  '@mui/utils': '^6.1.8',
-  '@mui/x-date-pickers': '7.22.2',
-  'framer-motion': '^12.23.24',
-  'react-dropzone': '^14.2.3',
-  'react-easy-crop': '^5.0.2',
-  'react-hook-form': '7.57.0',
-  'react-idle-timer': '^5.7.2',
+  '@batoanng/mui-components': '^3.6.0',
+  '@emotion/react': '^11.14.0',
+  '@emotion/styled': '^11.14.1',
+  '@mui/icons-material': '9.0.0',
+  '@mui/material': '9.0.0',
+  '@mui/utils': '^9.0.0',
+  '@mui/x-date-pickers': '9.0.4',
+  'framer-motion': '^12.38.0',
+  'react-dropzone': '^15.0.0',
+  'react-easy-crop': '^5.5.7',
+  'react-hook-form': '7.74.0',
+  'react-idle-timer': '^5.7.3',
 };
 
 const UI_LIBRARY_MANAGED_DIRECTORY = 'src/widgets/ui-library-showcase';
@@ -86,4 +86,4 @@ const uiLibraryFeature: FeatureDefinition = {
   },
 };
 
-export = uiLibraryFeature;
+export default uiLibraryFeature;

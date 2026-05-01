@@ -41,7 +41,7 @@ test('adds the cache feature to an existing generated NestJS base app', async ()
   );
 
   assert.equal(packageJson.dependencies?.['@keyv/redis'], '^5.1.6');
-  assert.equal(packageJson.dependencies?.['@nestjs/cache-manager'], '^3.1.0');
+  assert.equal(packageJson.dependencies?.['@nestjs/cache-manager'], '^3.1.2');
   assert.equal(packageJson.dependencies?.['cache-manager'], '^7.2.8');
   assert.equal(packageJson.dependencies?.['@nestjs/bullmq'], undefined);
   assert.equal(packageJson.dependencies?.['@nestjs/graphql'], undefined);

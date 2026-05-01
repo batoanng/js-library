@@ -55,7 +55,7 @@ const bffFeature: FeatureDefinition = {
       devDependencies: {
         ...generator.rootPackageJson.devDependencies,
         concurrently:
-          generator.rootPackageJson.devDependencies?.concurrently || '^9.0.1',
+          generator.rootPackageJson.devDependencies?.concurrently || '^9.2.1',
       },
     };
 
@@ -73,4 +73,4 @@ const bffFeature: FeatureDefinition = {
   },
 };
 
-export = bffFeature;
+export default bffFeature;

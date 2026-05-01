@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import GeneratorBase from 'yeoman-generator';
+import GeneratorBase, { type BaseOptions, type PromptAnswers } from 'yeoman-generator';
 
 import { getTrackedFeature } from '../lib/feature-metadata';
 import type { PackageJson } from '../lib/types';
@@ -32,11 +32,11 @@ import type {
   NodeServerFeatureDefinition,
 } from './lib/types';
 
-interface NodeAddGeneratorOptions extends GeneratorBase.GeneratorOptions {
+type NodeAddGeneratorOptions = BaseOptions & {
   featureName?: string;
-}
+};
 
-interface FeaturePromptAnswers extends GeneratorBase.Answers {
+interface FeaturePromptAnswers extends PromptAnswers {
   featureName: string;
 }
 
@@ -104,7 +104,7 @@ class NodeAddGenerator
   installedFeatures!: InstalledNodeServerFeatures;
 
   constructor(args: string | string[], opts: NodeAddGeneratorOptions) {
-    super(args, opts);
+    super(Array.isArray(args) ? args : [args], opts);
 
     this.argument('featureName', {
       type: String,
@@ -120,7 +120,7 @@ class NodeAddGenerator
 
     const answers = await this.prompt<FeaturePromptAnswers>([
       {
-        type: 'list',
+        type: 'select',
         name: 'featureName',
         message: 'Node.js server feature to add',
         choices: FEATURE_PROMPT_CHOICES,
@@ -193,6 +193,7 @@ class NodeAddGenerator
 
       throw new Error(
         `${featureLabel} can only be generated inside a t-generator Node.js server project. Unable to read package.json: ${message}`,
+        { cause: error },
       );
     }
 
@@ -336,4 +337,4 @@ class NodeAddGenerator
   }
 }
 
-export = NodeAddGenerator;
+export default NodeAddGenerator;

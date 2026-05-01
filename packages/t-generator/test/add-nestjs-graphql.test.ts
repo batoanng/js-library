@@ -38,8 +38,8 @@ test('adds the graphql feature to an existing generated NestJS base app', async 
 
   assert.equal(packageJson.dependencies?.['@apollo/server'], '^5.5.0');
   assert.equal(packageJson.dependencies?.['@as-integrations/fastify'], '^3.1.0');
-  assert.equal(packageJson.dependencies?.['@nestjs/apollo'], '^13.2.4');
-  assert.equal(packageJson.dependencies?.['@nestjs/graphql'], '^13.2.4');
+  assert.equal(packageJson.dependencies?.['@nestjs/apollo'], '^13.4.0');
+  assert.equal(packageJson.dependencies?.['@nestjs/graphql'], '^13.4.0');
   assert.equal(packageJson.dependencies?.graphql, '^16.13.2');
 
   yoAssert.file([

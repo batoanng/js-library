@@ -1,8 +1,27 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaMariaDb } from '@prisma/adapter-mariadb';
+import { PrismaClient } from '../../../../generated/prisma/client';
+import { config } from '../../../types/config.js';
+
+function createPrismaAdapter(): PrismaMariaDb {
+  const databaseUrl = new URL(config.DATABASE_URL);
+
+  return new PrismaMariaDb({
+    host: databaseUrl.hostname,
+    port: databaseUrl.port ? Number(databaseUrl.port) : 3306,
+    user: decodeURIComponent(databaseUrl.username),
+    password: decodeURIComponent(databaseUrl.password),
+    database: databaseUrl.pathname.replace(/^\//, ''),
+    connectionLimit: 5,
+  });
+}
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
+  constructor() {
+    super({ adapter: createPrismaAdapter() });
+  }
+
   async onModuleInit(): Promise<void> {
     await this.$connect();
   }

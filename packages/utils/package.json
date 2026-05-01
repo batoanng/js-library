@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/utils",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,15 +34,15 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
-    "@batoanng/eslint-config": "^3.3.2",
-    "@batoanng/jest-config": "^1.4.1",
-    "@batoanng/tsconfig": "^1.5.1",
-    "@batoanng/types": "^0.5.1",
-    "@types/react": "^18.3.28",
-    "axios": "^1.14.0",
-    "react": "^19.2.4",
+    "@batoanng/eslint-config": "^3.4.0",
+    "@batoanng/jest-config": "^1.4.2",
+    "@batoanng/tsconfig": "^1.6.0",
+    "@batoanng/types": "^0.5.2",
+    "@types/react": "^19.2.14",
+    "axios": "^1.15.2",
+    "react": "^19.2.5",
     "tsup": "^8.5.1",
-    "typescript": "^5.8.3"
+    "typescript": "^6.0.3"
   },
   "publishConfig": {
     "access": "public"

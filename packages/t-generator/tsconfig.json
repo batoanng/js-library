@@ -1,8 +1,8 @@
 {
   "extends": "@batoanng/tsconfig/node24.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "types": ["node"]
   },

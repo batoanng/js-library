@@ -4,9 +4,9 @@ import { hasPackageDependency } from '../lib/helpers';
 import type { FeatureDefinition } from '../lib/types';
 
 const TAILWIND_DEV_DEPENDENCIES = {
-  '@batoanng/tailwind-config': '^1.4.0',
-  '@tailwindcss/vite': '^4.1.13',
-  tailwindcss: '^4.1.13',
+  '@batoanng/tailwind-config': '^1.4.1',
+  '@tailwindcss/vite': '^4.2.4',
+  tailwindcss: '^4.2.4',
 };
 
 const TAILWIND_GUARD_DEPENDENCIES = [
@@ -73,4 +73,4 @@ const tailwindFeature: FeatureDefinition = {
   },
 };
 
-export = tailwindFeature;
+export default tailwindFeature;

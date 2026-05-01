@@ -2,6 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
+    "rootDir": "./generators",
+    "outDir": "./dist/generators",
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false

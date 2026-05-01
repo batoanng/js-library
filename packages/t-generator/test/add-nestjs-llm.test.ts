@@ -33,7 +33,7 @@ test('adds the llm feature to an existing generated NestJS base app', async () =
   );
   const llmServicePath = path.join(projectRoot, 'src/modules/llm/llm.service.ts');
 
-  assert.equal(packageJson.dependencies?.openai, '^6.33.0');
+  assert.equal(packageJson.dependencies?.openai, '^6.35.0');
   assert.equal(packageJson.dependencies?.['@langchain/core'], undefined);
   assert.equal(packageJson.dependencies?.['@langchain/openai'], undefined);
   assert.equal(packageJson.dependencies?.['@langchain/deepseek'], undefined);

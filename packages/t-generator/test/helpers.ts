@@ -1,17 +1,27 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+import type { RunResult } from 'yeoman-test';
 import type { PackageJson } from '../generators/lib/types';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+type ScaffoldResult = {
+  runResult: RunResult;
+  projectRoot: string;
+  tmpDir: string;
+};
 
 const testTarget = process.env.TEST_TARGET;
 const useBuiltGenerators = testTarget === 'build' || testTarget === 'dist';
-const useDistPackage = testTarget === 'dist';
 const generatorExtension = useBuiltGenerators
   ? '.js'
   : path.extname(__filename) === '.ts'
     ? '.ts'
     : '.js';
-const generatorRoot = useDistPackage
+const generatorRoot = useBuiltGenerators
   ? path.join(__dirname, '../dist/generators')
   : path.join(__dirname, '../generators');
 
@@ -110,7 +120,7 @@ export function snapshotDirectory(rootPath: string): Record<string, string> {
 export async function scaffoldAppWithGenerator(
   generatorPath: string,
   appName: string,
-) {
+): Promise<ScaffoldResult> {
   let tmpDir = '';
   const helpers = await createYeomanTestHelpers();
 
@@ -128,26 +138,26 @@ export async function scaffoldAppWithGenerator(
   };
 }
 
-export async function scaffoldBaseApp(appName: string) {
+export async function scaffoldBaseApp(appName: string): Promise<ScaffoldResult> {
   return scaffoldAppWithGenerator(reactAppGeneratorPath, appName);
 }
 
-export async function scaffoldReactApp(appName: string) {
+export async function scaffoldReactApp(appName: string): Promise<ScaffoldResult> {
   return scaffoldAppWithGenerator(reactAppGeneratorPath, appName);
 }
 
-export async function scaffoldNestApp(appName: string) {
+export async function scaffoldNestApp(appName: string): Promise<ScaffoldResult> {
   return scaffoldAppWithGenerator(nestjsAppGeneratorPath, appName);
 }
 
-export async function scaffoldNextjsApp(appName: string) {
+export async function scaffoldNextjsApp(appName: string): Promise<ScaffoldResult> {
   return scaffoldAppWithGenerator(nextjsAppGeneratorPath, appName);
 }
 
 export async function scaffoldNodeApp(
   appName: string,
   architecture: 'clean' | 'mvp' = 'clean',
-) {
+): Promise<ScaffoldResult> {
   let tmpDir = '';
   const helpers = await createYeomanTestHelpers();
 

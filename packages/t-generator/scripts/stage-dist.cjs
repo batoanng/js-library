@@ -14,19 +14,23 @@ const distPackageJson = {
   description: rootPackageJson.description,
   publishConfig: rootPackageJson.publishConfig,
   type: rootPackageJson.type,
-  main: rootPackageJson.main,
-  files: rootPackageJson.files,
+  main: 'generators/index.js',
+  files: [
+    'generators/**/*.js',
+    'generators/**/templates/**',
+    'README.md',
+    'CHANGELOG.md',
+  ],
   keywords: rootPackageJson.keywords,
   engines: rootPackageJson.engines,
   dependencies: rootPackageJson.dependencies,
 };
 
-fs.rmSync(distRoot, { recursive: true, force: true });
 fs.mkdirSync(distRoot, { recursive: true });
 
 copyFile('README.md');
 copyFile('CHANGELOG.md');
-copyDirectory(generatorsRoot, path.join(distRoot, 'generators'));
+copyTemplateDirectories(generatorsRoot, path.join(distRoot, 'generators'));
 fs.writeFileSync(
   path.join(distRoot, 'package.json'),
   `${JSON.stringify(distPackageJson, null, 2)}\n`,
@@ -41,16 +45,23 @@ function copyFile(relativePath) {
 
 function copyDirectory(sourcePath, destinationPath) {
   fs.mkdirSync(destinationPath, { recursive: true });
-  fs.cpSync(sourcePath, destinationPath, {
-    recursive: true,
-    filter: (currentSourcePath) => {
-      const stats = fs.statSync(currentSourcePath);
+  fs.cpSync(sourcePath, destinationPath, { recursive: true });
+}
 
-      if (stats.isDirectory()) {
-        return true;
-      }
+function copyTemplateDirectories(sourceRoot, destinationRoot) {
+  for (const entry of fs.readdirSync(sourceRoot, { withFileTypes: true })) {
+    const sourcePath = path.join(sourceRoot, entry.name);
+    const destinationPath = path.join(destinationRoot, entry.name);
 
-      return currentSourcePath.endsWith('.js') || currentSourcePath.includes(`${path.sep}templates${path.sep}`);
-    },
-  });
+    if (!entry.isDirectory()) {
+      continue;
+    }
+
+    if (entry.name === 'templates') {
+      copyDirectory(sourcePath, destinationPath);
+      continue;
+    }
+
+    copyTemplateDirectories(sourcePath, destinationPath);
+  }
 }

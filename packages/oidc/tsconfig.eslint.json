@@ -4,7 +4,7 @@
     // ensure that nobody can accidentally use this config for a build
     "noEmit": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["tooling", "src", "test", "vite.config.ts", "vitest.setup.ts"]

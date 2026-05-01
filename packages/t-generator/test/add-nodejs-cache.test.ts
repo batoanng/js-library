@@ -53,7 +53,7 @@ test('adds the cache feature to an existing MVP Node.js base app', async () => {
     path.join(projectRoot, 'src/app.ts'),
     "app.use('/api/cache', cacheRouter);",
   );
-  assert.equal(packageJson.dependencies?.ioredis, '^5.3.2');
+  assert.equal(packageJson.dependencies?.ioredis, '^5.10.1');
   assert.equal(packageJson.dependencies?.bullmq, undefined);
   assert.equal(packageJson.dependencies?.graphql, undefined);
   assert.equal(packageJson.dependencies?.openai, undefined);

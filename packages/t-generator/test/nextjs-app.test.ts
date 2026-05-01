@@ -106,11 +106,11 @@ test('generates the Next.js base app with the expected project structure', async
     'react-dom',
     'zod',
   ]);
-  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.1');
-  assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.3.2');
-  assert.equal(packageJson.devDependencies?.['@batoanng/jest-config'], '^1.4.1');
-  assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.0');
-  assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.5.1');
+  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.2');
+  assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.4.0');
+  assert.equal(packageJson.devDependencies?.['@batoanng/jest-config'], '^1.4.2');
+  assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.1');
+  assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.6.0');
   assert.equal(packageJson.tGenerator?.stack, 'nextjs');
   assert.deepEqual(packageJson.tGenerator?.features, []);
   assertNoViteArtifacts(projectRoot, packageJson);
@@ -258,7 +258,8 @@ test('root generator can route to the Next.js base generator', async () => {
       stack: 'nextjs',
       action: 'create-base',
       appName: 'root-next-app',
-    });
+    })
+    .run();
 
   yoAssert.file([
     path.join(tmpDir, 'root-next-app/package.json'),

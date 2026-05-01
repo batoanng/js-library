@@ -135,14 +135,7 @@ export const ApiLookup = () => {
         freeSolo
         id="autocomplete"
         value={value}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            InputProps={{
-              ...params.InputProps,
-            }}
-          />
-        )}
+        renderInput={(params) => <TextField {...params} />}
         options={useSearchResults(api, inputValue) || []}
         inputValue={inputValue}
         getOptionLabel={getOptionLabel}

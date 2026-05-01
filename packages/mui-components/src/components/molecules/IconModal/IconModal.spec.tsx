@@ -18,7 +18,7 @@ describe('ConfirmationPageButtons', () => {
   it('should render the help icon', () => {
     render(<IconModal title="Tooltip tile" iconType="help" />);
 
-    expect(screen.getByTestId('HelpOutlineIcon')).toBeInTheDocument();
+    expect(screen.getByTestId('HelpOutlinedIcon')).toBeInTheDocument();
   });
 
   it('should open the slide modal upon clicking the tooltip button', async () => {

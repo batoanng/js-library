@@ -10,7 +10,7 @@ import { hasPackageDependency } from '../lib/helpers';
 import type { FeatureDefinition } from '../lib/types';
 
 const PWA_DEV_DEPENDENCIES = {
-  'vite-plugin-pwa': '^1.0.3',
+  'vite-plugin-pwa': '^1.2.0',
 };
 
 const pwaFeature: FeatureDefinition = {
@@ -72,4 +72,4 @@ const pwaFeature: FeatureDefinition = {
   },
 };
 
-export = pwaFeature;
+export default pwaFeature;

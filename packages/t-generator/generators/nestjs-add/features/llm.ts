@@ -9,7 +9,7 @@ import { hasPackageDependency } from '../lib/helpers';
 import type { ServerFeatureDefinition } from '../lib/types';
 
 const LLM_DEPENDENCIES = {
-  openai: '^6.33.0',
+  openai: '^6.35.0',
 };
 
 const llmFeature: ServerFeatureDefinition = {
@@ -66,4 +66,4 @@ const llmFeature: ServerFeatureDefinition = {
   },
 };
 
-export = llmFeature;
+export default llmFeature;

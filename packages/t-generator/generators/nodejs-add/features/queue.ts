@@ -68,4 +68,4 @@ const queueFeature: NodeServerFeatureDefinition = {
   },
 };
 
-export = queueFeature;
+export default queueFeature;

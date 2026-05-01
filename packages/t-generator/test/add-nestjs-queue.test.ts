@@ -37,7 +37,7 @@ test('adds the queue feature to an existing generated NestJS base app', async ()
   );
 
   assert.equal(packageJson.dependencies?.['@nestjs/bullmq'], '^11.0.4');
-  assert.equal(packageJson.dependencies?.bullmq, '^5.72.1');
+  assert.equal(packageJson.dependencies?.bullmq, '^5.76.4');
 
   yoAssert.file([
     path.join(projectRoot, 'src/modules/queue/index.ts'),

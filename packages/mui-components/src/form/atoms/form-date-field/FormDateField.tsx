@@ -21,7 +21,7 @@ export type FormDateFieldProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = FormDateControlProps<TFieldValues, TName> &
-  Omit<DateFieldProps<Date>, 'format' | 'margin' | 'focused' | 'hiddenLabel' | 'optional' | 'value'> & {
+  Omit<DateFieldProps, 'format' | 'margin' | 'focused' | 'hiddenLabel' | 'optional' | 'value'> & {
     inputWidth?: InputWidthVariant;
   };
 
@@ -94,11 +94,7 @@ export const FormDateField = <
           value={fieldValue || null}
           format={fieldValueFormat}
           className={classNames}
-          slotProps={{
-            input: {
-              error: hasError,
-            },
-          }}
+          error={hasError}
           inputRef={ref}
           sx={inputWidth && { maxWidth: getMaxWidth(inputWidth) }}
           onChange={handleChange}

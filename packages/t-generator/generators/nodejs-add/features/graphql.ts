@@ -71,4 +71,4 @@ const graphqlFeature: NodeServerFeatureDefinition = {
   },
 };
 
-export = graphqlFeature;
+export default graphqlFeature;

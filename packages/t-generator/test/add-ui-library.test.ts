@@ -37,19 +37,19 @@ test('adds the ui-library feature to an existing generated base app', async () =
   assert.equal(packageJson.scripts?.build, 'vite build');
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.5.4',
+    '^3.6.0',
   );
-  assert.equal(packageJson.dependencies?.['@emotion/react'], '^11.13.5');
-  assert.equal(packageJson.dependencies?.['@emotion/styled'], '^11.13.5');
-  assert.equal(packageJson.dependencies?.['@mui/icons-material'], '6.1.8');
-  assert.equal(packageJson.dependencies?.['@mui/material'], '6.1.8');
-  assert.equal(packageJson.dependencies?.['@mui/utils'], '^6.1.8');
-  assert.equal(packageJson.dependencies?.['@mui/x-date-pickers'], '7.22.2');
-  assert.equal(packageJson.dependencies?.['framer-motion'], '^12.23.24');
-  assert.equal(packageJson.dependencies?.['react-dropzone'], '^14.2.3');
-  assert.equal(packageJson.dependencies?.['react-easy-crop'], '^5.0.2');
-  assert.equal(packageJson.dependencies?.['react-hook-form'], '7.57.0');
-  assert.equal(packageJson.dependencies?.['react-idle-timer'], '^5.7.2');
+  assert.equal(packageJson.dependencies?.['@emotion/react'], '^11.14.0');
+  assert.equal(packageJson.dependencies?.['@emotion/styled'], '^11.14.1');
+  assert.equal(packageJson.dependencies?.['@mui/icons-material'], '9.0.0');
+  assert.equal(packageJson.dependencies?.['@mui/material'], '9.0.0');
+  assert.equal(packageJson.dependencies?.['@mui/utils'], '^9.0.0');
+  assert.equal(packageJson.dependencies?.['@mui/x-date-pickers'], '9.0.4');
+  assert.equal(packageJson.dependencies?.['framer-motion'], '^12.38.0');
+  assert.equal(packageJson.dependencies?.['react-dropzone'], '^15.0.0');
+  assert.equal(packageJson.dependencies?.['react-easy-crop'], '^5.5.7');
+  assert.equal(packageJson.dependencies?.['react-hook-form'], '7.74.0');
+  assert.equal(packageJson.dependencies?.['react-idle-timer'], '^5.7.3');
   assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], undefined);
   assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
   assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
@@ -128,8 +128,8 @@ test('ui-library can be added when the React app is identified by package.json a
           {
             name: 'custom-react-app',
             dependencies: {
-              react: '^19.2.4',
-              'react-dom': '^19.2.4',
+              react: '^19.2.5',
+              'react-dom': '^19.2.5',
             },
           },
           null,
@@ -183,7 +183,7 @@ test('ui-library can be added after bff without re-running bff checks', async ()
   );
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.5.4',
+    '^3.6.0',
   );
 });
 
@@ -204,10 +204,10 @@ test('ui-library can be added after auth without removing auth wiring', async ()
     path.join(projectRoot, 'package.json'),
   );
 
-  assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], '^2.8.0');
+  assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], '^2.16.2');
   assert.equal(
     packageJson.dependencies?.['@batoanng/mui-components'],
-    '^3.5.4',
+    '^3.6.0',
   );
 
   yoAssert.fileContent(

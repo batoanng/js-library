@@ -6,9 +6,8 @@
     "sourceMap": true,
     "noFallthroughCasesInSwitch": true,
     "types": ["vite/client", "node", "@testing-library/jest-dom", "vitest/globals"],
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
     "jsxImportSource": "@emotion/react"
   },

@@ -1,17 +1,20 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import GeneratorBase from 'yeoman-generator';
+import GeneratorBase, { type BaseOptions, type PromptAnswers } from 'yeoman-generator';
 
 import { buildDefaultCodexScaffold } from '../lib/defaults';
 import type { TemplateContext } from '../lib/types';
 import { buildSharedScaffold } from '../nextjs-add/lib/shared-scaffold';
 
-interface AppGeneratorOptions extends GeneratorBase.GeneratorOptions {
-  appName?: string;
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-interface AppPromptAnswers extends GeneratorBase.Answers {
+type AppGeneratorOptions = BaseOptions & {
+  appName?: string;
+};
+
+interface AppPromptAnswers extends PromptAnswers {
   appName: string;
 }
 
@@ -50,7 +53,7 @@ class AppGenerator extends GeneratorBase {
   private displayName!: string;
 
   constructor(args: string | string[], opts: AppGeneratorOptions) {
-    super(args, opts);
+    super(Array.isArray(args) ? args : [args], opts);
     this.sourceRoot(path.join(__dirname, 'templates'));
 
     this.argument('appName', {
@@ -73,7 +76,7 @@ class AppGenerator extends GeneratorBase {
         name: 'appName',
         message: 'Application name',
         default: 'my-next-app',
-        validate: (value) => {
+        validate: (value: unknown) => {
           if (!normalizeAppName(value)) {
             return 'Enter a valid application name.';
           }
@@ -182,4 +185,4 @@ class AppGenerator extends GeneratorBase {
   }
 }
 
-export = AppGenerator;
+export default AppGenerator;

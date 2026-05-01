@@ -174,7 +174,7 @@ test('generates the clean Node.js base app with the expected project structure',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app.ts'),
-    "import { env } from './config/env';",
+    "import { env } from './config/env.js';",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/interfaces/index.ts'),

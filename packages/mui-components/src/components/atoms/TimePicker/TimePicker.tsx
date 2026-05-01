@@ -6,7 +6,7 @@ import { FormControl, FormHelperText, FormLabel } from '@mui/material';
 import { TimePicker as MuiTimePicker, type TimePickerProps as MuiTimePickerProps } from '@mui/x-date-pickers';
 import { forwardRef, type ReactNode } from 'react';
 
-export type TimePickerProps = MuiTimePickerProps<Date, true> & {
+export type TimePickerProps = MuiTimePickerProps & {
   id?: string;
   label: ReactNode;
   helpMessage?: ReactNode;

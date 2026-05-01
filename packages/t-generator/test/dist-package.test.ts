@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 
 import yoAssert from 'yeoman-assert';
 
@@ -18,6 +19,9 @@ import {
   readJson,
   readText,
 } from './helpers';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const packageSmokeTest = process.env.DIST_SMOKE === '1' ? test : test.skip;
 const useDistPackage = process.env.TEST_TARGET === 'dist';
@@ -76,7 +80,7 @@ packageSmokeTest(
     ]);
     assert.match(
       readText(path.join(packageRoot, 'README.md')),
-      /## Using the published npm package/,
+      /## Install and run/,
     );
 
     let tmpDir = '';

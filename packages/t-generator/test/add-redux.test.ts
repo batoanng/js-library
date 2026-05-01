@@ -25,9 +25,9 @@ test('adds the redux feature to an existing generated base app', async () => {
     path.join(projectRoot, 'package.json'),
   );
 
-  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], '^2.2.7');
-  assert.equal(packageJson.dependencies?.['react-redux'], '^8.0.2');
-  assert.equal(packageJson.dependencies?.redux, '^4.2.0');
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], '^2.11.2');
+  assert.equal(packageJson.dependencies?.['react-redux'], '^9.2.0');
+  assert.equal(packageJson.dependencies?.redux, '^5.0.1');
   assert.equal(packageJson.dependencies?.['redux-persist'], '^6.0.0');
   assert.equal(
     packageJson.devDependencies?.['redux-immutable-state-invariant'],
@@ -128,8 +128,8 @@ test('redux can be added after auth without removing auth wiring', async () => {
     path.join(projectRoot, 'package.json'),
   );
 
-  assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], '^2.8.0');
-  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], '^2.2.7');
+  assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], '^2.16.2');
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], '^2.11.2');
 
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),

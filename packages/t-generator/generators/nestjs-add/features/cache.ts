@@ -10,7 +10,7 @@ import type { ServerFeatureDefinition } from '../lib/types';
 
 const CACHE_DEPENDENCIES = {
   '@keyv/redis': '^5.1.6',
-  '@nestjs/cache-manager': '^3.1.0',
+  '@nestjs/cache-manager': '^3.1.2',
   'cache-manager': '^7.2.8',
 };
 
@@ -68,4 +68,4 @@ const cacheFeature: ServerFeatureDefinition = {
   },
 };
 
-export = cacheFeature;
+export default cacheFeature;

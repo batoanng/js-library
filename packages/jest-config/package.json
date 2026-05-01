@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/jest-config",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "license": "MIT",
   "files": [
     "common.js",

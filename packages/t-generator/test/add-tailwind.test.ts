@@ -22,11 +22,11 @@ test('adds the Tailwind feature to an existing generated React base app', async 
 
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
-  assert.equal(packageJson.devDependencies?.['@tailwindcss/vite'], '^4.1.13');
-  assert.equal(packageJson.devDependencies?.tailwindcss, '^4.1.13');
+  assert.equal(packageJson.devDependencies?.['@tailwindcss/vite'], '^4.2.4');
+  assert.equal(packageJson.devDependencies?.tailwindcss, '^4.2.4');
   assert.equal(
     packageJson.devDependencies?.['@batoanng/tailwind-config'],
-    '^1.4.0',
+    '^1.4.1',
   );
   assert.equal(packageJson.dependencies?.['@auth0/auth0-react'], undefined);
   assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);

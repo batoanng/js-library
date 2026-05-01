@@ -140,7 +140,7 @@ test('generates the NestJS base app with the expected project structure', async 
   ].forEach((dependencyName) => {
     assert.equal(hasPackageDependency(dependencyName), true, `${dependencyName} should exist`);
   });
-  assert.equal(packageJson.dependencies?.zod, '^4.3.6');
+  assert.equal(packageJson.dependencies?.zod, '^4.4.1');
 
   blockedDependencies.forEach((dependencyName) => {
     assert.equal(packageJson.dependencies?.[dependencyName], undefined);
@@ -163,7 +163,7 @@ test('generates the NestJS base app with the expected project structure', async 
   );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
-    'DATABASE_URL=mongodb://localhost:27017/starter-server',
+    'DATABASE_URL=mysql://root:root@localhost:3306/starter_server',
   );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),

@@ -19,42 +19,43 @@ function lines(...content: string[]): string {
 
 const BASE_DEPENDENCIES: Record<string, string> = {
   '@batoanng/types': BATOANNG_TYPES_VERSION,
-  '@prisma/client': '^6.16.2',
-  cors: '^2.8.5',
-  dotenv: '^16.3.1',
-  express: '^4.21.2',
-  'express-rate-limit': '^7.1.5',
-  helmet: '^7.1.0',
+  '@prisma/adapter-mariadb': '^7.8.0',
+  '@prisma/client': '^7.8.0',
+  cors: '^2.8.6',
+  dotenv: '^17.4.2',
+  express: '^5.2.1',
+  'express-rate-limit': '^8.4.1',
+  helmet: '^8.1.0',
   hpp: '^0.2.3',
   jsonwebtoken: '^9.0.2',
-  morgan: '^1.10.0',
-  winston: '^3.11.0',
-  zod: '^4.3.6',
+  morgan: '^1.10.1',
+  winston: '^3.19.0',
+  zod: '^4.4.1',
 };
 
 const BASE_DEV_DEPENDENCIES: Record<string, string> = {
-  '@eslint/js': '^9.20.0',
-  '@types/cors': '^2.8.17',
-  '@types/express': '^4.17.21',
+  '@eslint/js': '^10.0.1',
+  '@types/cors': '^2.8.19',
+  '@types/express': '5.0.6',
   '@types/hpp': '^0.2.3',
-  '@types/jest': '^29.5.14',
+  '@types/jest': '^30.0.0',
   '@types/jsonwebtoken': '^9.0.10',
-  '@types/morgan': '^1.9.9',
-  '@types/node': '^24.9.0',
-  '@types/supertest': '^6.0.2',
-  eslint: '^9.20.0',
-  'eslint-config-prettier': '^10.0.1',
-  globals: '^15.14.0',
-  jest: '^29.7.0',
+  '@types/morgan': '^1.9.10',
+  '@types/node': '^25.6.0',
+  '@types/supertest': '^7.2.0',
+  eslint: '^10.2.1',
+  'eslint-config-prettier': '^10.1.8',
+  globals: '^17.5.0',
+  jest: '^30.3.0',
   husky: '^9.1.7',
-  nodemon: '^3.0.2',
-  prettier: '^3.5.1',
-  prisma: '^6.15.0',
-  supertest: '^7.1.3',
-  'ts-jest': '^29.2.5',
+  nodemon: '^3.1.14',
+  prettier: '^3.8.3',
+  prisma: '^7.8.0',
+  supertest: '^7.2.2',
+  'ts-jest': '^29.4.9',
   'ts-node': '^10.9.2',
-  typescript: '^5.9.3',
-  'typescript-eslint': '^8.24.1',
+  typescript: '^6.0.3',
+  'typescript-eslint': '^8.59.1',
 };
 
 export const NODEJS_GRAPHQL_DEPENDENCIES: Record<string, string> = {
@@ -63,16 +64,16 @@ export const NODEJS_GRAPHQL_DEPENDENCIES: Record<string, string> = {
 };
 
 export const NODEJS_QUEUE_DEPENDENCIES: Record<string, string> = {
-  bullmq: '^5.72.1',
-  ioredis: '^5.3.2',
+  bullmq: '^5.76.4',
+  ioredis: '^5.10.1',
 };
 
 export const NODEJS_CACHE_DEPENDENCIES: Record<string, string> = {
-  ioredis: '^5.3.2',
+  ioredis: '^5.10.1',
 };
 
 export const NODEJS_LLM_DEPENDENCIES: Record<string, string> = {
-  openai: '^6.33.0',
+  openai: '^6.35.0',
 };
 
 const BASE_CONFIG_FIELDS: ConfigField[] = [
@@ -295,11 +296,40 @@ function renderLoggerFile(context: NodeServerTemplateContext): string {
 
 function renderPrismaClientFile(): string {
   return lines(
-    "import { PrismaClient } from '@prisma/client';",
+    "import { PrismaMariaDb } from '@prisma/adapter-mariadb';",
+    "import { PrismaClient } from '../../generated/prisma/client.js';",
+    "import { env } from '@/config/env';",
     '',
-    'const prisma = new PrismaClient();',
+    'function createPrismaAdapter(): PrismaMariaDb {',
+    '  const databaseUrl = new URL(env.DATABASE_URL);',
+    '',
+    '  return new PrismaMariaDb({',
+    '    host: databaseUrl.hostname,',
+    '    port: databaseUrl.port ? Number(databaseUrl.port) : 3306,',
+    '    user: decodeURIComponent(databaseUrl.username),',
+    '    password: decodeURIComponent(databaseUrl.password),',
+    "    database: databaseUrl.pathname.replace(/^\\//, ''),",
+    '    connectionLimit: 5,',
+    '  });',
+    '}',
+    '',
+    'const prisma = new PrismaClient({ adapter: createPrismaAdapter() });',
     '',
     'export default prisma;',
+  );
+}
+
+function renderPrismaConfig(): string {
+  return lines(
+    "import 'dotenv/config';",
+    "import { defineConfig, env } from 'prisma/config';",
+    '',
+    'export default defineConfig({',
+    "  schema: 'prisma/schema.prisma',",
+    '  datasource: {',
+    "    url: env('DATABASE_URL'),",
+    '  },',
+    '});',
   );
 }
 
@@ -510,10 +540,10 @@ function renderSharedAccessMiddleware(): string {
 
 function renderSharedAuthIndex(): string {
   return lines(
-    "export * from './access-auth';",
-    "export * from './contracts';",
-    "export * from './errors';",
-    "export * from './tokens';",
+    "export * from './access-auth.js';",
+    "export * from './contracts.js';",
+    "export * from './errors.js';",
+    "export * from './tokens.js';",
   );
 }
 
@@ -758,12 +788,13 @@ function renderServerFile(
 function renderPrismaSchema(): string {
   return lines(
     'generator client {',
-    "  provider = 'prisma-client-js'",
+    "  provider     = 'prisma-client'",
+    "  output       = '../src/generated/prisma'",
+    "  moduleFormat = 'cjs'",
     '}',
     '',
     'datasource db {',
     "  provider = 'mysql'",
-    "  url      = env('DATABASE_URL')",
     '}',
     '',
     'model HealthCheckEvent {',
@@ -938,6 +969,7 @@ export function buildNodeServerSharedScaffold(
 ): Record<string, string> {
   const scaffold: Record<string, string> = {
     '.env.example': renderEnvExample(context, features),
+    'prisma.config.ts': renderPrismaConfig(),
     'prisma/schema.prisma': renderPrismaSchema(),
     'src/config/env.ts': renderEnvFile(features),
     'src/config/logger.ts': renderLoggerFile(context),

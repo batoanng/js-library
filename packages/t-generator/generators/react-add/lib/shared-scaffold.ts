@@ -16,7 +16,7 @@ const SHARED_SCAFFOLD_PATHS = [
 type SharedScaffoldPath = (typeof SHARED_SCAFFOLD_PATHS)[number];
 
 export const REACT_SHARED_DEPENDENCIES = {
-  zod: '^4.3.6',
+  zod: '^4.4.1',
 } as const;
 
 function indent(value: string, spaces: number): string {
@@ -271,7 +271,7 @@ function renderAppProviders(features: InstalledFeatures): string {
 
   if (features.auth) {
     imports.push(
-      "import { Auth0ProviderWithNavigate } from './auth/Auth0ProviderWithNavigate';",
+      "import { Auth0ProviderWithNavigate } from './auth/Auth0ProviderWithNavigate.js';",
     );
   }
 
@@ -814,7 +814,7 @@ function renderHomePageTest(
     );
   }
 
-  return `import { render, screen } from '@testing-library/react';\nimport { MemoryRouter } from 'react-router-dom';\nimport { describe, expect, it } from 'vitest';\nimport { AppProviders } from '@/app/providers';\nimport { HomePage } from './HomePage';\n\ndescribe('HomePage', () => {\n  it('renders the generated home page content', () => {\n    render(\n      <MemoryRouter>\n        <AppProviders>\n          <HomePage />\n        </AppProviders>\n      </MemoryRouter>,\n    );\n\n${assertions.join('\n\n')}\n  });\n});\n`;
+  return `import { render, screen } from '@testing-library/react';\nimport { MemoryRouter } from 'react-router-dom';\nimport { describe, expect, it } from 'vitest';\nimport { AppProviders } from '@/app/providers';\nimport { HomePage } from './HomePage.js';\n\ndescribe('HomePage', () => {\n  it('renders the generated home page content', () => {\n    render(\n      <MemoryRouter>\n        <AppProviders>\n          <HomePage />\n        </AppProviders>\n      </MemoryRouter>,\n    );\n\n${assertions.join('\n\n')}\n  });\n});\n`;
 }
 
 function renderSharedScaffoldFile(

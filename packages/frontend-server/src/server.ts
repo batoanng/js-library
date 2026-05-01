@@ -3,9 +3,8 @@ import dotenv from 'dotenv';
 import express, { type Request as ExpressRequest, type Response as ExpressResponse } from 'express';
 import { existsSync, readFileSync } from 'fs';
 import { readFile } from 'fs/promises';
-import { type IncomingMessage, type OutgoingHttpHeader } from 'http';
+import { type OutgoingHttpHeader } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { type Request as ProxyRequest, type Response as ProxyResponse } from 'http-proxy-middleware/dist/types';
 import { contentType } from 'mime-types';
 import { extname, join } from 'path';
 
@@ -87,7 +86,7 @@ export const buildServer = (params: BuildServerParams): BuildServerReturn => {
   );
 
   server.options(
-    '*',
+    /.*/,
     cors({
       origin: checkCorsOrigin,
       credentials: true,
@@ -162,18 +161,17 @@ export const buildServer = (params: BuildServerParams): BuildServerReturn => {
 
   server.use(
     apiKey,
-    createProxyMiddleware({
+    createProxyMiddleware<ExpressRequest, ExpressResponse>({
       changeOrigin: true,
       target: targetServerUrl,
-      pathRewrite: {
-        [apiKey]: '/api',
-      },
-      logLevel: 'debug',
-      onProxyRes: (proxyRes, req, res) => {
-        // Prevent caching of API responses - this was a Red Cursor suggestion
-        res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
+      pathRewrite: (path) => (path.startsWith('/api') ? path : `/api${path}`),
+      on: {
+        proxyRes: (proxyRes, req, res) => {
+          // Prevent caching of API responses - this was a Red Cursor suggestion
+          res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
 
-        handleProxyRes(proxyRes, req, res);
+          handleProxyRes(proxyRes, req, res);
+        },
       },
     })
   );
@@ -222,7 +220,7 @@ export const buildServer = (params: BuildServerParams): BuildServerReturn => {
   });
 
   // Default handler. Attempt to serve requested resource from file system.
-  server.get('*', async (req, res) => {
+  server.get(/.*/, async (req, res) => {
     const resourceRelativePath = getResourceRelativePath(req.path);
     const [sr, mimeType] = await staticResource(resourceRelativePath);
     if (sr == null) {
@@ -319,12 +317,15 @@ export const buildServer = (params: BuildServerParams): BuildServerReturn => {
     return callback(new Error(msg), false);
   }
 
-  function handleProxyRes(proxyRes: IncomingMessage, req: ProxyRequest, res: ProxyResponse) {
+  function handleProxyRes(
+    ...args: Parameters<NonNullable<NonNullable<BuildServerParams['proxyOptions']>['onProxyRes']>>
+  ) {
+    const [proxyRes, _req, res] = args;
     const proxyHeaders = proxyRes.headers;
     delete proxyHeaders['access-control-allow-origin'];
     setApiCsp(res);
 
-    proxyOptions?.onProxyRes?.(proxyRes, req, res);
+    proxyOptions?.onProxyRes?.(...args);
   }
 
   async function staticResource(resourceName: string): Promise<[string | Buffer, string] | []> {
@@ -375,7 +376,7 @@ export const buildServer = (params: BuildServerParams): BuildServerReturn => {
     };
   }
 
-  function setApiCsp(res: ProxyResponse) {
+  function setApiCsp(res: ExpressResponse) {
     return res.set('Content-Security-Policy', cspApiElements.join('; '));
   }
 

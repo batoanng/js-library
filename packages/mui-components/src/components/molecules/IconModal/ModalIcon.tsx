@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import InfoIcon from '@mui/icons-material/Info';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import HelpIcon from '@mui/icons-material/Help';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HelpOutlinedIcon from '@mui/icons-material/HelpOutlined';
 
 const IconWrapper = styled('div')(() => ({
   'width': '1.2rem',
@@ -35,7 +35,7 @@ export const ModalIcon = ({ iconType }: ModalIconProps) => {
 
   return (
     <IconWrapper className="modal-icon" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-      {hovered ? <HelpIcon /> : <HelpOutlineIcon />}
+      {hovered ? <HelpIcon /> : <HelpOutlinedIcon />}
     </IconWrapper>
   );
 };

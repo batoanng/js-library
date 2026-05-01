@@ -1,7 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-export const BATOANNG_TYPES_VERSION = '^0.5.1';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export const BATOANNG_TYPES_VERSION = '^0.5.2';
 
 const DEFAULT_CODEX_SCAFFOLD_PATHS = [
   '.codex/config.toml',

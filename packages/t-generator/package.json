@@ -1,15 +1,15 @@
 {
   "name": "generator-t-generator",
-  "version": "0.4.6",
+  "version": "0.5.0",
   "description": "Yeoman generators for bootstrapping React apps, Next.js apps, NestJS servers, and Node.js servers.",
   "publishConfig": {
     "access": "public"
   },
-  "type": "commonjs",
-  "main": "generators/index.js",
+  "type": "module",
+  "main": "dist/generators/index.js",
   "files": [
-    "generators/**/*.js",
-    "generators/**/templates/**",
+    "dist/generators/**/*.js",
+    "dist/generators/**/templates/**",
     "README.md",
     "CHANGELOG.md"
   ],
@@ -34,27 +34,29 @@
     "type-check": "tsc --noEmit",
     "typecheck": "pnpm run type-check",
     "lint": "eslint generators test scripts eslint.config.mjs --max-warnings 0",
-    "test": "node --import tsx --test test/*.test.ts",
+    "test": "pnpm run build && TEST_TARGET=build node --import tsx/esm --test test/*.test.ts",
     "clean:build": "node scripts/clean-build-output.cjs",
     "clean": "pnpm run clean:build",
-    "build": "pnpm run clean:build && tsc -p tsconfig.build.json && node scripts/stage-dist.cjs",
+    "build": "pnpm run clean:build && tsc -p tsconfig.build.json && node scripts/rewrite-dist-imports.cjs && node scripts/stage-dist.cjs",
     "link:dev": "npm --prefix ./dist install && cd ./dist && npm link",
-    "test:dist": "pnpm run build && DIST_SMOKE=1 TEST_TARGET=dist node --import tsx --test test/dist-package.test.ts",
+    "test:dist": "pnpm run build && DIST_SMOKE=1 TEST_TARGET=dist node --import tsx/esm --test test/dist-package.test.ts",
     "prepack": "pnpm run build",
     "postpack": "pnpm run clean:build",
-    "release": "npm publish"
+    "release": "pnpm run build && npm publish ./dist"
   },
   "dependencies": {
-    "yeoman-generator": "^5.10.0"
+    "mem-fs": "^4.1.4",
+    "yeoman-generator": "^8.2.2"
   },
   "devDependencies": {
-    "@batoanng/eslint-config": "^3.3.2",
-    "@batoanng/prettier-config": "^1.7.0",
-    "@batoanng/tsconfig": "^1.5.1",
+    "@batoanng/eslint-config": "^3.4.0",
+    "@batoanng/prettier-config": "^1.7.1",
+    "@batoanng/tsconfig": "^1.6.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
-    "@types/yeoman-generator": "^5.2.14",
+    "@yeoman/adapter": "^4.0.2",
     "tsx": "^4.21.0",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^7.4.0"
+    "yeoman-environment": "^6.1.0",
+    "yeoman-test": "^11.4.2"
   }
 }

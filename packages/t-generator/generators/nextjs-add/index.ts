@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import GeneratorBase from 'yeoman-generator';
+import GeneratorBase, { type BaseOptions, type PromptAnswers } from 'yeoman-generator';
 
 import {
   getTrackedFeature,
@@ -30,11 +31,13 @@ import type {
   InstalledFeatures,
 } from './lib/types';
 
-interface AddGeneratorOptions extends GeneratorBase.GeneratorOptions {
-  featureName?: string;
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-interface FeaturePromptAnswers extends GeneratorBase.Answers {
+type AddGeneratorOptions = BaseOptions & {
+  featureName?: string;
+};
+
+interface FeaturePromptAnswers extends PromptAnswers {
   featureName: string;
 }
 
@@ -134,7 +137,7 @@ class AddGenerator extends GeneratorBase {
   installedFeatures!: InstalledFeatures;
 
   constructor(args: string | string[], opts: AddGeneratorOptions) {
-    super(args, opts);
+    super(Array.isArray(args) ? args : [args], opts);
     this.sourceRoot(path.join(__dirname, 'templates'));
 
     this.argument('featureName', {
@@ -151,7 +154,7 @@ class AddGenerator extends GeneratorBase {
 
     const answers = await this.prompt<FeaturePromptAnswers>([
       {
-        type: 'list',
+        type: 'select',
         name: 'featureName',
         message: 'Feature to add',
         choices: FEATURE_PROMPT_CHOICES,
@@ -210,6 +213,7 @@ class AddGenerator extends GeneratorBase {
 
       throw new Error(
         `${featureLabel} can only be generated inside a t-generator Next.js app. Unable to read package.json: ${message}`,
+        { cause: error },
       );
     }
 
@@ -380,4 +384,4 @@ class AddGenerator extends GeneratorBase {
   }
 }
 
-export = AddGenerator;
+export default AddGenerator;

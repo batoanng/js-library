@@ -38,7 +38,7 @@ test('adds the auth feature to an existing generated Next.js base app', async ()
 
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
-  assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], '^4.9.0');
+  assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], '^4.19.0');
   assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
   assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
   assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
@@ -97,7 +97,7 @@ test('adds the ui-library feature to an existing generated Next.js base app', as
 
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
-  assert.equal(packageJson.dependencies?.['@mui/material-nextjs'], '6.1.8');
+  assert.equal(packageJson.dependencies?.['@mui/material-nextjs'], '9.0.0');
   assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], undefined);
   assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], undefined);
   assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
@@ -127,7 +127,7 @@ test('adds the redux feature to an existing generated Next.js base app', async (
 
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
-  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], '^2.2.7');
+  assert.equal(packageJson.dependencies?.['@reduxjs/toolkit'], '^2.11.2');
   assert.equal(packageJson.dependencies?.['@auth0/nextjs-auth0'], undefined);
   assert.equal(packageJson.dependencies?.['@tanstack/react-query'], undefined);
   assert.equal(packageJson.dependencies?.['@apollo/client'], undefined);
@@ -158,7 +158,7 @@ test('adds the react-query feature to an existing generated Next.js base app', a
 
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
-  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], '^5.59.16');
+  assert.equal(packageJson.dependencies?.['@tanstack/react-query'], '^5.100.6');
   assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
   assert.equal(packageJson.dependencies?.['@mui/material'], undefined);
   assert.equal(packageJson.dependencies?.['@mui/material-nextjs'], undefined);

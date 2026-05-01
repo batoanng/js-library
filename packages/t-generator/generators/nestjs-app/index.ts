@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import GeneratorBase from 'yeoman-generator';
+import GeneratorBase, { type BaseOptions, type PromptAnswers } from 'yeoman-generator';
 
 import { buildDefaultCodexScaffold } from '../lib/defaults';
 import type { TemplateContext } from '../lib/types';
@@ -10,11 +11,13 @@ import {
   buildServerSharedScaffold,
 } from './lib/shared-scaffold';
 
-interface NestAppGeneratorOptions extends GeneratorBase.GeneratorOptions {
-  appName?: string;
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-interface AppPromptAnswers extends GeneratorBase.Answers {
+type NestAppGeneratorOptions = BaseOptions & {
+  appName?: string;
+};
+
+interface AppPromptAnswers extends PromptAnswers {
   appName: string;
 }
 
@@ -53,7 +56,7 @@ class NestAppGenerator extends GeneratorBase {
   private displayName!: string;
 
   constructor(args: string | string[], opts: NestAppGeneratorOptions) {
-    super(args, opts);
+    super(Array.isArray(args) ? args : [args], opts);
     this.sourceRoot(path.join(__dirname, 'templates'));
 
     this.argument('appName', {
@@ -76,7 +79,7 @@ class NestAppGenerator extends GeneratorBase {
         name: 'appName',
         message: 'NestJS application name',
         default: 'my-server',
-        validate: (value) => {
+        validate: (value: unknown) => {
           if (!normalizeAppName(value)) {
             return 'Enter a valid application name.';
           }
@@ -127,6 +130,7 @@ class NestAppGenerator extends GeneratorBase {
       ['_eslintrc.cjs.ejs', '.eslintrc.cjs'],
       ['prettier.config.js.ejs', 'prettier.config.js'],
       ['_gitignore.ejs', '.gitignore'],
+      ['prisma.config.ts.ejs', 'prisma.config.ts'],
       ['prisma/schema.prisma.ejs', 'prisma/schema.prisma'],
       ['src/modules/common/common.module.ts.ejs', 'src/modules/common/common.module.ts'],
       ['src/modules/common/index.ts.ejs', 'src/modules/common/index.ts'],
@@ -208,4 +212,4 @@ class NestAppGenerator extends GeneratorBase {
   }
 }
 
-export = NestAppGenerator;
+export default NestAppGenerator;

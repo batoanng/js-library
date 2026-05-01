@@ -159,7 +159,7 @@ function renderAppProviders(features: InstalledFeatures): string {
 
   if (features.uiLibrary) {
     imports.push(
-      "import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';",
+      "import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';",
     );
     imports.push("import { CssBaseline, ThemeProvider } from '@mui/material';");
     imports.push(
@@ -643,7 +643,7 @@ function renderHomePageTest(
     );
   }
 
-  return `import { render, screen } from '@testing-library/react';\nimport { AppProviders } from '@/app/providers';\nimport { HomePage } from './HomePage';\n\ndescribe('HomePage', () => {\n  it('renders the generated home page content', () => {\n    render(\n      <AppProviders>\n        <HomePage />\n      </AppProviders>,\n    );\n\n${assertions.join('\n\n')}\n  });\n});\n`;
+  return `import { render, screen } from '@testing-library/react';\nimport { AppProviders } from '@/app/providers';\nimport { HomePage } from './HomePage.js';\n\ndescribe('HomePage', () => {\n  it('renders the generated home page content', () => {\n    render(\n      <AppProviders>\n        <HomePage />\n      </AppProviders>,\n    );\n\n${assertions.join('\n\n')}\n  });\n});\n`;
 }
 
 function renderSharedScaffoldFile(

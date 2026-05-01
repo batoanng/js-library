@@ -1,8 +1,12 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import GeneratorBase from 'yeoman-generator';
+import GeneratorBase, { type PromptAnswers } from 'yeoman-generator';
 
-interface RootPromptAnswers extends GeneratorBase.Answers {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+interface RootPromptAnswers extends PromptAnswers {
   stack: 'react' | 'nextjs' | 'nestjs' | 'nodejs';
   action: 'create-base' | 'add-feature';
 }
@@ -51,13 +55,13 @@ class RootGenerator extends GeneratorBase {
   async prompting(): Promise<void> {
     const answers = await this.prompt<RootPromptAnswers>([
       {
-        type: 'list',
+        type: 'select',
         name: 'stack',
         message: 'What do you want to work on?',
         choices: STACK_CHOICES,
       },
       {
-        type: 'list',
+        type: 'select',
         name: 'action',
         message: 'What should the generator do?',
         choices: ACTION_CHOICES,
@@ -68,14 +72,14 @@ class RootGenerator extends GeneratorBase {
     this.action = answers.action;
   }
 
-  default(): void {
+  async default(): Promise<void> {
     const namespace = this.action === 'create-base'
       ? `${this.stack}-app`
       : `${this.stack}-add`;
     const generatorExtension = path.extname(__filename) === '.ts' ? '.ts' : '.js';
 
-    this.composeWith(path.join(__dirname, namespace, `index${generatorExtension}`));
+    await this.composeWith(path.join(__dirname, namespace, `index${generatorExtension}`));
   }
 }
 
-export = RootGenerator;
+export default RootGenerator;

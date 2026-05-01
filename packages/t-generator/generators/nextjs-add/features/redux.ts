@@ -29,9 +29,9 @@ const REDUX_NEW_FILES = [
 ];
 
 const REDUX_DEPENDENCIES = {
-  '@reduxjs/toolkit': '^2.2.7',
-  'react-redux': '^8.0.2',
-  redux: '^4.2.0',
+  '@reduxjs/toolkit': '^2.11.2',
+  'react-redux': '^9.2.0',
+  redux: '^5.0.1',
   'redux-persist': '^6.0.0',
 };
 
@@ -111,4 +111,4 @@ const reduxFeature: FeatureDefinition = {
   },
 };
 
-export = reduxFeature;
+export default reduxFeature;
