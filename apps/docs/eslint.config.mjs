@@ -5,6 +5,9 @@ import test from '@batoanng/eslint-config/test';
 import typed from '@batoanng/eslint-config/typed';
 
 export default [
+  {
+    ignores: ['next-env.d.ts'],
+  },
   ...config,
   ...typed,
   ...next,
