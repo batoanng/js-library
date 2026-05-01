@@ -3,12 +3,14 @@
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
-      "outputs": ["dist/**", ".next/**", "generators/**/*.js"],
+      "outputs": ["dist/**", ".next/**"],
       "dependsOn": ["^build"],
       "env": ["ANALYZE"]
     },
     "test": {},
-    "lint": {},
+    "lint": {
+      "dependsOn": ["^build"]
+    },
     "format": {},
     "dev": {
       "cache": false,
