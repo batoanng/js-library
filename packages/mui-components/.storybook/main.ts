@@ -1,11 +1,14 @@
 import { StorybookConfig } from '@storybook/react-vite';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
+const storybookDir = path.dirname(fileURLToPath(import.meta.url));
+
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/stories/*.mdx', '../src/**/*.stories.tsx'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.tsx'],
 
   addons: ['@storybook/addon-links', '@storybook/addon-a11y', '@chromatic-com/storybook', '@storybook/addon-docs'],
 
@@ -23,17 +26,17 @@ const config: StorybookConfig = {
   },
 
   async viteFinal(config) {
-    const workingDir = path.relative(config.root ?? '', path.resolve(__dirname, '../src'));
+    const workingDir = path.relative(config.root ?? '', path.resolve(storybookDir, '../src'));
     const aliases = Array.isArray(config.resolve?.alias)
       ? [
           ...config.resolve.alias,
-          { find: '@batoanng/types', replacement: path.resolve(__dirname, '../../types/src/index.tsx') },
-          { find: '@batoanng/utils', replacement: path.resolve(__dirname, '../../utils/src/index.tsx') },
+          { find: '@batoanng/types', replacement: path.resolve(storybookDir, '../../types/src/index.tsx') },
+          { find: '@batoanng/utils', replacement: path.resolve(storybookDir, '../../utils/src/index.tsx') },
         ]
       : {
           ...(config.resolve?.alias ?? {}),
-          '@batoanng/types': path.resolve(__dirname, '../../types/src/index.tsx'),
-          '@batoanng/utils': path.resolve(__dirname, '../../utils/src/index.tsx'),
+          '@batoanng/types': path.resolve(storybookDir, '../../types/src/index.tsx'),
+          '@batoanng/utils': path.resolve(storybookDir, '../../utils/src/index.tsx'),
         };
     const filteredPlugins =
       config.plugins?.filter((plugin: any) => !['peer-deps-external', 'vite:dts'].includes(plugin.name)) ?? [];
