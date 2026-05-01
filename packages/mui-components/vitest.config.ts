@@ -1,9 +1,11 @@
-// @ts-ignore
-import { viteConfig, vitestConfig } from '@batoanng/vite-config';
+// @ts-expect-error shared vitest config is published without local type metadata
+import { vitestConfig } from '@batoanng/vite-config';
 import { fileURLToPath } from 'url';
 import { mergeConfig } from 'vite';
+import svgr from 'vite-plugin-svgr';
 
 const workspaceAliases = {
+  plugins: [svgr()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -13,4 +15,4 @@ const workspaceAliases = {
   },
 };
 
-export default mergeConfig(mergeConfig(viteConfig, workspaceAliases), vitestConfig);
+export default mergeConfig(vitestConfig, workspaceAliases);

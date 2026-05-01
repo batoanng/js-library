@@ -8,7 +8,7 @@ import {
 } from '@/functions';
 import { useFieldErrorMessage, useHtmlId, useScreenType } from '@/hooks';
 import type { FormOption, FormOptionsControlProps } from '@/types';
-import { KeyboardArrowDownRounded } from '@mui/icons-material';
+import KeyboardArrowDownRounded from '@mui/icons-material/KeyboardArrowDownRounded';
 import type {
   NativeSelectProps as MuiNativeSelectProps,
   SelectChangeEvent,

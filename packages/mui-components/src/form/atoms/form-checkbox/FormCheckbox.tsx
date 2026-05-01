@@ -1,7 +1,7 @@
 import { FormErrorText } from '@/components';
 import { useFieldErrorMessage, useHtmlId } from '@/hooks';
 import { FormFieldProps } from '@/types';
-import { CheckRounded } from '@mui/icons-material';
+import CheckRounded from '@mui/icons-material/CheckRounded';
 import type { FormControlLabelProps } from '@mui/material';
 import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText } from '@mui/material';
 import type { ReactNode } from 'react';

@@ -1,4 +1,4 @@
-import { CheckRounded } from '@mui/icons-material';
+import CheckRounded from '@mui/icons-material/CheckRounded';
 import { Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
 import { ReactNode } from 'react';
 

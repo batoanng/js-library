@@ -15,6 +15,9 @@ jest.mock('remark-gfm', () => () => undefined);
 
 import HomePage from '../src/app/page';
 import PackagePage, { generateStaticParams } from '../src/app/packages/[slug]/page';
+import PackageSectionPage, {
+  generateStaticParams as generatePackageSectionStaticParams,
+} from '../src/app/packages/[slug]/[...sectionPath]/page';
 
 jest.mock('framer-motion', () => {
   const React = require('react');
@@ -86,5 +89,27 @@ describe('docs routes', () => {
     const params = await generateStaticParams();
 
     expect(params).toEqual(expect.arrayContaining([{ slug: 'utils' }, { slug: 'mui-components' }]));
+  });
+
+  it('renders package child section routes and generates their static params', async () => {
+    const params = await generatePackageSectionStaticParams();
+
+    expect(params).toEqual(
+      expect.arrayContaining([
+        { sectionPath: ['quick-start'], slug: 'mui-components' },
+        { sectionPath: ['reference'], slug: 'mui-components' },
+      ])
+    );
+
+    render(
+      await PackageSectionPage({ params: Promise.resolve({ sectionPath: ['quick-start'], slug: 'mui-components' }) })
+    );
+
+    expect(screen.getByRole('heading', { name: '@batoanng/mui-components' })).toBeInTheDocument();
+    expect(
+      screen
+        .getAllByRole('link')
+        .find((link) => link.getAttribute('href') === '/packages/mui-components/reference#reference')
+    ).toBeTruthy();
   });
 });

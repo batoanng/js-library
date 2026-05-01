@@ -1,5 +1,6 @@
-import { FormErrorText } from '@/components';
 import { render, screen } from '@/test-utils';
+
+import { FormErrorText } from './FormErrorText';
 
 describe('FormErrorText', () => {
   it('should render the error icon', () => {

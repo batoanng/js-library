@@ -10,7 +10,7 @@
     "lint": "TIMING=1 eslint . --ignore-pattern out",
     "test": "jest",
     "test:watch": "jest --watch",
-    "type-check": "tsc --noEmit",
+    "type-check": "next typegen && tsc --noEmit",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next"
   },
   "dependencies": {

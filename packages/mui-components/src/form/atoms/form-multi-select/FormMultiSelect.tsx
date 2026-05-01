@@ -11,7 +11,7 @@ import {
 } from '@/functions';
 import { useFieldErrorMessage, useHtmlId } from '@/hooks';
 import type { ArrayFieldPath, ArrayPathValue, FormOption, FormOptionsControlProps } from '@/types';
-import { KeyboardArrowDownRounded } from '@mui/icons-material';
+import KeyboardArrowDownRounded from '@mui/icons-material/KeyboardArrowDownRounded';
 import {
   Button,
   Checkbox,

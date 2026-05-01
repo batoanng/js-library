@@ -1,4 +1,4 @@
-import { Download } from '@mui/icons-material';
+import Download from '@mui/icons-material/Download';
 import { Link } from '@mui/material';
 
 import { createTestTheme, render, screen } from '@/test-utils';

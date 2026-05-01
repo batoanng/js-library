@@ -12,9 +12,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH?.replace(/\/$/, '') ?? '';
 
 /** @type{import('next').NextConfig} */
 const config = {
-  experimental: {
-    outputFileTracingRoot: path.join(projectDirectory, '../..'),
-  },
+  outputFileTracingRoot: path.join(projectDirectory, '../..'),
   ...(isStaticExport
     ? {
         output: 'export',
@@ -26,7 +24,6 @@ const config = {
       }
     : {}),
   reactStrictMode: true,
-  swcMinify: true,
 };
 
 export default withBundleAnalyzer(config);

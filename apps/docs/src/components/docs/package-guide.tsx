@@ -15,6 +15,7 @@ type PackageGuideProps = {
 }
 
 export function PackageGuide({ packageDoc }: PackageGuideProps) {
+  const packagePath = `/packages/${packageDoc.slug}`
   const tocItems = [
     ...packageDoc.guideSections.map((section) => ({
       id: section.id,
@@ -121,13 +122,13 @@ export function PackageGuide({ packageDoc }: PackageGuideProps) {
                           {section.title}
                         </h2>
                       </div>
-                      <a
+                      <Link
                         className="hidden items-center gap-1 text-sm font-medium text-slate-500 transition hover:text-slate-950 sm:inline-flex"
-                        href={`#${section.id}`}
+                        href={`${packagePath}/${section.id}#${section.id}`}
                       >
                         Jump link
                         <ArrowTopRightOnSquareIcon className="size-4" />
-                      </a>
+                      </Link>
                     </div>
                     <div className="mt-6">
                       <MarkdownRenderer content={section.markdown} headingPrefix={`${packageDoc.slug}-${section.id}`} />
@@ -156,13 +157,13 @@ export function PackageGuide({ packageDoc }: PackageGuideProps) {
                 <p className="docs-eyebrow">On this page</p>
                 <nav className="mt-4 space-y-2">
                   {tocItems.map((item) => (
-                    <a
+                    <Link
                       className="flex rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950"
-                      href={`#${item.id}`}
+                      href={`${packagePath}/${item.id}#${item.id}`}
                       key={item.id}
                     >
                       {item.title}
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </section>

@@ -1,4 +1,7 @@
-import { CheckCircleRounded, ErrorRounded, InfoRounded, WarningRounded } from '@mui/icons-material';
+import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
+import ErrorRounded from '@mui/icons-material/ErrorRounded';
+import InfoRounded from '@mui/icons-material/InfoRounded';
+import WarningRounded from '@mui/icons-material/WarningRounded';
 
 import type { AlertVariant } from './types';
 
