@@ -127,7 +127,7 @@ class AppGenerator extends GeneratorBase {
       ['vitest.config.ts.ejs', 'vitest.config.ts'],
       ['eslint.config.js.ejs', 'eslint.config.js'],
       ['_gitignore.ejs', '.gitignore'],
-      ['_prettierrc.json.ejs', '.prettierrc.json'],
+      ['prettier.config.cjs.ejs', 'prettier.config.cjs'],
       ['_prettierignore.ejs', '.prettierignore'],
       ['src/main.tsx.ejs', 'src/main.tsx'],
       ['src/test/setup.ts.ejs', 'src/test/setup.ts'],

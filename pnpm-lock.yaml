@@ -554,6 +554,9 @@ importers:
       '@batoanng/tsconfig':
         specifier: ^1.6.1
         version: link:../tsconfig
+      '@batoanng/vite-config':
+        specifier: ^1.4.0
+        version: link:../vite-config
       axios:
         specifier: ^1.15.2
         version: 1.15.2

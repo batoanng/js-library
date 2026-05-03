@@ -39,20 +39,22 @@ const BASE_DEPENDENCIES: Record<string, string> = {
 };
 
 const BASE_DEV_DEPENDENCIES: Record<string, string> = {
+  '@batoanng/eslint-config': '^3.4.0',
+  '@batoanng/prettier-config': '^1.7.1',
+  '@batoanng/tsconfig': '^1.6.1',
+  '@batoanng/vite-config': '^1.4.0',
   '@nestjs/testing': '^11.1.19',
-  '@trivago/prettier-plugin-sort-imports': '^6.0.2',
   '@types/node': '^24.12.2',
   '@types/passport-jwt': '^4.0.1',
-  '@typescript-eslint/eslint-plugin': '^8.46.2',
-  '@typescript-eslint/parser': '^8.46.2',
   'env-cmd': '^11.0.0',
-  eslint: '^8.57.1',
+  eslint: '^10.2.1',
   husky: '^9.1.7',
   nodemon: '^3.1.10',
   prettier: '^3.8.3',
   prisma: '^7.8.0',
   'ts-node': '^10.9.2',
   typescript: '^6.0.3',
+  vite: '^8.0.10',
   vitest: '^4.1.5',
 };
 
@@ -259,7 +261,7 @@ export function buildServerPackageJson(
       dev: 'env-cmd -f .env nodemon',
       build: 'tsc -p tsconfig.json',
       test: 'vitest run',
-      lint: "eslint -c .eslintrc.cjs --ext .ts 'src/**/*.ts'",
+      lint: 'eslint src/**/*.ts',
       prepush: 'pnpm run lint',
       prepare: 'husky',
       'prisma:generate': 'prisma generate',

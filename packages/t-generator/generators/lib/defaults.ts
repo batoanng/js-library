@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export const BATOANNG_TYPES_VERSION = '^0.5.2';
+export const BATOANNG_TYPES_VERSION = '^0.5.3';
 
 const DEFAULT_CODEX_SCAFFOLD_PATHS = [
   '.codex/config.toml',

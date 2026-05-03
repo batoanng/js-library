@@ -7,10 +7,15 @@ export default [
   ...typed,
   ...test,
   {
-    name: '<%= appName %>/node',
-    files: ['**/*.ts'],
+    name: '<%= appName %>/nestjs',
+    files: ['src/**/*.ts'],
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+        },
+      ],
     },
   },
 ];

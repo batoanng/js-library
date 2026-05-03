@@ -22,6 +22,11 @@ const blockedDependencies = [
   '@types/jest',
   'jest',
   'ts-jest',
+  'vite-tsconfig-paths',
+  '@eslint/js',
+  'eslint-config-prettier',
+  'globals',
+  'typescript-eslint',
 ];
 
 test('generates the clean Node.js base app with the expected project structure', async () => {
@@ -113,9 +118,12 @@ test('generates the clean Node.js base app with the expected project structure',
   });
   assert.equal(packageJson.dependencies?.['@prisma/adapter-mariadb'], undefined);
   assert.equal(packageJson.scripts?.test, 'vitest run');
+  assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.4.0');
+  assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.1');
+  assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.6.1');
+  assert.equal(packageJson.devDependencies?.['@batoanng/vite-config'], '^1.4.0');
   assert.equal(packageJson.devDependencies?.vite, '^8.0.10');
   assert.equal(packageJson.devDependencies?.vitest, '^4.1.5');
-  assert.equal(packageJson.devDependencies?.['vite-tsconfig-paths'], '^6.1.1');
   assert.equal(packageJson.devDependencies?.['@types/swagger-ui-express'], '^4.1.8');
   assert.equal(fs.existsSync(path.join(projectRoot, 'jest.config.js')), false);
 
@@ -136,8 +144,15 @@ test('generates the clean Node.js base app with the expected project structure',
     path.join(projectRoot, '.env.example'),
     'DATABASE_URL=postgresql://postgres:postgres@localhost:5432/starter_node?schema=public',
   );
-  yoAssert.fileContent(path.join(projectRoot, 'vite.config.ts'), "import { defineConfig } from 'vitest/config';");
+  yoAssert.fileContent(
+    path.join(projectRoot, 'vite.config.ts'),
+    "import { vitestConfig } from '@batoanng/vite-config/vitest.config';",
+  );
   yoAssert.fileContent(path.join(projectRoot, 'vite.config.ts'), "include: ['tests/**/*.test.ts']");
+  yoAssert.fileContent(
+    path.join(projectRoot, 'prettier.config.cjs'),
+    "require('@batoanng/prettier-config')",
+  );
   yoAssert.fileContent(path.join(projectRoot, '.env.example'), 'ACCESS_SECRET=change-me-access-secret');
   yoAssert.fileContent(path.join(projectRoot, '.env.example'), 'REFRESH_SECRET=change-me-refresh-secret');
   yoAssert.fileContent(path.join(projectRoot, '.env.example'), 'ACCESS_EXPIRES_IN=15m');

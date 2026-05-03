@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/types",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -54,6 +54,7 @@
   "devDependencies": {
     "@batoanng/eslint-config": "^3.4.0",
     "@batoanng/tsconfig": "^1.6.1",
+    "@batoanng/vite-config": "^1.4.0",
     "axios": "^1.15.2",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3"

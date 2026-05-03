@@ -1,5 +1,11 @@
 # @batoanng/types
 
+## 0.5.3
+
+### Patch Changes
+
+- Reuse the shared `@batoanng/vite-config` Vitest baseline for package tests.
+
 ## 0.5.1
 
 ### Patch Changes

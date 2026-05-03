@@ -38,8 +38,10 @@ const blockedDependencies = [
   'tsc-alias',
   'ts-jest',
   'tsconfig-paths',
-  'vite',
   'web-push',
+  '@trivago/prettier-plugin-sort-imports',
+  '@typescript-eslint/eslint-plugin',
+  '@typescript-eslint/parser',
 ];
 
 test('generates the NestJS base app with the expected project structure', async () => {
@@ -69,7 +71,7 @@ test('generates the NestJS base app with the expected project structure', async 
     path.join(projectRoot, 'vitest.config.ts'),
     path.join(projectRoot, 'nodemon.json'),
     path.join(projectRoot, 'index.js'),
-    path.join(projectRoot, '.eslintrc.cjs'),
+    path.join(projectRoot, 'eslint.config.mjs'),
     path.join(projectRoot, 'prettier.config.js'),
     path.join(projectRoot, '.gitignore'),
     path.join(projectRoot, '.env.example'),
@@ -129,6 +131,10 @@ test('generates the NestJS base app with the expected project structure', async 
     '@nestjs/terminus',
     '@prisma/adapter-pg',
     '@prisma/client',
+    '@batoanng/eslint-config',
+    '@batoanng/prettier-config',
+    '@batoanng/tsconfig',
+    '@batoanng/vite-config',
     'class-transformer',
     'class-validator',
     'fastify',
@@ -136,6 +142,7 @@ test('generates the NestJS base app with the expected project structure', async 
     'passport-jwt',
     'reflect-metadata',
     'rxjs',
+    'vite',
     'vitest',
     'zod',
   ].forEach((dependencyName) => {
@@ -333,6 +340,14 @@ test('generates the NestJS base app with the expected project structure', async 
     "'@server': fileURLToPath(new URL('./src', import.meta.url))",
   );
   yoAssert.fileContent(
+    path.join(projectRoot, 'prettier.config.js'),
+    "require('@batoanng/prettier-config')",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'eslint.config.mjs'),
+    "from '@batoanng/eslint-config/base'",
+  );
+  yoAssert.fileContent(
     path.join(projectRoot, 'src/test/health.test.ts'),
     'app.inject({',
   );
@@ -353,6 +368,7 @@ test('generates the NestJS base app with the expected project structure', async 
   assert.equal(fs.existsSync(path.join(projectRoot, 'src/main.tsx')), false);
   assert.equal(fs.existsSync(path.join(projectRoot, 'vite.config.ts')), false);
   assert.equal(fs.existsSync(path.join(projectRoot, 'jest.config.js')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, '.eslintrc.cjs')), false);
   assert.equal(fs.existsSync(path.join(projectRoot, 'src/pages')), false);
   assert.equal(
     fs.existsSync(path.join(projectRoot, 'src/modules/queue')),

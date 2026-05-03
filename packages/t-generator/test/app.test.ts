@@ -38,6 +38,11 @@ const blockedDependencies = [
   'tailwindcss',
   'vite-plugin-pwa',
   'notistack',
+  '@eslint/js',
+  '@trivago/prettier-plugin-sort-imports',
+  'eslint-plugin-react-hooks',
+  'globals',
+  'typescript-eslint',
 ];
 
 test('generates the React base app with the expected project structure', async () => {
@@ -74,7 +79,7 @@ test('generates the React base app with the expected project structure', async (
     path.join(projectRoot, 'vite.config.ts'),
     path.join(projectRoot, 'vitest.config.ts'),
     path.join(projectRoot, 'eslint.config.js'),
-    path.join(projectRoot, '.prettierrc.json'),
+    path.join(projectRoot, 'prettier.config.cjs'),
     path.join(projectRoot, '.prettierignore'),
     path.join(projectRoot, '.env.example'),
     path.join(projectRoot, 'src/main.tsx'),
@@ -106,11 +111,15 @@ test('generates the React base app with the expected project structure', async (
     'react-router-dom',
     'zod',
   ]);
-  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.2');
+  assert.equal(packageJson.dependencies?.['@batoanng/types'], '^0.5.3');
   assert.equal(packageJson.dependencies?.react, '^19.2.5');
   assert.equal(packageJson.dependencies?.['react-dom'], '^19.2.5');
   assert.equal(packageJson.dependencies?.['react-router-dom'], '^7.14.2');
   assert.equal(packageJson.dependencies?.zod, '^4.4.1');
+  assert.equal(packageJson.devDependencies?.['@batoanng/eslint-config'], '^3.4.0');
+  assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.1');
+  assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.6.1');
+  assert.equal(packageJson.devDependencies?.['@batoanng/vite-config'], '^1.4.0');
   assert.equal(packageJson.devDependencies?.['@types/react'], '^19.2.14');
   assert.equal(packageJson.devDependencies?.['@types/react-dom'], '^19.2.3');
   assert.equal(packageJson.tGenerator?.stack, 'react');
@@ -228,6 +237,14 @@ test('generates the React base app with the expected project structure', async (
   yoAssert.fileContent(
     path.join(projectRoot, 'vite.config.ts'),
     'port: Number.isNaN(appPort) ? 3000 : appPort,',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'prettier.config.cjs'),
+    "require('@batoanng/prettier-config')",
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'vitest.config.ts'),
+    "import { vitestConfig } from '@batoanng/vite-config/vitest.config';",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'README.md'),

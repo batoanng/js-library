@@ -32,7 +32,10 @@ const BASE_DEPENDENCIES: Record<string, string> = {
 };
 
 const BASE_DEV_DEPENDENCIES: Record<string, string> = {
-  '@eslint/js': '^10.0.1',
+  '@batoanng/eslint-config': '^3.4.0',
+  '@batoanng/prettier-config': '^1.7.1',
+  '@batoanng/tsconfig': '^1.6.1',
+  '@batoanng/vite-config': '^1.4.0',
   '@types/cors': '^2.8.19',
   '@types/express': '5.0.6',
   '@types/hpp': '^0.2.3',
@@ -42,8 +45,6 @@ const BASE_DEV_DEPENDENCIES: Record<string, string> = {
   '@types/supertest': '^7.2.0',
   '@types/swagger-ui-express': '^4.1.8',
   'eslint': '^10.2.1',
-  'eslint-config-prettier': '^10.1.8',
-  'globals': '^17.5.0',
   'husky': '^9.1.7',
   'nodemon': '^3.1.14',
   'prettier': '^3.8.3',
@@ -51,9 +52,7 @@ const BASE_DEV_DEPENDENCIES: Record<string, string> = {
   'supertest': '^7.2.2',
   'ts-node': '^10.9.2',
   'typescript': '^6.0.3',
-  'typescript-eslint': '^8.59.1',
   'vite': '^8.0.10',
-  'vite-tsconfig-paths': '^6.1.1',
   'vitest': '^4.1.5',
 };
 

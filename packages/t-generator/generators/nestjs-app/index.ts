@@ -127,7 +127,7 @@ class NestAppGenerator extends GeneratorBase {
       ['vitest.config.ts.ejs', 'vitest.config.ts'],
       ['nodemon.json.ejs', 'nodemon.json'],
       ['index.js.ejs', 'index.js'],
-      ['_eslintrc.cjs.ejs', '.eslintrc.cjs'],
+      ['eslint.config.mjs.ejs', 'eslint.config.mjs'],
       ['prettier.config.js.ejs', 'prettier.config.js'],
       ['_gitignore.ejs', '.gitignore'],
       ['prisma.config.ts.ejs', 'prisma.config.ts'],

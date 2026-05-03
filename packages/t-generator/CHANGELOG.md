@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.5.2
+
+### Patch Changes
+
+- Replace generated local ESLint, Prettier, TypeScript, and Vitest configs with shared `@batoanng/*` config packages.
+
 ## 0.5.1
 
 ### Patch Changes

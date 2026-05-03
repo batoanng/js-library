@@ -1,15 +1,20 @@
 import { fileURLToPath } from 'node:url';
 
+// @ts-expect-error shared vitest config is published without local type metadata
+import { vitestConfig } from '@batoanng/vite-config/vitest.config';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+  ...vitestConfig,
   resolve: {
     alias: {
       '@server': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   test: {
+    ...vitestConfig.test,
     environment: 'node',
+    setupFiles: [],
     include: ['src/**/*.test.ts'],
   },
 });

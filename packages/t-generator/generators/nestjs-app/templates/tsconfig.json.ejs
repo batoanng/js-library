@@ -1,14 +1,11 @@
 {
+  "extends": "@batoanng/tsconfig/node24.json",
   "compilerOptions": {
     "module": "CommonJS",
-    "target": "ES2022",
     "moduleResolution": "node",
     "baseUrl": ".",
     "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
+    "noEmit": false,
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
