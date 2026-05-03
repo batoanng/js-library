@@ -67,7 +67,7 @@ describe('docs routes', () => {
   });
 
   it('renders a library package page with quick-start and reference sections', async () => {
-    render(await PackagePage({ params: { slug: 'utils' } }));
+    render(await PackagePage({ params: Promise.resolve({ slug: 'utils' }) }));
 
     expect(screen.getByRole('heading', { name: '@batoanng/utils' })).toBeInTheDocument();
     expect(
@@ -78,7 +78,7 @@ describe('docs routes', () => {
   });
 
   it('renders a config package page with export details', async () => {
-    render(await PackagePage({ params: { slug: 'eslint-config' } }));
+    render(await PackagePage({ params: Promise.resolve({ slug: 'eslint-config' }) }));
 
     expect(screen.getByRole('heading', { name: /Compose a flat config/i, level: 2 })).toBeInTheDocument();
     expect(screen.getByText(/Export surface/i)).toBeInTheDocument();
@@ -100,6 +100,7 @@ describe('docs routes', () => {
         { sectionPath: ['reference'], slug: 'mui-components' },
       ])
     );
+    expect(params).not.toContainEqual({ sectionPath: ['reference'], slug: 't-generator' });
 
     render(
       await PackageSectionPage({ params: Promise.resolve({ sectionPath: ['quick-start'], slug: 'mui-components' }) })

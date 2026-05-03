@@ -17,11 +17,14 @@ export const dynamicParams = false
 const referenceSectionId = 'reference'
 
 function packageSectionIds(packageDoc: PackageDoc): string[] {
-  return [...packageDoc.guideSections.map((section) => section.id), referenceSectionId]
+  return [
+    ...packageDoc.guideSections.map((section) => section.id),
+    ...(packageDoc.referenceMarkdown.trim().length > 0 ? [referenceSectionId] : []),
+  ]
 }
 
 function findSectionTitle(packageDoc: PackageDoc, sectionId: string): string | undefined {
-  if (sectionId === referenceSectionId) {
+  if (sectionId === referenceSectionId && packageDoc.referenceMarkdown.trim().length > 0) {
     return 'Reference'
   }
 

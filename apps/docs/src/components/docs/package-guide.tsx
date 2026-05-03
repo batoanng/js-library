@@ -16,15 +16,20 @@ type PackageGuideProps = {
 
 export function PackageGuide({ packageDoc }: PackageGuideProps) {
   const packagePath = `/packages/${packageDoc.slug}`
+  const hasReference = packageDoc.referenceMarkdown.trim().length > 0
   const tocItems = [
     ...packageDoc.guideSections.map((section) => ({
       id: section.id,
       title: section.title,
     })),
-    {
-      id: 'reference',
-      title: 'Reference',
-    },
+    ...(hasReference
+      ? [
+          {
+            id: 'reference',
+            title: 'Reference',
+          },
+        ]
+      : []),
   ]
 
   return (
@@ -137,19 +142,24 @@ export function PackageGuide({ packageDoc }: PackageGuideProps) {
                 </AnimatedSection>
               ))}
 
-              <AnimatedSection id="reference">
-                <section className="docs-panel">
-                  <p className="docs-eyebrow">Source docs</p>
-                  <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-slate-950">Reference</h2>
-                  <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-                    The full README is rendered below so the package guide stays detailed and traceable to the source docs
-                    that live with the package itself.
-                  </p>
-                  <div className="mt-8">
-                    <MarkdownRenderer content={packageDoc.referenceMarkdown} headingPrefix={`${packageDoc.slug}-reference`} />
-                  </div>
-                </section>
-              </AnimatedSection>
+              {hasReference ? (
+                <AnimatedSection id="reference">
+                  <section className="docs-panel">
+                    <p className="docs-eyebrow">Source docs</p>
+                    <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-slate-950">Reference</h2>
+                    <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
+                      The full README is rendered below so the package guide stays detailed and traceable to the source
+                      docs that live with the package itself.
+                    </p>
+                    <div className="mt-8">
+                      <MarkdownRenderer
+                        content={packageDoc.referenceMarkdown}
+                        headingPrefix={`${packageDoc.slug}-reference`}
+                      />
+                    </div>
+                  </section>
+                </AnimatedSection>
+              ) : null}
             </div>
 
             <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">

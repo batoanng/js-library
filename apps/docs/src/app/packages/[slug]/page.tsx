@@ -6,9 +6,9 @@ import type { PackageDoc } from '@/lib/docs-catalog'
 import { getAllPackageDocs, getPackageDocBySlug } from '@/lib/package-docs'
 
 type PackagePageProps = {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export const dynamicParams = false
@@ -22,7 +22,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PackagePageProps): Promise<Metadata> {
-  const packageDoc = await getPackageDocBySlug(params.slug)
+  const resolvedParams = await params
+  const packageDoc = await getPackageDocBySlug(resolvedParams.slug)
 
   if (!packageDoc) {
     return {
@@ -37,7 +38,8 @@ export async function generateMetadata({ params }: PackagePageProps): Promise<Me
 }
 
 export default async function PackagePage({ params }: PackagePageProps) {
-  const packageDoc = await getPackageDocBySlug(params.slug)
+  const resolvedParams = await params
+  const packageDoc = await getPackageDocBySlug(resolvedParams.slug)
 
   if (!packageDoc) {
     notFound()

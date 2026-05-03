@@ -33,6 +33,7 @@ type PackageJson = {
 type PackageDocOverride = {
   category: PackageCategory;
   highlights?: string[];
+  includeReference?: boolean;
   installMode?: 'dev' | 'global' | 'prod';
   quickStart: PackageDoc['quickStart'];
   relatedSlugs?: string[];
@@ -150,6 +151,7 @@ const PACKAGE_OVERRIDES: Record<string, PackageDocOverride> = {
   },
   't-generator': {
     category: 'Scaffolding',
+    includeReference: false,
     installMode: 'global',
     tagline:
       'Yeoman generators for React, Next.js, NestJS, and Node.js stacks with documented base structures and installable features.',
@@ -974,7 +976,7 @@ async function loadAllPackageDocs(): Promise<PackageDoc[]> {
       quickStart: override?.quickStart ?? deriveDefaultQuickStart(rawPackage.folderName, rawPackage.packageJson),
       readme: rawPackage.readme,
       readingTimeMinutes: readingTimeMinutes(rawPackage.readme),
-      referenceMarkdown: stripLeadingTitle(rawPackage.readme),
+      referenceMarkdown: override?.includeReference === false ? '' : stripLeadingTitle(rawPackage.readme),
       relatedSlugs: Array.from(
         new Set([
           ...(override?.relatedSlugs ?? []),

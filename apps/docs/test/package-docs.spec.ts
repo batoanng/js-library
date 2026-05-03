@@ -84,6 +84,7 @@ Import the entrypoint.`);
     expect(packageDoc?.guideSections.find((section) => section.id === 'overview')?.markdown).toContain(
       '| React | React, TypeScript, Vite, React Router, Vitest, Feature-Sliced Design structure |'
     );
+    expect(packageDoc?.referenceMarkdown).toBe('');
   });
 
   it('documents tailwind-config with the Tailwind v4 CSS-first quick start', async () => {
