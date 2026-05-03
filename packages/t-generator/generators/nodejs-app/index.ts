@@ -188,7 +188,7 @@ class NodeAppGenerator extends GeneratorBase {
       ['Dockerfile.ejs', 'Dockerfile'],
       ['tsconfig.json.ejs', 'tsconfig.json'],
       ['tsconfig.test.json.ejs', 'tsconfig.test.json'],
-      ['jest.config.js.ejs', 'jest.config.js'],
+      ['vite.config.ts.ejs', 'vite.config.ts'],
       ['eslint.config.mjs.ejs', 'eslint.config.mjs'],
       ['nodemon.json.ejs', 'nodemon.json'],
       ['prettier.config.cjs.ejs', 'prettier.config.cjs'],

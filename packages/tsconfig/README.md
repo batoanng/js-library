@@ -12,7 +12,7 @@ A set of shareable TypeScript configuration presets designed for consistency acr
 - Strict type-checking across all environments
 - Modern module and target settings
 - Multiple environment presets:
-  - Node.js (v24+)
+  - Node.js (v22+)
   - React apps and libraries
   - Next.js projects
   - Optional tooling support for legacy ESLint TypeScript parser setups
@@ -49,7 +49,7 @@ In your `tsconfig.json`, extend the desired preset:
 }
 ```
 
-### For Node.js (v24+)
+### For Node.js (v22+)
 
 ```json
 {

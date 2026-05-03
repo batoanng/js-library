@@ -1,6 +1,6 @@
 {
   "name": "generator-t-generator",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Yeoman generators for bootstrapping React apps, Next.js apps, NestJS servers, and Node.js servers.",
   "publishConfig": {
     "access": "public"

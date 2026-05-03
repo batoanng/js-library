@@ -84,11 +84,11 @@ test('adds the react-query feature to an existing generated base app', async () 
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/shared/api/index.ts'),
-    "export { useApiQuery } from './useApiQuery.js';",
+    "export { useApiQuery } from './useApiQuery';",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/shared/api/index.ts'),
-    "export { useApiMutation } from './useApiMutation.js';",
+    "export { useApiMutation } from './useApiMutation';",
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'src/app/providers/AppProviders.tsx'),

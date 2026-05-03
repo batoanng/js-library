@@ -26,7 +26,7 @@ const BASE_DEPENDENCIES: Record<string, string> = {
   '@nestjs/platform-fastify': '^11.1.19',
   '@nestjs/swagger': '^11.4.2',
   '@nestjs/terminus': '^11.1.1',
-  '@prisma/adapter-mariadb': '^7.8.0',
+  '@prisma/adapter-pg': '^7.8.0',
   '@prisma/client': '^7.8.0',
   'class-transformer': '^0.5.2',
   'class-validator': '^0.15.1',
@@ -41,7 +41,7 @@ const BASE_DEPENDENCIES: Record<string, string> = {
 const BASE_DEV_DEPENDENCIES: Record<string, string> = {
   '@nestjs/testing': '^11.1.19',
   '@trivago/prettier-plugin-sort-imports': '^6.0.2',
-  '@types/node': '^25.6.0',
+  '@types/node': '^24.12.2',
   '@types/passport-jwt': '^4.0.1',
   '@typescript-eslint/eslint-plugin': '^8.46.2',
   '@typescript-eslint/parser': '^8.46.2',
@@ -102,7 +102,7 @@ const BASE_CONFIG_FIELDS: ConfigField[] = [
     name: 'DATABASE_URL',
     type: 'string',
     schema: 'z.string().min(1)',
-    sample: 'mysql://root:root@localhost:3306/app_db',
+    sample: 'postgresql://postgres:postgres@localhost:5432/app_db?schema=public',
   },
   {
     name: 'HEALTH_TOKEN',
@@ -292,7 +292,7 @@ function renderEnvExample(
 ): string {
   const fields = getConfigFields(features).map((field) => {
     if (field.name === 'DATABASE_URL') {
-      return `${field.name}=mysql://root:root@localhost:3306/${context.appName.replace(/-/g, '_')}`;
+      return `${field.name}=postgresql://postgres:postgres@localhost:5432/${context.appName.replace(/-/g, '_')}?schema=public`;
     }
 
     return `${field.name}=${field.sample}`;
@@ -446,8 +446,8 @@ function renderConfigType(features: InstalledServerFeatures): string {
 
 function renderConfigProvider(_features: InstalledServerFeatures): string {
   const lines = [
-    "import { getConfig } from '../../../types/config.js';",
-    "import { Service } from '../../tokens.js';",
+    "import { getConfig } from '../../../types/config';",
+    "import { Service } from '../../tokens';",
     '',
     'export const configProvider = {',
     '  provide: Service.CONFIG,',
@@ -494,27 +494,27 @@ function renderAppModule(features: InstalledServerFeatures): string {
 
   imports.push(
     "import { AuthModule } from './auth/auth.module';",
-    "import { CommonModule } from './common.js';",
+    "import { CommonModule } from './common';",
   );
 
   if (features.graphql) {
-    imports.push("import { GraphqlFeatureModule } from './graphql.js';");
+    imports.push("import { GraphqlFeatureModule } from './graphql';");
   }
 
   if (features.queue) {
-    imports.push("import { QueueFeatureModule } from './queue.js';");
+    imports.push("import { QueueFeatureModule } from './queue';");
   }
 
   if (features.cache) {
-    imports.push("import { CacheFeatureModule } from './cache.js';");
+    imports.push("import { CacheFeatureModule } from './cache';");
   }
 
   if (features.llm) {
-    imports.push("import { LlmFeatureModule } from './llm.js';");
+    imports.push("import { LlmFeatureModule } from './llm';");
   }
 
   if (features.queue || features.cache) {
-    imports.push("import { config } from '../types/config.js';");
+    imports.push("import { config } from '../types/config';");
   }
 
   const lines = [...imports, ''];
@@ -644,8 +644,8 @@ function renderServerFile(
     "import type { IncomingMessage, ServerResponse } from 'node:http';",
     '',
     "import { ApplicationModule } from './modules/app.module';",
-    "import { CommonModule, LogInterceptor } from './modules/common.js';",
-    "import { config } from './types/config.js';",
+    "import { CommonModule, LogInterceptor } from './modules/common';",
+    "import { config } from './types/config';",
     '',
     `const API_DEFAULT_PORT = ${String(BASE_CONFIG_FIELDS.find((field) => field.name === 'API_PORT')?.sample || '3001')};`,
     `const API_DEFAULT_VERSION = ${String(BASE_CONFIG_FIELDS.find((field) => field.name === 'API_VERSION')?.sample || '1')};`,

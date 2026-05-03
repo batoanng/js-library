@@ -718,7 +718,7 @@ function buildTGeneratorGuideSections(doc: Omit<PackageDoc, 'guideSections' | 'r
         ]),
         '```bash\nyo t-generator:nestjs-add graphql\nyo t-generator:nestjs-add queue\nyo t-generator:nestjs-add cache\nyo t-generator:nestjs-add llm\n```',
         '### Node.js shared base structure',
-        '```text\nsrc/\n  config/\n  infrastructure/\n    prisma/\n  shared/\n    auth/\n  app.ts\n  server.ts\ntests/\nprisma/\n  schema.prisma\n```',
+        '```text\nsrc/\n  config/\n  docs/\n  infrastructure/\n    prisma/\n  shared/\n    auth/\n  app.ts\n  server.ts\ntests/\nprisma/\n  schema.prisma\n```',
         '### Node.js architecture options',
         'Clean Architecture:',
         '```text\nsrc/\n  domain/\n  usecases/\n  interfaces/\n    controllers/\n    routes/\n  infrastructure/\n    prisma/\n    repositories/\n```',
@@ -727,8 +727,8 @@ function buildTGeneratorGuideSections(doc: Omit<PackageDoc, 'guideSections' | 'r
         '### Node.js base includes',
         makeBullets([
           'Express + Prisma with a prompt to choose `clean` or `mvp`.',
-          'Prisma configured for MySQL, `GET /health`, `/api/auth/*`, shared env parsing with `zod`, JWT auth, logging, security middleware, and graceful shutdown.',
-          'Jest + Supertest starter coverage.',
+          'Prisma configured for PostgreSQL, Swagger UI at `/docs`, `GET /health`, `/api/auth/*`, shared env parsing with `zod`, JWT auth, logging, security middleware, and graceful shutdown.',
+          'Vitest + Supertest starter coverage.',
         ]),
         '### Node.js installable features',
         makeBullets([

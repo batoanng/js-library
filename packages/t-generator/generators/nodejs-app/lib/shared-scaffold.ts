@@ -1,11 +1,8 @@
-import type { PackageJson } from '../../lib/types';
 import { BATOANNG_TYPES_VERSION } from '../../lib/defaults';
 import { createTrackedFeatureList } from '../../lib/feature-metadata';
-import type {
-  InstalledNodeServerFeatures,
-  NodeServerTemplateContext,
-} from './types';
+import type { PackageJson } from '../../lib/types';
 import { normalizeNodeServerImports } from './normalize-imports';
+import type { InstalledNodeServerFeatures, NodeServerTemplateContext } from './types';
 
 interface ConfigField {
   name: string;
@@ -19,18 +16,19 @@ function lines(...content: string[]): string {
 
 const BASE_DEPENDENCIES: Record<string, string> = {
   '@batoanng/types': BATOANNG_TYPES_VERSION,
-  '@prisma/adapter-mariadb': '^7.8.0',
+  '@prisma/adapter-pg': '^7.8.0',
   '@prisma/client': '^7.8.0',
-  cors: '^2.8.6',
-  dotenv: '^17.4.2',
-  express: '^5.2.1',
+  'cors': '^2.8.6',
+  'dotenv': '^17.4.2',
+  'express': '^5.2.1',
   'express-rate-limit': '^8.4.1',
-  helmet: '^8.1.0',
-  hpp: '^0.2.3',
-  jsonwebtoken: '^9.0.2',
-  morgan: '^1.10.1',
-  winston: '^3.19.0',
-  zod: '^4.4.1',
+  'helmet': '^8.1.0',
+  'hpp': '^0.2.3',
+  'jsonwebtoken': '^9.0.2',
+  'morgan': '^1.10.1',
+  'swagger-ui-express': '^5.0.1',
+  'winston': '^3.19.0',
+  'zod': '^4.4.1',
 };
 
 const BASE_DEV_DEPENDENCIES: Record<string, string> = {
@@ -38,28 +36,29 @@ const BASE_DEV_DEPENDENCIES: Record<string, string> = {
   '@types/cors': '^2.8.19',
   '@types/express': '5.0.6',
   '@types/hpp': '^0.2.3',
-  '@types/jest': '^30.0.0',
   '@types/jsonwebtoken': '^9.0.10',
   '@types/morgan': '^1.9.10',
-  '@types/node': '^25.6.0',
+  '@types/node': '^24.12.2',
   '@types/supertest': '^7.2.0',
-  eslint: '^10.2.1',
+  '@types/swagger-ui-express': '^4.1.8',
+  'eslint': '^10.2.1',
   'eslint-config-prettier': '^10.1.8',
-  globals: '^17.5.0',
-  jest: '^30.3.0',
-  husky: '^9.1.7',
-  nodemon: '^3.1.14',
-  prettier: '^3.8.3',
-  prisma: '^7.8.0',
-  supertest: '^7.2.2',
-  'ts-jest': '^29.4.9',
+  'globals': '^17.5.0',
+  'husky': '^9.1.7',
+  'nodemon': '^3.1.14',
+  'prettier': '^3.8.3',
+  'prisma': '^7.8.0',
+  'supertest': '^7.2.2',
   'ts-node': '^10.9.2',
-  typescript: '^6.0.3',
+  'typescript': '^6.0.3',
   'typescript-eslint': '^8.59.1',
+  'vite': '^8.0.10',
+  'vite-tsconfig-paths': '^6.1.1',
+  'vitest': '^4.1.5',
 };
 
 export const NODEJS_GRAPHQL_DEPENDENCIES: Record<string, string> = {
-  graphql: '^16.13.2',
+  'graphql': '^16.13.2',
   'graphql-http': '^1.22.4',
 };
 
@@ -90,7 +89,7 @@ const BASE_CONFIG_FIELDS: ConfigField[] = [
   {
     name: 'DATABASE_URL',
     schema: 'z.string().min(1)',
-    sample: 'mysql://root:root@localhost:3306/app_db',
+    sample: 'postgresql://postgres:postgres@localhost:5432/app_db?schema=public',
   },
   {
     name: 'CORS_ORIGIN',
@@ -141,14 +140,10 @@ const LLM_CONFIG_FIELDS: ConfigField[] = [
 ];
 
 function sortRecord(record: Record<string, string>): Record<string, string> {
-  return Object.fromEntries(
-    Object.entries(record).sort(([left], [right]) => left.localeCompare(right)),
-  );
+  return Object.fromEntries(Object.entries(record).sort(([left], [right]) => left.localeCompare(right)));
 }
 
-function mergeRecords(
-  ...records: Array<Record<string, string>>
-): Record<string, string> {
+function mergeRecords(...records: Array<Record<string, string>>): Record<string, string> {
   const mergedRecord: Record<string, string> = {};
 
   records.forEach((record) => {
@@ -160,9 +155,7 @@ function mergeRecords(
   return sortRecord(mergedRecord);
 }
 
-function getConfigFields(
-  features: InstalledNodeServerFeatures,
-): ConfigField[] {
+function getConfigFields(features: InstalledNodeServerFeatures): ConfigField[] {
   const fields = [...BASE_CONFIG_FIELDS];
 
   if (features.queue || features.cache) {
@@ -176,9 +169,7 @@ function getConfigFields(
   return fields;
 }
 
-function buildInterfaceImportNames(
-  features: InstalledNodeServerFeatures,
-): string[] {
+function buildInterfaceImportNames(features: InstalledNodeServerFeatures): string[] {
   return [
     'authRouter',
     'healthRouter',
@@ -189,24 +180,19 @@ function buildInterfaceImportNames(
   ];
 }
 
-function renderEnvExample(
-  context: NodeServerTemplateContext,
-  features: InstalledNodeServerFeatures,
-): string {
+function renderEnvExample(context: NodeServerTemplateContext, features: InstalledNodeServerFeatures): string {
   const databaseName = context.appName.replace(/-/g, '_');
 
   return lines(
     ...getConfigFields(features).map((field) =>
       field.name === 'DATABASE_URL'
-        ? `${field.name}=mysql://root:root@localhost:3306/${databaseName}`
+        ? `${field.name}=postgresql://postgres:postgres@localhost:5432/${databaseName}?schema=public`
         : `${field.name}=${field.sample}`,
     ),
   );
 }
 
-function renderEnvFile(
-  features: InstalledNodeServerFeatures,
-): string {
+function renderEnvFile(features: InstalledNodeServerFeatures): string {
   return lines(
     "import dotenv from 'dotenv';",
     "import { z } from 'zod';",
@@ -214,7 +200,7 @@ function renderEnvFile(
     'dotenv.config();',
     '',
     'const durationPattern = /^\\d+[smhd]$/;',
-    "const durationSchema = z.string().trim().regex(",
+    'const durationSchema = z.string().trim().regex(',
     '  durationPattern,',
     "  'Use a duration like 15m, 1h, or 7d.',",
     ');',
@@ -229,15 +215,13 @@ function renderEnvFile(
     '  const amount = Number(match[1]);',
     '  const unit = match[2];',
     '',
-    "  const unitToSeconds = { s: 1, m: 60, h: 60 * 60, d: 60 * 60 * 24 } as const;",
+    '  const unitToSeconds = { s: 1, m: 60, h: 60 * 60, d: 60 * 60 * 24 } as const;',
     '',
     '  return amount * unitToSeconds[unit as keyof typeof unitToSeconds];',
     '}',
     '',
     'const envSchema = z.object({',
-    ...getConfigFields(features).map(
-      (field) => `  ${field.name}: ${field.schema},`,
-    ),
+    ...getConfigFields(features).map((field) => `  ${field.name}: ${field.schema},`),
     '});',
     '',
     'const parsedEnv = envSchema.safeParse(process.env);',
@@ -296,24 +280,12 @@ function renderLoggerFile(context: NodeServerTemplateContext): string {
 
 function renderPrismaClientFile(): string {
   return lines(
-    "import { PrismaMariaDb } from '@prisma/adapter-mariadb';",
-    "import { PrismaClient } from '../../generated/prisma/client.js';",
+    "import { PrismaPg } from '@prisma/adapter-pg';",
+    "import { PrismaClient } from '../../generated/prisma/client';",
     "import { env } from '@/config/env';",
     '',
-    'function createPrismaAdapter(): PrismaMariaDb {',
-    '  const databaseUrl = new URL(env.DATABASE_URL);',
-    '',
-    '  return new PrismaMariaDb({',
-    '    host: databaseUrl.hostname,',
-    '    port: databaseUrl.port ? Number(databaseUrl.port) : 3306,',
-    '    user: decodeURIComponent(databaseUrl.username),',
-    '    password: decodeURIComponent(databaseUrl.password),',
-    "    database: databaseUrl.pathname.replace(/^\\//, ''),",
-    '    connectionLimit: 5,',
-    '  });',
-    '}',
-    '',
-    'const prisma = new PrismaClient({ adapter: createPrismaAdapter() });',
+    'const adapter = new PrismaPg({ connectionString: env.DATABASE_URL });',
+    'const prisma = new PrismaClient({ adapter });',
     '',
     'export default prisma;',
   );
@@ -540,10 +512,10 @@ function renderSharedAccessMiddleware(): string {
 
 function renderSharedAuthIndex(): string {
   return lines(
-    "export * from './access-auth.js';",
-    "export * from './contracts.js';",
-    "export * from './errors.js';",
-    "export * from './tokens.js';",
+    "export * from './access-auth';",
+    "export * from './contracts';",
+    "export * from './errors';",
+    "export * from './tokens';",
   );
 }
 
@@ -580,6 +552,222 @@ function renderOpenAiClientFile(): string {
     '});',
     '',
     'export default openai;',
+  );
+}
+
+function renderOpenApiDocumentFile(context: NodeServerTemplateContext, features: InstalledNodeServerFeatures): string {
+  const paths: Record<string, unknown> = {
+    '/health': {
+      get: {
+        tags: ['Health'],
+        summary: 'Read service and database health.',
+        responses: {
+          200: {
+            description: 'The service and database are healthy.',
+          },
+          503: {
+            description: 'The service is available but a dependency is down.',
+          },
+        },
+      },
+    },
+    '/api/auth/login': {
+      post: {
+        tags: ['Auth'],
+        summary: 'Issue demo access and refresh tokens.',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['email', 'password'],
+                properties: {
+                  email: { type: 'string', format: 'email' },
+                  password: { type: 'string', minLength: 1 },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: { description: 'Authentication tokens were issued.' },
+          400: { description: 'The request body failed validation.' },
+        },
+      },
+    },
+    '/api/auth/me': {
+      get: {
+        tags: ['Auth'],
+        summary: 'Read the current authenticated user.',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: 'The authenticated user.' },
+          401: { description: 'A valid access token was not provided.' },
+        },
+      },
+    },
+    '/api/auth/refresh': {
+      post: {
+        tags: ['Auth'],
+        summary: 'Exchange a refresh token for a new token pair.',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['refreshToken'],
+                properties: {
+                  refreshToken: { type: 'string', minLength: 1 },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: { description: 'A new token pair was issued.' },
+          400: { description: 'The request body failed validation.' },
+          401: { description: 'The refresh token is invalid.' },
+        },
+      },
+    },
+    '/api/auth/logout': {
+      post: {
+        tags: ['Auth'],
+        summary: 'Validate and discard a demo refresh token.',
+        responses: {
+          200: { description: 'The logout request was accepted.' },
+          401: { description: 'The refresh token is invalid.' },
+        },
+      },
+    },
+  };
+
+  if (features.graphql) {
+    paths['/api/graphql'] = {
+      post: {
+        tags: ['GraphQL'],
+        summary: 'Execute a GraphQL operation.',
+        responses: {
+          200: { description: 'The GraphQL operation result.' },
+        },
+      },
+    };
+  }
+
+  if (features.queue) {
+    paths['/api/queue/demo'] = {
+      post: {
+        tags: ['Queue'],
+        summary: 'Enqueue a demo job.',
+        responses: {
+          201: { description: 'The demo job was queued.' },
+        },
+      },
+    };
+  }
+
+  if (features.cache) {
+    paths['/api/cache/demo'] = {
+      post: {
+        tags: ['Cache'],
+        summary: 'Write a demo cache value.',
+        responses: {
+          201: { description: 'The cache value was written.' },
+        },
+      },
+    };
+    paths['/api/cache/demo/{key}'] = {
+      get: {
+        tags: ['Cache'],
+        summary: 'Read a demo cache value.',
+        parameters: [
+          {
+            name: 'key',
+            in: 'path',
+            required: true,
+            schema: { type: 'string' },
+          },
+        ],
+        responses: {
+          200: { description: 'The cached value or null.' },
+        },
+      },
+    };
+  }
+
+  if (features.llm) {
+    paths['/api/llm/demo'] = {
+      post: {
+        tags: ['LLM'],
+        summary: 'Run the demo LLM prompt flow.',
+        responses: {
+          200: { description: 'The model output.' },
+        },
+      },
+    };
+  }
+
+  const document = {
+    openapi: '3.0.3',
+    info: {
+      title: `${context.appDisplayName} API`,
+      version: '0.1.0',
+      description: 'Generated Node.js API documentation.',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Local development',
+      },
+    ],
+    tags: [
+      { name: 'Health' },
+      { name: 'Auth' },
+      ...(features.graphql ? [{ name: 'GraphQL' }] : []),
+      ...(features.queue ? [{ name: 'Queue' }] : []),
+      ...(features.cache ? [{ name: 'Cache' }] : []),
+      ...(features.llm ? [{ name: 'LLM' }] : []),
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    paths,
+  };
+
+  return lines(`export const openApiDocument = ${JSON.stringify(document, null, 2)};`);
+}
+
+function renderSwaggerDocsFile(context: NodeServerTemplateContext): string {
+  return lines(
+    "import type { Express, Request, Response } from 'express';",
+    "import swaggerUi from 'swagger-ui-express';",
+    '',
+    "import { openApiDocument } from './openapi';",
+    '',
+    'export function registerDocs(app: Express): void {',
+    "  app.get('/docs', (_request: Request, response: Response) => {",
+    "    response.redirect(301, '/docs/');",
+    '  });',
+    '',
+    '  app.use(',
+    "    '/docs',",
+    '    swaggerUi.serve,',
+    '    swaggerUi.setup(openApiDocument, {',
+    `      customSiteTitle: ${JSON.stringify(`${context.appDisplayName} API Docs`)},`,
+    '      swaggerOptions: {',
+    '        persistAuthorization: true,',
+    '      },',
+    '    }),',
+    '  );',
+    '}',
   );
 }
 
@@ -640,7 +828,7 @@ function renderGracefulShutdownFile(): string {
     '    }',
     '',
     '    isShuttingDown = true;',
-    "    logger.info(`Received ${signal}. Shutting down gracefully...`);",
+    '    logger.info(`Received ${signal}. Shutting down gracefully...`);',
     '',
     '    server.close(async (closeError) => {',
     '      if (closeError) {',
@@ -671,24 +859,13 @@ function renderGracefulShutdownFile(): string {
   );
 }
 
-function renderAppFile(
-  context: NodeServerTemplateContext,
-  features: InstalledNodeServerFeatures,
-): string {
-  const interfaceImportPath = context.architecture === 'clean'
-    ? '@/interfaces'
-    : '@/modules';
+function renderAppFile(context: NodeServerTemplateContext, features: InstalledNodeServerFeatures): string {
+  const interfaceImportPath = context.architecture === 'clean' ? '@/interfaces' : '@/modules';
   const importedBindings = buildInterfaceImportNames(features).join(', ');
   const featureRoutes = [
-    ...(features.queue
-      ? ["  app.use('/api/queue', queueRouter);"]
-      : []),
-    ...(features.cache
-      ? ["  app.use('/api/cache', cacheRouter);"]
-      : []),
-    ...(features.llm
-      ? ["  app.use('/api/llm', llmRouter);"]
-      : []),
+    ...(features.queue ? ["  app.use('/api/queue', queueRouter);"] : []),
+    ...(features.cache ? ["  app.use('/api/cache', cacheRouter);"] : []),
+    ...(features.llm ? ["  app.use('/api/llm', llmRouter);"] : []),
     ...(features.graphql ? ['  await registerGraphql(app);'] : []),
   ];
 
@@ -702,11 +879,14 @@ function renderAppFile(
     '',
     "import { env } from '@/config/env';",
     "import logger from '@/config/logger';",
+    "import { registerDocs } from '@/docs/swagger';",
     `import { ${importedBindings} } from '${interfaceImportPath}';`,
     "import { errorMiddleware } from '@/shared/error-middleware';",
     '',
     'export async function createApp() {',
     '  const app = express();',
+    '',
+    '  registerDocs(app);',
     '',
     '  app.use(helmet());',
     '  app.use(hpp());',
@@ -744,18 +924,14 @@ function renderAppFile(
   );
 }
 
-function renderServerFile(
-  features: InstalledNodeServerFeatures,
-): string {
+function renderServerFile(features: InstalledNodeServerFeatures): string {
   const imports = [
     "import { createApp } from '@/app';",
     "import { env } from '@/config/env';",
     "import logger from '@/config/logger';",
     "import prisma from '@/infrastructure/prisma/prisma';",
     "import { setupGracefulShutdown, type CleanupTask } from '@/shared/graceful-shutdown';",
-    ...(features.queue
-      ? ["import { closeQueueFeature } from '@/infrastructure/queue/demo-queue';"]
-      : []),
+    ...(features.queue ? ["import { closeQueueFeature } from '@/infrastructure/queue/demo-queue';"] : []),
     ...(features.queue || features.cache
       ? ["import { disconnectRedis } from '@/infrastructure/redis/redis.client';"]
       : []),
@@ -772,7 +948,7 @@ function renderServerFile(
     'async function bootstrap(): Promise<void> {',
     '  const app = await createApp();',
     '  const server = app.listen(env.PORT, () => {',
-    "    logger.info(`Node.js server listening on port ${env.PORT}`);",
+    '    logger.info(`Node.js server listening on port ${env.PORT}`);',
     '  });',
     '  const cleanupTasks: CleanupTask[] = [',
     ...cleanupTasks,
@@ -794,7 +970,7 @@ function renderPrismaSchema(): string {
     '}',
     '',
     'datasource db {',
-    "  provider = 'mysql'",
+    "  provider = 'postgresql'",
     '}',
     '',
     'model HealthCheckEvent {',
@@ -807,13 +983,14 @@ function renderPrismaSchema(): string {
 function renderHealthTest(context: NodeServerTemplateContext): string {
   return lines(
     "import request from 'supertest';",
+    "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';",
     '',
     "describe('GET /health', () => {",
     '  beforeEach(() => {',
-    '    jest.resetModules();',
+    '    vi.resetModules();',
     "    process.env.NODE_ENV = 'test';",
     "    process.env.PORT = '3000';",
-    `    process.env.DATABASE_URL = ${JSON.stringify(`mysql://root:root@localhost:3306/${context.appName.replace(/-/g, '_')}`)};`,
+    `    process.env.DATABASE_URL = ${JSON.stringify(`postgresql://postgres:postgres@localhost:5432/${context.appName.replace(/-/g, '_')}?schema=public`)};`,
     "    process.env.ACCESS_SECRET = 'access-secret';",
     "    process.env.REFRESH_SECRET = 'refresh-secret';",
     "    process.env.ACCESS_EXPIRES_IN = '15m';",
@@ -821,12 +998,12 @@ function renderHealthTest(context: NodeServerTemplateContext): string {
     '  });',
     '',
     '  afterEach(() => {',
-    '    jest.restoreAllMocks();',
+    '    vi.restoreAllMocks();',
     '  });',
     '',
     "  it('returns the generated service name when the database is reachable', async () => {",
     "    const prismaModule = await import('@/infrastructure/prisma/prisma');",
-    '    jest',
+    '    vi',
     "      .spyOn(prismaModule.default, '$queryRawUnsafe')",
     '      .mockResolvedValue([{ ok: 1 }] as never);',
     '',
@@ -846,16 +1023,53 @@ function renderHealthTest(context: NodeServerTemplateContext): string {
   );
 }
 
+function renderDocsTest(): string {
+  return lines(
+    "import request from 'supertest';",
+    "import { beforeEach, describe, expect, it, vi } from 'vitest';",
+    '',
+    "describe('generated API docs', () => {",
+    '  beforeEach(() => {',
+    '    vi.resetModules();',
+    "    process.env.NODE_ENV = 'test';",
+    "    process.env.PORT = '3000';",
+    "    process.env.DATABASE_URL = 'postgresql://postgres:postgres@localhost:5432/test_db?schema=public';",
+    "    process.env.ACCESS_SECRET = 'access-secret';",
+    "    process.env.REFRESH_SECRET = 'refresh-secret';",
+    "    process.env.ACCESS_EXPIRES_IN = '15m';",
+    "    process.env.REFRESH_EXPIRES_IN = '7d';",
+    '  });',
+    '',
+    "  it('serves Swagger UI from /docs with JavaScript assets under /docs', async () => {",
+    "    const { createApp } = await import('@/app');",
+    '    const app = await createApp();',
+    '',
+    "    const docsResponse = await request(app).get('/docs');",
+    '',
+    '    expect(docsResponse.status).toBe(301);',
+    "    expect(docsResponse.headers.location).toBe('/docs/');",
+    '',
+    "    const initScriptResponse = await request(app).get('/docs/swagger-ui-init.js');",
+    '',
+    '    expect(initScriptResponse.status).toBe(200);',
+    "    expect(initScriptResponse.headers['content-type']).toMatch(/javascript/);",
+    "    expect(initScriptResponse.text).toContain('SwaggerUIBundle');",
+    '  });',
+    '});',
+  );
+}
+
 function renderAuthTest(): string {
   return lines(
     "import request from 'supertest';",
+    "import { beforeEach, describe, expect, it, vi } from 'vitest';",
     '',
     "describe('generated auth routes', () => {",
     '  beforeEach(() => {',
-    '    jest.resetModules();',
+    '    vi.resetModules();',
     "    process.env.NODE_ENV = 'test';",
     "    process.env.PORT = '3000';",
-    "    process.env.DATABASE_URL = 'mysql://root:root@localhost:3306/test_db';",
+    "    process.env.DATABASE_URL = 'postgresql://postgres:postgres@localhost:5432/test_db?schema=public';",
     "    process.env.ACCESS_SECRET = 'access-secret';",
     "    process.env.REFRESH_SECRET = 'refresh-secret';",
     "    process.env.ACCESS_EXPIRES_IN = '15m';",
@@ -937,14 +1151,14 @@ export function buildNodeServerPackageJson(
     main: 'dist/server.js',
     description: `${context.appDisplayName} Node.js server`,
     scripts: {
-      postinstall: 'prisma generate',
-      start: 'node dist/server.js',
-      dev: 'nodemon --config nodemon.json',
-      build: 'tsc -p tsconfig.json',
-      lint: 'eslint .',
-      test: 'jest --runInBand',
-      prepush: 'pnpm run lint',
-      prepare: 'husky',
+      'postinstall': 'prisma generate',
+      'start': 'node dist/server.js',
+      'dev': 'nodemon --config nodemon.json',
+      'build': 'tsc -p tsconfig.json',
+      'lint': 'eslint .',
+      'test': 'vitest run',
+      'prepush': 'pnpm run lint',
+      'prepare': 'husky',
       'prisma:generate': 'prisma generate',
       'prisma:migrate:dev': 'prisma migrate dev',
     },
@@ -973,6 +1187,8 @@ export function buildNodeServerSharedScaffold(
     'prisma/schema.prisma': renderPrismaSchema(),
     'src/config/env.ts': renderEnvFile(features),
     'src/config/logger.ts': renderLoggerFile(context),
+    'src/docs/openapi.ts': renderOpenApiDocumentFile(context, features),
+    'src/docs/swagger.ts': renderSwaggerDocsFile(context),
     'src/infrastructure/prisma/prisma.ts': renderPrismaClientFile(),
     'src/shared/auth/access-auth.ts': renderSharedAccessMiddleware(),
     'src/shared/auth/contracts.ts': renderSharedAuthContracts(),
@@ -984,17 +1200,16 @@ export function buildNodeServerSharedScaffold(
     'src/app.ts': renderAppFile(context, features),
     'src/server.ts': renderServerFile(features),
     'tests/auth.test.ts': renderAuthTest(),
+    'tests/docs.test.ts': renderDocsTest(),
     'tests/health.test.ts': renderHealthTest(context),
   };
 
   if (features.queue || features.cache) {
-    scaffold['src/infrastructure/redis/redis.client.ts'] =
-      renderRedisClientFile();
+    scaffold['src/infrastructure/redis/redis.client.ts'] = renderRedisClientFile();
   }
 
   if (features.llm) {
-    scaffold['src/infrastructure/llm/openai.client.ts'] =
-      renderOpenAiClientFile();
+    scaffold['src/infrastructure/llm/openai.client.ts'] = renderOpenAiClientFile();
   }
 
   return normalizeNodeServerImports(scaffold);

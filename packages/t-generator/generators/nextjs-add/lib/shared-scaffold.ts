@@ -643,7 +643,7 @@ function renderHomePageTest(
     );
   }
 
-  return `import { render, screen } from '@testing-library/react';\nimport { AppProviders } from '@/app/providers';\nimport { HomePage } from './HomePage.js';\n\ndescribe('HomePage', () => {\n  it('renders the generated home page content', () => {\n    render(\n      <AppProviders>\n        <HomePage />\n      </AppProviders>,\n    );\n\n${assertions.join('\n\n')}\n  });\n});\n`;
+  return `import { render, screen } from '@testing-library/react';\nimport { AppProviders } from '@/app/providers';\nimport { HomePage } from './HomePage';\n\ndescribe('HomePage', () => {\n  it('renders the generated home page content', () => {\n    render(\n      <AppProviders>\n        <HomePage />\n      </AppProviders>,\n    );\n\n${assertions.join('\n\n')}\n  });\n});\n`;
 }
 
 function renderSharedScaffoldFile(

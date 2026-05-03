@@ -127,6 +127,7 @@ test('generates the NestJS base app with the expected project structure', async 
     '@nestjs/swagger',
     '@nestjs/testing',
     '@nestjs/terminus',
+    '@prisma/adapter-pg',
     '@prisma/client',
     'class-transformer',
     'class-validator',
@@ -141,6 +142,7 @@ test('generates the NestJS base app with the expected project structure', async 
     assert.equal(hasPackageDependency(dependencyName), true, `${dependencyName} should exist`);
   });
   assert.equal(packageJson.dependencies?.zod, '^4.4.1');
+  assert.equal(packageJson.dependencies?.['@prisma/adapter-mariadb'], undefined);
 
   blockedDependencies.forEach((dependencyName) => {
     assert.equal(packageJson.dependencies?.[dependencyName], undefined);
@@ -163,7 +165,40 @@ test('generates the NestJS base app with the expected project structure', async 
   );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
-    'DATABASE_URL=mysql://root:root@localhost:3306/starter_server',
+    'DATABASE_URL=postgresql://postgres:postgres@localhost:5432/starter_server?schema=public',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'prisma/schema.prisma'),
+    'provider = "postgresql"',
+  );
+  assert.doesNotMatch(
+    fs.readFileSync(path.join(projectRoot, 'prisma/schema.prisma'), 'utf8'),
+    /url\s*=|provider\s*=\s*['"]mysql['"]/,
+  );
+  assert.doesNotMatch(
+    fs.readFileSync(
+      path.join(projectRoot, 'src/modules/common/provider/prisma.provider.ts'),
+      'utf8',
+    ),
+    /adapter-mariadb|PrismaMariaDb|mysql/i,
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'src/modules/common/provider/prisma.provider.ts'),
+    "import { PrismaPg } from '@prisma/adapter-pg';",
+  );
+  assert.doesNotMatch(
+    [
+      '.env.example',
+      'package.json',
+      'prisma/schema.prisma',
+      'src/modules/common/provider/prisma.provider.ts',
+      'src/test/auth.test.ts',
+    ]
+      .map((relativePath) =>
+        fs.readFileSync(path.join(projectRoot, relativePath), 'utf8'),
+      )
+      .join('\n'),
+    /adapter-mariadb|PrismaMariaDb|mysql:\/\/|provider\s*=\s*['"]mysql['"]/i,
   );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
@@ -244,6 +279,10 @@ test('generates the NestJS base app with the expected project structure', async 
   yoAssert.fileContent(
     path.join(projectRoot, 'Dockerfile'),
     'RUN pnpm run prisma:generate',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
+    'FROM node:24-alpine AS builder',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'Dockerfile'),

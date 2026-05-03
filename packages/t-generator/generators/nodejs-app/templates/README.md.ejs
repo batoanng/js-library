@@ -8,7 +8,7 @@ the same generator through the interactive root command `yo t-generator`.
 ## Stack
 
 - Node.js + Express + TypeScript
-- Prisma + MySQL
+- Prisma + PostgreSQL
 - Architecture: <%= architectureLabel %>
 
 ## Commands
@@ -22,7 +22,12 @@ npm run prisma:migrate:dev
 
 ## Generated routes
 
+- `GET /docs`
 - `GET /health`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- `POST /api/auth/refresh`
+- `POST /api/auth/logout`
 
 ## Add more features
 

@@ -6,12 +6,7 @@ import test from 'node:test';
 import yoAssert from 'yeoman-assert';
 
 import type { PackageJson } from '../generators/lib/types';
-import {
-  createYeomanTestHelpers,
-  nodejsAppGeneratorPath,
-  readJson,
-  scaffoldNodeApp,
-} from './helpers';
+import { createYeomanTestHelpers, nodejsAppGeneratorPath, readJson, scaffoldNodeApp } from './helpers';
 
 const blockedDependencies = [
   'bullmq',
@@ -24,13 +19,14 @@ const blockedDependencies = [
   'react-router-dom',
   'tsc-alias',
   'tsconfig-paths',
+  '@types/jest',
+  'jest',
+  'ts-jest',
 ];
 
 test('generates the clean Node.js base app with the expected project structure', async () => {
   const { projectRoot } = await scaffoldNodeApp('starter-node', 'clean');
-  const packageJson = readJson<PackageJson>(
-    path.join(projectRoot, 'package.json'),
-  );
+  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
   const hasPackageDependency = (dependencyName: string): boolean =>
     typeof packageJson.dependencies?.[dependencyName] === 'string' ||
     typeof packageJson.devDependencies?.[dependencyName] === 'string';
@@ -39,19 +35,13 @@ test('generates the clean Node.js base app with the expected project structure',
     path.join(projectRoot, 'package.json'),
     path.join(projectRoot, '.codex/config.toml'),
     path.join(projectRoot, '.husky/pre-push'),
-    path.join(
-      projectRoot,
-      '.codex/skills/use-types-structures/SKILL.md',
-    ),
-    path.join(
-      projectRoot,
-      '.codex/skills/use-types-structures/agents/openai.yaml',
-    ),
+    path.join(projectRoot, '.codex/skills/use-types-structures/SKILL.md'),
+    path.join(projectRoot, '.codex/skills/use-types-structures/agents/openai.yaml'),
     path.join(projectRoot, 'Dockerfile'),
     path.join(projectRoot, 'README.md'),
     path.join(projectRoot, 'tsconfig.json'),
     path.join(projectRoot, 'tsconfig.test.json'),
-    path.join(projectRoot, 'jest.config.js'),
+    path.join(projectRoot, 'vite.config.ts'),
     path.join(projectRoot, 'eslint.config.mjs'),
     path.join(projectRoot, 'nodemon.json'),
     path.join(projectRoot, 'prettier.config.cjs'),
@@ -62,6 +52,8 @@ test('generates the clean Node.js base app with the expected project structure',
     path.join(projectRoot, 'src/server.ts'),
     path.join(projectRoot, 'src/config/env.ts'),
     path.join(projectRoot, 'src/config/logger.ts'),
+    path.join(projectRoot, 'src/docs/openapi.ts'),
+    path.join(projectRoot, 'src/docs/swagger.ts'),
     path.join(projectRoot, 'src/domain/auth.ts'),
     path.join(projectRoot, 'src/infrastructure/prisma/prisma.ts'),
     path.join(projectRoot, 'src/infrastructure/repositories/health.repository.ts'),
@@ -81,6 +73,7 @@ test('generates the clean Node.js base app with the expected project structure',
     path.join(projectRoot, 'src/shared/error-middleware.ts'),
     path.join(projectRoot, 'src/shared/graceful-shutdown.ts'),
     path.join(projectRoot, 'tests/auth.test.ts'),
+    path.join(projectRoot, 'tests/docs.test.ts'),
     path.join(projectRoot, 'tests/health.test.ts'),
   ]);
 
@@ -102,6 +95,7 @@ test('generates the clean Node.js base app with the expected project structure',
 
   [
     '@batoanng/types',
+    '@prisma/adapter-pg',
     '@prisma/client',
     'cors',
     'dotenv',
@@ -111,15 +105,19 @@ test('generates the clean Node.js base app with the expected project structure',
     'hpp',
     'jsonwebtoken',
     'morgan',
+    'swagger-ui-express',
     'winston',
     'zod',
   ].forEach((dependencyName) => {
-    assert.equal(
-      hasPackageDependency(dependencyName),
-      true,
-      `${dependencyName} should exist`,
-    );
+    assert.equal(hasPackageDependency(dependencyName), true, `${dependencyName} should exist`);
   });
+  assert.equal(packageJson.dependencies?.['@prisma/adapter-mariadb'], undefined);
+  assert.equal(packageJson.scripts?.test, 'vitest run');
+  assert.equal(packageJson.devDependencies?.vite, '^8.0.10');
+  assert.equal(packageJson.devDependencies?.vitest, '^4.1.5');
+  assert.equal(packageJson.devDependencies?.['vite-tsconfig-paths'], '^6.1.1');
+  assert.equal(packageJson.devDependencies?.['@types/swagger-ui-express'], '^4.1.8');
+  assert.equal(fs.existsSync(path.join(projectRoot, 'jest.config.js')), false);
 
   blockedDependencies.forEach((dependencyName) => {
     assert.equal(packageJson.dependencies?.[dependencyName], undefined);
@@ -127,55 +125,55 @@ test('generates the clean Node.js base app with the expected project structure',
   });
 
   yoAssert.fileContent(
-    path.join(
-      projectRoot,
-      '.codex/skills/use-types-structures/SKILL.md',
-    ),
+    path.join(projectRoot, '.codex/skills/use-types-structures/SKILL.md'),
     'Prefer reusing that package over ad hoc arrays, objects, or one-off storage utilities',
   );
   yoAssert.fileContent(
-    path.join(
-      projectRoot,
-      '.codex/skills/use-types-structures/agents/openai.yaml',
-    ),
+    path.join(projectRoot, '.codex/skills/use-types-structures/agents/openai.yaml'),
     'default_prompt: "Use $use-types-structures when implementing or reviewing this feature so the solution reuses @batoanng/types where appropriate and explains the expected complexity of the critical path."',
   );
   yoAssert.fileContent(
     path.join(projectRoot, '.env.example'),
-    'DATABASE_URL=mysql://root:root@localhost:3306/starter_node',
+    'DATABASE_URL=postgresql://postgres:postgres@localhost:5432/starter_node?schema=public',
+  );
+  yoAssert.fileContent(path.join(projectRoot, 'vite.config.ts'), "import { defineConfig } from 'vitest/config';");
+  yoAssert.fileContent(path.join(projectRoot, 'vite.config.ts'), "include: ['tests/**/*.test.ts']");
+  yoAssert.fileContent(path.join(projectRoot, '.env.example'), 'ACCESS_SECRET=change-me-access-secret');
+  yoAssert.fileContent(path.join(projectRoot, '.env.example'), 'REFRESH_SECRET=change-me-refresh-secret');
+  yoAssert.fileContent(path.join(projectRoot, '.env.example'), 'ACCESS_EXPIRES_IN=15m');
+  yoAssert.fileContent(path.join(projectRoot, '.env.example'), 'REFRESH_EXPIRES_IN=7d');
+  yoAssert.fileContent(path.join(projectRoot, 'prisma/schema.prisma'), "provider = 'postgresql'");
+  assert.doesNotMatch(
+    fs.readFileSync(path.join(projectRoot, 'prisma/schema.prisma'), 'utf8'),
+    /url\s*=|provider\s*=\s*['"]mysql['"]/,
+  );
+  assert.doesNotMatch(
+    fs.readFileSync(path.join(projectRoot, 'src/infrastructure/prisma/prisma.ts'), 'utf8'),
+    /adapter-mariadb|PrismaMariaDb|mysql/i,
   );
   yoAssert.fileContent(
-    path.join(projectRoot, '.env.example'),
-    'ACCESS_SECRET=change-me-access-secret',
+    path.join(projectRoot, 'src/infrastructure/prisma/prisma.ts'),
+    "import { PrismaPg } from '@prisma/adapter-pg';",
   );
-  yoAssert.fileContent(
-    path.join(projectRoot, '.env.example'),
-    'REFRESH_SECRET=change-me-refresh-secret',
+  yoAssert.fileContent(path.join(projectRoot, 'README.md'), 'Prisma + PostgreSQL');
+  assert.doesNotMatch(
+    ['.env.example', 'package.json', 'prisma/schema.prisma', 'src/infrastructure/prisma/prisma.ts', 'README.md']
+      .map((relativePath) => fs.readFileSync(path.join(projectRoot, relativePath), 'utf8'))
+      .join('\n'),
+    /adapter-mariadb|PrismaMariaDb|mysql:\/\/|provider\s*=\s*['"]mysql['"]|Prisma \+ MySQL/i,
   );
-  yoAssert.fileContent(
-    path.join(projectRoot, '.env.example'),
-    'ACCESS_EXPIRES_IN=15m',
-  );
-  yoAssert.fileContent(
-    path.join(projectRoot, '.env.example'),
-    'REFRESH_EXPIRES_IN=7d',
-  );
-  yoAssert.fileContent(
-    path.join(projectRoot, 'prisma/schema.prisma'),
-    "provider = 'mysql'",
-  );
-  yoAssert.fileContent(
-    path.join(projectRoot, 'src/app.ts'),
-    "app.use('/api/auth', authRouter);",
-  );
-  yoAssert.fileContent(
-    path.join(projectRoot, 'src/app.ts'),
-    "app.use('/health', healthRouter);",
-  );
-  yoAssert.fileContent(
-    path.join(projectRoot, 'src/app.ts'),
-    "import { env } from './config/env.js';",
-  );
+  yoAssert.fileContent(path.join(projectRoot, 'src/app.ts'), 'registerDocs(app);');
+  yoAssert.fileContent(path.join(projectRoot, 'src/app.ts'), "app.use('/api/auth', authRouter);");
+  yoAssert.fileContent(path.join(projectRoot, 'src/app.ts'), "app.use('/health', healthRouter);");
+  yoAssert.fileContent(path.join(projectRoot, 'src/app.ts'), "import { env } from './config/env';");
+  yoAssert.fileContent(path.join(projectRoot, 'src/app.ts'), "import { registerDocs } from './docs/swagger';");
+  yoAssert.fileContent(path.join(projectRoot, 'src/docs/openapi.ts'), '"title": "starter-node API"');
+  yoAssert.fileContent(path.join(projectRoot, 'src/docs/openapi.ts'), '"/api/auth/login"');
+  yoAssert.fileContent(path.join(projectRoot, 'src/docs/swagger.ts'), "app.get('/docs'");
+  yoAssert.fileContent(path.join(projectRoot, 'src/docs/swagger.ts'), "response.redirect(301, '/docs/');");
+  yoAssert.fileContent(path.join(projectRoot, 'src/docs/swagger.ts'), 'swaggerUi.serve');
+  yoAssert.fileContent(path.join(projectRoot, 'tests/docs.test.ts'), "get('/docs/swagger-ui-init.js')");
+  yoAssert.fileContent(path.join(projectRoot, 'tests/docs.test.ts'), "headers['content-type']).toMatch(/javascript/)");
   yoAssert.fileContent(
     path.join(projectRoot, 'src/interfaces/index.ts'),
     "export { authRouter } from './routes/auth.route';",
@@ -194,53 +192,37 @@ test('generates the clean Node.js base app with the expected project structure',
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'tests/auth.test.ts'),
-    "post('/api/auth/login')",
+    "import { beforeEach, describe, expect, it, vi } from 'vitest';",
   );
+  yoAssert.fileContent(path.join(projectRoot, 'tests/auth.test.ts'), "post('/api/auth/login')");
+  yoAssert.fileContent(path.join(projectRoot, 'tests/auth.test.ts'), "get('/api/auth/me')");
   yoAssert.fileContent(
-    path.join(projectRoot, 'tests/auth.test.ts'),
-    "get('/api/auth/me')",
+    path.join(projectRoot, 'tests/health.test.ts'),
+    "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';",
   );
+  yoAssert.fileContent(path.join(projectRoot, 'tests/health.test.ts'), 'vi.resetModules();');
   yoAssert.fileContent(
     path.join(projectRoot, 'tests/health.test.ts'),
     "const response = await request(app).get('/health');",
   );
-  yoAssert.fileContent(
-    path.join(projectRoot, 'Dockerfile'),
-    'RUN pnpm run prisma:generate',
-  );
+  yoAssert.fileContent(path.join(projectRoot, 'Dockerfile'), 'RUN pnpm run prisma:generate');
+  yoAssert.fileContent(path.join(projectRoot, 'Dockerfile'), 'FROM node:24-alpine AS builder');
   yoAssert.fileContent(
     path.join(projectRoot, 'Dockerfile'),
     'COPY --from=builder --chown=node:node /usr/app/prisma/ ./prisma/',
   );
-  yoAssert.fileContent(
-    path.join(projectRoot, 'Dockerfile'),
-    'CMD ["node", "dist/server.js"]',
-  );
-  assert.doesNotMatch(
-    fs.readFileSync(path.join(projectRoot, 'src/app.ts'), 'utf8'),
-    /'@\//,
-  );
+  yoAssert.fileContent(path.join(projectRoot, 'Dockerfile'), 'CMD ["node", "dist/server.js"]');
+  assert.doesNotMatch(fs.readFileSync(path.join(projectRoot, 'src/app.ts'), 'utf8'), /'@\//);
 
   assert.equal(fs.existsSync(path.join(projectRoot, 'src/modules')), false);
-  assert.equal(
-    fs.existsSync(path.join(projectRoot, 'src/interfaces/routes/queue.route.ts')),
-    false,
-  );
-  assert.equal(
-    fs.existsSync(path.join(projectRoot, 'src/interfaces/graphql/register-graphql.ts')),
-    false,
-  );
-  assert.equal(
-    fs.existsSync(path.join(projectRoot, 'src/infrastructure/redis/redis.client.ts')),
-    false,
-  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/interfaces/routes/queue.route.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/interfaces/graphql/register-graphql.ts')), false);
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/infrastructure/redis/redis.client.ts')), false);
 });
 
 test('generates the MVP Node.js base app when selected', async () => {
   const { projectRoot } = await scaffoldNodeApp('starter-mvp', 'mvp');
-  const packageJson = readJson<PackageJson>(
-    path.join(projectRoot, 'package.json'),
-  );
+  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
   yoAssert.file([
     path.join(projectRoot, 'src/modules/auth/auth.controller.ts'),
@@ -264,19 +246,10 @@ test('generates the MVP Node.js base app when selected', async () => {
     path.join(projectRoot, 'src/modules/auth/auth.route.ts'),
     "authRouter.get('/me', requireAccessToken",
   );
-  assert.doesNotMatch(
-    fs.readFileSync(
-      path.join(projectRoot, 'src/modules/health/health.service.ts'),
-      'utf8',
-    ),
-    /'@\//,
-  );
+  assert.doesNotMatch(fs.readFileSync(path.join(projectRoot, 'src/modules/health/health.service.ts'), 'utf8'), /'@\//);
   assert.equal(packageJson.tGenerator?.architecture, 'mvp');
   assert.deepEqual(packageJson.tGenerator?.features, []);
-  assert.equal(
-    fs.existsSync(path.join(projectRoot, 'src/interfaces/index.ts')),
-    false,
-  );
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/interfaces/index.ts')), false);
 });
 
 test('prompts for the Node.js app name and architecture when they are not provided', async () => {
@@ -294,14 +267,9 @@ test('prompts for the Node.js app name and architecture when they are not provid
     });
 
   const projectRoot = path.join(tmpDir, 'prompted-node-server');
-  const packageJson = readJson<PackageJson>(
-    path.join(projectRoot, 'package.json'),
-  );
+  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
 
-  yoAssert.file([
-    path.join(projectRoot, 'package.json'),
-    path.join(projectRoot, 'src/modules/health/health.route.ts'),
-  ]);
+  yoAssert.file([path.join(projectRoot, 'package.json'), path.join(projectRoot, 'src/modules/health/health.route.ts')]);
   assert.equal(packageJson.tGenerator?.architecture, 'mvp');
   assert.deepEqual(packageJson.tGenerator?.features, []);
 });
@@ -327,8 +295,5 @@ test('fails when the Node.js target directory already exists and is not empty', 
     /already exists and is not empty/,
   );
 
-  assert.equal(
-    fs.existsSync(path.join(tmpDir, 'existing-node-server', 'keep.txt')),
-    true,
-  );
+  assert.equal(fs.existsSync(path.join(tmpDir, 'existing-node-server', 'keep.txt')), true);
 });

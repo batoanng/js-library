@@ -9,7 +9,7 @@ describe('generated auth routes', () => {
     process.env.API_PORT = '3001';
     process.env.API_VERSION = '1';
     process.env.SWAGGER_ENABLE = '0';
-    process.env.DATABASE_URL = 'mysql://root:root@localhost:3306/<%= appName.replace(/-/g, '_') %>';
+    process.env.DATABASE_URL = 'postgresql://postgres:postgres@localhost:5432/<%= appName.replace(/-/g, '_') %>?schema=public';
     process.env.HEALTH_TOKEN = 'replace-me';
     process.env.ACCESS_SECRET = 'access-secret';
     process.env.REFRESH_SECRET = 'refresh-secret';

@@ -7,25 +7,20 @@ function toPosixPath(filePath: string): string {
 function toRelativeImportPath(
   fromFilePath: string,
   aliasTargetPath: string,
-  knownFilePaths: ReadonlySet<string>,
 ): string {
-  const relativePath = path.posix.relative(
+  const relativeImportPath = path.posix.relative(
     path.posix.dirname(fromFilePath),
     path.posix.join('src', aliasTargetPath),
   );
-  const pathWithExtension = knownFilePaths.has(`src/${aliasTargetPath}/index.ts`)
-    ? relativePath
-    : `${relativePath}.js`;
 
-  return pathWithExtension.startsWith('.')
-    ? pathWithExtension
-    : `./${pathWithExtension}`;
+  return relativeImportPath.startsWith('.')
+    ? relativeImportPath
+    : `./${relativeImportPath}`;
 }
 
 function normalizeNodeImportAliases(
   filePath: string,
   contents: string,
-  knownFilePaths: ReadonlySet<string>,
 ): string {
   const normalizedFilePath = toPosixPath(filePath);
 
@@ -33,7 +28,6 @@ function normalizeNodeImportAliases(
     const relativeImportPath = toRelativeImportPath(
       normalizedFilePath,
       String(targetPath),
-      knownFilePaths,
     );
 
     return `${quote}${relativeImportPath}${quote}`;
@@ -43,12 +37,10 @@ function normalizeNodeImportAliases(
 export function normalizeNodeServerImports(
   files: Record<string, string>,
 ): Record<string, string> {
-  const knownFilePaths = new Set(Object.keys(files).map(toPosixPath));
-
   return Object.fromEntries(
     Object.entries(files).map(([filePath, contents]) => [
       filePath,
-      normalizeNodeImportAliases(filePath, contents, knownFilePaths),
+      normalizeNodeImportAliases(filePath, contents),
     ]),
   );
 }

@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.5.1
+
+### Patch Changes
+
+- Add vite, vitest and swagger for nodejs template
+
 ## 0.4.6
 
 ### Patch Changes

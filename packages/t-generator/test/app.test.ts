@@ -207,6 +207,10 @@ test('generates the React base app with the expected project structure', async (
   );
   yoAssert.fileContent(
     path.join(projectRoot, 'Dockerfile'),
+    'FROM node:24-alpine AS builder',
+  );
+  yoAssert.fileContent(
+    path.join(projectRoot, 'Dockerfile'),
     'RUN pnpm run build',
   );
   yoAssert.fileContent(
