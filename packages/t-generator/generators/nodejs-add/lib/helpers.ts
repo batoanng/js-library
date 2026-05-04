@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { PackageJson } from '../../lib/types';
+import type { GeneratorMetadata, PackageJson } from '../../lib/types';
 import type { NodeArchitecture } from '../../nodejs-app/lib/types';
 
 export function readJson<T = unknown>(filePath: string): T {
@@ -42,8 +42,11 @@ export function readNodeServerDisplayName(
 export function readNodeArchitecture(
   packageJson: PackageJson,
   projectRoot: string,
+  generatorMetadata: GeneratorMetadata | null = null,
 ): NodeArchitecture | null {
-  const metadataArchitecture = packageJson.tGenerator?.architecture;
+  void packageJson;
+
+  const metadataArchitecture = generatorMetadata?.architecture;
 
   if (metadataArchitecture === 'clean' || metadataArchitecture === 'mvp') {
     return metadataArchitecture;

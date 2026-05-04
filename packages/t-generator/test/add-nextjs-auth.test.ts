@@ -9,6 +9,7 @@ import type { PackageJson } from '../generators/lib/types';
 import {
   createYeomanTestHelpers,
   nextjsAddGeneratorPath,
+  readGeneratorMetadata,
   readJson,
   scaffoldNextjsApp,
 } from './helpers';
@@ -157,12 +158,13 @@ test('adds the react-query feature to an existing generated Next.js base app', a
     .run();
 
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+  const generatorMetadata = readGeneratorMetadata(projectRoot);
 
   assert.equal(packageJson.dependencies?.['@tanstack/react-query'], '^5.100.6');
   assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
   assert.equal(packageJson.dependencies?.['@mui/material'], undefined);
   assert.equal(packageJson.dependencies?.['@mui/material-nextjs'], undefined);
-  assert.deepEqual(packageJson.tGenerator?.features, ['react-query']);
+  assert.deepEqual(generatorMetadata.features, ['react-query']);
   assertNoViteArtifacts(projectRoot, packageJson);
   yoAssert.file([
     path.join(projectRoot, 'src/shared/api/createQueryClient.ts'),

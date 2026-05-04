@@ -8,6 +8,7 @@ import yoAssert from 'yeoman-assert';
 import type { PackageJson } from '../generators/lib/types';
 import {
   nodejsAddGeneratorPath,
+  readGeneratorMetadata,
   readJson,
   scaffoldNodeApp,
 } from './helpers';
@@ -57,7 +58,7 @@ test('adds the cache feature to an existing MVP Node.js base app', async () => {
   assert.equal(packageJson.dependencies?.bullmq, undefined);
   assert.equal(packageJson.dependencies?.graphql, undefined);
   assert.equal(packageJson.dependencies?.openai, undefined);
-  assert.deepEqual(packageJson.tGenerator?.features, ['cache']);
+  assert.deepEqual(readGeneratorMetadata(projectRoot).features, ['cache']);
 });
 
 test('queue and cache compose without duplicating shared Redis env wiring', async () => {

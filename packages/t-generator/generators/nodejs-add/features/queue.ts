@@ -54,7 +54,6 @@ const queueFeature: NodeServerFeatureDefinition = {
     };
 
     generator._writeDependencies(NODEJS_QUEUE_DEPENDENCIES);
-    generator._syncPackageMetadata(nextFeatures);
     generator._writeSharedScaffold(nextFeatures);
     generator._writeArchitectureScaffold(nextFeatures);
     generator._writeFiles(buildQueueFeatureFiles(generator.templateContext));

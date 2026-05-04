@@ -15,6 +15,7 @@ export interface NodeServerTemplateContext extends TemplateContext {
 }
 
 export const NODE_SHARED_SCAFFOLD_PATHS = [
+  't-generator.js',
   '.env.example',
   'prisma/schema.prisma',
   'src/config/env.ts',

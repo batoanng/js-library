@@ -1,7 +1,12 @@
 import type { TemplateContext } from '../../lib/types';
+import {
+  createTrackedFeatureList,
+  renderGeneratorMetadata,
+} from '../../lib/feature-metadata';
 import type { InstalledFeatures } from './types';
 
 const SHARED_SCAFFOLD_PATHS = [
+  't-generator.js',
   '.env.example',
   'vite.config.ts',
   'src/vite-env.d.ts',
@@ -841,6 +846,23 @@ function renderSharedScaffoldFile(
       return renderHomePage(context, features);
     case 'src/pages/home/ui/HomePage.test.tsx':
       return renderHomePageTest(context, features);
+    case 't-generator.js':
+      return renderGeneratorMetadata(
+        {
+          stack: 'react',
+          features: createTrackedFeatureList({
+            bff: features.bff,
+            tailwind: features.tailwind,
+            auth: features.auth,
+            'ui-library': features.uiLibrary,
+            redux: features.redux,
+            'react-query': features.reactQuery,
+            apollo: features.apollo,
+            pwa: features.pwa,
+          }),
+        },
+        'esm',
+      );
     default:
       return '';
   }

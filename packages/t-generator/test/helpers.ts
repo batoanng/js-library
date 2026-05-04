@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import type { RunResult } from 'yeoman-test';
-import type { PackageJson } from '../generators/lib/types';
+import type { GeneratorMetadata, PackageJson } from '../generators/lib/types';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -74,6 +74,25 @@ export const nodejsAddGeneratorPath = path.join(
 
 export function readJson<T = PackageJson>(filePath: string): T {
   return JSON.parse(fs.readFileSync(filePath, 'utf8')) as T;
+}
+
+export function readGeneratorMetadata(projectRoot: string): GeneratorMetadata {
+  const contents = readText(path.join(projectRoot, 't-generator.js'));
+  const moduleMatch = contents.match(
+    /(?:module\.exports\s*=\s*|export\s+default\s*)(\{[\s\S]*\})\s*;?\s*$/,
+  );
+
+  assertModuleMatch(moduleMatch);
+
+  return JSON.parse(moduleMatch[1]) as GeneratorMetadata;
+}
+
+function assertModuleMatch(
+  moduleMatch: RegExpMatchArray | null,
+): asserts moduleMatch is RegExpMatchArray {
+  if (!moduleMatch) {
+    throw new Error('Unable to parse generated t-generator.js');
+  }
 }
 
 export async function createYeomanTestHelpers() {

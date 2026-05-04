@@ -1,5 +1,11 @@
 # generator-t-generator
 
+## 0.5.3
+
+### Patch Changes
+
+- Move generated project feature tracking into root `t-generator.js` files and document the tracking file in generated README files.
+
 ## 0.5.2
 
 ### Patch Changes

@@ -5,9 +5,9 @@ import GeneratorBase, { type BaseOptions, type PromptAnswers } from 'yeoman-gene
 
 import {
   getTrackedFeature,
-  updateTrackedFeatures,
+  readGeneratorMetadata,
 } from '../lib/feature-metadata';
-import type { PackageJson } from '../lib/types';
+import type { GeneratorMetadata, PackageJson } from '../lib/types';
 import type { InstalledServerFeatures } from '../nestjs-app/lib/types';
 import { buildServerSharedScaffold } from '../nestjs-app/lib/shared-scaffold';
 import cacheFeature from './features/cache';
@@ -87,6 +87,8 @@ class NestAddGenerator
 
   rootPackageJson!: PackageJson;
 
+  generatorMetadata: GeneratorMetadata | null = null;
+
   appName!: string;
 
   appDisplayName!: string;
@@ -139,6 +141,7 @@ class NestAddGenerator
     this.projectRoot = this.destinationRoot();
     this.packageJsonPath = this.destinationPath('package.json');
     this.rootPackageJson = this._validateBaseApp();
+    this.generatorMetadata = readGeneratorMetadata(this.projectRoot);
     this.appName = String(
       this.rootPackageJson.name || path.basename(this.projectRoot) || 'server',
     );
@@ -189,41 +192,18 @@ class NestAddGenerator
   _detectInstalledFeatures(): InstalledServerFeatures {
     return {
       graphql:
-        getTrackedFeature(this.rootPackageJson, 'graphql') ??
+        getTrackedFeature(this.generatorMetadata, 'graphql') ??
         graphqlFeature.isInstalled(this),
       queue:
-        getTrackedFeature(this.rootPackageJson, 'queue') ??
+        getTrackedFeature(this.generatorMetadata, 'queue') ??
         queueFeature.isInstalled(this),
       cache:
-        getTrackedFeature(this.rootPackageJson, 'cache') ??
+        getTrackedFeature(this.generatorMetadata, 'cache') ??
         cacheFeature.isInstalled(this),
       llm:
-        getTrackedFeature(this.rootPackageJson, 'llm') ??
+        getTrackedFeature(this.generatorMetadata, 'llm') ??
         llmFeature.isInstalled(this),
     };
-  }
-
-  _writeTrackedFeatures(features: InstalledServerFeatures): void {
-    const trackedPackageJson = updateTrackedFeatures(this.rootPackageJson, {
-      graphql: features.graphql,
-      queue: features.queue,
-      cache: features.cache,
-      llm: features.llm,
-    });
-    const updatedPackageJson: PackageJson = {
-      ...trackedPackageJson,
-      tGenerator: {
-        ...trackedPackageJson.tGenerator,
-        stack: 'nestjs',
-        features: trackedPackageJson.tGenerator?.features || [],
-      },
-    };
-
-    this.rootPackageJson = updatedPackageJson;
-    this.fs.write(
-      this.packageJsonPath,
-      `${JSON.stringify(updatedPackageJson, null, 2)}\n`,
-    );
   }
 
   _validateSharedScaffold(
@@ -273,7 +253,6 @@ class NestAddGenerator
   }
 
   _writeSharedScaffold(features: InstalledServerFeatures): void {
-    this._writeTrackedFeatures(features);
     const scaffoldFiles = buildServerSharedScaffold(this.templateContext, features);
 
     Object.entries(scaffoldFiles).forEach(([filePath, contents]) => {

@@ -10,6 +10,8 @@ export interface InstalledServerFeatures {
 export type ServerTemplateContext = TemplateContext;
 
 export const SERVER_SHARED_SCAFFOLD_PATHS = [
+  't-generator.js',
+  'README.md',
   '.env.example',
   'src/types/config.ts',
   'src/modules/common/provider/config.provider.ts',

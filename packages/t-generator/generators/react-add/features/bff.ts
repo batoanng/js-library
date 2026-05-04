@@ -7,6 +7,15 @@ const BFF_MANAGED_SCRIPTS = ['dev:client', 'dev:server', 'dev:full'];
 const bffFeature: FeatureDefinition = {
   name: 'bff',
   label: 'BFF',
+  isInstalled(generator) {
+    return (
+      fs.existsSync(generator.destinationPath('server')) ||
+      BFF_MANAGED_SCRIPTS.some(
+        (scriptName) =>
+          typeof generator.rootPackageJson.scripts?.[scriptName] === 'string',
+      )
+    );
+  },
   validate(generator) {
     if (fs.existsSync(generator.destinationPath('server'))) {
       throw new Error(
@@ -26,6 +35,11 @@ const bffFeature: FeatureDefinition = {
     }
   },
   write(generator) {
+    generator._writeSharedScaffold({
+      ...generator.installedFeatures,
+      bff: true,
+    });
+
     const templateFiles = [
       ['bff/server/package.json.ejs', 'server/package.json'],
       ['bff/server/server.js.ejs', 'server/server.js'],

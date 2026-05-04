@@ -9,6 +9,7 @@ import type { PackageJson } from '../generators/lib/types';
 import {
   createYeomanTestHelpers,
   nestjsAppGeneratorPath,
+  readGeneratorMetadata,
   readJson,
   scaffoldNestApp,
 } from './helpers';
@@ -49,12 +50,15 @@ test('generates the NestJS base app with the expected project structure', async 
   const packageJson = readJson<PackageJson>(
     path.join(projectRoot, 'package.json'),
   );
+  const generatorMetadata = readGeneratorMetadata(projectRoot);
   const hasPackageDependency = (dependencyName: string): boolean =>
     typeof packageJson.dependencies?.[dependencyName] === 'string' ||
     typeof packageJson.devDependencies?.[dependencyName] === 'string';
 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
+    path.join(projectRoot, 't-generator.js'),
+    path.join(projectRoot, 'README.md'),
     path.join(projectRoot, '.codex/config.toml'),
     path.join(projectRoot, '.husky/pre-push'),
     path.join(
@@ -113,8 +117,9 @@ test('generates the NestJS base app with the expected project structure', async 
     'prisma:generate',
     'prisma:push',
   ]);
-  assert.equal(packageJson.tGenerator?.stack, 'nestjs');
-  assert.deepEqual(packageJson.tGenerator?.features, []);
+  assert.equal(generatorMetadata.stack, 'nestjs');
+  assert.deepEqual(generatorMetadata.features, []);
+  yoAssert.fileContent(path.join(projectRoot, 'README.md'), 'Feature tracking');
 
   [
     '@batoanng/types',

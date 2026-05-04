@@ -5,6 +5,7 @@ import type {
 } from '../../lib/types';
 
 export interface InstalledFeatures {
+  bff: boolean;
   tailwind: boolean;
   auth: boolean;
   uiLibrary: boolean;

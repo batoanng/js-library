@@ -9,6 +9,7 @@ import type { PackageJson } from '../generators/lib/types';
 import {
   createYeomanTestHelpers,
   nextjsAppGeneratorPath,
+  readGeneratorMetadata,
   readJson,
   rootGeneratorPath,
   scaffoldNextjsApp,
@@ -55,9 +56,11 @@ function assertNoViteArtifacts(projectRoot: string, packageJson: PackageJson): v
 test('generates the Next.js base app with the expected project structure', async () => {
   const { projectRoot } = await scaffoldNextjsApp('starter-next');
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+  const generatorMetadata = readGeneratorMetadata(projectRoot);
 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
+    path.join(projectRoot, 't-generator.js'),
     path.join(projectRoot, '.codex/config.toml'),
     path.join(projectRoot, '.husky/pre-push'),
     path.join(
@@ -111,8 +114,8 @@ test('generates the Next.js base app with the expected project structure', async
   assert.equal(packageJson.devDependencies?.['@batoanng/jest-config'], '^1.4.2');
   assert.equal(packageJson.devDependencies?.['@batoanng/prettier-config'], '^1.7.1');
   assert.equal(packageJson.devDependencies?.['@batoanng/tsconfig'], '^1.6.1');
-  assert.equal(packageJson.tGenerator?.stack, 'nextjs');
-  assert.deepEqual(packageJson.tGenerator?.features, []);
+  assert.equal(generatorMetadata.stack, 'nextjs');
+  assert.deepEqual(generatorMetadata.features, []);
   assertNoViteArtifacts(projectRoot, packageJson);
 
   blockedDependencies.forEach((dependencyName) => {

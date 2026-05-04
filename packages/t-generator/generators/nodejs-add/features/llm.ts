@@ -54,7 +54,6 @@ const llmFeature: NodeServerFeatureDefinition = {
     };
 
     generator._writeDependencies(NODEJS_LLM_DEPENDENCIES);
-    generator._syncPackageMetadata(nextFeatures);
     generator._writeSharedScaffold(nextFeatures);
     generator._writeArchitectureScaffold(nextFeatures);
     generator._writeFiles(buildLlmFeatureFiles(generator.templateContext));

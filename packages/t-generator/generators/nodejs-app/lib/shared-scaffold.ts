@@ -1,5 +1,8 @@
 import { BATOANNG_TYPES_VERSION } from '../../lib/defaults';
-import { createTrackedFeatureList } from '../../lib/feature-metadata';
+import {
+  createTrackedFeatureList,
+  renderGeneratorMetadata,
+} from '../../lib/feature-metadata';
 import type { PackageJson } from '../../lib/types';
 import { normalizeNodeServerImports } from './normalize-imports';
 import type { InstalledNodeServerFeatures, NodeServerTemplateContext } from './types';
@@ -1163,16 +1166,6 @@ export function buildNodeServerPackageJson(
     },
     dependencies: mergeRecords(...dependencies),
     devDependencies: mergeRecords(BASE_DEV_DEPENDENCIES),
-    tGenerator: {
-      stack: 'nodejs',
-      architecture: context.architecture,
-      features: createTrackedFeatureList({
-        graphql: features.graphql,
-        queue: features.queue,
-        cache: features.cache,
-        llm: features.llm,
-      }),
-    },
   };
 }
 
@@ -1181,6 +1174,14 @@ export function buildNodeServerSharedScaffold(
   features: InstalledNodeServerFeatures,
 ): Record<string, string> {
   const scaffold: Record<string, string> = {
+    't-generator.js': renderGeneratorMetadata(
+      {
+        stack: 'nodejs',
+        architecture: context.architecture,
+        features: createTrackedFeatureList(features),
+      },
+      'commonjs',
+    ),
     '.env.example': renderEnvExample(context, features),
     'prisma.config.ts': renderPrismaConfig(),
     'prisma/schema.prisma': renderPrismaSchema(),

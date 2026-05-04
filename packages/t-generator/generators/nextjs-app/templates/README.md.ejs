@@ -13,6 +13,12 @@ yo t-generator:nextjs-add
 Every add-on command validates that this directory still contains the
 `t-generator` Next.js base scaffold before it writes managed files.
 
+## Feature tracking
+
+The root `t-generator.js` file records this generated stack and the features
+installed by `t-generator` add commands. Keep it in place unless you are
+intentionally opting out of t-generator feature composition.
+
 This stack intentionally does not expose a `bff` feature. Next.js App Router,
 route handlers, and server rendering already cover the server-side integration
 layer that the React `bff` add-on exists to provide.

@@ -3,11 +3,13 @@ import path from 'node:path';
 
 import GeneratorBase, { type BaseOptions, type PromptAnswers } from 'yeoman-generator';
 
-import { getTrackedFeature } from '../lib/feature-metadata';
-import type { PackageJson } from '../lib/types';
+import {
+  getTrackedFeature,
+  readGeneratorMetadata,
+} from '../lib/feature-metadata';
+import type { GeneratorMetadata, PackageJson } from '../lib/types';
 import { buildNodeServerArchitectureScaffold } from '../nodejs-app/lib/architecture-scaffold';
 import {
-  buildNodeServerPackageJson,
   buildNodeServerSharedScaffold,
 } from '../nodejs-app/lib/shared-scaffold';
 import type {
@@ -93,6 +95,8 @@ class NodeAddGenerator
 
   rootPackageJson!: PackageJson;
 
+  generatorMetadata: GeneratorMetadata | null = null;
+
   appName!: string;
 
   appDisplayName!: string;
@@ -144,6 +148,7 @@ class NodeAddGenerator
     this.projectRoot = this.destinationRoot();
     this.packageJsonPath = this.destinationPath('package.json');
     this.rootPackageJson = this._validateBaseApp();
+    this.generatorMetadata = readGeneratorMetadata(this.projectRoot);
     this.appName = String(
       this.rootPackageJson.name || path.basename(this.projectRoot) || 'server',
     );
@@ -154,6 +159,7 @@ class NodeAddGenerator
     const architecture = readNodeArchitecture(
       this.rootPackageJson,
       this.projectRoot,
+      this.generatorMetadata,
     );
 
     if (!architecture) {
@@ -213,16 +219,16 @@ class NodeAddGenerator
   _detectInstalledFeatures(): InstalledNodeServerFeatures {
     return {
       graphql:
-        getTrackedFeature(this.rootPackageJson, 'graphql') ??
+        getTrackedFeature(this.generatorMetadata, 'graphql') ??
         graphqlFeature.isInstalled(this),
       queue:
-        getTrackedFeature(this.rootPackageJson, 'queue') ??
+        getTrackedFeature(this.generatorMetadata, 'queue') ??
         queueFeature.isInstalled(this),
       cache:
-        getTrackedFeature(this.rootPackageJson, 'cache') ??
+        getTrackedFeature(this.generatorMetadata, 'cache') ??
         cacheFeature.isInstalled(this),
       llm:
-        getTrackedFeature(this.rootPackageJson, 'llm') ??
+        getTrackedFeature(this.generatorMetadata, 'llm') ??
         llmFeature.isInstalled(this),
     };
   }
@@ -301,30 +307,6 @@ class NodeAddGenerator
     Object.entries(scaffoldFiles).forEach(([filePath, contents]) => {
       this.fs.write(this.destinationPath(filePath), contents);
     });
-  }
-
-  _syncPackageMetadata(features: InstalledNodeServerFeatures): void {
-    const expectedPackageJson = buildNodeServerPackageJson(
-      this.templateContext,
-      features,
-    );
-
-    const updatedPackageJson: PackageJson = {
-      ...this.rootPackageJson,
-      tGenerator: expectedPackageJson.tGenerator,
-      dependencies: {
-        ...(this.rootPackageJson.dependencies || {}),
-      },
-      devDependencies: {
-        ...(this.rootPackageJson.devDependencies || {}),
-      },
-    };
-
-    this.rootPackageJson = updatedPackageJson;
-    this.fs.write(
-      this.packageJsonPath,
-      `${JSON.stringify(updatedPackageJson, null, 2)}\n`,
-    );
   }
 
   writing(): void {

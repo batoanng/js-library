@@ -9,6 +9,7 @@ import type { PackageJson } from '../generators/lib/types';
 import {
   addGeneratorPath,
   createYeomanTestHelpers,
+  readGeneratorMetadata,
   readJson,
   scaffoldBaseApp,
 } from './helpers';
@@ -47,6 +48,7 @@ test('adds the react-query feature to an existing generated base app', async () 
   const packageJson = readJson<PackageJson>(
     path.join(projectRoot, 'package.json'),
   );
+  const generatorMetadata = readGeneratorMetadata(projectRoot);
 
   assert.equal(packageJson.dependencies?.['@tanstack/react-query'], '^5.100.6');
   assert.equal(
@@ -56,7 +58,7 @@ test('adds the react-query feature to an existing generated base app', async () 
   assert.equal(packageJson.dependencies?.axios, '1.15.2');
   assert.equal(packageJson.dependencies?.['@batoanng/mui-components'], undefined);
   assert.equal(packageJson.dependencies?.['@mui/material'], undefined);
-  assert.deepEqual(packageJson.tGenerator?.features, ['react-query']);
+  assert.deepEqual(generatorMetadata.features, ['react-query']);
 
   yoAssert.file([
     path.join(projectRoot, 'src/shared/api/createApiClient.ts'),

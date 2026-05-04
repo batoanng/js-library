@@ -6,9 +6,9 @@ import GeneratorBase, { type BaseOptions, type PromptAnswers } from 'yeoman-gene
 
 import {
   getTrackedFeature,
-  updateTrackedFeatures,
+  readGeneratorMetadata,
 } from '../lib/feature-metadata';
-import type { PackageJson } from '../lib/types';
+import type { GeneratorMetadata, PackageJson } from '../lib/types';
 import apolloFeature from './features/apollo';
 import authFeature from './features/auth';
 import pwaFeature from './features/pwa';
@@ -125,6 +125,8 @@ class AddGenerator extends GeneratorBase {
 
   rootPackageJson!: PackageJson;
 
+  generatorMetadata: GeneratorMetadata | null = null;
+
   appName!: string;
 
   appDisplayName!: string;
@@ -179,6 +181,7 @@ class AddGenerator extends GeneratorBase {
     this.packageJsonPath = this.destinationPath('package.json');
     this.envExamplePath = this.destinationPath('.env.example');
     this.rootPackageJson = this._validateBaseApp();
+    this.generatorMetadata = readGeneratorMetadata(this.projectRoot);
     this.appName = String(
       this.rootPackageJson.name || path.basename(this.projectRoot) || 'app',
     );
@@ -229,60 +232,34 @@ class AddGenerator extends GeneratorBase {
   _detectInstalledFeatures(): InstalledFeatures {
     return {
       tailwind:
-        getTrackedFeature(this.rootPackageJson, TRACKED_NEXTJS_FEATURES.tailwind) ??
+        getTrackedFeature(this.generatorMetadata, TRACKED_NEXTJS_FEATURES.tailwind) ??
         tailwindFeature.isInstalled?.(this) ??
         false,
       auth:
-        getTrackedFeature(this.rootPackageJson, TRACKED_NEXTJS_FEATURES.auth) ??
+        getTrackedFeature(this.generatorMetadata, TRACKED_NEXTJS_FEATURES.auth) ??
         authFeature.isInstalled?.(this) ??
         false,
       uiLibrary:
-        getTrackedFeature(this.rootPackageJson, TRACKED_NEXTJS_FEATURES.uiLibrary) ??
+        getTrackedFeature(this.generatorMetadata, TRACKED_NEXTJS_FEATURES.uiLibrary) ??
         uiLibraryFeature.isInstalled?.(this) ??
         false,
       redux:
-        getTrackedFeature(this.rootPackageJson, TRACKED_NEXTJS_FEATURES.redux) ??
+        getTrackedFeature(this.generatorMetadata, TRACKED_NEXTJS_FEATURES.redux) ??
         reduxFeature.isInstalled?.(this) ??
         false,
       reactQuery:
-        getTrackedFeature(this.rootPackageJson, TRACKED_NEXTJS_FEATURES.reactQuery) ??
+        getTrackedFeature(this.generatorMetadata, TRACKED_NEXTJS_FEATURES.reactQuery) ??
         reactQueryFeature.isInstalled?.(this) ??
         false,
       apollo:
-        getTrackedFeature(this.rootPackageJson, TRACKED_NEXTJS_FEATURES.apollo) ??
+        getTrackedFeature(this.generatorMetadata, TRACKED_NEXTJS_FEATURES.apollo) ??
         apolloFeature.isInstalled?.(this) ??
         false,
       pwa:
-        getTrackedFeature(this.rootPackageJson, TRACKED_NEXTJS_FEATURES.pwa) ??
+        getTrackedFeature(this.generatorMetadata, TRACKED_NEXTJS_FEATURES.pwa) ??
         pwaFeature.isInstalled?.(this) ??
         false,
     };
-  }
-
-  _writeTrackedFeatures(features: InstalledFeatures): void {
-    const trackedPackageJson = updateTrackedFeatures(this.rootPackageJson, {
-      [TRACKED_NEXTJS_FEATURES.tailwind]: features.tailwind,
-      [TRACKED_NEXTJS_FEATURES.auth]: features.auth,
-      [TRACKED_NEXTJS_FEATURES.uiLibrary]: features.uiLibrary,
-      [TRACKED_NEXTJS_FEATURES.redux]: features.redux,
-      [TRACKED_NEXTJS_FEATURES.reactQuery]: features.reactQuery,
-      [TRACKED_NEXTJS_FEATURES.apollo]: features.apollo,
-      [TRACKED_NEXTJS_FEATURES.pwa]: features.pwa,
-    });
-    const updatedPackageJson: PackageJson = {
-      ...trackedPackageJson,
-      tGenerator: {
-        ...trackedPackageJson.tGenerator,
-        stack: 'nextjs',
-        features: trackedPackageJson.tGenerator?.features || [],
-      },
-    };
-
-    this.rootPackageJson = updatedPackageJson;
-    this.fs.write(
-      this.packageJsonPath,
-      `${JSON.stringify(updatedPackageJson, null, 2)}\n`,
-    );
   }
 
   _validateManagedFiles(
@@ -366,7 +343,6 @@ class AddGenerator extends GeneratorBase {
   }
 
   _writeSharedScaffold(features: InstalledFeatures): void {
-    this._writeTrackedFeatures(features);
     const scaffoldFiles = buildSharedScaffold(this.templateContext, features);
 
     Object.entries(scaffoldFiles).forEach(([filePath, contents]) => {

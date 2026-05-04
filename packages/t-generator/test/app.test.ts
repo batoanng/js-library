@@ -8,6 +8,7 @@ import yoAssert from 'yeoman-assert';
 import type { PackageJson } from '../generators/lib/types';
 import {
   createYeomanTestHelpers,
+  readGeneratorMetadata,
   readJson,
   reactAppGeneratorPath,
   rootGeneratorPath,
@@ -60,9 +61,11 @@ test('generates the React base app with the expected project structure', async (
   const packageJson = readJson<PackageJson>(
     path.join(projectRoot, 'package.json'),
   );
+  const generatorMetadata = readGeneratorMetadata(projectRoot);
 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
+    path.join(projectRoot, 't-generator.js'),
     path.join(projectRoot, '.codex/config.toml'),
     path.join(projectRoot, '.husky/pre-push'),
     path.join(
@@ -122,8 +125,8 @@ test('generates the React base app with the expected project structure', async (
   assert.equal(packageJson.devDependencies?.['@batoanng/vite-config'], '^1.4.0');
   assert.equal(packageJson.devDependencies?.['@types/react'], '^19.2.14');
   assert.equal(packageJson.devDependencies?.['@types/react-dom'], '^19.2.3');
-  assert.equal(packageJson.tGenerator?.stack, 'react');
-  assert.deepEqual(packageJson.tGenerator?.features, []);
+  assert.equal(generatorMetadata.stack, 'react');
+  assert.deepEqual(generatorMetadata.features, []);
 
   blockedDependencies.forEach((dependencyName) => {
     assert.equal(packageJson.dependencies?.[dependencyName], undefined);

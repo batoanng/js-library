@@ -57,7 +57,6 @@ const graphqlFeature: NodeServerFeatureDefinition = {
     };
 
     generator._writeDependencies(NODEJS_GRAPHQL_DEPENDENCIES);
-    generator._syncPackageMetadata(nextFeatures);
     generator._writeSharedScaffold(nextFeatures);
     generator._writeArchitectureScaffold(nextFeatures);
     generator._writeFiles(buildGraphqlFeatureFiles(generator.templateContext));

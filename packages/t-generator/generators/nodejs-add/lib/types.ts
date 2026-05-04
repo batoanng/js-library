@@ -34,7 +34,6 @@ export interface NodeServerAddGeneratorContext {
   _writeFiles(files: Record<string, string>): void;
   _writeSharedScaffold(features: InstalledNodeServerFeatures): void;
   _writeArchitectureScaffold(features: InstalledNodeServerFeatures): void;
-  _syncPackageMetadata(features: InstalledNodeServerFeatures): void;
 }
 
 export interface NodeServerFeatureDefinition {

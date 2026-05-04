@@ -36,7 +36,6 @@ const cacheFeature: NodeServerFeatureDefinition = {
     };
 
     generator._writeDependencies(NODEJS_CACHE_DEPENDENCIES);
-    generator._syncPackageMetadata(nextFeatures);
     generator._writeSharedScaffold(nextFeatures);
     generator._writeArchitectureScaffold(nextFeatures);
     generator._writeFiles(buildCacheFeatureFiles(generator.templateContext));

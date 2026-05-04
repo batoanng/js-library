@@ -6,7 +6,13 @@ import test from 'node:test';
 import yoAssert from 'yeoman-assert';
 
 import type { PackageJson } from '../generators/lib/types';
-import { createYeomanTestHelpers, nodejsAppGeneratorPath, readJson, scaffoldNodeApp } from './helpers';
+import {
+  createYeomanTestHelpers,
+  nodejsAppGeneratorPath,
+  readGeneratorMetadata,
+  readJson,
+  scaffoldNodeApp,
+} from './helpers';
 
 const blockedDependencies = [
   'bullmq',
@@ -32,12 +38,14 @@ const blockedDependencies = [
 test('generates the clean Node.js base app with the expected project structure', async () => {
   const { projectRoot } = await scaffoldNodeApp('starter-node', 'clean');
   const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+  const generatorMetadata = readGeneratorMetadata(projectRoot);
   const hasPackageDependency = (dependencyName: string): boolean =>
     typeof packageJson.dependencies?.[dependencyName] === 'string' ||
     typeof packageJson.devDependencies?.[dependencyName] === 'string';
 
   yoAssert.file([
     path.join(projectRoot, 'package.json'),
+    path.join(projectRoot, 't-generator.js'),
     path.join(projectRoot, '.codex/config.toml'),
     path.join(projectRoot, '.husky/pre-push'),
     path.join(projectRoot, '.codex/skills/use-types-structures/SKILL.md'),
@@ -94,9 +102,9 @@ test('generates the clean Node.js base app with the expected project structure',
     'prisma:generate',
     'prisma:migrate:dev',
   ]);
-  assert.equal(packageJson.tGenerator?.stack, 'nodejs');
-  assert.equal(packageJson.tGenerator?.architecture, 'clean');
-  assert.deepEqual(packageJson.tGenerator?.features, []);
+  assert.equal(generatorMetadata.stack, 'nodejs');
+  assert.equal(generatorMetadata.architecture, 'clean');
+  assert.deepEqual(generatorMetadata.features, []);
 
   [
     '@batoanng/types',
@@ -237,7 +245,7 @@ test('generates the clean Node.js base app with the expected project structure',
 
 test('generates the MVP Node.js base app when selected', async () => {
   const { projectRoot } = await scaffoldNodeApp('starter-mvp', 'mvp');
-  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+  const generatorMetadata = readGeneratorMetadata(projectRoot);
 
   yoAssert.file([
     path.join(projectRoot, 'src/modules/auth/auth.controller.ts'),
@@ -262,8 +270,9 @@ test('generates the MVP Node.js base app when selected', async () => {
     "authRouter.get('/me', requireAccessToken",
   );
   assert.doesNotMatch(fs.readFileSync(path.join(projectRoot, 'src/modules/health/health.service.ts'), 'utf8'), /'@\//);
-  assert.equal(packageJson.tGenerator?.architecture, 'mvp');
-  assert.deepEqual(packageJson.tGenerator?.features, []);
+  assert.equal(generatorMetadata.stack, 'nodejs');
+  assert.equal(generatorMetadata.architecture, 'mvp');
+  assert.deepEqual(generatorMetadata.features, []);
   assert.equal(fs.existsSync(path.join(projectRoot, 'src/interfaces/index.ts')), false);
 });
 
@@ -282,11 +291,11 @@ test('prompts for the Node.js app name and architecture when they are not provid
     });
 
   const projectRoot = path.join(tmpDir, 'prompted-node-server');
-  const packageJson = readJson<PackageJson>(path.join(projectRoot, 'package.json'));
+  const generatorMetadata = readGeneratorMetadata(projectRoot);
 
   yoAssert.file([path.join(projectRoot, 'package.json'), path.join(projectRoot, 'src/modules/health/health.route.ts')]);
-  assert.equal(packageJson.tGenerator?.architecture, 'mvp');
-  assert.deepEqual(packageJson.tGenerator?.features, []);
+  assert.equal(generatorMetadata.architecture, 'mvp');
+  assert.deepEqual(generatorMetadata.features, []);
 });
 
 test('fails when the Node.js target directory already exists and is not empty', async () => {
