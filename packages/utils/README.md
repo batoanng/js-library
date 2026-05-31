@@ -11,6 +11,7 @@ A collection of general-purpose utility functions and React hooks used across mu
 
 - ✅ Typed utility functions (e.g. sleep, slugify, short ID generator)
 - ⚙️ Server + client-safe helpers
+- 🚦 In-memory rate limiter classes
 - 🪝 React hooks like `usePrevious` and `useIsomorphicLayoutEffect`
 - 🧪 Unit tested with Jest
 - 📦 Lightweight and tree-shakable
@@ -35,6 +36,49 @@ import { sleep, generateShortId } from '@batoanng/utils';
 import { usePrevious } from '@batoanng/utils';
 ```
 
+### Rate limiting
+
+```ts
+import { FixedWindowRateLimiter, LeakyBucketRateLimiter, SlidingWindowRateLimiter } from '@batoanng/utils';
+
+const apiLimiter = new LeakyBucketRateLimiter({
+  capacity: 100,
+  leakRatePerSecond: 50,
+});
+
+const loginLimiter = new FixedWindowRateLimiter({
+  limit: 20,
+  windowMs: 24 * 60 * 60 * 1000,
+});
+
+const withdrawalLimiter = new SlidingWindowRateLimiter({
+  limit: 5,
+  windowMs: 24 * 60 * 60 * 1000,
+});
+
+const result = apiLimiter.check('client-id');
+
+if (!result.allowed) {
+  console.log(`Retry after ${result.retryAfterMs}ms`);
+}
+```
+
+Choose the limiter based on the traffic shape:
+
+- `LeakyBucketRateLimiter`: smooths bursty traffic into a steady drain rate.
+- `FixedWindowRateLimiter`: enforces simple limits per fixed interval, such as requests per day.
+- `SlidingWindowRateLimiter`: enforces an exact moving-window limit when boundary accuracy matters.
+
+All limiter classes expose the same methods:
+
+- `check(key?)`
+- `getSnapshot(key?)`
+- `reset(key?)`
+- `clear()`
+- `getTrackedKeyCount()`
+
+`key` defaults to `"default"` for single-resource limits. Pass a user, client, or resource ID to track limits independently.
+
 ---
 
 ## 📁 Included Utilities
@@ -43,6 +87,7 @@ import { usePrevious } from '@batoanng/utils';
 src/
 ├── generateShortId.ts              # Short random string generator
 ├── getNormalisedError.ts           # Transforms mixed errors to unified format
+├── rateLimit.ts                    # In-memory rate limiter classes
 ├── SearchSpecBuilder.ts            # Siebel-like query builder for filters
 ├── sleep.ts                        # Delay function using Promise
 ├── toSlug.ts                       # Converts string to URL-friendly slug

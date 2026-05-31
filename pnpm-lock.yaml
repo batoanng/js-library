@@ -568,6 +568,10 @@ importers:
         version: 6.0.3
 
   packages/utils:
+    dependencies:
+      '@batoanng/types':
+        specifier: ^0.5.2
+        version: link:../types
     devDependencies:
       '@batoanng/eslint-config':
         specifier: ^3.4.0
@@ -578,9 +582,6 @@ importers:
       '@batoanng/tsconfig':
         specifier: ^1.6.1
         version: link:../tsconfig
-      '@batoanng/types':
-        specifier: ^0.5.2
-        version: link:../types
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.14

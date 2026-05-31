@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/utils",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -33,11 +33,13 @@
     "test:watch": "jest --watch",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
+  "dependencies": {
+    "@batoanng/types": "^0.5.2"
+  },
   "devDependencies": {
     "@batoanng/eslint-config": "^3.4.0",
     "@batoanng/jest-config": "^1.4.2",
     "@batoanng/tsconfig": "^1.6.1",
-    "@batoanng/types": "^0.5.2",
     "@types/react": "^19.2.14",
     "axios": "^1.15.2",
     "react": "^19.2.5",

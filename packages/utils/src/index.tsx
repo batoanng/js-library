@@ -5,3 +5,4 @@ export * from './SearchSpecBuilder';
 export * from './sleep';
 export * from './generateShortId';
 export * from './getNormalisedError';
+export * from './rateLimit';

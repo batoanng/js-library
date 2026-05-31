@@ -1,5 +1,11 @@
 # @batoanng/utils
 
+## 2.4.4
+
+### Patch Changes
+
+- Add reusable in-memory rate limiter classes for leaky bucket, fixed window, and sliding window strategies.
+
 ## 2.4.2
 
 ### Patch Changes
