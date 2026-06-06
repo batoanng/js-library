@@ -1,6 +1,6 @@
 {
   "name": "@batoanng/mui-components",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "license": "MIT",
   "author": "Ba Toan Nguyen",
   "publishConfig": {
@@ -9,8 +9,23 @@
   "type": "module",
   "types": "./dist/src/index.d.ts",
   "main": "./dist/components.js",
+  "module": "./dist/components.js",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/components.js",
+      "default": "./dist/components.js"
+    },
+    "./test-utils": {
+      "types": "./dist/src/test-utils.d.ts",
+      "import": "./dist/test-utils.js",
+      "default": "./dist/test-utils.js"
+    }
+  },
   "files": [
-    "dist/**/*.cjs",
     "dist/**/*.css",
     "dist/**/*.d.cts",
     "dist/**/*.d.mts",
@@ -25,6 +40,7 @@
     "build": "tsc --noEmit && vite build",
     "build-storybook": "storybook build --stats-json",
     "build:watch": "nodemon --exec 'pnpm run build && yalc push'",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf storybook-static",
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -43,7 +59,6 @@
     "@batoanng/utils": "^2.4.3",
     "@tabler/icons-react": "^3.41.1",
     "date-fns": "^4.1.0",
-    "entities": "^8.0.0",
     "file-selector": "^2.1.2",
     "react-use": "^17.6.0"
   },
@@ -59,9 +74,13 @@
     "react-dom": "^19.2.5",
     "react-dropzone": "^15.0.0",
     "react-hook-form": "7.74.0",
-    "react-idle-timer": "^5.7.3"
+    "react-idle-timer": "^5.7.3",
+    "@testing-library/react": "^16.3.2"
   },
   "peerDependenciesMeta": {
+    "@testing-library/react": {
+      "optional": true
+    },
     "@mui/x-date-pickers": {
       "optional": true
     },

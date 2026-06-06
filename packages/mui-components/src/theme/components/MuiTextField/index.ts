@@ -25,28 +25,7 @@ export const MuiTextField: Components<Theme>['MuiTextField'] = {
       },
 
       '& .MuiOutlinedInput-root': {
-        'backgroundColor': theme.palette.background.default,
-        'borderRadius': 0,
-
-        '& fieldset': {
-          border: `1px solid ${theme.palette.grey[400]}`,
-        },
-
-        '&:hover fieldset': {
-          borderColor: theme.palette.primary.dark,
-        },
-
-        '&.Mui-error fieldset': {
-          border: `1px solid ${theme.palette.error.main}`,
-        },
-
-        '&.Mui-disabled': {
-          backgroundColor: theme.palette.action.disabledBackground,
-        },
-
-        '&.Mui-disabled fieldset': {
-          borderColor: theme.palette.grey[300],
-        },
+        borderRadius: 0,
       },
     }),
   },

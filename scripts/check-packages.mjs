@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readdirSync, readFileSync, statSync } from 'node:fs';
-import path from 'node:path';
+import { existsSync, mkdtempSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
@@ -44,6 +44,24 @@ const fileNameBans = [
 const allowedExceptions = {
   '@batoanng/eslint-config': [/^smoke\/example\.spec\.tsx$/],
   'generator-t-generator': [/\/templates\//],
+};
+
+const packageBudgets = {
+  '@batoanng/mui-components': {
+    packedSize: 150_000,
+    unpackedSize: 550_000,
+  },
+};
+
+const productionBundleBans = {
+  '@batoanng/mui-components': {
+    bundlePath: 'dist/components.js',
+    patterns: [
+      { label: '@testing-library/react', test: (contents) => contents.includes('@testing-library/react') },
+      { label: 'react-dom/test-utils', test: (contents) => contents.includes('react-dom/test-utils') },
+      { label: 'pretty-format', test: (contents) => contents.includes('pretty-format') },
+    ],
+  },
 };
 
 const dependencyFields = [
@@ -89,7 +107,7 @@ for (const packageDir of packageDirs) {
     );
   }
 
-  const [{ files }] = parsePackOutput(
+  const [packInfo] = parsePackOutput(
     execFileSync('npm', ['pack', '--json', '--dry-run', packageDir], {
       cwd: workspaceDir,
       encoding: 'utf8',
@@ -99,8 +117,18 @@ for (const packageDir of packageDirs) {
       },
     })
   );
+  const { files, size, unpackedSize } = packInfo;
   const packageViolations = [];
   const activeBans = packageJson.name === 'generator-t-generator' ? globalBans : [...globalBans, ...fileNameBans];
+  const packageBudget = packageBudgets[packageJson.name];
+
+  if (packageBudget && size > packageBudget.packedSize) {
+    packageViolations.push(`packed size ${size} exceeds budget ${packageBudget.packedSize}`);
+  }
+
+  if (packageBudget && unpackedSize > packageBudget.unpackedSize) {
+    packageViolations.push(`unpacked size ${unpackedSize} exceeds budget ${packageBudget.unpackedSize}`);
+  }
 
   for (const { path: filePath } of files) {
     if (isAllowedException(packageJson.name, filePath)) {
@@ -110,6 +138,27 @@ for (const packageDir of packageDirs) {
     for (const ban of activeBans) {
       if (ban.test(filePath)) {
         packageViolations.push(`${ban.label}: ${filePath}`);
+      }
+    }
+  }
+
+  if (
+    packageJson.name === '@batoanng/mui-components' &&
+    files.some(({ path: filePath }) => filePath === 'dist/src/test-utils.d.ts') &&
+    packageJson.exports?.['./test-utils'] == null
+  ) {
+    packageViolations.push('test utilities declaration is packed without an explicit ./test-utils export');
+  }
+
+  const bundleBan = productionBundleBans[packageJson.name];
+  const bundlePath = bundleBan ? path.join(packageDir, bundleBan.bundlePath) : null;
+
+  if (bundleBan && existsSync(bundlePath)) {
+    const bundleContents = readFileSync(bundlePath, 'utf8');
+
+    for (const pattern of bundleBan.patterns) {
+      if (pattern.test(bundleContents)) {
+        packageViolations.push(`production bundle includes ${pattern.label}`);
       }
     }
   }

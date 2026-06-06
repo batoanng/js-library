@@ -300,9 +300,6 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
-      entities:
-        specifier: ^8.0.0
-        version: 8.0.0
       file-selector:
         specifier: ^2.1.2
         version: 2.1.2

@@ -1,25 +1,65 @@
-import type { Components, Theme } from '@mui/material';
+import { type Components, type Theme, alpha, darken, lighten } from '@mui/material/styles';
+
+const getContainedHoverColor = (theme: Theme, backgroundColor: string) =>
+  theme.palette.mode === 'dark' ? lighten(backgroundColor, 0.08) : darken(backgroundColor, 0.08);
+
+const getSubtleHoverColor = (theme: Theme, color: string = theme.palette.text.primary) =>
+  alpha(color, theme.palette.mode === 'dark' ? 0.16 : 0.08);
 
 export const MuiButton: Components<Theme>['MuiButton'] = {
   variants: [
     {
-      props: { color: 'primary' },
+      props: { color: 'primary', variant: 'contained' },
       style: ({ theme }) => ({
         'fontSize': '1rem',
         'textTransform': 'none',
         'fontWeight': 700,
-        'border': `1px solid ${theme.palette.divider}`,
-        'backgroundColor': theme.designTokens.stateLayers.interactiveSurface,
-        'color': theme.palette.primary.main,
+        'border': `1px solid ${theme.palette.primary.main}`,
+        'backgroundColor': theme.palette.primary.main,
+        'color': theme.palette.primary.contrastText,
 
-        '&.MuiButtonBase-root:hover': {
-          backgroundColor: theme.designTokens.stateLayers.interactiveHover,
+        '&:hover': {
+          backgroundColor: getContainedHoverColor(theme, theme.palette.primary.main),
+          borderColor: getContainedHoverColor(theme, theme.palette.primary.main),
           boxShadow: 'none',
         },
         '&.Mui-disabled': {
           borderColor: 'transparent',
-          backgroundColor: theme.palette.primary.main,
+          backgroundColor: alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.42 : 0.32),
           color: theme.palette.primary.contrastText,
+        },
+      }),
+    },
+    {
+      props: { color: 'primary', variant: 'outlined' },
+      style: ({ theme }) => ({
+        'fontSize': '1rem',
+        'textTransform': 'none',
+        'fontWeight': 700,
+        'border': `1px solid ${theme.palette.primary.main}`,
+        'backgroundColor': 'transparent',
+        'color': theme.palette.primary.main,
+
+        '&:hover': {
+          backgroundColor: getSubtleHoverColor(theme, theme.palette.primary.main),
+          borderColor: theme.palette.primary.main,
+          boxShadow: 'none',
+        },
+      }),
+    },
+    {
+      props: { color: 'primary', variant: 'text' },
+      style: ({ theme }) => ({
+        'fontSize': '1rem',
+        'textTransform': 'none',
+        'fontWeight': 700,
+        'backgroundColor': 'transparent',
+        'color': theme.palette.primary.main,
+
+        '&:hover': {
+          backgroundColor: getSubtleHoverColor(theme, theme.palette.primary.main),
+          color: theme.palette.primary.main,
+          boxShadow: 'none',
         },
       }),
     },
@@ -29,21 +69,20 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         'fontSize': '1rem',
         'textTransform': 'none',
         'fontWeight': 700,
-        'border': `1px solid ${theme.palette.secondary.main}`,
-        'backgroundColor': theme.palette.background.paper,
-        'color': theme.palette.primary.main,
+        'border': `1px solid ${theme.designTokens.borders.strong}`,
+        'backgroundColor': 'transparent',
+        'color': theme.palette.text.primary,
 
-        '&.MuiButtonBase-root:hover': {
-          backgroundColor: theme.palette.secondary.main,
-          color: theme.palette.primary.main,
-          border: '1px solid transparent',
-          backgroundImage: 'none',
+        '&:hover': {
+          backgroundColor: getSubtleHoverColor(theme),
+          color: theme.palette.text.primary,
+          borderColor: theme.designTokens.borders.focus,
           boxShadow: 'none',
         },
         '&.Mui-disabled': {
-          border: `2px solid ${theme.palette.secondary.main}`,
-          backgroundColor: theme.palette.background.paper,
-          color: theme.palette.secondary.main,
+          border: `1px solid ${theme.palette.action.disabled}`,
+          backgroundColor: 'transparent',
+          color: theme.palette.text.disabled,
         },
       }),
     },
@@ -57,14 +96,27 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         'backgroundColor': theme.palette.secondary.main,
         'color': theme.palette.secondary.contrastText,
 
-        '&.MuiButtonBase-root:hover': {
-          backgroundColor: theme.palette.secondary.dark,
-          backgroundImage: `linear-gradient(${theme.designTokens.stateLayers.interactiveStrong},${theme.designTokens.stateLayers.interactiveStrong})`,
+        '&:hover': {
+          backgroundColor: getContainedHoverColor(theme, theme.palette.secondary.main),
           boxShadow: 'none',
         },
         '&.Mui-disabled': {
-          backgroundColor: theme.palette.secondary.main,
-          color: theme.palette.secondary.contrastText,
+          backgroundColor: alpha(theme.palette.secondary.main, theme.palette.mode === 'dark' ? 0.42 : 0.56),
+          color: theme.palette.text.disabled,
+        },
+      }),
+    },
+    {
+      props: { variant: 'text' },
+      style: ({ theme }) => ({
+        'fontSize': '1rem',
+        'fontWeight': 700,
+        'textTransform': 'none',
+        'backgroundColor': 'transparent',
+
+        '&:hover': {
+          backgroundColor: getSubtleHoverColor(theme),
+          boxShadow: 'none',
         },
       }),
     },
@@ -79,17 +131,17 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         'backgroundColor': 'transparent',
         'color': theme.palette.text.secondary,
 
-        '&.MuiButton-root:hover': {
+        '&:hover': {
           textDecoration: 'underline',
           border: 0,
-          backgroundColor: theme.palette.action.hover,
+          backgroundColor: getSubtleHoverColor(theme),
           color: theme.palette.text.primary,
           boxShadow: 'none',
         },
       }),
     },
     {
-      props: { color: 'error' },
+      props: { color: 'error', variant: 'contained' },
       style: ({ theme }) => ({
         'fontSize': '1rem',
         'textTransform': 'none',
@@ -98,8 +150,8 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         'backgroundColor': theme.palette.error.main,
         'color': theme.palette.getContrastText(theme.palette.error.main),
 
-        '&.MuiButtonBase-root:hover': {
-          backgroundColor: theme.palette.error.dark ?? theme.palette.error.main,
+        '&:hover': {
+          backgroundColor: getContainedHoverColor(theme, theme.palette.error.main),
           color: theme.palette.getContrastText(theme.palette.error.main),
           border: `1px solid transparent`,
           boxShadow: 'none',
@@ -108,6 +160,40 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
           border: `1px solid ${theme.palette.error.main}`,
           backgroundColor: theme.palette.error.main,
           color: theme.palette.getContrastText(theme.palette.error.main),
+        },
+      }),
+    },
+    {
+      props: { color: 'error', variant: 'outlined' },
+      style: ({ theme }) => ({
+        'fontSize': '1rem',
+        'textTransform': 'none',
+        'fontWeight': 700,
+        'border': `1px solid ${theme.palette.error.main}`,
+        'backgroundColor': 'transparent',
+        'color': theme.palette.error.main,
+
+        '&:hover': {
+          backgroundColor: getSubtleHoverColor(theme, theme.palette.error.main),
+          borderColor: theme.palette.error.main,
+          color: theme.palette.error.main,
+          boxShadow: 'none',
+        },
+      }),
+    },
+    {
+      props: { color: 'error', variant: 'text' },
+      style: ({ theme }) => ({
+        'fontSize': '1rem',
+        'textTransform': 'none',
+        'fontWeight': 700,
+        'backgroundColor': 'transparent',
+        'color': theme.palette.error.main,
+
+        '&:hover': {
+          backgroundColor: getSubtleHoverColor(theme, theme.palette.error.main),
+          color: theme.palette.error.main,
+          boxShadow: 'none',
         },
       }),
     },

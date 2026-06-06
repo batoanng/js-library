@@ -1,4 +1,4 @@
-import type { Components, Theme } from '@mui/material';
+import { type Components, type Theme, alpha } from '@mui/material/styles';
 
 export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
   styleOverrides: {
@@ -12,9 +12,37 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
     root: ({ theme }) => ({
       'marginTop': '0.25rem',
       'marginBottom': '0.25rem',
+      'border': `1px solid ${theme.palette.divider}`,
       'borderRadius': 0,
       'height': '3rem',
       'backgroundColor': theme.palette.background.default,
+      'transition': 'background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease',
+
+      '&:hover': {
+        backgroundColor: theme.designTokens.stateLayers.interactiveSurface,
+        borderColor: theme.designTokens.borders.focus,
+      },
+
+      '&.Mui-focused': {
+        backgroundColor: theme.designTokens.stateLayers.interactiveSurface,
+        borderColor: theme.designTokens.borders.focus,
+        boxShadow: `0 0 0 2px ${alpha(theme.designTokens.borders.focus, theme.palette.mode === 'dark' ? 0.32 : 0.2)}`,
+      },
+
+      '&.Mui-error': {
+        borderColor: theme.palette.error.main,
+        boxShadow: `0 0 0 1px ${alpha(theme.palette.error.main, theme.palette.mode === 'dark' ? 0.34 : 0.22)}`,
+      },
+
+      '&.Mui-disabled': {
+        backgroundColor: theme.palette.action.disabledBackground,
+        borderColor: theme.palette.divider,
+        boxShadow: 'none',
+      },
+
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: 'none',
+      },
 
       '& .MuiSelect-select': {
         padding: 0,
@@ -39,6 +67,7 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
       '&.MuiInputBase-multiline': {
         'border': 'none',
         'outline': 'none',
+        'boxShadow': 'none',
         'height': 'auto',
 
         '& textarea': {
@@ -56,7 +85,7 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
 
         '&.Mui-disabled textarea': {
           backgroundColor: theme.palette.action.disabledBackground,
-          border: `1px solid ${theme.palette.action.disabled}`,
+          border: `1px solid ${theme.palette.divider}`,
         },
 
         '& + .MuiTypography-body2': {

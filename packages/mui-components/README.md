@@ -10,7 +10,7 @@ A fully typed, themeable, and accessible component library built with **React**,
 
 ## ✨ Features
 
-- Built on [MUI v5](https://mui.com/)
+- Built on [MUI 9](https://mui.com/)
 - Organized by Atomic Design (Atoms, Molecules, Forms)
 - Theming support (Light/Dark mode, tokenized palette, typography)
 - Custom hooks and utilities
@@ -29,7 +29,13 @@ npm install @batoanng/mui-components
 You must also install peer dependencies if not already present:
 
 ```bash
-npm install @mui/material @mui/icons-material @emotion/react @emotion/styled
+npm install react react-dom @mui/material @mui/icons-material @mui/utils @emotion/react @emotion/styled framer-motion react-hook-form
+```
+
+Some exports need optional peer dependencies:
+
+```bash
+npm install @mui/x-date-pickers react-dropzone react-idle-timer
 ```
 
 ---
@@ -39,8 +45,8 @@ npm install @mui/material @mui/icons-material @emotion/react @emotion/styled
 Wrap your application with the theme provider:
 
 ```tsx
-import { CssBaseline, ThemeProvider } from '@mui/material';
 import { defaultTheme } from '@batoanng/mui-components';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 
 export default function App() {
   return (
@@ -57,7 +63,7 @@ Use components:
 ```tsx
 import { Button } from '@batoanng/mui-components';
 
-<Button variant="contained">Click me</Button>
+<Button variant="contained">Click me</Button>;
 ```
 
 ---
@@ -77,6 +83,12 @@ All components are re-exported via `@batoanng/mui-components`:
 
 ```tsx
 import { FormTextField } from '@batoanng/mui-components';
+```
+
+Test utilities are exported from a separate subpath so production bundles do not include Testing Library:
+
+```tsx
+import { render, screen } from '@batoanng/mui-components/test-utils';
 ```
 
 ---
@@ -113,6 +125,7 @@ pnpm test            # Run unit tests with Vitest
 pnpm lint            # Run ESLint
 pnpm format          # Format with Prettier
 pnpm build           # Build library output
+pnpm clean           # Remove local build, Storybook, cache, and package install artifacts
 ```
 
 Linting is configured through the local flat config entrypoint at [`eslint.config.mjs`](./eslint.config.mjs), which composes:
@@ -134,3 +147,9 @@ To run locally:
 ```bash
 pnpm dev
 ```
+
+---
+
+## Package Size
+
+The published package is checked with `npm pack --dry-run`. Local folder size can be much larger because ignored generated folders such as `node_modules/.cache` and `storybook-static` are created during development.

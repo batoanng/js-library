@@ -1,5 +1,15 @@
 # @batoanng/mui-components
 
+## 3.7.0
+
+### Minor Changes
+
+- Refine button hover states so contained, outlined, and text variants keep readable colors and use subtle theme-aware state changes.
+- Fix outlined input focus styling so the field background no longer covers the visible border.
+- Move test utilities from the root bundle to `@batoanng/mui-components/test-utils`.
+- Reduce package output by dropping the UMD build and externalizing runtime dependencies from the library bundle.
+- Update package metadata, peer dependency docs, and package-size guardrails.
+
 ## 3.5.4
 
 ### Patch Changes

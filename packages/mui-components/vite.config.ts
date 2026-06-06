@@ -1,10 +1,19 @@
 // @ts-ignore
 import { createViteConfig } from '@batoanng/vite-config';
-import path from 'path';
+import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { mergeConfig } from 'vite';
 
 const buildTsconfigPath = fileURLToPath(new URL('./tsconfig.build.json', import.meta.url));
+const require = createRequire(import.meta.url);
+const packageJson = require('./package.json');
+const externalDependencies = new Set([
+  ...Object.keys(packageJson.dependencies ?? {}),
+  ...Object.keys(packageJson.peerDependencies ?? {}),
+  '@testing-library/react',
+]);
+const isExternalDependency = (id: string) =>
+  [...externalDependencies].some((dependencyName) => id === dependencyName || id.startsWith(`${dependencyName}/`));
 
 export default mergeConfig(createViteConfig({ dts: { tsconfigPath: buildTsconfigPath } }), {
   resolve: {
@@ -15,9 +24,16 @@ export default mergeConfig(createViteConfig({ dts: { tsconfigPath: buildTsconfig
   build: {
     target: 'esnext',
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      entry: {
+        'components': fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+        'test-utils': fileURLToPath(new URL('./src/test-utils.tsx', import.meta.url)),
+      },
       name: 'components',
-      fileName: 'components',
+      formats: ['es'],
+      fileName: (_format: string, entryName: string) => `${entryName}.js`,
+    },
+    rollupOptions: {
+      external: isExternalDependency,
     },
     sourcemap: false,
   },
